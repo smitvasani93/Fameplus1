@@ -1,0 +1,310 @@
+﻿
+@{
+    ViewBag.Title = "JobWorkDespatch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+@{
+    <div class="card-header">
+        <h4>Jobwork Despatch</h4>
+        <button type="submit" class="btn btn-primary me-1 mb-1" id="searchBtn">Search</button>
+        <button type="submit" id="btnSave" class="btn btn-primary me-1 mb-1">Save</button>
+        <button type="submit" id="btnNewEntry" class="btn btn-primary me-1 mb-1">New Entry</button>
+        <button type="submit" id="btnClose" class="btn btn-primary me-1 mb-1" style="display: none;float: right;">Close</button>
+    </div>
+    <div class="card-body" style="display:none" id="newdiv">
+        <div>
+            <div style=" display: inline-block;float: left;margin-top: 6px;"><h5>Despatch Date@*e<span class="req"></span>*@</h5></div>
+            <div style=" float: left; display: inline-block; margin-left: 12px;">
+                <input type="date" class="form-control"  name="referenceDate" id="referenceDateDespatchNew" required />
+            </div>
+
+            <div style="display: inline-block;float: left;margin-top: 6px;margin-left: 30px;"><h5>Despatch No</h5></div>
+            <div style=" float: left; display: inline-block; margin-left: 12px;">
+                <input type="text" class="form-control" value="@TempData["serialNo"] "  id="serialNoDespatchNew">
+            </div>
+            <br />
+            <br />
+            <br />
+            <div style="display: inline-block;float: left;margin-top: 6px;"><h5>Customer Name@*<span class="req"></span>*@</h5></div>
+            <div style=" float: left; display: inline-block; margin-left: 12px;">
+                @*<input type="text" class="form-control">*@
+                @Html.DropDownList("AccountCode", new SelectList(ViewBag.Customer, "AccountCode", "AccountName"), "Please select", new { @id = "ddlCustomerDespatchnew", @class = "form-select" })
+            </div>
+            <br />
+           
+
+        </div>
+        <div class="card-body px-3 py-4-5">
+
+            <div id="divDespatchSelectNew" style="display:none">
+
+
+            </div>
+        </div>
+    </div>
+    <div class="PopupModal" id="DespatchMain" style="background-color: white;position: inherit;padding: 0px 36px;">
+        <span class="close">&times;</span>
+        <div class="card-body">
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Account Code</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Search)
+                    {
+                        <tr>
+                            <td>@item.AccountCode</td>
+                            <td>@item.AccountName</td>
+                        </tr>
+                    }
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Account Code</th>
+                        <th>Name</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div id="divPartial">
+
+    </div>
+
+}
+
+<script>
+
+    $(document).ready(function () {
+        $('#example').DataTable();
+        $('.selectpicker').selectpicker({
+            liveSearch: true,
+            showSubtext: true
+        });
+    });
+    $('#ddlCustomerDespatchnew').on('change', function () {
+        var accountNo = this.value;
+       var url = '@Url.Action("EditJobWorkDespatchNew", "Home")';
+        $('#divDespatchSelectNew').load(url, { accountNo: accountNo });
+        document.getElementById("DespatchMain").style.display = "none";
+        document.getElementById("divDespatchSelectNew").style.display = "block";
+    });
+</script>
+<script>
+    var mainDiv = document.getElementById("DespatchMain");
+    var newdiv = document.getElementById("newdiv");
+    var divPartial = document.getElementById("divPartial");
+    var btnSearch = document.getElementById("searchBtn");
+    var btnnew = document.getElementById("btnNewEntry");
+    var btnClose = document.getElementById("btnClose");
+    var span = document.getElementsByClassName("close")[0];
+    btnSearch.onclick = function () {
+        mainDiv.style.display = "block";
+        divPartial.style.display = "none";
+        btnClose.style.display = "block";
+        newdiv.style.display = "none";
+    }
+    btnnew.onclick = function () {
+        newdiv.style.display = "block";
+        divPartial.style.display = "none";
+        btnClose.style.display = "none";
+        mainDiv.style.display = "none";
+    }
+    span.onclick = function () {
+        mainDiv.style.display = "none";
+        divPartial.style.display = "none";
+    }
+    btnClose.onclick = function () {
+        mainDiv.style.display = "none";
+        divPartial.style.display = "none";
+        btnClose.style.display = "none";
+        newdiv.style.display = "none";
+    }
+    window.onclick = function (event) {
+        if (event.target == mainDiv) {
+            mainDiv.style.display = "none";
+        }
+    }
+    
+</script>
+
+<script type="text/javascript">
+    var mainDiv = document.getElementById("DespatchMain");
+    var divPartial = document.getElementById("divPartial");
+     var url = '@Url.Action("EditJobWorkDespatch", "Home")';
+    $("body").on("click", "#example td", function () {
+        var customerId = $(this).closest("tr").find("td:first").html();
+        $('#divPartial').load(url, { accountNo: customerId });
+        mainDiv.style.display = "none";
+        divPartial.style.display = "block";
+    });
+    $("body").on("click", "#btnSave", function () {
+
+        if (document.getElementById("divrecieptSelect")!= null) {
+            if (document.getElementById("divrecieptSelect").style.display != "none") {
+
+                var flag = 0;
+                var locrowCount = $('#despatch>tbody>tr').length;
+                for (rowCount = 1; rowCount <= locrowCount; rowCount++) {
+                    if ($('#despatch>tbody>#tr' + rowCount).find("td:eq(13) select").find(':selected').val() == "" || $('#despatch>tbody>#tr' + rowCount).find("td:eq(13) select").find(':selected').val() == undefined) {
+                        $('#despatch>tbody>#tr' + rowCount).find("td:eq(13) select").addClass("reqNolabel");
+                        flag = 1;
+                    }
+                    else
+                        $('#despatch>tbody>#tr' + rowCount).find("td:eq(13) select").removeClass("reqNolabel");
+                    for (i = 9; i <= 12; i++) {
+                        if ($('#despatch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == "" || $('#despatch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                            $('#despatch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                            flag = 1;
+                        }
+                        else
+                            $('#despatch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+                    }
+                    for (i = 15; i <= 17; i++) {
+                        if ($('#despatch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == "" || $('#despatch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                            $('#despatch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                            flag = 1;
+                        }
+                        else
+                            $('#despatch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+                    }
+                }
+                if (flag == 1)
+                    return;
+                var referenceDate = $('#referenceDateDespatch').val();
+                var despatchNo = $('#serialNoDespatch').val();
+                var JobDespatchDets = new Array();
+                var AccountCode = $('#ddlCustomerDespatch').val();
+                var ItemSerialNumber = 1;
+                $("#despatch TBODY TR").each(function () {
+                    var row = $(this);
+                    var JobDespatchDet = {};
+                    JobDespatchDet.SerialNumber = $('#serialNoDespatch').val();
+                    JobDespatchDet.ItemSerialNumber = row.find("td:eq(1) input[type='text']").val();
+                    JobDespatchDet.JRSerialNumber = row.find("td:eq(0) input[type='text']").val();
+                    JobDespatchDet.JRItemSerialNumber = row.find("td:eq(1) input[type='text']").val();
+                    JobDespatchDet.ItemPieces = row.find("td:eq(9) input[type='text']").val();
+                    JobDespatchDet.ItemCarats = row.find("td:eq(10) input[type='text']").val();
+                    JobDespatchDet.ItemLines = row.find("td:eq(11) input[type='text']").val();
+                    JobDespatchDet.WeightLoss = row.find("td:eq(12) input[type='text']").val();
+                    JobDespatchDet.PacketStatus = row.find("td:eq(13) select").val();
+                    JobDespatchDet.Remarks = row.find("td:eq(18) input[type='text']").val();
+                    JobDespatchDet.BillingQuantity = row.find("td:eq(15) input[type='text']").val();
+                    JobDespatchDet.NoChargeQuantity = row.find("td:eq(16) input[type='text']").val();
+                    JobDespatchDet.BillingRate = row.find("td:eq(17) input[type='text']").val();
+                    JobDespatchDets.push(JobDespatchDet);
+                    ItemSerialNumber++;
+                });
+
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/SaveJobworkDespatch",
+                    data: JSON.stringify({ lstjobDespatchDets: JobDespatchDets, referenceDate: referenceDate, accountCode: AccountCode, serialNumber: despatchNo }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        console.log(r);
+
+                        swal({
+                            title: "Success",
+                            text: "You saved successfully!",
+                            type: "success"
+                        }).then(function () {
+                            //window.location = "redirectURL";
+                            location.reload();
+                        });
+                    }
+                });
+            }
+           
+        }
+        else if (document.getElementById("divDespatchSelectNew") != null) {
+            if (document.getElementById("divDespatchSelectNew").style.display != "none") {
+                debugger;
+                 var flag = 0;
+                var locrowCount = $('#despatchNew>tbody>tr').length;
+            for (rowCount = 1; rowCount <= locrowCount; rowCount++) {
+                if ($('#despatchNew>tbody>#tr' + rowCount).find("td:eq(13) select").find(':selected').val() == "" || $('#despatchNew>tbody>#tr' + rowCount).find("td:eq(13) select").find(':selected').val() == undefined) {
+                    $('#despatchNew>tbody>#tr' + rowCount).find("td:eq(13) select").addClass("reqNolabel");
+                    flag = 1;
+                }
+                else
+                    $('#despatchNew>tbody>#tr' + rowCount).find("td:eq(13) select").removeClass("reqNolabel");
+                for (i = 9; i <= 12; i++) {
+                    if ($('#despatchNew>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == "" || $('#despatchNew>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                        $('#despatchNew>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                        flag = 1;
+                    }
+                    else
+                        $('#despatchNew>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+                }
+                for (i = 15; i <= 17; i++) {
+                    if ($('#despatchNew>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == "" || $('#despatchNew>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                        $('#despatchNew>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                        flag = 1;
+                    }
+                    else
+                        $('#despatchNew>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+                }
+            }
+            if (flag == 1)
+                return;
+            var referenceDate = $('#referenceDateDespatchNew').val();
+            var despatchNo = $('#serialNoDespatchNew').val();
+            var JobDespatchDets = new Array();
+            var AccountCode = $('#ddlCustomerDespatchnew').val();
+            var ItemSerialNumber = 1;
+            $("#despatchNew TBODY TR").each(function () {
+                var row = $(this);
+                var JobDespatchDet = {};
+                JobDespatchDet.SerialNumber = $('#serialNoDespatch').val();
+                JobDespatchDet.ItemSerialNumber = row.find("td:eq(1) input[type='text']").val();
+                JobDespatchDet.JRSerialNumber = row.find("td:eq(0) input[type='text']").val();
+                JobDespatchDet.JRItemSerialNumber = row.find("td:eq(1) input[type='text']").val();
+                JobDespatchDet.ItemPieces = row.find("td:eq(9) input[type='text']").val();
+                JobDespatchDet.ItemCarats = row.find("td:eq(10) input[type='text']").val();
+                JobDespatchDet.ItemLines = row.find("td:eq(11) input[type='text']").val();
+                JobDespatchDet.WeightLoss = row.find("td:eq(12) input[type='text']").val();
+                JobDespatchDet.PacketStatus = row.find("td:eq(13) select").val();
+                JobDespatchDet.Remarks = row.find("td:eq(18) input[type='text']").val();
+                JobDespatchDet.BillingQuantity = row.find("td:eq(15) input[type='text']").val();
+                JobDespatchDet.NoChargeQuantity = row.find("td:eq(16) input[type='text']").val();
+                JobDespatchDet.BillingRate = row.find("td:eq(17) input[type='text']").val();
+                JobDespatchDets.push(JobDespatchDet);
+                ItemSerialNumber++;
+            });
+
+            //Send the JSON array to Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: "/Home/SaveJobworkDespatch",
+                data: JSON.stringify({ lstjobDespatchDets: JobDespatchDets, referenceDate: referenceDate, accountCode: AccountCode, serialNumber: despatchNo }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    console.log(r);
+
+                    swal({
+                        title: "Success",
+                        text: "You saved successfully!",
+                        type: "success"
+                    }).then(function () {
+                        //window.location = "redirectURL";
+                        location.reload();
+                    });
+                }
+            });
+
+            }
+           
+        }
+
+     
+    });
+</script>

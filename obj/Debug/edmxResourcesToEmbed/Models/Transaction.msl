@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TransactionDetailsModelStoreContainer" CdmEntityContainer="TransactionDetailsEntities">
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="TransactionDetailsModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="FinancialYearCode" ColumnName="FinancialYearCode" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="AccountGroupCode" ColumnName="AccountGroupCode" />
+          <ScalarProperty Name="ExceptGroupCode" ColumnName="ExceptGroupCode" />
+          <ScalarProperty Name="GroupCompany" ColumnName="GroupCompany" />
+          <ScalarProperty Name="Relation" ColumnName="Relation" />
+          <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
+          <ScalarProperty Name="ClosingBalance" ColumnName="ClosingBalance" />
+          <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+          <ScalarProperty Name="AccountAddress1" ColumnName="AccountAddress1" />
+          <ScalarProperty Name="AccountAddress2" ColumnName="AccountAddress2" />
+          <ScalarProperty Name="AccountAddress3" ColumnName="AccountAddress3" />
+          <ScalarProperty Name="AccountPin" ColumnName="AccountPin" />
+          <ScalarProperty Name="AccountPhone" ColumnName="AccountPhone" />
+          <ScalarProperty Name="AccountFax" ColumnName="AccountFax" />
+          <ScalarProperty Name="AccountResidencePhone" ColumnName="AccountResidencePhone" />
+          <ScalarProperty Name="AccountHandPhone" ColumnName="AccountHandPhone" />
+          <ScalarProperty Name="AccountEMail" ColumnName="AccountEMail" />
+          <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
+          <ScalarProperty Name="InterestMethod" ColumnName="InterestMethod" />
+          <ScalarProperty Name="BankAccountName" ColumnName="BankAccountName" />
+          <ScalarProperty Name="BankAccountNumber" ColumnName="BankAccountNumber" />
+          <ScalarProperty Name="IncomeTaxNumber" ColumnName="IncomeTaxNumber" />
+          <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+          <ScalarProperty Name="AccountField1" ColumnName="AccountField1" />
+          <ScalarProperty Name="AccountField2" ColumnName="AccountField2" />
+          <ScalarProperty Name="AccountField3" ColumnName="AccountField3" />
+          <ScalarProperty Name="AccountField4" ColumnName="AccountField4" />
+          <ScalarProperty Name="AccountField5" ColumnName="AccountField5" />
+          <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+          <ScalarProperty Name="Table1Code" ColumnName="Table1Code" />
+          <ScalarProperty Name="Table2Code" ColumnName="Table2Code" />
+          <ScalarProperty Name="Suspended" ColumnName="Suspended" />
+          <ScalarProperty Name="CityCode" ColumnName="CityCode" />
+          <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="ModiUserCode" ColumnName="ModiUserCode" />
+          <ScalarProperty Name="ModiDate" ColumnName="ModiDate" />
+          <ScalarProperty Name="Field1" ColumnName="Field1" />
+          <ScalarProperty Name="Field2" ColumnName="Field2" />
+          <ScalarProperty Name="AccountField6" ColumnName="AccountField6" />
+          <ScalarProperty Name="AccountField7" ColumnName="AccountField7" />
+          <ScalarProperty Name="AccountField8" ColumnName="AccountField8" />
+          <ScalarProperty Name="AccountField9" ColumnName="AccountField9" />
+          <ScalarProperty Name="AccountField10" ColumnName="AccountField10" />
+          <ScalarProperty Name="Transfer" ColumnName="Transfer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobBillingDets">
+      <EntityTypeMapping TypeName="TransactionDetailsModel.JobBillingDet">
+        <MappingFragment StoreEntitySet="JobBillingDet">
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="ItemSerialNumber" ColumnName="ItemSerialNumber" />
+          <ScalarProperty Name="JDSerialNumber" ColumnName="JDSerialNumber" />
+          <ScalarProperty Name="JDItemSerialNumber" ColumnName="JDItemSerialNumber" />
+          <ScalarProperty Name="BillingQuantity" ColumnName="BillingQuantity" />
+          <ScalarProperty Name="NoChargeQuantity" ColumnName="NoChargeQuantity" />
+          <ScalarProperty Name="BillingType" ColumnName="BillingType" />
+          <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+          <ScalarProperty Name="BankCashFlag" ColumnName="BankCashFlag" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="DiscountPerAmt" ColumnName="DiscountPerAmt" />
+          <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="BillingAmount" ColumnName="BillingAmount" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Addless1" ColumnName="Addless1" />
+          <ScalarProperty Name="Addless2" ColumnName="Addless2" />
+          <ScalarProperty Name="Addless3" ColumnName="Addless3" />
+          <ScalarProperty Name="NetAmount" ColumnName="NetAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobBillingMas">
+      <EntityTypeMapping TypeName="TransactionDetailsModel.JobBillingMa">
+        <MappingFragment StoreEntitySet="JobBillingMas">
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="ProcessingPointCode" ColumnName="ProcessingPointCode" />
+          <ScalarProperty Name="FinancialYearCode" ColumnName="FinancialYearCode" />
+          <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="ReferenceDate" ColumnName="ReferenceDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+          <ScalarProperty Name="LedSerialNumber" ColumnName="LedSerialNumber" />
+          <ScalarProperty Name="SaleAccountCode" ColumnName="SaleAccountCode" />
+          <ScalarProperty Name="CreditDays" ColumnName="CreditDays" />
+          <ScalarProperty Name="PostingDate" ColumnName="PostingDate" />
+          <ScalarProperty Name="PostingAmount" ColumnName="PostingAmount" />
+          <ScalarProperty Name="PostingAmount2" ColumnName="PostingAmount2" />
+          <ScalarProperty Name="DeletedFlag" ColumnName="DeletedFlag" />
+          <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="ModiUserCode" ColumnName="ModiUserCode" />
+          <ScalarProperty Name="ModiDate" ColumnName="ModiDate" />
+          <ScalarProperty Name="ReferenceType" ColumnName="ReferenceType" />
+          <ScalarProperty Name="Addless1" ColumnName="Addless1" />
+          <ScalarProperty Name="Addless2" ColumnName="Addless2" />
+          <ScalarProperty Name="Addless3" ColumnName="Addless3" />
+          <ScalarProperty Name="PostingAmount3" ColumnName="PostingAmount3" />
+          <ScalarProperty Name="RoundedAmount" ColumnName="RoundedAmount" />
+          <ScalarProperty Name="FinalAmount" ColumnName="FinalAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobDespatchDets">
+      <EntityTypeMapping TypeName="TransactionDetailsModel.JobDespatchDet">
+        <MappingFragment StoreEntitySet="JobDespatchDet">
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="ItemSerialNumber" ColumnName="ItemSerialNumber" />
+          <ScalarProperty Name="JRSerialNumber" ColumnName="JRSerialNumber" />
+          <ScalarProperty Name="JRItemSerialNumber" ColumnName="JRItemSerialNumber" />
+          <ScalarProperty Name="ItemPieces" ColumnName="ItemPieces" />
+          <ScalarProperty Name="ItemCarats" ColumnName="ItemCarats" />
+          <ScalarProperty Name="ItemLines" ColumnName="ItemLines" />
+          <ScalarProperty Name="WeightLoss" ColumnName="WeightLoss" />
+          <ScalarProperty Name="PacketStatus" ColumnName="PacketStatus" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="BillingQuantity" ColumnName="BillingQuantity" />
+          <ScalarProperty Name="NoChargeQuantity" ColumnName="NoChargeQuantity" />
+          <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobDespatchMas">
+      <EntityTypeMapping TypeName="TransactionDetailsModel.JobDespatchMa">
+        <MappingFragment StoreEntitySet="JobDespatchMas">
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="ProcessingPointCode" ColumnName="ProcessingPointCode" />
+          <ScalarProperty Name="FinancialYearCode" ColumnName="FinancialYearCode" />
+          <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="ReferenceDate" ColumnName="ReferenceDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="DeletedFlag" ColumnName="DeletedFlag" />
+          <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="ModiUserCode" ColumnName="ModiUserCode" />
+          <ScalarProperty Name="ModiDate" ColumnName="ModiDate" />
+          <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobReceiptDets">
+      <EntityTypeMapping TypeName="TransactionDetailsModel.JobReceiptDet">
+        <MappingFragment StoreEntitySet="JobReceiptDet">
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="ItemSerialNumber" ColumnName="ItemSerialNumber" />
+          <ScalarProperty Name="ProcessCode" ColumnName="ProcessCode" />
+          <ScalarProperty Name="PacketNumber" ColumnName="PacketNumber" />
+          <ScalarProperty Name="ItemPieces" ColumnName="ItemPieces" />
+          <ScalarProperty Name="ItemCarats" ColumnName="ItemCarats" />
+          <ScalarProperty Name="ItemLines" ColumnName="ItemLines" />
+          <ScalarProperty Name="ReWorkingFlag" ColumnName="ReWorkingFlag" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+          <ScalarProperty Name="BillingQuantity" ColumnName="BillingQuantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobReceiptMas">
+      <EntityTypeMapping TypeName="TransactionDetailsModel.JobReceiptMa">
+        <MappingFragment StoreEntitySet="JobReceiptMas">
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="ProcessingPointCode" ColumnName="ProcessingPointCode" />
+          <ScalarProperty Name="FinancialYearCode" ColumnName="FinancialYearCode" />
+          <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="ReferenceDate" ColumnName="ReferenceDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="DeletedFlag" ColumnName="DeletedFlag" />
+          <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="ModiUserCode" ColumnName="ModiUserCode" />
+          <ScalarProperty Name="ModiDate" ColumnName="ModiDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProcessDets">
+      <EntityTypeMapping TypeName="TransactionDetailsModel.ProcessDet">
+        <MappingFragment StoreEntitySet="ProcessDet">
+          <ScalarProperty Name="ProcessCode" ColumnName="ProcessCode" />
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="RangeFrom" ColumnName="RangeFrom" />
+          <ScalarProperty Name="RangeTo" ColumnName="RangeTo" />
+          <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProcessMas">
+      <EntityTypeMapping TypeName="TransactionDetailsModel.ProcessMa">
+        <MappingFragment StoreEntitySet="ProcessMas">
+          <ScalarProperty Name="ProcessCode" ColumnName="ProcessCode" />
+          <ScalarProperty Name="ProcessName" ColumnName="ProcessName" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="BillingType" ColumnName="BillingType" />
+          <ScalarProperty Name="DeletedFlag" ColumnName="DeletedFlag" />
+          <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="ModiUserCode" ColumnName="ModiUserCode" />
+          <ScalarProperty Name="ModiDate" ColumnName="ModiDate" />
+          <ScalarProperty Name="SGSTTaxRate" ColumnName="SGSTTaxRate" />
+          <ScalarProperty Name="CGSTTaxRate" ColumnName="CGSTTaxRate" />
+          <ScalarProperty Name="IGSTTaxRate" ColumnName="IGSTTaxRate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_GetCustomers" FunctionName="TransactionDetailsModel.Store.sp_GetCustomers">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TransactionDetailsModel.sp_GetCustomers_Result">
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_GetDespatchData" FunctionName="TransactionDetailsModel.Store.sp_GetDespatchData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TransactionDetailsModel.sp_GetDespatchData_Result">
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="ItemSerialNumber" ColumnName="ItemSerialNumber" />
+          <ScalarProperty Name="ProcessCode" ColumnName="ProcessCode" />
+          <ScalarProperty Name="PacketNumber" ColumnName="PacketNumber" />
+          <ScalarProperty Name="ItemPieces" ColumnName="ItemPieces" />
+          <ScalarProperty Name="ItemCarats" ColumnName="ItemCarats" />
+          <ScalarProperty Name="ItemLines" ColumnName="ItemLines" />
+          <ScalarProperty Name="JDItemPieces" ColumnName="JDItemPieces" />
+          <ScalarProperty Name="JDItemCarats" ColumnName="JDItemCarats" />
+          <ScalarProperty Name="JDItemLines" ColumnName="JDItemLines" />
+          <ScalarProperty Name="WeightLoss" ColumnName="WeightLoss" />
+          <ScalarProperty Name="PacketStatus" ColumnName="PacketStatus" />
+          <ScalarProperty Name="BillingQuantity" ColumnName="BillingQuantity" />
+          <ScalarProperty Name="NoChargeQuantity" ColumnName="NoChargeQuantity" />
+          <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_GetProcess" FunctionName="TransactionDetailsModel.Store.sp_GetProcess">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TransactionDetailsModel.sp_GetProcess_Result">
+          <ScalarProperty Name="ProcessCode" ColumnName="ProcessCode" />
+          <ScalarProperty Name="ProcessName" ColumnName="ProcessName" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="BillingType" ColumnName="BillingType" />
+          <ScalarProperty Name="DeletedFlag" ColumnName="DeletedFlag" />
+          <ScalarProperty Name="UserCode" ColumnName="UserCode" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="ModiUserCode" ColumnName="ModiUserCode" />
+          <ScalarProperty Name="ModiDate" ColumnName="ModiDate" />
+          <ScalarProperty Name="SGSTTaxRate" ColumnName="SGSTTaxRate" />
+          <ScalarProperty Name="CGSTTaxRate" ColumnName="CGSTTaxRate" />
+          <ScalarProperty Name="IGSTTaxRate" ColumnName="IGSTTaxRate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_GetSearchData" FunctionName="TransactionDetailsModel.Store.sp_GetSearchData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TransactionDetailsModel.sp_GetSearchData_Result">
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="ReferenceDate" ColumnName="ReferenceDate" />
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_GetSelectedData" FunctionName="TransactionDetailsModel.Store.sp_GetSelectedData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TransactionDetailsModel.sp_GetSelectedData_Result">
+          <ScalarProperty Name="ProcessCode" ColumnName="ProcessCode" />
+          <ScalarProperty Name="ItemSerialNumber" ColumnName="ItemSerialNumber" />
+          <ScalarProperty Name="PacketNumber" ColumnName="PacketNumber" />
+          <ScalarProperty Name="ItemPieces" ColumnName="ItemPieces" />
+          <ScalarProperty Name="ItemCarats" ColumnName="ItemCarats" />
+          <ScalarProperty Name="ItemLines" ColumnName="ItemLines" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_GetSelectedDespatchData" FunctionName="TransactionDetailsModel.Store.sp_GetSelectedDespatchData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TransactionDetailsModel.sp_GetSelectedDespatchData_Result">
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="ItemSerialNumber" ColumnName="ItemSerialNumber" />
+          <ScalarProperty Name="ReferenceDate" ColumnName="ReferenceDate" />
+          <ScalarProperty Name="ProcessCode" ColumnName="ProcessCode" />
+          <ScalarProperty Name="PacketNumber" ColumnName="PacketNumber" />
+          <ScalarProperty Name="ItemPieces" ColumnName="ItemPieces" />
+          <ScalarProperty Name="ItemCarats" ColumnName="ItemCarats" />
+          <ScalarProperty Name="ItemLines" ColumnName="ItemLines" />
+          <ScalarProperty Name="JDItemPieces" ColumnName="JDItemPieces" />
+          <ScalarProperty Name="JDItemCarats" ColumnName="JDItemCarats" />
+          <ScalarProperty Name="JDItemLines" ColumnName="JDItemLines" />
+          <ScalarProperty Name="WeightLoss" ColumnName="WeightLoss" />
+          <ScalarProperty Name="PacketStatus" ColumnName="PacketStatus" />
+          <ScalarProperty Name="Billing_Unit" ColumnName="Billing Unit" />
+          <ScalarProperty Name="BillingQuantity" ColumnName="BillingQuantity" />
+          <ScalarProperty Name="NoChargeQuantity" ColumnName="NoChargeQuantity" />
+          <ScalarProperty Name="BillingRate" ColumnName="BillingRate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

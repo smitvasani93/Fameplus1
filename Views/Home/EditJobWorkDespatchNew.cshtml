@@ -1,0 +1,85 @@
+﻿
+@using Transactiondetails.Models;
+@model IEnumerable<sp_GetNewDespatchData_Result>
+@using System;
+
+@{
+    int row = 1;
+
+}
+<br />
+<div id="despatchDivNew" style="overflow: scroll;">
+    <table id="despatchNew" class="table table-bordered mb-0" style="width:100%;overflow-y:scroll">
+        <thead>
+            <tr>
+                <th style="display:none">JRSerialNumber</th>
+                <th style="display:none">ItemSerialNumber</th>
+                <th>Delete</th>
+                <th>Reference Date</th>
+                <th>Process</th>
+                <th>Packet No</th>
+                <th>Pieces</th>
+                <th>Carats</th>
+                <th>Lines</th>
+                <th>Pieces Despatch</th>
+                <th>Carats Despatch</th>
+                <th>Lines Despatch</th>
+                <th>WeightLoss</th>
+                <th>Status</th>
+                <th>Billing Unit</th>
+                <th>Billing Quantity</th>
+                <th>NoCharge Quantity</th>
+                <th>Rate</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            var loctr = "tr" + @row;
+            <tr id="@loctr">
+                <td style="display:none"><input type="text" class="form-control" id="0" value="@item.SerialNumber"></td>
+                <td style="display:none"><input type="text" class="form-control" id="1" value="@item.ItemSerialNumber"></td>
+                <td class="plsRow" id="@row"><a class="deleteRow" href="#"><i class="fa fa-trash"></i></a></td>
+                <td><input type="text" class="form-controlDispatch" id="2" value=" @Convert.ToDateTime( @item.ReferenceDate).ToString("dd/MM/yyyy")"></td>
+                <td>
+                    @Html.DropDownList("ProcessCode", new SelectList(ViewBag.Process, "ProcessCode", "ProcessName", @item.ProcessCode), "Please select", new { @id = "ddlProcess", @class = "form-selectDespatch" })
+                </td>
+                <td><input type="text" class="form-controlDispatch" id="3" value="@item.PacketNumber"></td>
+                <td><input type="text" class="form-controlDispatch" id="4" value="@item.ItemPieces"></td>
+                <td><input type="text" class="form-controlDispatch" id="5" value="@item.ItemCarats"></td>
+                <td><input type="text" class="form-controlDispatch" id="6" value="@item.ItemLines"></td>
+                <td><input type="text" class="form-controlDispatch" id="7" value="@item.JDItemPieces"></td>
+                <td><input type="text" class="form-controlDispatch" id="8" value="@item.JDItemCarats"></td>
+                <td><input type="text" class="form-controlDispatch" id="9" value="@item.JDItemLines"></td>
+                <td><input type="text" class="form-controlDispatch" id="10" value="@item.WeightLoss"></td>
+                <td>
+                    @Html.DropDownList("ddlStatus", new List<SelectListItem>
+                     { new SelectListItem { Text = "Yes", Value = "Y", Selected=@item.PacketStatus?.ToString()=="Y" ?true :false},
+                       new SelectListItem { Text = "No", Value = "N",  Selected=@item.PacketStatus?.ToString()=="N" ?true :false}
+                      }, "Please select", new { @class = "form-selectDespatch" })
+                </td>
+                <td><input type="text" class="form-controlDispatch" id="11" value="@item.Billing_Unit"></td>
+                <td><input type="text" class="form-controlDispatch" id="12" value="@item.BillingQuantity"></td>
+                <td><input type="text" class="form-controlDispatch" id="13" value="@item.NoChargeQuantity"></td>
+                <td><input type="text" class="form-controlDispatch" id="14" value="@item.BillingRate"></td>
+                <td><input type="text" class="form-controlDispatch" id="15" value="@item.Remarks"></td>
+
+            </tr>
+            row++;
+        }
+
+    </table>
+
+</div>
+<script>
+    $(function () {
+
+        let rowCount = 1;
+
+        $("#despatchNew").on('click', '.deleteRow', function () {
+            if (1 != $('#despatch >tbody >tr').length)
+                $(this).parent().parent().remove();
+        });
+    });
+</script>
+

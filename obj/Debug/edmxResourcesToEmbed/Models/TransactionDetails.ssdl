@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TransactionDetailsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionDetails.dbo.Account' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="FinancialYearCode" />
+      <PropertyRef Name="AccountCode" />
+    </Key>
+    <Property Name="FinancialYearCode" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="AccountCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="AccountID" Type="char" MaxLength="15" />
+    <Property Name="AccountName" Type="char" MaxLength="60" Nullable="false" />
+    <Property Name="AccountGroupCode" Type="smallint" />
+    <Property Name="ExceptGroupCode" Type="smallint" />
+    <Property Name="GroupCompany" Type="bit" Nullable="false" />
+    <Property Name="Relation" Type="varchar" MaxLength="30" />
+    <Property Name="OpeningBalance" Type="float" />
+    <Property Name="ClosingBalance" Type="float" />
+    <Property Name="CurrencyCode" Type="smallint" />
+    <Property Name="AccountAddress1" Type="varchar" MaxLength="50" />
+    <Property Name="AccountAddress2" Type="varchar" MaxLength="50" />
+    <Property Name="AccountAddress3" Type="varchar" MaxLength="50" />
+    <Property Name="AccountPin" Type="varchar" MaxLength="7" />
+    <Property Name="AccountPhone" Type="varchar" MaxLength="45" />
+    <Property Name="AccountFax" Type="varchar" MaxLength="45" />
+    <Property Name="AccountResidencePhone" Type="varchar" MaxLength="45" />
+    <Property Name="AccountHandPhone" Type="varchar" MaxLength="45" />
+    <Property Name="AccountEMail" Type="varchar" MaxLength="50" />
+    <Property Name="InterestRate" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="InterestMethod" Type="char" MaxLength="1" />
+    <Property Name="BankAccountName" Type="varchar" MaxLength="40" />
+    <Property Name="BankAccountNumber" Type="varchar" MaxLength="25" />
+    <Property Name="IncomeTaxNumber" Type="varchar" MaxLength="50" />
+    <Property Name="BranchCode" Type="char" MaxLength="3" />
+    <Property Name="AccountField1" Type="varchar" MaxLength="50" />
+    <Property Name="AccountField2" Type="varchar" MaxLength="50" />
+    <Property Name="AccountField3" Type="varchar" MaxLength="50" />
+    <Property Name="AccountField4" Type="varchar" MaxLength="50" />
+    <Property Name="AccountField5" Type="varchar" MaxLength="50" />
+    <Property Name="ModuleID" Type="char" MaxLength="4" />
+    <Property Name="Table1Code" Type="int" />
+    <Property Name="Table2Code" Type="int" />
+    <Property Name="Suspended" Type="char" MaxLength="1" />
+    <Property Name="CityCode" Type="int" />
+    <Property Name="UserCode" Type="smallint" />
+    <Property Name="EntryDate" Type="datetime" />
+    <Property Name="ModiUserCode" Type="smallint" />
+    <Property Name="ModiDate" Type="datetime" />
+    <Property Name="Field1" Type="int" />
+    <Property Name="Field2" Type="int" />
+    <Property Name="AccountField6" Type="varchar" MaxLength="50" />
+    <Property Name="AccountField7" Type="varchar" MaxLength="50" />
+    <Property Name="AccountField8" Type="varchar" MaxLength="50" />
+    <Property Name="AccountField9" Type="varchar" MaxLength="50" />
+    <Property Name="AccountField10" Type="varchar" MaxLength="50" />
+    <Property Name="Transfer" Type="char" MaxLength="1" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionDetails.dbo.JobBillingDet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="JobBillingDet">
+    <Key>
+      <PropertyRef Name="SerialNumber" />
+      <PropertyRef Name="ItemSerialNumber" />
+    </Key>
+    <Property Name="SerialNumber" Type="int" Nullable="false" />
+    <Property Name="ItemSerialNumber" Type="smallint" Nullable="false" />
+    <Property Name="JDSerialNumber" Type="int" Nullable="false" />
+    <Property Name="JDItemSerialNumber" Type="smallint" Nullable="false" />
+    <Property Name="BillingQuantity" Type="float" />
+    <Property Name="NoChargeQuantity" Type="float" />
+    <Property Name="BillingType" Type="char" MaxLength="1" />
+    <Property Name="BillingRate" Type="float" />
+    <Property Name="BankCashFlag" Type="char" MaxLength="1" />
+    <Property Name="TotalAmount" Type="float" />
+    <Property Name="DiscountPerAmt" Type="char" MaxLength="1" />
+    <Property Name="DiscountRate" Type="float" />
+    <Property Name="DiscountAmount" Type="float" />
+    <Property Name="BillingAmount" Type="float" />
+    <Property Name="Remarks" Type="varchar" MaxLength="250" />
+    <Property Name="Addless1" Type="float" />
+    <Property Name="Addless2" Type="float" />
+    <Property Name="Addless3" Type="float" />
+    <Property Name="NetAmount" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionDetails.dbo.JobBillingMas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="JobBillingMas">
+    <Key>
+      <PropertyRef Name="SerialNumber" />
+    </Key>
+    <Property Name="SerialNumber" Type="int" Nullable="false" />
+    <Property Name="ProcessingPointCode" Type="char" MaxLength="2" />
+    <Property Name="FinancialYearCode" Type="char" MaxLength="2" />
+    <Property Name="BranchCode" Type="char" MaxLength="3" />
+    <Property Name="AccountCode" Type="char" MaxLength="8" />
+    <Property Name="ReferenceDate" Type="datetime" />
+    <Property Name="Remarks" Type="varchar" MaxLength="250" />
+    <Property Name="ReferenceNumber" Type="varchar" MaxLength="25" />
+    <Property Name="LedSerialNumber" Type="int" />
+    <Property Name="SaleAccountCode" Type="char" MaxLength="8" />
+    <Property Name="CreditDays" Type="smallint" />
+    <Property Name="PostingDate" Type="datetime" />
+    <Property Name="PostingAmount" Type="float" />
+    <Property Name="PostingAmount2" Type="float" />
+    <Property Name="DeletedFlag" Type="bit" />
+    <Property Name="UserCode" Type="smallint" />
+    <Property Name="EntryDate" Type="datetime" />
+    <Property Name="ModiUserCode" Type="smallint" />
+    <Property Name="ModiDate" Type="datetime" />
+    <Property Name="ReferenceType" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="Addless1" Type="float" />
+    <Property Name="Addless2" Type="float" />
+    <Property Name="Addless3" Type="float" />
+    <Property Name="PostingAmount3" Type="float" />
+    <Property Name="RoundedAmount" Type="float" />
+    <Property Name="FinalAmount" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionDetails.dbo.JobDespatchDet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="JobDespatchDet">
+    <Key>
+      <PropertyRef Name="SerialNumber" />
+      <PropertyRef Name="ItemSerialNumber" />
+    </Key>
+    <Property Name="SerialNumber" Type="int" Nullable="false" />
+    <Property Name="ItemSerialNumber" Type="smallint" Nullable="false" />
+    <Property Name="JRSerialNumber" Type="int" Nullable="false" />
+    <Property Name="JRItemSerialNumber" Type="smallint" Nullable="false" />
+    <Property Name="ItemPieces" Type="float" />
+    <Property Name="ItemCarats" Type="float" />
+    <Property Name="ItemLines" Type="float" />
+    <Property Name="WeightLoss" Type="float" />
+    <Property Name="PacketStatus" Type="char" MaxLength="1" />
+    <Property Name="Remarks" Type="varchar" MaxLength="250" />
+    <Property Name="BillingQuantity" Type="float" />
+    <Property Name="NoChargeQuantity" Type="float" />
+    <Property Name="BillingRate" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionDetails.dbo.JobDespatchMas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="JobDespatchMas">
+    <Key>
+      <PropertyRef Name="SerialNumber" />
+    </Key>
+    <Property Name="SerialNumber" Type="int" Nullable="false" />
+    <Property Name="ProcessingPointCode" Type="char" MaxLength="2" />
+    <Property Name="FinancialYearCode" Type="char" MaxLength="2" />
+    <Property Name="BranchCode" Type="char" MaxLength="3" />
+    <Property Name="AccountCode" Type="char" MaxLength="8" />
+    <Property Name="ReferenceDate" Type="datetime" />
+    <Property Name="Remarks" Type="varchar" MaxLength="250" />
+    <Property Name="DeletedFlag" Type="bit" />
+    <Property Name="UserCode" Type="smallint" />
+    <Property Name="EntryDate" Type="datetime" />
+    <Property Name="ModiUserCode" Type="smallint" />
+    <Property Name="ModiDate" Type="datetime" />
+    <Property Name="ReferenceNumber" Type="varchar" MaxLength="25" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionDetails.dbo.JobReceiptDet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="JobReceiptDet">
+    <Key>
+      <PropertyRef Name="SerialNumber" />
+      <PropertyRef Name="ItemSerialNumber" />
+    </Key>
+    <Property Name="SerialNumber" Type="int" Nullable="false" />
+    <Property Name="ItemSerialNumber" Type="smallint" Nullable="false" />
+    <Property Name="ProcessCode" Type="smallint" Nullable="false" />
+    <Property Name="PacketNumber" Type="smallint" Nullable="false" />
+    <Property Name="ItemPieces" Type="float" />
+    <Property Name="ItemCarats" Type="float" />
+    <Property Name="ItemLines" Type="float" />
+    <Property Name="ReWorkingFlag" Type="bit" />
+    <Property Name="Remarks" Type="varchar" MaxLength="250" />
+    <Property Name="BillingRate" Type="float" />
+    <Property Name="BillingQuantity" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionDetails.dbo.JobReceiptMas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="JobReceiptMas">
+    <Key>
+      <PropertyRef Name="SerialNumber" />
+    </Key>
+    <Property Name="SerialNumber" Type="int" Nullable="false" />
+    <Property Name="ProcessingPointCode" Type="char" MaxLength="2" />
+    <Property Name="FinancialYearCode" Type="char" MaxLength="2" />
+    <Property Name="BranchCode" Type="char" MaxLength="3" />
+    <Property Name="AccountCode" Type="char" MaxLength="8" />
+    <Property Name="ReferenceDate" Type="datetime" />
+    <Property Name="Remarks" Type="varchar" MaxLength="250" />
+    <Property Name="DeletedFlag" Type="bit" />
+    <Property Name="UserCode" Type="smallint" />
+    <Property Name="EntryDate" Type="datetime" />
+    <Property Name="ModiUserCode" Type="smallint" />
+    <Property Name="ModiDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionDetails.dbo.ProcessDet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ProcessDet">
+    <Key>
+      <PropertyRef Name="ProcessCode" />
+      <PropertyRef Name="SerialNumber" />
+    </Key>
+    <Property Name="ProcessCode" Type="smallint" Nullable="false" />
+    <Property Name="SerialNumber" Type="smallint" Nullable="false" />
+    <Property Name="RangeFrom" Type="float" />
+    <Property Name="RangeTo" Type="float" />
+    <Property Name="BillingRate" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TransactionDetails.dbo.ProcessMas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ProcessMas">
+    <Key>
+      <PropertyRef Name="ProcessCode" />
+    </Key>
+    <Property Name="ProcessCode" Type="smallint" Nullable="false" />
+    <Property Name="ProcessName" Type="varchar" MaxLength="50" />
+    <Property Name="Remarks" Type="varchar" MaxLength="250" />
+    <Property Name="BillingType" Type="char" MaxLength="1" />
+    <Property Name="DeletedFlag" Type="bit" />
+    <Property Name="UserCode" Type="smallint" />
+    <Property Name="EntryDate" Type="datetime" />
+    <Property Name="ModiUserCode" Type="smallint" />
+    <Property Name="ModiDate" Type="datetime" />
+    <Property Name="SGSTTaxRate" Type="float" />
+    <Property Name="CGSTTaxRate" Type="float" />
+    <Property Name="IGSTTaxRate" Type="float" />
+  </EntityType>
+  <Function Name="sp_GetCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_GetDespatchData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AccountCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_GetNewDespatchData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Input" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_GetProcess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_GetSearchData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_GetSelectedData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SerialNumber" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="sp_GetSelectedDespatchData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Input" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="SplitString" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Input" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Character" Type="char" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Item" Type="nvarchar" MaxLength="1000" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <EntityContainer Name="TransactionDetailsModelStoreContainer">
+    <EntitySet Name="Account" EntityType="Self.Account" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Account].[FinancialYearCode] AS [FinancialYearCode], 
+    [Account].[AccountCode] AS [AccountCode], 
+    [Account].[AccountID] AS [AccountID], 
+    [Account].[AccountName] AS [AccountName], 
+    [Account].[AccountGroupCode] AS [AccountGroupCode], 
+    [Account].[ExceptGroupCode] AS [ExceptGroupCode], 
+    [Account].[GroupCompany] AS [GroupCompany], 
+    [Account].[Relation] AS [Relation], 
+    [Account].[OpeningBalance] AS [OpeningBalance], 
+    [Account].[ClosingBalance] AS [ClosingBalance], 
+    [Account].[CurrencyCode] AS [CurrencyCode], 
+    [Account].[AccountAddress1] AS [AccountAddress1], 
+    [Account].[AccountAddress2] AS [AccountAddress2], 
+    [Account].[AccountAddress3] AS [AccountAddress3], 
+    [Account].[AccountPin] AS [AccountPin], 
+    [Account].[AccountPhone] AS [AccountPhone], 
+    [Account].[AccountFax] AS [AccountFax], 
+    [Account].[AccountResidencePhone] AS [AccountResidencePhone], 
+    [Account].[AccountHandPhone] AS [AccountHandPhone], 
+    [Account].[AccountEMail] AS [AccountEMail], 
+    [Account].[InterestRate] AS [InterestRate], 
+    [Account].[InterestMethod] AS [InterestMethod], 
+    [Account].[BankAccountName] AS [BankAccountName], 
+    [Account].[BankAccountNumber] AS [BankAccountNumber], 
+    [Account].[IncomeTaxNumber] AS [IncomeTaxNumber], 
+    [Account].[BranchCode] AS [BranchCode], 
+    [Account].[AccountField1] AS [AccountField1], 
+    [Account].[AccountField2] AS [AccountField2], 
+    [Account].[AccountField3] AS [AccountField3], 
+    [Account].[AccountField4] AS [AccountField4], 
+    [Account].[AccountField5] AS [AccountField5], 
+    [Account].[ModuleID] AS [ModuleID], 
+    [Account].[Table1Code] AS [Table1Code], 
+    [Account].[Table2Code] AS [Table2Code], 
+    [Account].[Suspended] AS [Suspended], 
+    [Account].[CityCode] AS [CityCode], 
+    [Account].[UserCode] AS [UserCode], 
+    [Account].[EntryDate] AS [EntryDate], 
+    [Account].[ModiUserCode] AS [ModiUserCode], 
+    [Account].[ModiDate] AS [ModiDate], 
+    [Account].[Field1] AS [Field1], 
+    [Account].[Field2] AS [Field2], 
+    [Account].[AccountField6] AS [AccountField6], 
+    [Account].[AccountField7] AS [AccountField7], 
+    [Account].[AccountField8] AS [AccountField8], 
+    [Account].[AccountField9] AS [AccountField9], 
+    [Account].[AccountField10] AS [AccountField10], 
+    [Account].[Transfer] AS [Transfer]
+    FROM [dbo].[Account] AS [Account]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="JobBillingDet" EntityType="Self.JobBillingDet" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [JobBillingDet].[SerialNumber] AS [SerialNumber], 
+    [JobBillingDet].[ItemSerialNumber] AS [ItemSerialNumber], 
+    [JobBillingDet].[JDSerialNumber] AS [JDSerialNumber], 
+    [JobBillingDet].[JDItemSerialNumber] AS [JDItemSerialNumber], 
+    [JobBillingDet].[BillingQuantity] AS [BillingQuantity], 
+    [JobBillingDet].[NoChargeQuantity] AS [NoChargeQuantity], 
+    [JobBillingDet].[BillingType] AS [BillingType], 
+    [JobBillingDet].[BillingRate] AS [BillingRate], 
+    [JobBillingDet].[BankCashFlag] AS [BankCashFlag], 
+    [JobBillingDet].[TotalAmount] AS [TotalAmount], 
+    [JobBillingDet].[DiscountPerAmt] AS [DiscountPerAmt], 
+    [JobBillingDet].[DiscountRate] AS [DiscountRate], 
+    [JobBillingDet].[DiscountAmount] AS [DiscountAmount], 
+    [JobBillingDet].[BillingAmount] AS [BillingAmount], 
+    [JobBillingDet].[Remarks] AS [Remarks], 
+    [JobBillingDet].[Addless1] AS [Addless1], 
+    [JobBillingDet].[Addless2] AS [Addless2], 
+    [JobBillingDet].[Addless3] AS [Addless3], 
+    [JobBillingDet].[NetAmount] AS [NetAmount]
+    FROM [dbo].[JobBillingDet] AS [JobBillingDet]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="JobBillingMas" EntityType="Self.JobBillingMas" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [JobBillingMas].[SerialNumber] AS [SerialNumber], 
+    [JobBillingMas].[ProcessingPointCode] AS [ProcessingPointCode], 
+    [JobBillingMas].[FinancialYearCode] AS [FinancialYearCode], 
+    [JobBillingMas].[BranchCode] AS [BranchCode], 
+    [JobBillingMas].[AccountCode] AS [AccountCode], 
+    [JobBillingMas].[ReferenceDate] AS [ReferenceDate], 
+    [JobBillingMas].[Remarks] AS [Remarks], 
+    [JobBillingMas].[ReferenceNumber] AS [ReferenceNumber], 
+    [JobBillingMas].[LedSerialNumber] AS [LedSerialNumber], 
+    [JobBillingMas].[SaleAccountCode] AS [SaleAccountCode], 
+    [JobBillingMas].[CreditDays] AS [CreditDays], 
+    [JobBillingMas].[PostingDate] AS [PostingDate], 
+    [JobBillingMas].[PostingAmount] AS [PostingAmount], 
+    [JobBillingMas].[PostingAmount2] AS [PostingAmount2], 
+    [JobBillingMas].[DeletedFlag] AS [DeletedFlag], 
+    [JobBillingMas].[UserCode] AS [UserCode], 
+    [JobBillingMas].[EntryDate] AS [EntryDate], 
+    [JobBillingMas].[ModiUserCode] AS [ModiUserCode], 
+    [JobBillingMas].[ModiDate] AS [ModiDate], 
+    [JobBillingMas].[ReferenceType] AS [ReferenceType], 
+    [JobBillingMas].[Addless1] AS [Addless1], 
+    [JobBillingMas].[Addless2] AS [Addless2], 
+    [JobBillingMas].[Addless3] AS [Addless3], 
+    [JobBillingMas].[PostingAmount3] AS [PostingAmount3], 
+    [JobBillingMas].[RoundedAmount] AS [RoundedAmount], 
+    [JobBillingMas].[FinalAmount] AS [FinalAmount]
+    FROM [dbo].[JobBillingMas] AS [JobBillingMas]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="JobDespatchDet" EntityType="Self.JobDespatchDet" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [JobDespatchDet].[SerialNumber] AS [SerialNumber], 
+    [JobDespatchDet].[ItemSerialNumber] AS [ItemSerialNumber], 
+    [JobDespatchDet].[JRSerialNumber] AS [JRSerialNumber], 
+    [JobDespatchDet].[JRItemSerialNumber] AS [JRItemSerialNumber], 
+    [JobDespatchDet].[ItemPieces] AS [ItemPieces], 
+    [JobDespatchDet].[ItemCarats] AS [ItemCarats], 
+    [JobDespatchDet].[ItemLines] AS [ItemLines], 
+    [JobDespatchDet].[WeightLoss] AS [WeightLoss], 
+    [JobDespatchDet].[PacketStatus] AS [PacketStatus], 
+    [JobDespatchDet].[Remarks] AS [Remarks], 
+    [JobDespatchDet].[BillingQuantity] AS [BillingQuantity], 
+    [JobDespatchDet].[NoChargeQuantity] AS [NoChargeQuantity], 
+    [JobDespatchDet].[BillingRate] AS [BillingRate]
+    FROM [dbo].[JobDespatchDet] AS [JobDespatchDet]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="JobDespatchMas" EntityType="Self.JobDespatchMas" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [JobDespatchMas].[SerialNumber] AS [SerialNumber], 
+    [JobDespatchMas].[ProcessingPointCode] AS [ProcessingPointCode], 
+    [JobDespatchMas].[FinancialYearCode] AS [FinancialYearCode], 
+    [JobDespatchMas].[BranchCode] AS [BranchCode], 
+    [JobDespatchMas].[AccountCode] AS [AccountCode], 
+    [JobDespatchMas].[ReferenceDate] AS [ReferenceDate], 
+    [JobDespatchMas].[Remarks] AS [Remarks], 
+    [JobDespatchMas].[DeletedFlag] AS [DeletedFlag], 
+    [JobDespatchMas].[UserCode] AS [UserCode], 
+    [JobDespatchMas].[EntryDate] AS [EntryDate], 
+    [JobDespatchMas].[ModiUserCode] AS [ModiUserCode], 
+    [JobDespatchMas].[ModiDate] AS [ModiDate], 
+    [JobDespatchMas].[ReferenceNumber] AS [ReferenceNumber]
+    FROM [dbo].[JobDespatchMas] AS [JobDespatchMas]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="JobReceiptDet" EntityType="Self.JobReceiptDet" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [JobReceiptDet].[SerialNumber] AS [SerialNumber], 
+    [JobReceiptDet].[ItemSerialNumber] AS [ItemSerialNumber], 
+    [JobReceiptDet].[ProcessCode] AS [ProcessCode], 
+    [JobReceiptDet].[PacketNumber] AS [PacketNumber], 
+    [JobReceiptDet].[ItemPieces] AS [ItemPieces], 
+    [JobReceiptDet].[ItemCarats] AS [ItemCarats], 
+    [JobReceiptDet].[ItemLines] AS [ItemLines], 
+    [JobReceiptDet].[ReWorkingFlag] AS [ReWorkingFlag], 
+    [JobReceiptDet].[Remarks] AS [Remarks], 
+    [JobReceiptDet].[BillingRate] AS [BillingRate], 
+    [JobReceiptDet].[BillingQuantity] AS [BillingQuantity]
+    FROM [dbo].[JobReceiptDet] AS [JobReceiptDet]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="JobReceiptMas" EntityType="Self.JobReceiptMas" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [JobReceiptMas].[SerialNumber] AS [SerialNumber], 
+    [JobReceiptMas].[ProcessingPointCode] AS [ProcessingPointCode], 
+    [JobReceiptMas].[FinancialYearCode] AS [FinancialYearCode], 
+    [JobReceiptMas].[BranchCode] AS [BranchCode], 
+    [JobReceiptMas].[AccountCode] AS [AccountCode], 
+    [JobReceiptMas].[ReferenceDate] AS [ReferenceDate], 
+    [JobReceiptMas].[Remarks] AS [Remarks], 
+    [JobReceiptMas].[DeletedFlag] AS [DeletedFlag], 
+    [JobReceiptMas].[UserCode] AS [UserCode], 
+    [JobReceiptMas].[EntryDate] AS [EntryDate], 
+    [JobReceiptMas].[ModiUserCode] AS [ModiUserCode], 
+    [JobReceiptMas].[ModiDate] AS [ModiDate]
+    FROM [dbo].[JobReceiptMas] AS [JobReceiptMas]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ProcessDet" EntityType="Self.ProcessDet" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProcessDet].[ProcessCode] AS [ProcessCode], 
+    [ProcessDet].[SerialNumber] AS [SerialNumber], 
+    [ProcessDet].[RangeFrom] AS [RangeFrom], 
+    [ProcessDet].[RangeTo] AS [RangeTo], 
+    [ProcessDet].[BillingRate] AS [BillingRate]
+    FROM [dbo].[ProcessDet] AS [ProcessDet]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ProcessMas" EntityType="Self.ProcessMas" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProcessMas].[ProcessCode] AS [ProcessCode], 
+    [ProcessMas].[ProcessName] AS [ProcessName], 
+    [ProcessMas].[Remarks] AS [Remarks], 
+    [ProcessMas].[BillingType] AS [BillingType], 
+    [ProcessMas].[DeletedFlag] AS [DeletedFlag], 
+    [ProcessMas].[UserCode] AS [UserCode], 
+    [ProcessMas].[EntryDate] AS [EntryDate], 
+    [ProcessMas].[ModiUserCode] AS [ModiUserCode], 
+    [ProcessMas].[ModiDate] AS [ModiDate], 
+    [ProcessMas].[SGSTTaxRate] AS [SGSTTaxRate], 
+    [ProcessMas].[CGSTTaxRate] AS [CGSTTaxRate], 
+    [ProcessMas].[IGSTTaxRate] AS [IGSTTaxRate]
+    FROM [dbo].[ProcessMas] AS [ProcessMas]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
