@@ -54,6 +54,9 @@
     <Reference Include="GridMvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -1748,6 +1751,7 @@
     <Content Include="Css\dataTables.bootstrap.min.css" />
     <Content Include="Css\dataTables.bootstrap4.min.css" />
     <Content Include="Css\font-awesome.min.css" />
+    <Content Include="Css\loginstyle.css" />
     <Content Include="Css\responsive.bootstrap.min.css" />
     <Content Include="Css\SMStyle.css" />
     <Content Include="Css\Style.css" />
@@ -2748,6 +2752,7 @@
     <Content Include="Views\Home\EditJobWorkDespatch.cshtml" />
     <Content Include="Views\Home\SelectWorkDespatch.cshtml" />
     <Content Include="Views\Home\EditJobWorkDespatchNew.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2757,7 +2762,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

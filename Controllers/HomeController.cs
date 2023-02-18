@@ -13,6 +13,8 @@ namespace Transactiondetails.Controllers
         {
             return View();
         }
+
+
         #region JobworkReceipt
         public ActionResult JobworkReceipt()
         {
