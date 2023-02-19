@@ -654,9 +654,6 @@ C:\Nilesh\Deploy\Transactiondetails\obj\Debug\Transactiondetails.csproj.CoreComp
 C:\Nilesh\Deploy\Transactiondetails\obj\Debug\Transactiondetails.csproj.CopyComplete
 C:\Nilesh\Deploy\Transactiondetails\obj\Debug\Transactiondetails.dll
 C:\Nilesh\Deploy\Transactiondetails\obj\Debug\Transactiondetails.pdb
-C:\Nilesh\Deploy\Fame\Fameplus1\obj\Debug\Transactiondetails.csproj.AssemblyReference.cache
-C:\Nilesh\Deploy\Fame\Fameplus1\obj\Debug\Transactiondetails.dll
-C:\Nilesh\Deploy\Fame\Fameplus1\obj\Debug\Transactiondetails.pdb
 C:\Nilesh\Deploy\Fame\Fameplus1\bin\Transactiondetails.dll.config
 C:\Nilesh\Deploy\Fame\Fameplus1\bin\Transactiondetails.dll
 C:\Nilesh\Deploy\Fame\Fameplus1\bin\Transactiondetails.pdb
@@ -736,5 +733,8 @@ C:\Nilesh\Deploy\Fame\Fameplus1\bin\System.Web.Webpages.Razor.xml
 C:\Nilesh\Deploy\Fame\Fameplus1\bin\System.Web.Helpers.xml
 C:\Nilesh\Deploy\Fame\Fameplus1\bin\System.Web.Mvc.xml
 C:\Nilesh\Deploy\Fame\Fameplus1\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Nilesh\Deploy\Fame\Fameplus1\obj\Debug\Transactiondetails.csproj.AssemblyReference.cache
 C:\Nilesh\Deploy\Fame\Fameplus1\obj\Debug\Transactiondetails.csproj.CoreCompileInputs.cache
 C:\Nilesh\Deploy\Fame\Fameplus1\obj\Debug\Transactiondetails.csproj.CopyComplete
+C:\Nilesh\Deploy\Fame\Fameplus1\obj\Debug\Transactiondetails.dll
+C:\Nilesh\Deploy\Fame\Fameplus1\obj\Debug\Transactiondetails.pdb
