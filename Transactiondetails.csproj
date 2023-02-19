@@ -2755,6 +2755,7 @@
     <Content Include="Views\Home\SelectWorkDespatch.cshtml" />
     <Content Include="Views\Home\EditJobWorkDespatchNew.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\CompanyDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

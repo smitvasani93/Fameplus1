@@ -22,6 +22,19 @@ namespace Transactiondetails.Controllers
         public ActionResult Login(string userName, string password)
         {
             FormsAuthentication.SetAuthCookie(userName,false);
+            return RedirectToAction("CompanyDetails", "Account");
+        }
+
+        public ActionResult CompanyDetails()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CompanyDetails(string CompanyName, string FinancialYear, string Branch)
+        {
+
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -32,4 +45,7 @@ namespace Transactiondetails.Controllers
             return RedirectToAction("Login", "Account");
         } 
     }
+
+
+
 }
