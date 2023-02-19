@@ -145,7 +145,11 @@
                                         <img src="~/assets/images/faces/1.jpg" alt="Face 1">
                                     </div>
                                     <div class="ms-3 name">
-                                        <a class="btn btn-primary me-1 mb-1" href="@Url.Action("Login", "account")"> Logout</a>
+
+                                        @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                                        {
+                                            <a class="btn btn-primary me-1 mb-1" onclick="document.forms[0].submit();">Logout</a>
+                                        }
                                     </div>
                                 </div>
                             </div>

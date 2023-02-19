@@ -2671,6 +2671,7 @@
     <Compile Include="Models\JobDespatchMa.cs">
       <DependentUpon>TransactionDetails.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\JobReceipt.cs" />
     <Compile Include="Models\JobReceiptDet.cs">
       <DependentUpon>TransactionDetails.tt</DependentUpon>
     </Compile>
@@ -2722,6 +2723,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TransactionDetails.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Utility\XmlUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

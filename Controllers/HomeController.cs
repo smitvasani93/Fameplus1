@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using Transactiondetails.Models;
+using Transactiondetails.Models.Utility;
+
+
 namespace Transactiondetails.Controllers
 {
+    [Authorize]
+
     public class HomeController : Controller
     {
         // GET: Home
@@ -60,12 +66,39 @@ namespace Transactiondetails.Controllers
                     jobRecieptMas.ReferenceDate = Convert.ToDateTime(referenceDate);
                     jobRecieptMas.EntryDate = DateTime.Now;
                     jobRecieptMas.ModiDate = DateTime.Now;
-                    db.JobReceiptMas.Add(jobRecieptMas);
-                    foreach (var item in lstjobReceiptDets)
+
+                    var jobRecipt = new JobReceipt();
+                    jobRecipt.JobReceiptMaster = jobRecieptMas;
+                    jobRecipt.JobReceiptDetails = lstjobReceiptDets;
+
+
+                    var xmlString = XmlUtility.Serialize(jobRecipt);
+
+                    var pxmlString = new SqlParameter("@xmlString", xmlString);
+
+                    //Call Stored Procedure to dump the xml to database
+                    var data = db.Database.SqlQuery<DatabaseResponse>("exec spJobReceiptAdd @xmlString", pxmlString);
+
+                    if (data != null)
                     {
-                        db.JobReceiptDets.Add(item);
+                        if (data.First().ErrorCode == "00")
+                        {
+                            var successMessage = new { message = "Success", error = "false" };
+                            return Json(successMessage, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            var failedMessage = new { message = "Failed", error = "True" };
+                            return Json(failedMessage, JsonRequestBehavior.AllowGet);
+                        }
                     }
-                    db.SaveChanges();
+
+                    //db.JobReceiptMas.Add(jobRecieptMas);
+                    //foreach (var item in lstjobReceiptDets)
+                    //{
+                    //    db.JobReceiptDets.Add(item);
+                    //}
+                    //db.SaveChanges();
                 }
                 else if (lstjobReceiptDets != null && !string.IsNullOrEmpty(TempData["serialNo"].ToString()))
                 {
