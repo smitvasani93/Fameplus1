@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Transactiondetails.ViewModels.CompanyViewModel
+
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -40,34 +42,106 @@
     <h3>Details</h3>
 
     <div>
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             <form>
                 <label for="fname">Company Name</label>
-                <select id="CompanyName" name="country">
-                    <option value="australia">Australia</option>
-                    <option value="canada">Canada</option>
-                    <option value="usa">USA</option>
-                </select>
 
-                <label for="lname">Financial Year</label>
-                <select id="FinancialYear" name="country">
-                    <option value="australia">Australia</option>
-                    <option value="canada">Canada</option>
-                    <option value="usa">USA</option>
-                </select>
+                @Html.DropDownListFor(model => model.Company, Model.Companys.Select(option => new SelectListItem
+           {
+               Text = (option == null ? "None" : option.CompanyName),
+               Value = option.CompanyCode.ToString(),
+               //Selected = (Model != null) && (option.CompanyCode == Model.CompanyCode)
+           }), "Select Company", new { @class = "form-control", @onchange = "FillFYBranch()" })
 
-                <label for="country">Branch</label>
-                <select id="Branch" name="country">
-                    <option value="australia">Australia</option>
-                    <option value="canada">Canada</option>
-                    <option value="usa">USA</option>
-                </select>
+                @*<select id="CompanyName" name="Company">
+                        <option value="australia">Australia</option>
+                        <option value="canada">Canada</option>
+                        <option value="usa">USA</option>
+                    </select>*@
 
-                <input type="submit" value="Submit">
+                <label for="FYear">Financial Year</label>
+
+                @Html.DropDownListFor(m => m.FYear,
+new SelectList(Enumerable.Empty<SelectListItem>(), "FinancialYearCode", "YearDescription"),
+      "Select Fin. Year",
+      new { @class = "form-control" })
+
+                <label for="Branch">Branch</label>
+
+                @Html.DropDownListFor(m => m.Branch,
+new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchShortName"),
+    "Select Branch",
+    new { @class = "form-control" })
+
+            <button type="submit" id="submit"   class="btn btn-sm btn-primary"> Submit </button>
             </form>
         }
-        </div>
+    </div>
 
 </body>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+
+
+    function FillFYBranch() {
+        var companyCode = $('#Company').val();
+
+        $.ajax({
+            url: '/Account/GetFYear',
+            type: "GET",
+            dataType: "JSON",
+            data: { CompanyCode: companyCode },
+            success: function (fyears) {
+                //$("#FYear").html(""); // clear before appending new list
+                $.each(fyears, function (i, fyear) {
+                    $("#FYear").append(
+                        $('<option></option>').val(fyear.FinancialYearCode).html(fyear.YearDescription));
+                });
+            }
+        });
+
+        $.ajax({
+            url: '/Account/GetBranch',
+            type: "GET",
+            dataType: "JSON",
+            data: { CompanyCode: companyCode },
+            success: function (branches) {
+                //$("#Branch").html(""); // clear before appending new list
+                $.each(branches, function (i, branch) {
+                    $("#Branch").append(
+                        $('<option></option>').val(branch.BranchCode).html(branch.BranchShortName));
+                });
+            }
+        });
+    }
+
+    $("#submit").click(function () {
+
+
+        if ($("#Company").val() == "") {
+
+            alert("Please select Company");
+            $("#Company").focus();
+            return false;
+        }
+
+
+        if ($("#FYear").val() == "") {
+
+            alert("Please select Fin. Year");
+            $("#FYear").focus();
+            return false;
+        }
+
+        if ($("#Branch").val() == "") {
+
+            alert("Please select Branch");
+            $("#Branch").focus();
+            return false;
+        }
+         
+        //return false;
+    });
+</script>
 </html>

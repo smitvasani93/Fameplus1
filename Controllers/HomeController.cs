@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Transactiondetails.Models;
 using Transactiondetails.Models.Utility;
-
+using Transactiondetails.ViewModels;
 
 namespace Transactiondetails.Controllers
 {
@@ -14,8 +14,15 @@ namespace Transactiondetails.Controllers
     public class HomeController : Controller
     {
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Index(CompanyViewModel companyViewModel)
         {
+            var userData = (UserData)Session["UserData"];
+            userData.Branch = companyViewModel.Branch;
+            userData.FYear = companyViewModel.FYear;    
+            userData.Company = companyViewModel.Company;
+
+            Session["UserData"] = userData;
+
             return View();
         }
 

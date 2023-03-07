@@ -288,15 +288,29 @@
                             dataType: "json",
                             success: function (r) {
                                 console.log(r);
+                                if (r.error == "True") {
 
-                                swal({
-                                    title: "Success",
-                                    text: "You saved successfully!",
-                                    type: "success"
-                                }).then(function () {
-                                    //window.location = "redirectURL";
-                                    location.reload();
-                                });
+                                    swal({
+                                        title: "Failed",
+                                        text: "Error Occured!!!",
+                                        type: "failed"
+                                    })
+                                    return false;
+                                }
+
+                                else {
+
+                                    swal({
+                                        title: "Success",
+                                        text: "You saved successfully!",
+                                        type: "success"
+                                    }).then(function () {
+                                        //window.location = "redirectURL";
+                                        location.reload();
+                                    });
+                                }
+
+                             
 
 
                             },
