@@ -43,12 +43,11 @@ namespace Transactiondetails.Models.Utility
         public List<FYear> FYearList(string companyCode)
         {
             var fYearList = new List<FYear>();
-            //using (CompanyDBContext db = new CompanyDBContext(companyCode))
-            using (GenDBContext db = new GenDBContext())
-
+            using (CompanyDBContext db = new CompanyDBContext(companyCode))
+            //using (GenDBContext db = new GenDBContext())
             {
                 //Call Stored Procedure to dump the xml to database
-                fYearList = db.Database.SqlQuery<FYear>("exec sp_FinancialViewLoad").ToList();
+                fYearList = db.Database.SqlQuery<FYear>("exec sp_FinancialViewLoad")?.ToList();
             }
 
             return fYearList;

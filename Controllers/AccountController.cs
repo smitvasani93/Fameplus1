@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.Security;
 using Transactiondetails.DBModels;
 using Transactiondetails.Models.Utility;
@@ -37,17 +38,26 @@ namespace Transactiondetails.Controllers
             var vm = new CompanyViewModel();
             var dbutility = new DBUtility();
             var componyList = dbutility.CompanyList();
-            vm.Companys= componyList;
-           return View(vm);
+            vm.Companys = componyList;
+            return View(vm);
         }
 
         public ActionResult GetFYear(string CompanyCode)
         {
             var fYear = new FYear();
             var dbutility = new DBUtility();
-            var fYearList = dbutility.FYearList(CompanyCode);
 
-            return Json(fYearList, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var fYearList = dbutility.FYearList(CompanyCode);
+                return Json(fYearList, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+
+            return Json("", JsonRequestBehavior.AllowGet);
 
             //return View(fYearList);
         }
