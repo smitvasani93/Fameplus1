@@ -20,17 +20,34 @@ namespace Transactiondetails.Controllers
             userData.Branch = companyViewModel.Branch;
             userData.FYear = companyViewModel.FYear;    
             userData.Company = companyViewModel.Company;
+            userData.CompanyName = companyViewModel.CompanyName;
+            userData.FYearName= companyViewModel.FYearName;
+            userData.BranchName = companyViewModel.BranchName;
 
-            Session["UserData"] = userData;
+           Session["UserData"] = userData;
 
-            return View();
+            return View(companyViewModel);
         }
 
 
         #region JobworkReceipt
         public ActionResult JobworkReceipt()
         {
-            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+
+            //var dbutility = new DBUtility();
+
+            //try
+            //{
+            //    var fYearList = dbutility.FYearList(CompanyCode);
+            //    return Json(fYearList, JsonRequestBehavior.AllowGet);
+            //}
+            //catch (Exception ex)
+            //{
+            //    string message = ex.Message;
+            //}
+
+
+            using (TransactionDetailsEntities2 db = new TransactionDetailsEntities2())
             {
                 var recieptNo = db.JobReceiptMas.Max(a => a.SerialNumber);
                 recieptNo++;

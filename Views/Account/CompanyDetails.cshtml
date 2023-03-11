@@ -44,38 +44,41 @@
     <div>
         @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
-            <form>
-                <label for="fname">Company Name</label>
 
-                @Html.DropDownListFor(model => model.Company, Model.Companys.Select(option => new SelectListItem
-           {
-               Text = (option == null ? "None" : option.CompanyName),
-               Value = option.CompanyCode.ToString(),
-               //Selected = (Model != null) && (option.CompanyCode == Model.CompanyCode)
-           }), "Select Company", new { @class = "form-control", @onchange = "FillFYBranch()" })
+            <label for="fname">Company Name</label>
 
-                @*<select id="CompanyName" name="Company">
-                        <option value="australia">Australia</option>
-                        <option value="canada">Canada</option>
-                        <option value="usa">USA</option>
-                    </select>*@
+            @Html.DropDownListFor(model => model.Company, Model.Companys.Select(option => new SelectListItem
+       {
+           Text = (option == null ? "None" : option.CompanyName),
+           Value = option.CompanyCode.ToString(),
+           //Selected = (Model != null) && (option.CompanyCode == Model.CompanyCode)
+       }), "Select Company", new { @class = "form-control", @onchange = "FillFYBranch()" })
 
-                <label for="FYear">Financial Year</label>
+            @*<select id="CompanyName" name="Company">
+                <option value="australia">Australia</option>
+                <option value="canada">Canada</option>
+                <option value="usa">USA</option>
+            </select>*@
 
-                @Html.DropDownListFor(m => m.FYear,
+            <label for="FYear">Financial Year</label>
+
+            @Html.DropDownListFor(m => m.FYear,
 new SelectList(Enumerable.Empty<SelectListItem>(), "FinancialYearCode", "YearDescription"),
-      "Select Fin. Year",
-      new { @class = "form-control" })
+  "Select Fin. Year",
+  new { @class = "form-control" })
 
-                <label for="Branch">Branch</label>
+            <label for="Branch">Branch</label>
 
-                @Html.DropDownListFor(m => m.Branch,
+            @Html.DropDownListFor(m => m.Branch,
 new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchShortName"),
-    "Select Branch",
-    new { @class = "form-control" })
+"Select Branch",
+new { @class = "form-control" })
 
-            <button type="submit" id="submit"   class="btn btn-sm btn-primary"> Submit </button>
-            </form>
+            @Html.HiddenFor(x => x.CompanyName)
+            @Html.HiddenFor(x => x.FYearName)
+            @Html.HiddenFor(x => x.BranchName)
+            <button type="submit" id="submit" class="btn btn-sm btn-primary"> Submit </button>
+
         }
     </div>
 
@@ -140,7 +143,11 @@ new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchShortNam
             $("#Branch").focus();
             return false;
         }
-         
+
+        $("#CompanyName").val($("#Company option:selected").text());
+        $("#BranchName").val($("#Branch option:selected").text());
+        $("#FYearName").val($("#FYear option:selected").text());
+
         //return false;
     });
 </script>

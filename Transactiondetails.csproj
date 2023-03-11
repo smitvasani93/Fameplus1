@@ -2729,6 +2729,7 @@
     </Compile>
     <Compile Include="Models\Utility\CompanyDBContext.cs" />
     <Compile Include="Models\Utility\DBUtility.cs" />
+    <Compile Include="Models\Utility\EncodeData.cs" />
     <Compile Include="Models\Utility\GenDBContext.cs" />
     <Compile Include="Models\Utility\XmlUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

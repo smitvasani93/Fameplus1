@@ -56,8 +56,8 @@ namespace Transactiondetails.Models.Utility
         public List<Branch> BranchList(string companyCode)
         {
             var branchList = new List<Branch>();
-            // using (CompanyDBContext db = new CompanyDBContext(companyCode))
-            using (GenDBContext db = new GenDBContext())
+             using (CompanyDBContext db = new CompanyDBContext(companyCode))
+            //using (GenDBContext db = new GenDBContext())
             {
                 //Call Stored Procedure to dump the xml to database
                 branchList = db.Database.SqlQuery<Branch>("exec sp_BranchNameViewLoad").ToList();
@@ -65,6 +65,9 @@ namespace Transactiondetails.Models.Utility
 
             return branchList;
         }
+
+
+
     }
 
 }
