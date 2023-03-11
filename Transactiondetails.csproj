@@ -25,6 +25,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,6 +68,7 @@
     <Reference Include="Syncfusion.Licensing, Version=19.2460.0.49, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <HintPath>packages\Syncfusion.Licensing.19.2.0.49\lib\net46\Syncfusion.Licensing.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -75,16 +77,14 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Razor">
@@ -113,8 +113,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".gitattributes" />
-    <Content Include=".gitignore" />
     <Content Include="ajscript\JobWorkRececipt\ajJobworkreceiptController.js" />
     <Content Include="ajscript\JobWorkRececipt\ajJobworkreceiptService.js" />
     <Content Include="assets\css\app.css" />
@@ -131,6 +129,7 @@
     <Content Include="assets\css\pages\email.rtl.css" />
     <Content Include="assets\css\pages\error.css" />
     <Content Include="assets\css\pages\error.rtl.css" />
+    <Content Include="assets\css\style.css" />
     <Content Include="assets\css\widgets\chat.css" />
     <Content Include="assets\css\widgets\chat.rtl.css" />
     <Content Include="assets\css\widgets\todo.css" />
@@ -160,34 +159,13 @@
     <Content Include="assets\images\samples\motorcycle.jpg" />
     <Content Include="assets\images\samples\origami.jpg" />
     <Content Include="assets\images\samples\water.jpg" />
-    <Content Include="assets\img\apple-touch-icon.png" />
-    <Content Include="assets\img\card.jpg" />
-    <Content Include="assets\img\favicon.png" />
-    <Content Include="assets\img\logo.png" />
-    <Content Include="assets\img\messages-1.jpg" />
-    <Content Include="assets\img\messages-2.jpg" />
-    <Content Include="assets\img\messages-3.jpg" />
-    <Content Include="assets\img\news-1.jpg" />
-    <Content Include="assets\img\news-2.jpg" />
-    <Content Include="assets\img\news-3.jpg" />
-    <Content Include="assets\img\news-4.jpg" />
-    <Content Include="assets\img\news-5.jpg" />
-    <Content Include="assets\img\not-found.svg" />
-    <Content Include="assets\img\product-1.jpg" />
-    <Content Include="assets\img\product-2.jpg" />
-    <Content Include="assets\img\product-3.jpg" />
-    <Content Include="assets\img\product-4.jpg" />
-    <Content Include="assets\img\product-5.jpg" />
-    <Content Include="assets\img\profile-img.jpg" />
-    <Content Include="assets\img\slides-1.jpg" />
-    <Content Include="assets\img\slides-2.jpg" />
-    <Content Include="assets\img\slides-3.jpg" />
     <Content Include="assets\js\bootstrap.bundle.min.js" />
     <Content Include="assets\js\bootstrap.min.js" />
     <Content Include="assets\js\extensions\rater-js.js" />
     <Content Include="assets\js\extensions\sweetalert2.js" />
     <Content Include="assets\js\extensions\toastify.js" />
     <Content Include="assets\js\main.js" />
+    <Content Include="assets\js\main1.js" />
     <Content Include="assets\js\pages\dashboard.js" />
     <Content Include="assets\js\pages\form-editor.js" />
     <Content Include="assets\js\pages\form-element-select.js" />
@@ -3041,7 +3019,6 @@
     </Compile>
     <Compile Include="Models\Utility\CompanyDBContext.cs" />
     <Compile Include="Models\Utility\DBUtility.cs" />
-    <Compile Include="Models\Utility\EncodeData.cs" />
     <Compile Include="Models\Utility\GenDBContext.cs" />
     <Compile Include="Models\Utility\XmlUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,116 +3,46 @@
 @{
     Layout = null;
 }
-<!DOCTYPE html>
-<html>
-    <haed>
-        <link rel="stylesheet" href="~/Css/responsive.bootstrap.min.css">
-        <style>
 
-            * {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-                font-family: Raleway, sans-serif;
+
+<div class="container">
+    <div class="screen">
+        <div class="screen__content">
+            @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+
+                <label for="fname">Company Name</label>
+
+                @Html.DropDownListFor(model => model.Company, Model.Companys.Select(option => new SelectListItem
+                {
+                   Text = (option == null ? "None" : option.CompanyName),
+                   Value = option.CompanyCode.ToString(),
+                   //Selected = (Model != null) && (option.CompanyCode == Model.CompanyCode)
+                }), "Select Company", new { @class = "form-control", @onchange = "FillFYBranch()" })
+
+                <label for="FYear">Financial Year</label>
+
+                @Html.DropDownListFor(m => m.FYear, new SelectList(Enumerable.Empty<SelectListItem>(), "FinancialYearCode", "YearDescription"), "Select Fin. Year", new { @class = "form-control" })
+
+                <label for="Branch">Branch</label>
+
+                @Html.DropDownListFor(m => m.Branch,
+                    new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchShortName"),
+                    "Select Branch",
+                    new { @class = "form-control" })
+
+                @Html.HiddenFor(x => x.CompanyName)
+                @Html.HiddenFor(x => x.FYearName)
+                @Html.HiddenFor(x => x.BranchName)
+
+                <button type="submit" id="submit" class="btn btn-primary" style="margin-top:10px!important;"> Submit </button>
+
             }
-            body {
-                background: linear-gradient(90deg, #C7C5F4, #776BCC);
-            }
-
-            input[type=text], select {
-                width: 100%;
-                padding: 12px 20px;
-                margin: 8px 0;
-                display: inline-block;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                box-sizing: border-box;
-            }
-
-            input[type=submit] {
-                width: 100%;
-                background-color: #4CAF50;
-                color: white;
-                padding: 14px 20px;
-                margin: 8px 0;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-
-            input[type=submit]:hover {
-                background-color: #45a049;
-            }
-
-            .container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-            }
-
-            .screen {
-                position: relative;
-                width: 400px;
-                box-shadow: 0px 0px 24px #5C5696;
-            }
-
-            .screen__content {
-                z-index: 1;
-                position: relative;
-            }
-
-            div {
-                border-radius: 5px;
-                background-color: #f2f2f2;
-                padding: 20px;
-            }
-            
-        </style>
-    </haed>
-
-    <body>
-
-        <div class="container">
-            <div class="screen">
-                <div class="screen__content">
-                    @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-
-                        <label for="fname">Company Name</label>
-
-                        @Html.DropDownListFor(model => model.Company, Model.Companys.Select(option => new SelectListItem
-                        {
-                           Text = (option == null ? "None" : option.CompanyName),
-                           Value = option.CompanyCode.ToString(),
-                           //Selected = (Model != null) && (option.CompanyCode == Model.CompanyCode)
-                        }), "Select Company", new { @class = "form-control", @onchange = "FillFYBranch()" })
-
-                        <label for="FYear">Financial Year</label>
-
-                        @Html.DropDownListFor(m => m.FYear, new SelectList(Enumerable.Empty<SelectListItem>(), "FinancialYearCode", "YearDescription"), "Select Fin. Year", new { @class = "form-control" })
-
-                        <label for="Branch">Branch</label>
-
-                        @Html.DropDownListFor(m => m.Branch,
-                            new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchShortName"),
-                            "Select Branch",
-                            new { @class = "form-control" })
-
-                        @Html.HiddenFor(x => x.CompanyName)
-                        @Html.HiddenFor(x => x.FYearName)
-                        @Html.HiddenFor(x => x.BranchName)
-
-                        <button type="submit" id="submit" class="btn btn-sm btn-primary"> Submit </button>
-
-                    }
-                </div>
-            </div>
         </div>
-</body>
+    </div>
+</div>
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-
 <script type="text/javascript">
 
 
@@ -180,4 +110,69 @@
         //return false;
     });
 </script>
-</html>
+
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+<!-- Vendor CSS Files -->
+<link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Template Main CSS File -->
+<link href="~/assets/css/style.css" rel="stylesheet">
+<style type="text/css">
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Raleway, sans-serif;
+    }
+
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    .screen {
+        position: relative;
+        width: 400px;
+        box-shadow: 0px 0px 24px #5C5696;
+    }
+
+    .screen__content {
+        z-index: 1;
+        position: relative;
+    }
+
+    div {
+        border-radius: 5px;
+        /*background-color: #f2f2f2;*/
+        padding: 20px;
+    }
+</style>
