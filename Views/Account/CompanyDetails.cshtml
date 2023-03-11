@@ -67,6 +67,19 @@
                 background-color: #f2f2f2;
                 padding: 20px;
             }
+
+            .button {
+                background-color: #0d6efd;
+                border: none;
+                color: white;
+                padding: 10px 135px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin-top: 40px;
+                cursor: pointer;
+            }
             
         </style>
     </haed>
@@ -76,7 +89,7 @@
         <div class="container">
             <div class="screen">
                 <div class="screen__content">
-                    @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    @using (Html.BeginForm("JobworkReceipt", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
 
                         <label for="fname">Company Name</label>
@@ -103,7 +116,7 @@
                         @Html.HiddenFor(x => x.FYearName)
                         @Html.HiddenFor(x => x.BranchName)
 
-                        <button type="submit" id="submit" class="btn btn-sm btn-primary"> Submit </button>
+                        <button type="submit" id="submit" class="button"> Submit </button>
 
                     }
                 </div>
