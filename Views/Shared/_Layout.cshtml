@@ -1,13 +1,13 @@
-﻿@model Transactiondetails.ViewModels.CompanyViewModel
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+﻿<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction Details</title>
 
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="~/assets/vendors/iconly/bold.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/assets/css/bootstrap.css">
     <link rel="stylesheet" href="~/assets/vendors/iconly/bold.css">
@@ -17,14 +17,40 @@
     <link rel="stylesheet" href="~/assets/css/app.css">
     <link rel="shortcut icon" href="~/assets/images/favicon.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="~/assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/assets/css/app.css">
+    <link rel="shortcut icon" href="~/assets/images/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link href="~/Css/SMStyle.css" rel="stylesheet" />
+
+    <title>Dashboard</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/assets/img/favicon.png" rel="icon">
+    <link href="~/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+     @*Google Fonts*@ 
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+     @*Vendor CSS Files*@ 
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="~/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="~/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="~/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+     @*Template Main CSS File*@ 
+    <link href="~/assets/css/style.css" rel="stylesheet">
     <!-- AngularJs-->
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/ajscript/JobWorkRececipt/ajJobworkreceiptService.js"></script>
-    <script src="~/ajscript/JobWorkRececipt/ajJobworkreceiptController.js"></script>
-
-    <link href="~/Css/Style.css" rel="stylesheet" />
 
     <!--Test datatable -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -33,142 +59,231 @@
     <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
 
 
-
-    <!--Test datatable -->
-    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.11.3/sorting/datetime-moment.js"></script>
-
-    <!--Multi Select -->
-    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">*@
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-
-
 </head>
 
 <body ng-app="myApp" ng-controller="JobWorkReceiptCtrl" ng-init="">
+
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="index.html" class="logo d-flex align-items-center">
+                <img src="assets/img/logo.png" alt="">
+                <span class="d-none d-lg-block">RACE</span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div>
+    </header>
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Reciept-nav" data-bs-toggle="collapse" href="/Home/JobworkReceipt">
+                    <i class="bi bi-menu-button-wide"></i><span>Job Reciept</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Despatch-nav" data-bs-toggle="collapse" href="/Home/JobWorkDespatch">
+                    <i class="bi bi-journal-text"></i><span>Job Despatch</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Billing-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Job Billing</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Billing-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>Form Elements</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </aside>
+
+
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Dashboard</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </nav>
+        </div>
+        <!-- End Page Title -->
+        <section class="section dashboard">
+            @RenderBody()
+        </section>
+    </main>
+    <script src="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+
+<!--<body ng-app="myApp" ng-controller="JobWorkReceiptCtrl" ng-init="">
     <div id="app">
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header">
 
+
                 </div>
                 <div class="sidebar-menu">
                     <ul class="menu">
-
-                        <li class="sidebar-item active ">
-                            <a href="/Home/Index" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Transaction Details</span>
-                            </a>
+                        <span>Job Despatch</span>
+                        </a>
                         </li>
                         <li class="sidebar-item  ">
-                            <a href="/Home/JobworkReceipt" class='sidebar-link'>
+                            <a href="" class='sidebar-link'>
                                 <i class="bi bi-file-earmark-medical-fill"></i>
-                                <span>Job Reciept</span>
+                                <span>Job Billing</span>
                             </a>
                         </li>
-
-
-
-                        <li class="sidebar-item  ">
-                            <a href="/Home/JobWorkDespatch" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-medical-fill"></i>
-                                <span>Job Despatch</span>
-                            </a>
-                        </li>
-
-                        @*<li class="sidebar-item  ">
-                                <a href="" class='sidebar-link'>
-                                    <i class="bi bi-file-earmark-medical-fill"></i>
-                                    <span>Job Billing</span>
-                                </a>
-                            </li>*@
                         <li class="sidebar-item  ">
                             <a href="/Home/Test" class='sidebar-link'>
                                 <i class="bi bi-file-earmark-medical-fill"></i>
                                 <span>Test</span>
                             </a>
-                        </li>
+                        </li>-->
+@*<li class="sidebar-item  ">
+        <a href="" class='sidebar-link'>
+            <i class="bi bi-file-earmark-medical-fill"></i>
+            <span>Job Billing</span>
+        </a>
+    </li>*@
+<!--<li class="sidebar-item  ">
+                    <a href="/Home/Test" class='sidebar-link'>
+                        <i class="bi bi-file-earmark-medical-fill"></i>
+                        <span>Test</span>
+                    </a>
+                </li>
 
-                    </ul>
-                </div>
-                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-            </div>
+            </ul>
         </div>
-        <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
+        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+        </ul>
+    </div>
+    <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+</div>
+<div id="main">
+    <header class="mb-3">
+        <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
 
-            <div class="page-heading">
-                <h3>Transaction Details</h3>
-            </div>
-            <div class="page-content">
-                <section class="row" style="width: 119%;">
-                    <div class="col-12 col-lg-9">
-                        <div class="row">
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <button type="submit" class="btn btn-primary me-1 mb-1">Home</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-
-                                    @RenderBody()
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-12 col-lg-3" style="margin-left: -251px;">
+    <div class="page-heading">
+        <h3>Transaction Details</h3>
+    </div>
+    <div class="page-content">
+        <section class="row" style="width: 119%;">
+            <div class="col-12 col-lg-9">
+                <div class="row">
+                    <div class="col-6 col-lg-3 col-md-6">
                         <div class="card">
-                            <div class="card-body py-4 px-5">
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar avatar-xl">
-                                        <img src="~/assets/images/faces/1.jpg" alt="Face 1">
-                                    </div>
-                                    <div class="ms-3 name">
-
-                                        @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
-                                        {
-                                            <a class="btn btn-primary me-1 mb-1" onclick="document.forms[0].submit();">Logout</a>
-                                        }
-                                    </div>
-                                </div>
+                            <div class="card-body px-3 py-4-5">
+                                <button type="submit" class="btn btn-primary me-1 mb-1">Home</button>
                             </div>
                         </div>
+                        <div id="main">
+                            <header class="mb-3">
+                                <a href="#" class="burger-btn d-block d-xl-none">
+                                    <i class="bi bi-justify fs-3"></i>
+                                </a>
+                            </header>
 
-                    </div>
-                </section>
-            </div>
+                            <div class="page-heading">
+                                <h3>Transaction Details</h3>
+                            </div>
+                            <div class="page-content">
+                                <section class="row" style="width: 119%;">
+                                    <div class="col-12 col-lg-9">
+                                        <div class="row">
+                                            <div class="col-6 col-lg-3 col-md-6">
+                                                <div class="card">
+                                                    <div class="card-body px-3 py-4-5">
+                                                        <button type="submit" class="btn btn-primary me-1 mb-1">Home</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="card">
+
+                                                        RenderBody()
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            RenderBody()
+                                                            //render boody-----------------
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-12 col-lg-3" style="margin-left: -251px;">
+                                                    <div class="card">
+                                                        <div class="card-body py-4 px-5">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-xl">
+                                                                    <img src="~/assets/images/faces/1.jpg" alt="Face 1">
+                                                                </div>
+                                                                <div class="ms-3 name">
+
+                                                                    using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                                                                    {
+                                                        <a class="btn btn-primary me-1 mb-1" onclick="document.forms[0].submit();">Logout</a>}
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-12 col-lg-3" style="margin-left: -251px;">
+                                                                <div class="card">
+                                                                    <div class="card-body py-4 px-5">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <div class="avatar avatar-xl">
+                                                                                <img src="~/assets/images/faces/1.jpg" alt="Face 1">
+                                                                            </div>
+                                                                            <div class="ms-3 name">
 
 
-        </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                </section>
+                            </div>
+
+
+                        </div>
+        </section>
+    </div>
+</div>
+<script src="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="~/assets/js/bootstrap.bundle.min.js"></script>-->
+@*<script src="~/assets/vendors/apexcharts/apexcharts.js"></script>*@
+@*<script src="~/assets/js/pages/dashboard.js"></script>*@
+
+@*<script src="~/assets/js/main.js"></script>*@
+<!--</div>
     </div>
     <script src="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
 
-    @*<script src="~/assets/vendors/apexcharts/apexcharts.js"></script>*@
-    @*<script src="~/assets/js/pages/dashboard.js"></script>*@
+</body>-->
 
-    @*<script src="~/assets/js/main.js"></script>*@
-</body>
 
 </html>

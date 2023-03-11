@@ -5,3 +5,7 @@ obj/Debug/Transactiondetails.csproj.CoreCompileInputs.cache
 obj/Debug/*
 *.dll
 *.pdb
+bin/Transactiondetails.pdb
+*.dll
+*.pdb
+*.cache

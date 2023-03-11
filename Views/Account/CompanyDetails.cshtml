@@ -5,85 +5,114 @@
 }
 <!DOCTYPE html>
 <html>
-<style>
-    input[type=text], select {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
+    <haed>
+        <link rel="stylesheet" href="~/Css/responsive.bootstrap.min.css">
+        <style>
 
-    input[type=submit] {
-        width: 100%;
-        background-color: #4CAF50;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: Raleway, sans-serif;
+            }
+            body {
+                background: linear-gradient(90deg, #C7C5F4, #776BCC);
+            }
 
-        input[type=submit]:hover {
-            background-color: #45a049;
-        }
+            input[type=text], select {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
 
-    div {
-        border-radius: 5px;
-        background-color: #f2f2f2;
-        padding: 20px;
-    }
-</style>
-<body>
+            input[type=submit] {
+                width: 100%;
+                background-color: #4CAF50;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
 
-    <h3>Details</h3>
+            input[type=submit]:hover {
+                background-color: #45a049;
+            }
 
-    <div>
-        @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
+            .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+            }
 
-            <label for="fname">Company Name</label>
+            .screen {
+                position: relative;
+                width: 400px;
+                box-shadow: 0px 0px 24px #5C5696;
+            }
 
-            @Html.DropDownListFor(model => model.Company, Model.Companys.Select(option => new SelectListItem
-       {
-           Text = (option == null ? "None" : option.CompanyName),
-           Value = option.CompanyCode.ToString(),
-           //Selected = (Model != null) && (option.CompanyCode == Model.CompanyCode)
-       }), "Select Company", new { @class = "form-control", @onchange = "FillFYBranch()" })
+            .screen__content {
+                z-index: 1;
+                position: relative;
+            }
 
-            @*<select id="CompanyName" name="Company">
-                <option value="australia">Australia</option>
-                <option value="canada">Canada</option>
-                <option value="usa">USA</option>
-            </select>*@
+            div {
+                border-radius: 5px;
+                background-color: #f2f2f2;
+                padding: 20px;
+            }
+            
+        </style>
+    </haed>
 
-            <label for="FYear">Financial Year</label>
+    <body>
 
-            @Html.DropDownListFor(m => m.FYear,
-new SelectList(Enumerable.Empty<SelectListItem>(), "FinancialYearCode", "YearDescription"),
-  "Select Fin. Year",
-  new { @class = "form-control" })
+        <div class="container">
+            <div class="screen">
+                <div class="screen__content">
+                    @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
 
-            <label for="Branch">Branch</label>
+                        <label for="fname">Company Name</label>
 
-            @Html.DropDownListFor(m => m.Branch,
-new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchShortName"),
-"Select Branch",
-new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Company, Model.Companys.Select(option => new SelectListItem
+                        {
+                           Text = (option == null ? "None" : option.CompanyName),
+                           Value = option.CompanyCode.ToString(),
+                           //Selected = (Model != null) && (option.CompanyCode == Model.CompanyCode)
+                        }), "Select Company", new { @class = "form-control", @onchange = "FillFYBranch()" })
 
-            @Html.HiddenFor(x => x.CompanyName)
-            @Html.HiddenFor(x => x.FYearName)
-            @Html.HiddenFor(x => x.BranchName)
-            <button type="submit" id="submit" class="btn btn-sm btn-primary"> Submit </button>
+                        <label for="FYear">Financial Year</label>
 
-        }
-    </div>
+                        @Html.DropDownListFor(m => m.FYear, new SelectList(Enumerable.Empty<SelectListItem>(), "FinancialYearCode", "YearDescription"), "Select Fin. Year", new { @class = "form-control" })
 
+                        <label for="Branch">Branch</label>
+
+                        @Html.DropDownListFor(m => m.Branch,
+                            new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchShortName"),
+                            "Select Branch",
+                            new { @class = "form-control" })
+
+                        @Html.HiddenFor(x => x.CompanyName)
+                        @Html.HiddenFor(x => x.FYearName)
+                        @Html.HiddenFor(x => x.BranchName)
+
+                        <button type="submit" id="submit" class="btn btn-sm btn-primary"> Submit </button>
+
+                    }
+                </div>
+            </div>
+        </div>
 </body>
+
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
 <script type="text/javascript">
 
 
