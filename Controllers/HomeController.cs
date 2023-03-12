@@ -47,7 +47,7 @@ namespace Transactiondetails.Controllers
             //}
 
 
-            using (TransactionDetailsEntities2 db = new TransactionDetailsEntities2())
+            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
             {
                 var recieptNo = db.JobReceiptMas.Max(a => a.SerialNumber);
                 recieptNo++;

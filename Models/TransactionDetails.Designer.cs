@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Farshad\Transactiondetails\Models\TransactionDetails.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\MyProject\Fameplus1\Models\TransactionDetails.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

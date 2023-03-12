@@ -9,3 +9,10 @@ bin/Transactiondetails.pdb
 *.dll
 *.pdb
 *.cache
+bin/Transactiondetails.dll
+bin/Transactiondetails.dll.config
+bin/Transactiondetails.pdb
+.vs/Transactiondetails/config/applicationhost.config
+.vs/Transactiondetails/v16/.suo
+.vs/Transactiondetails/config/applicationhost.config
+.vs/Transactiondetails/v16/.suo
