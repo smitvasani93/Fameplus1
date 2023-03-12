@@ -18,13 +18,13 @@ namespace Transactiondetails.Controllers
         {
             var userData = (UserData)Session["UserData"];
             userData.Branch = companyViewModel.Branch;
-            userData.FYear = companyViewModel.FYear;    
+            userData.FYear = companyViewModel.FYear;
             userData.Company = companyViewModel.Company;
             userData.CompanyName = companyViewModel.CompanyName;
-            userData.FYearName= companyViewModel.FYearName;
+            userData.FYearName = companyViewModel.FYearName;
             userData.BranchName = companyViewModel.BranchName;
 
-           Session["UserData"] = userData;
+            Session["UserData"] = userData;
 
             return View(companyViewModel);
         }
@@ -33,34 +33,26 @@ namespace Transactiondetails.Controllers
         #region JobworkReceipt
         public ActionResult JobworkReceipt()
         {
+            var dbutility = new JobReceiptDataLayer();
 
-            //var dbutility = new DBUtility();
-
-            //try
-            //{
-            //    var fYearList = dbutility.FYearList(CompanyCode);
-            //    return Json(fYearList, JsonRequestBehavior.AllowGet);
-            //}
-            //catch (Exception ex)
-            //{
-            //    string message = ex.Message;
-            //}
-
-
-            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+            try
             {
-                var recieptNo = db.JobReceiptMas.Max(a => a.SerialNumber);
+                var userData = (UserData)Session["UserData"];
+
+                var jobReciept = dbutility.GetJobReciept(userData.Company, userData.FYear);
+                var recieptNo = jobReciept.JobReciepts.Max(a => a.SerialNumber);
                 recieptNo++;
                 TempData["recieptNo"] = recieptNo;
-                var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
-                var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
-                List<sp_GetSearchData_Result> lstGetSearchData = new List<sp_GetSearchData_Result>();
-                lstGetSearchData = db.sp_GetSearchData().ToList();
-                ViewBag.Search = lstGetSearchData;
-                ViewBag.Process = processList;
-                ViewBag.Customer = customerList;
-                return View();
+                ViewBag.Search = jobReciept.JobReciepts;
+                ViewBag.Process = jobReciept.Processes;
+                ViewBag.Customer = jobReciept.Accounts;
             }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+
+            return View();
         }
         [HttpPost]
         public PartialViewResult EditJobworkReceipt(int serialNo)
@@ -109,8 +101,8 @@ namespace Transactiondetails.Controllers
                         //Call Stored Procedure to dump the xml to database
                         var data = db.Database.SqlQuery<DatabaseResponse>("exec spJobReceiptAdd @xmlString", pxmlString);
 
-                    
-                    if (data != null)
+
+                        if (data != null)
                         {
                             if (data.First().ErrorCode == "00")
                             {
