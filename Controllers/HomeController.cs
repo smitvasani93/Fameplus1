@@ -33,7 +33,7 @@ namespace Transactiondetails.Controllers
         #region JobworkReceipt
         public ActionResult JobworkReceipt()
         {
-
+            ViewBag.Menu = "JobworkReceipt";
             //var dbutility = new DBUtility();
 
             //try
@@ -179,6 +179,7 @@ namespace Transactiondetails.Controllers
         #region JobWorkDespatch
         public ActionResult JobWorkDespatch()
         {
+            ViewBag.Menu = "JobWorkDespatch";
             using (TransactionDetailsEntities db = new TransactionDetailsEntities())
             {
                 List<sp_GetCustomers_Result> lstGetCustomerData = new List<sp_GetCustomers_Result>();
