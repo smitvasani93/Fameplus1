@@ -2967,9 +2967,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DBModels\AccountMaster.cs" />
     <Compile Include="DBModels\Branch.cs" />
     <Compile Include="DBModels\Company.cs" />
     <Compile Include="DBModels\FYear.cs" />
+    <Compile Include="DBModels\JobRecieptData.cs" />
+    <Compile Include="DBModels\JobRecieptMaster.cs" />
+    <Compile Include="DBModels\ProcessMaster.cs" />
     <Compile Include="DBModels\System3.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -3044,6 +3048,7 @@
     <Compile Include="Models\Utility\CompanyDBContext.cs" />
     <Compile Include="Models\Utility\DBUtility.cs" />
     <Compile Include="Models\Utility\GenDBContext.cs" />
+    <Compile Include="Models\Utility\JobReceiptDataLayer.cs" />
     <Compile Include="Models\Utility\XmlUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CompanyViewModel.cs" />
