@@ -16,14 +16,13 @@ namespace Transactiondetails.Controllers
         // GET: Home
         public ActionResult Index(CompanyViewModel companyViewModel)
         {
-            var userData = (UserData)Session["UserData"];
+            var userData = (UserData) Session["UserData"];
             userData.Branch = companyViewModel.Branch;
             userData.FYear = companyViewModel.FYear;
             userData.Company = companyViewModel.Company;
             userData.CompanyName = companyViewModel.CompanyName;
             userData.FYearName = companyViewModel.FYearName;
             userData.BranchName = companyViewModel.BranchName;
-
             Session["UserData"] = userData;
 
             return View(companyViewModel);

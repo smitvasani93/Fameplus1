@@ -1,0 +1,38 @@
+﻿@using Transactiondetails.ViewModels
+@{ 
+    var userdata = (UserData)Session["UserData"];
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body pt-3">
+                <!-- Bordered Tabs -->
+                @*<h5 class="card-title">About</h5>
+                    <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+
+                    <h5 class="card-title">Profile Details</h5>*@
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 label ">User Name</div>
+                    <div class="col-lg-3 col-md-3">@userdata.UserName</div>
+                    <div class="col-lg-3 col-md-3 label">Company</div>
+                    <div class="col-lg-3 col-md-3">@userdata.CompanyName</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 label">Financial Year</div>
+                    <div class="col-lg-3 col-md-3">@userdata.FYearName</div>
+                    <div class="col-lg-3 col-md-3 label">Branch</div>
+                    <div class="col-lg-3 col-md-3">@userdata.BranchName</div>
+                </div>
+
+                @*<div class="row">
+                    <div class="col-lg-3 col-md-3 label">Login Date Time</div>
+                    <div class="col-lg-3 col-md-3">A108 Adam Street, New York, NY 535022</div>
+                </div>*@
+
+            </div>
+        </div>
+    </div>
+</div>

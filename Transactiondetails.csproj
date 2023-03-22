@@ -2201,6 +2201,7 @@
     <Content Include="assets\vendor\tinymce\composer.json" />
     <Content Include="assets\vendor\tinymce\package.json" />
     <Content Include="assets\vendor\tinymce\README.md" />
+    <None Include="Properties\PublishProfiles\fameapp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\ej2\ej2.min.js" />
     <Content Include="Scripts\gridmvc.js" />
@@ -3084,6 +3085,7 @@
     <Content Include="Views\Home\EditJobWorkDespatchNew.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\CompanyDetails.cshtml" />
+    <Content Include="Views\Shared\_UserData.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

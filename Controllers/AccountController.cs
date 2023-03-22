@@ -27,7 +27,7 @@ namespace Transactiondetails.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(userName, false);
                     Session["UserData"] = new UserData { UserName = userName };
-
+                    //Session["Username"] = userName;
                     return RedirectToAction("CompanyDetails", "Account");
                 }
                 else
@@ -91,10 +91,11 @@ namespace Transactiondetails.Controllers
             return RedirectToAction("CompanyDetails", "Account");
         }
 
-        [HttpPost]
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
+            Session["UserData"] = "";
+            Session.Clear();
             return RedirectToAction("Login", "Account");
         }
     }
