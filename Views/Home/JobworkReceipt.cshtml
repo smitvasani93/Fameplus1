@@ -10,7 +10,49 @@
         display: none;
     }*/
 </style>
+<div class="pagetitle">
+    @*<h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>*@
+</div>
 
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body pt-3">
+                <!-- Bordered Tabs -->
+                @*<h5 class="card-title">About</h5>
+                    <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+
+                    <h5 class="card-title">Profile Details</h5>*@
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 label ">User Name</div>
+                    <div class="col-lg-3 col-md-3">Kevin Anderson</div>
+                    <div class="col-lg-3 col-md-3 label">Company</div>
+                    <div class="col-lg-3 col-md-3">Lueilwitz, Wisoky and Leuschke</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 label">Financial Year</div>
+                    <div class="col-lg-3 col-md-3">Web Designer</div>
+                    <div class="col-lg-3 col-md-3 label">Branch</div>
+                    <div class="col-lg-3 col-md-3">USA</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 label">Login Date Time</div>
+                    <div class="col-lg-3 col-md-3">A108 Adam Street, New York, NY 535022</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 <section class="section dashboard">
     <div class="row">
         <div class="col-lg-12">
@@ -35,7 +77,7 @@
                                 <div class="col-sm-2 mr-minus">
                                     <label for="inputEmail3" class="col-form-label">Receipt No</label>
                                 </div>
-                                
+
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" value="@TempData["recieptNo"]" id="recieptNo">
                                 </div>
@@ -46,14 +88,14 @@
                                 <div class="col-sm-2">
                                     <label for="inputEmail3" class="col-form-label">Customer Name</label>
                                 </div>
-                                
+
                                 <div class="col-sm-5">
                                     @Html.DropDownList("AccountCode", new SelectList(ViewBag.Customer, "AccountCode", "AccountName"), "Please select", new { @id = "ddlCustomer", @class = "form-select", required = (string)null, @ng_model = "AccountCode" })
                                 </div>
                                 @*<label for="inputEmail3" class="col-sm-2 col-form-label">Receipt No</label>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" value="@TempData["recieptNo"]" id="recieptNo">
-                            </div>*@
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" value="@TempData["recieptNo"]" id="recieptNo">
+                                    </div>*@
                             </div>
                         </div>
                     </div>
@@ -134,7 +176,7 @@
             </div>
             @*<div id="divPartial" style="display:none">
 
-            </div>*@
+                </div>*@
         </div>
     </div>
 </section>

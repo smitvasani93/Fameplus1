@@ -6,9 +6,9 @@
     <title>Transaction Details</title>
 
     @*<link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="~/assets/vendors/iconly/bold.css">*@
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="~/assets/css/bootstrap.css">
+        <link rel="stylesheet" href="~/assets/vendors/iconly/bold.css">*@
 
     @*<link rel="stylesheet" href="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
         <link rel="stylesheet" href="~/assets/vendors/bootstrap-icons/bootstrap-icons.css">
@@ -54,8 +54,10 @@
 
 <body ng-app="myApp" ng-controller="JobWorkReceiptCtrl" ng-init="">
 
-    @{ 
-        var activeLeftMenu = ViewBag.Menu?? string.Empty;
+    @{
+        var activeMenu = ViewBag.Menu ?? string.Empty;
+        var activeSubMenu = ViewBag.SubMenu ?? string.Empty;
+
     }
     <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -66,6 +68,69 @@
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+
+                <li class="nav-item dropdown pe-3">
+
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="~/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                    </a><!-- End Profile Iamge Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>Kevin Anderson</h6>
+                            <span>Web Designer</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="bi bi-person"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        
+                    @*
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                                <i class="bi bi-gear"></i>
+                                <span>Account Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                                <i class="bi bi-question-circle"></i>
+                                <span>Need Help?</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>*@
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+
+            </ul>
+        </nav><!-- End Icons Navigation -->
+
     </header>
 
     <!-- ======= Sidebar ======= -->
@@ -74,25 +139,112 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link @(activeLeftMenu=="JobworkReceipt"?string.Empty:"collapsed")" href="~/Home/JobworkReceipt">
-                    <i class="bi bi-menu-button-wide"></i><span>Job Reciept</span>
+                <a class="nav-link collapsed" data-bs-target="#Master-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link @(activeLeftMenu=="JobWorkDespatch"?string.Empty:"collapsed")" href="/Home/JobWorkDespatch">
-                    <i class="bi bi-journal-text"></i><span>Job Despatch</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#Billing-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-journal-text"></i><span>Job Billing</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="Billing-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="Master-nav" class="nav-content @(activeMenu=="Master"?"collapse show":"collapse") " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="~/Home/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
+                            <i class="bi bi-circle"></i><span>Job Receipt</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="#">
-                            <i class="bi bi-circle"></i><span>Form Elements</span>
+                            <i class="bi bi-circle"></i><span>Job Despatch</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>Job Billing</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Inventory-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Inventory</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Inventory-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>N/A</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>N/A</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>N/A</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Finance-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Finance</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Finance-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>NA</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>NA</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>NA</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Report-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-bar-chart"></i><span>Report</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Report-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>N/A</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>N/A</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>N/A</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#Utility-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Utility</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="Utility-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>N/A</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>N/A</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-circle"></i><span>N/A</span>
                         </a>
                     </li>
                 </ul>
@@ -103,15 +255,8 @@
 
 
     <main id="main" class="main">
-        @*<div class="pagetitle">
-                <h1>Dashboard</h1>
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </nav>
-            </div>*@
+        
+
         <!-- End Page Title -->
         @RenderBody()
     </main>

@@ -35,7 +35,8 @@ namespace Transactiondetails.Controllers
         {
             var dbutility = new JobReceiptDataLayer();
 
-            ViewBag.Menu = "JobworkReceipt";
+            ViewBag.Menu = "Master";
+            ViewBag.SubMenu = "JobworkReceipt";
             try
             {
                 var userData = (UserData)Session["UserData"];
