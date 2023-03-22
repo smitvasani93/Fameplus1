@@ -25,8 +25,7 @@ namespace Transactiondetails.Models.Utility
                     }
                 }
             }
-            //return isSuccessFulllogin;
-            return true;
+            return isSuccessFulllogin;
         }
 
         public List<Company> CompanyList()

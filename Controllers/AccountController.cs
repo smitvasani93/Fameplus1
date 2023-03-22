@@ -21,16 +21,28 @@ namespace Transactiondetails.Controllers
         {
             //Check login
             var dbutility = new DBUtility();
-
-            if (dbutility.CheckLogin(userName, password))
+            try
             {
-                FormsAuthentication.SetAuthCookie(userName, false);
-                Session["UserData"] = new UserData { UserName = userName };
+                if (dbutility.CheckLogin(userName, password))
+                {
+                    FormsAuthentication.SetAuthCookie(userName, false);
+                    Session["UserData"] = new UserData { UserName = userName };
 
-                return RedirectToAction("CompanyDetails", "Account");
+                    return RedirectToAction("CompanyDetails", "Account");
+                }
+                else
+                {
+                    ViewBag.Message = "Username or password is incorrect";
+                    return View();
+                }
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Message = "Something went wrong. Please try again later.";
+                return View();
             }
 
-            return View();
+            //return View();
         }
 
         public ActionResult CompanyDetails()
