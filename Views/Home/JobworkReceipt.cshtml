@@ -96,6 +96,7 @@
                                 <td><input type="text" class="form-control" id="3" required></td>
                                 <td><input type="text" class="form-control" id="4" required></td>
                                 <td><input type="text" class="form-control" id="5" required></td>
+                                <td class="plsRow" id="1"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#"><i class="fa fa-trash"></i></a></td>
                             </tr>
 
 
@@ -152,10 +153,10 @@
 <script>
     $(function () {
         let rowCount = 1;
-        $("#receipt TBODY TR")
-            .find('td')
-            .parent()
-            .append('<td class="plsRow" id="' + rowCount + '"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#" ><i class="fa fa-trash"></i></a></td>')
+        //$("#receipt TBODY TR")
+        //    .find('td')
+        //    .parent()
+        //    .append('<td class="plsRow" id="' + rowCount + '"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#" ><i class="fa fa-trash"></i></a></td>')
 
         $("#receipt").on('click', '.addRow', function () {
             //rowCount = $('#receipt >tbody >tr').length;
@@ -190,6 +191,7 @@
 
         $("body").on("click", "#btnSave", function () {
             if (document.getElementById("divPartial").style.display != "none") {
+                debugger;
                 //if (angular.element(this).scope().EditreceiptValidation.$invalid) {
                 //    // angular.element(this).scope().toastr.error("Please Fill All Mandatory Fields");
                 //    if (document.getElementById("divReceipt").style.display != "none") {
@@ -199,30 +201,30 @@
                 //}
                 var arr = [];
                 var flag = 0;
-                $("#ReceiptSearch TBODY TR").each(function () {
+                $("#recipt TBODY TR").each(function () {
                     arr.push(this.id);
                 });
                 for (let j = 0; j < arr.length; j++) {
-                    if ($("#ReceiptSearch > tbody >#" + arr[j]).find("td:eq(0) select").find(':selected').val() == "" || $("#" + arr[j]).find("td:eq(0) select").find(':selected').val() == undefined) {
-                        $("#ReceiptSearch > tbody >#" + arr[j]).find("td:eq(0) select").addClass("reqNolabel");
+                    if ($("#recipt > tbody >#" + arr[j]).find("td:eq(0) select").find(':selected').val() == "" || $("#" + arr[j]).find("td:eq(0) select").find(':selected').val() == undefined) {
+                        $("#recipt > tbody >#" + arr[j]).find("td:eq(0) select").addClass("reqNolabel");
                         flag = 1;
                     }
                     else
-                        $("#ReceiptSearch > tbody >#" + arr[j]).find("td:eq(0) select").removeClass("reqNolabel");
+                        $("#recipt > tbody >#" + arr[j]).find("td:eq(0) select").removeClass("reqNolabel");
                     for (i = 1; i <= 4; i++) {
-                        if ($("#ReceiptSearch > tbody >#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == "" || $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
-                            $("#ReceiptSearch > tbody >#" + arr[j]).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                        if ($("#recipt > tbody >#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == "" || $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                            $("#recipt > tbody >#" + arr[j]).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
                             flag = 1;
                         }
                         else
-                            $("#ReceiptSearch > tbody >#" + arr[j]).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+                            $("#recipt > tbody >#" + arr[j]).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
                     }
                 }
                 if (flag == 1)
                     return;
                 var JobReceiptDets = new Array();
                 var AccountCode = $('#ddlCustomer').val();
-                $("#ReceiptSearch TBODY TR").each(function () {
+                $("#recipt TBODY TR").each(function () {
                     var row = $(this);
                     var JobReceiptDet = {};
                     JobReceiptDet.ItemSerialNumber = row.find("td:eq(7) input[type='text']").val();
@@ -243,7 +245,7 @@
                     dataType: "json",
                     success: function (r) {
                         console.log(r);
-                        swal({
+                        swal.fire({
                             title: "Success",
                             text: "You saved successfully!",
                             type: "success"
