@@ -4,8 +4,7 @@ namespace Transactiondetails.DBModels
 {
     public class JobRecieptData
     {
-        public List<JobRecieptMaster> JobRecieptMasts { get; set; }
-        public List<JobRecieptDetail> JobRecieptDets { get; set; }
+        public List<JobRecieptMaster> JobReciepts { get; set; }
 
         public List<AccountMaster> Accounts { get; set; }
         public List<ProcessMaster> Processes { get; set; }
@@ -13,8 +12,7 @@ namespace Transactiondetails.DBModels
 
         public JobRecieptData()
         {
-            JobRecieptMasts = new List<JobRecieptMaster>();
-            JobRecieptDets = new List<JobRecieptDetail>();
+            JobReciepts = new List<JobRecieptMaster>();
             Accounts = new List<AccountMaster>();
             Processes = new List<ProcessMaster>();
         }
