@@ -45,6 +45,7 @@
     @*<script src="~/Scripts/angular.min.js"></script>*@
     @*<script src="~/ajscript/JobWorkRececipt/ajJobworkreceiptService.js"></script>*@
     <link href="@Url.Content("~/assets/css/sweetalert2.min.css")" rel="stylesheet" />
+
     <!--Test datatable -->
     @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
     @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>*@
@@ -85,7 +86,9 @@
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                             <li class="dropdown-header">
                                 <h6>@userdata.UserName</h6>
-                                <span>System Admin</span>
+                                <span>@userdata.CompanyName</span>
+                                <span><br>@userdata.BranchName</span>
+                                <span><br>@userdata.FYearName</span>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
