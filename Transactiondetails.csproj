@@ -2999,6 +2999,7 @@
     <Content Include="Scripts\test-bundles\angular-route.js" />
     <Content Include="Scripts\test-bundles\angular-sanitize.js" />
     <Content Include="Scripts\test-bundles\angular-touch.js" />
+    <Content Include="Views\Home\EditJobworkReceipt.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3110,7 +3111,6 @@
     <Content Include="Views\Home\JobworkReceipt.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Home\Test.cshtml" />
-    <Content Include="Views\Home\EditJobworkReceipt.cshtml" />
     <Content Include="Views\Home\JobWorkDespatch.cshtml" />
     <Content Include="Views\Home\EditSearchDespatch.cshtml" />
     <Content Include="Views\Home\EditJobWorkDespatch.cshtml" />

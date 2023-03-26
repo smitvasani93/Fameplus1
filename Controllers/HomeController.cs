@@ -58,10 +58,10 @@ namespace Transactiondetails.Controllers
         [HttpPost]
         public PartialViewResult EditJobworkReceipt(int serialNo)
         {
-            var dbutility = new JobReceiptDataLayer();
+             var dbutility = new JobReceiptDataLayer();
 
-            try
-            {
+            //try
+            //{
                 var userData = (UserData)Session["UserData"];
 
                 var jobReciept = dbutility.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, serialNo);
@@ -76,16 +76,12 @@ namespace Transactiondetails.Controllers
                 return PartialView(jobReciept.JobRecieptDets);
 
                  
-            }
-            catch (Exception ex)
-            {
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
 
-            //ViewBag.Process = processList;
-            //ViewBag.Customer = customerList;
-            //TempData["serialNo"] = serialNo;
-            //TempData.Keep("serialNo");
-            return PartialView();
+           // return PartialView();
              
         }
         public JsonResult SaveJobworkReceipt(List<JobReceiptDet> lstjobReceiptDets, string referenceDate = "", string accountCode = "", int serialNumber = 0)

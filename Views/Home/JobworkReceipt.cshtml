@@ -11,13 +11,13 @@
     }*/
 </style>
 <!--<div class="pagetitle">-->
-    @*<h1>Dashboard</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-        </nav>*@
+@*<h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>*@
 <!--</div>-->
 
 
@@ -126,19 +126,19 @@
                                     <td style="display:none"> @item.SerialNumber</td>
                                     <td>@item.AccountCode</td>
                                     <td>@item.AccountName</td>
-                                    <td><span>@item.ReferenceDate.ToString("yyyyMMdd")</span>@item.ReferenceDate.ToString("dd/MM/yyyy") </td>
+                                    <td>@item.ReferenceDate.ToString("dd/MM/yyyy") </td>
                                 </tr>
                             }
 
                         </tbody>
                         @*<tfoot>
-                            <tr>
-                                <th style="display: none">SerialNumber</th>
-                                <th>Account Code</th>
-                                <th>Name</th>
-                                <th>Date</th>
-                            </tr>
-                        </tfoot>*@
+                                <tr>
+                                    <th style="display: none">SerialNumber</th>
+                                    <th>Account Code</th>
+                                    <th>Name</th>
+                                    <th>Date</th>
+                                </tr>
+                            </tfoot>*@
                     </table>
 
                 </div>
@@ -191,7 +191,7 @@
 
         $("body").on("click", "#btnSave", function () {
             if (document.getElementById("divPartial").style.display != "none") {
-                debugger;
+                //debugger;
                 //if (angular.element(this).scope().EditreceiptValidation.$invalid) {
                 //    // angular.element(this).scope().toastr.error("Please Fill All Mandatory Fields");
                 //    if (document.getElementById("divReceipt").style.display != "none") {
@@ -391,9 +391,12 @@
      var url = '@Url.Action("EditJobworkReceipt", "Home")';
     $("body").on("click", "#tbsearch td", function () {
         var serialNo = $(this).closest("tr").find("td:first").html();
-        $('#divPartial').load(url, { serialNo: serialNo });
-        mainDiv.style.display = "none";
-        divPartial.style.display = "block";
+        var id = parseInt(serialNo);
+        $('#divPartial').load(url, { serialNo: id });
+        $('#divPartial').show();
+        $('#btnClose').hide();
+        //var mainDiv = document.getElementById("myModal");
+        $('#myModal').hide();
     });
 
 </script>
