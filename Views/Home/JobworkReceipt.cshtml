@@ -131,14 +131,14 @@
                             }
 
                         </tbody>
-                        <tfoot>
+                        @*<tfoot>
                             <tr>
                                 <th style="display: none">SerialNumber</th>
                                 <th>Account Code</th>
                                 <th>Name</th>
                                 <th>Date</th>
                             </tr>
-                        </tfoot>
+                        </tfoot>*@
                     </table>
 
                 </div>
@@ -367,18 +367,18 @@
     var divReceipt = document.getElementById("divReceipt");
     var btn = document.getElementById("searchBtn");
     var btnClose = document.getElementById("btnClose");
-    btn.onclick = function () {
-        mainDiv.style.display = "block";
-        divPartial.style.display = "none";
-        divReceipt.style.display = "none";
-        btnClose.style.display = "block";
-    }
-    btnClose.onclick = function () {
-        mainDiv.style.display = "none";
-        divPartial.style.display = "none";
-        btnClose.style.display = "none";
-        divReceipt.style.display = "block";
-    }
+    //btn.onclick = function () {
+    //    mainDiv.style.display = "block";
+    //    divPartial.style.display = "none";
+    //    divReceipt.style.display = "none";
+    //    btnClose.style.display = "block";
+    //}
+    //btnClose.onclick = function () {
+    //    mainDiv.style.display = "none";
+    //    divPartial.style.display = "none";
+    //    btnClose.style.display = "none";
+    //    divReceipt.style.display = "block";
+    //}
     window.onclick = function (event) {
         if (event.target == mainDiv) {
             mainDiv.style.display = "none";
@@ -396,6 +396,22 @@
         divPartial.style.display = "block";
     });
 
+</script>
+
+<script>
+    $(function () {
+        $("#tbsearch").css("display", "none");
+
+        $("#searchBtn").click(function (e) {
+            $("#tbsearch").css("display", "");
+            $("#btnClose").css("display", "");
+            $("#divPartial").css("display", "none");
+        })
+        $("#btnClose").click(function (e) {
+            location.reload()
+        })
+
+    })
 </script>
 
 <style type="text/css">
