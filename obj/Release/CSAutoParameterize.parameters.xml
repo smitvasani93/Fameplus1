@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="CompanyDB-Web.config Connection String" description="CompanyDB Connection String used in web.config by the application to access the database." defaultValue="data source=182.56.2.19;database=sampletest;user id=race;password=race;multipleactiveresultsets=True;Max Pool Size=300;Min Pool Size=50;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Project\\Fameplus1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CompanyDB']/@connectionString" />
-  </parameter>
-  <parameter name="CompanyGen-Web.config Connection String" description="CompanyGen Connection String used in web.config by the application to access the database." defaultValue="data source=182.56.2.19;database=Test_FMGeneral;user id=race;password=race;multipleactiveresultsets=True;Max Pool Size=300;Min Pool Size=50;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Project\\Fameplus1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CompanyGen']/@connectionString" />
-  </parameter>
-</parameters>
