@@ -1,0 +1,7 @@
+﻿.req:after {
+    content:"*";
+    color:red;
+}
+.reqNolabel {
+    border: 1px solid #dc3545;
+}

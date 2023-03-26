@@ -1,0 +1,418 @@
+﻿
+@using System.Collections.Generic;
+@{
+    ViewBag.Title = "JobworkReceipt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* #tbsearch span {
+        display: none;
+    }*/
+</style>
+<!--<div class="pagetitle">-->
+    @*<h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>*@
+<!--</div>-->
+
+
+
+<section class="section dashboard">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"> Jobwork Receipt</h4>
+                    <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Print</button>
+                    <button type="submit" class="btn btn-primary" id="searchBtn">Search</button>
+                    <button type="submit" id="btnClose" class="btn btn-primary" style="display: none;float: right;">Close</button>
+                </div>
+                <div class="card-body" id="divPartial">
+                    <div class="row g-3">
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="inputEmail3" class="col-form-label">Receipt Date</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="date" class="form-control" name="referenceDate" ng-model="referenceDate" id="referenceDate" required />
+                                </div>
+                                <div class="col-sm-2 mr-minus">
+                                    <label for="inputEmail3" class="col-form-label">Receipt No</label>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" value="@TempData["recieptNo"]" id="recieptNo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="inputEmail3" class="col-form-label">Customer Name</label>
+                                </div>
+
+                                <div class="col-sm-5">
+                                    @Html.DropDownList("AccountCode", new SelectList(ViewBag.Customer, "AccountCode", "AccountName"), "Please select", new { @id = "ddlCustomer", @class = "form-select", required = (string)null, @ng_model = "AccountCode" })
+                                </div>
+                                @*<label for="inputEmail3" class="col-sm-2 col-form-label">Receipt No</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" value="@TempData["recieptNo"]" id="recieptNo">
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div id="newone" class="pt-4">
+                        <table id="receipt" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Process</th>
+                                    <th>Packet No</th>
+                                    <th>Pieces</th>
+                                    <th>Carats</th>
+                                    <th>Lines</th>
+                                    <th>Remarks</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tr id="tr1">
+                                <td>
+                                    @Html.DropDownList("ProcessCode", new SelectList(ViewBag.Process, "ProcessCode", "ProcessName"), "Please select", new
+                                    {
+                                        @id = "ddlProcess",
+                                        @class = "form-select",
+                                        required = (string)null,
+                                        @ng_model = "ProcessCode"@*, @ng_class = "{true: 'reqNolabel'}[receiptValidation.ProcessCode.$error.required]"*@})
+                                </td>
+                                <td><input type="text" class="form-control" id="1" required></td>
+                                <td><input type="text" class="form-control" id="2" required></td>
+                                <td><input type="text" class="form-control" id="3" required></td>
+                                <td><input type="text" class="form-control" id="4" required></td>
+                                <td><input type="text" class="form-control" id="5" required></td>
+                                <td class="plsRow" id="1"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#"><i class="fa fa-trash"></i></a></td>
+                            </tr>
+
+
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+            <div name="receiptValidation">
+                <div class="PopupModal" id="myModal">
+                    @*<span class="close">&times;</span>*@
+
+                    <table id="tbsearch" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th style="display:none">SerialNumber</th>
+                                <th>Account Code</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Search)
+                            {
+                                <tr>
+                                    <td style="display:none"> @item.SerialNumber</td>
+                                    <td>@item.AccountCode</td>
+                                    <td>@item.AccountName</td>
+                                    <td><span>@item.ReferenceDate.ToString("yyyyMMdd")</span>@item.ReferenceDate.ToString("dd/MM/yyyy") </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                        @*<tfoot>
+                            <tr>
+                                <th style="display: none">SerialNumber</th>
+                                <th>Account Code</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                            </tr>
+                        </tfoot>*@
+                    </table>
+
+                </div>
+
+            </div>
+            @*<div id="divPartial" style="display:none">
+
+                </div>*@
+        </div>
+    </div>
+</section>
+<script>
+    $(function () {
+        let rowCount = 1;
+        //$("#receipt TBODY TR")
+        //    .find('td')
+        //    .parent()
+        //    .append('<td class="plsRow" id="' + rowCount + '"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#" ><i class="fa fa-trash"></i></a></td>')
+
+        $("#receipt").on('click', '.addRow', function () {
+            //rowCount = $('#receipt >tbody >tr').length;
+            var flag = 0;
+            if ($("#tr" + rowCount).find("td:eq(0) select").find(':selected').val() == "" || $("#tr" + rowCount).find("td:eq(0) select").find(':selected').val() == undefined) {
+                $("#tr" + rowCount).find("td:eq(0) select").addClass("reqNolabel");
+                flag = 1;
+            }
+            else
+                $("#tr" + rowCount).find("td:eq(0) select").removeClass("reqNolabel");
+            for (i = 1; i <= 4; i++) {
+                if ($("#tr" + rowCount).find("td:eq(" + i + ") input[type='text']").val() == "" || $("#tr" + rowCount).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                    $("#tr" + rowCount).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                    flag = 1;
+                }
+                else
+                    $("#tr" + rowCount).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+            }
+            if (flag == 1)
+                return;
+            var tr = $("#newone").find("Table").find("tr:last").clone();
+            rowCount++;
+            tr.attr("id", "tr" + rowCount);
+            //tr.find("td:eq(0) select").attr({ "ng-model": "input1" + rowCount, "name": "input1" + rowCount, "ng-class": "{true: 'reqNolabel'}[receiptValidation.input1" + rowCount+".$error.required]" })
+            tr.find("input:text").val("");
+            $("#receipt").append(tr);
+        });
+        $("#receipt").on('click', '.deleteRow', function () {
+            if (1 != $('#receipt >tbody >tr').length)
+                $(this).parent().parent().remove();
+        });
+
+        $("body").on("click", "#btnSave", function () {
+            if (document.getElementById("divPartial").style.display != "none") {
+                debugger;
+                //if (angular.element(this).scope().EditreceiptValidation.$invalid) {
+                //    // angular.element(this).scope().toastr.error("Please Fill All Mandatory Fields");
+                //    if (document.getElementById("divReceipt").style.display != "none") {
+                //        swal("Please Fill All Mandatory Fields");
+                //    }
+                //    return;
+                //}
+                var arr = [];
+                var flag = 0;
+                $("#recipt TBODY TR").each(function () {
+                    arr.push(this.id);
+                });
+                for (let j = 0; j < arr.length; j++) {
+                    if ($("#recipt > tbody >#" + arr[j]).find("td:eq(0) select").find(':selected').val() == "" || $("#" + arr[j]).find("td:eq(0) select").find(':selected').val() == undefined) {
+                        $("#recipt > tbody >#" + arr[j]).find("td:eq(0) select").addClass("reqNolabel");
+                        flag = 1;
+                    }
+                    else
+                        $("#recipt > tbody >#" + arr[j]).find("td:eq(0) select").removeClass("reqNolabel");
+                    for (i = 1; i <= 4; i++) {
+                        if ($("#recipt > tbody >#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == "" || $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                            $("#recipt > tbody >#" + arr[j]).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                            flag = 1;
+                        }
+                        else
+                            $("#recipt > tbody >#" + arr[j]).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+                    }
+                }
+                if (flag == 1)
+                    return;
+                var JobReceiptDets = new Array();
+                var AccountCode = $('#ddlCustomer').val();
+                $("#recipt TBODY TR").each(function () {
+                    var row = $(this);
+                    var JobReceiptDet = {};
+                    JobReceiptDet.ItemSerialNumber = row.find("td:eq(7) input[type='text']").val();
+                    JobReceiptDet.ProcessCode = row.find("td:eq(0) select").val();
+                    JobReceiptDet.PacketNumber = row.find("td:eq(1) input[type='text']").val();
+                    JobReceiptDet.ItemPieces = row.find("td:eq(2) input[type='text']").val();
+                    JobReceiptDet.ItemCarats = row.find("td:eq(3) input[type='text']").val();
+                    JobReceiptDet.ItemLines = row.find("td:eq(4) input[type='text']").val();
+                    JobReceiptDet.Remarks = row.find("td:eq(5) input[type='text']").val();
+                    JobReceiptDets.push(JobReceiptDet);
+                    ItemSerialNumberSearch = row.find("td:eq(7) input[type='text']").val();
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/SaveJobworkReceipt",
+                    data: JSON.stringify(JobReceiptDets),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        console.log(r);
+                        swal.fire({
+                            title: "Success",
+                            text: "You saved successfully!",
+                            type: "success"
+                        }).then(function () {
+                            //window.location = "redirectURL";
+                            location.reload();
+                        });
+                    }
+                });
+            }
+            else {
+                if (angular.element(this).scope().receiptValidation.$invalid) {
+                    // angular.element(this).scope().toastr.error("Please Fill All Mandatory Fields");
+                    if (document.getElementById("divReceipt").style.display != "none") {
+                        swal("Please Fill All Mandatory Fields");
+                    }
+                    return;
+                }
+                var arr = [];
+                var flag = 0;
+                $("#receipt TBODY TR").each(function () {
+                    arr.push(this.id);
+                });
+                for (let j = 0; j < arr.length; j++) {
+                    if ($("#" + arr[j]).find("td:eq(0) select").find(':selected').val() == "" || $("#" + arr[j]).find("td:eq(0) select").find(':selected').val() == undefined) {
+                        $("#" + arr[j]).find("td:eq(0) select").addClass("reqNolabel");
+                        flag = 1;
+                    }
+                    else
+                        $("#" + arr[j]).find("td:eq(0) select").removeClass("reqNolabel");
+                    for (i = 1; i <= 4; i++) {
+                        if ($("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == "" || $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                            $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                            flag = 1;
+                        }
+                        else
+                            $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+                    }
+                }
+                if (flag == 1)
+                    return;
+                if (document.getElementById("divReceipt").style.display != "none") {
+                    var referenceDate = $('#referenceDate').val();
+                    var recieptNo = $('#recieptNo').val();
+                    var JobReceiptDets = new Array();
+                    var AccountCode = $('#ddlCustomer').val();
+                    var ItemSerialNumber = 1;
+                    $("#receipt TBODY TR").each(function () {
+                        var row = $(this);
+                        var JobReceiptDet = {};
+                        JobReceiptDet.SerialNumber = $('#recieptNo').val();
+                        JobReceiptDet.ItemSerialNumber = ItemSerialNumber;
+                        JobReceiptDet.ProcessCode = row.find("td:eq(0) select").val();
+                        JobReceiptDet.PacketNumber = row.find("td:eq(1) input[type='text']").val();
+                        JobReceiptDet.ItemPieces = row.find("td:eq(2) input[type='text']").val();
+                        JobReceiptDet.ItemCarats = row.find("td:eq(3) input[type='text']").val();
+                        JobReceiptDet.ItemLines = row.find("td:eq(4) input[type='text']").val();
+                        JobReceiptDet.Remarks = row.find("td:eq(5) input[type='text']").val();
+                        JobReceiptDets.push(JobReceiptDet);
+                        ItemSerialNumber++;
+                    });
+                    if (JobReceiptDets.length === 0) {
+                        alert("Empty Rows");
+                    }
+                    else {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Home/SaveJobworkReceipt",
+                            data: JSON.stringify({ lstjobReceiptDets: JobReceiptDets, referenceDate: referenceDate, accountCode: AccountCode, serialNumber: recieptNo }),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (r) {
+                                console.log(r);
+                                if (r.error == "True") {
+
+                                    swal({
+                                        title: "Failed",
+                                        text: "Error Occured!!!",
+                                        type: "failed"
+                                    })
+                                    return false;
+                                }
+
+                                else {
+
+                                    swal({
+                                        title: "Success",
+                                        text: "You saved successfully!",
+                                        type: "success"
+                                    }).then(function () {
+                                        //window.location = "redirectURL";
+                                        location.reload();
+                                    });
+                                }
+                            },
+                            error: function (textStatus, errorThrown) {
+                                console.log(textStatus, errorThrown);
+                                swal("Failed!", "something wrong has happened!", "error");
+                            }
+                        });
+                    }
+                    //Send the JSON array to Controller using AJAX.
+                }
+            }
+        });
+    });
+</script>
+<script>
+
+    $(document).ready(function () {
+        //$.fn.dataTable.moment('dd/MM/yyyy');
+        //$('#tbsearch').DataTable();
+
+    });
+</script>
+<script>
+    var mainDiv = document.getElementById("myModal");
+    var divPartial = document.getElementById("divPartial");
+    var divReceipt = document.getElementById("divReceipt");
+    var btn = document.getElementById("searchBtn");
+    var btnClose = document.getElementById("btnClose");
+    //btn.onclick = function () {
+    //    mainDiv.style.display = "block";
+    //    divPartial.style.display = "none";
+    //    divReceipt.style.display = "none";
+    //    btnClose.style.display = "block";
+    //}
+    //btnClose.onclick = function () {
+    //    mainDiv.style.display = "none";
+    //    divPartial.style.display = "none";
+    //    btnClose.style.display = "none";
+    //    divReceipt.style.display = "block";
+    //}
+    window.onclick = function (event) {
+        if (event.target == mainDiv) {
+            mainDiv.style.display = "none";
+        }
+    }
+</script>
+<script type="text/javascript">
+    var mainDiv = document.getElementById("myModal");
+    var divPartial = document.getElementById("divPartial");
+     var url = '@Url.Action("EditJobworkReceipt", "Home")';
+    $("body").on("click", "#tbsearch td", function () {
+        var serialNo = $(this).closest("tr").find("td:first").html();
+        $('#divPartial').load(url, { serialNo: serialNo });
+        mainDiv.style.display = "none";
+        divPartial.style.display = "block";
+    });
+
+</script>
+
+<script>
+    $(function () {
+        $("#tbsearch").css("display", "none");
+
+        $("#searchBtn").click(function (e) {
+            $("#tbsearch").css("display", "");
+            $("#btnClose").css("display", "");
+            $("#divPartial").css("display", "none");
+        })
+        $("#btnClose").click(function (e) {
+            location.reload()
+        })
+
+    })
+</script>
+
+<style type="text/css">
+</style>

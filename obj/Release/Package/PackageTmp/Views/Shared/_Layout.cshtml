@@ -1,0 +1,170 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Details</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="~/assets/vendors/iconly/bold.css">
+
+    <link rel="stylesheet" href="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="~/assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/assets/css/app.css">
+    <link rel="shortcut icon" href="~/assets/images/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="~/Css/SMStyle.css" rel="stylesheet" />
+    <!-- AngularJs-->
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/ajscript/JobWorkRececipt/ajJobworkreceiptService.js"></script>
+    <script src="~/ajscript/JobWorkRececipt/ajJobworkreceiptController.js"></script>
+
+    <link href="~/Css/Style.css" rel="stylesheet" />
+
+    <!--Test datatable -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>*@
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+
+
+
+    <!--Test datatable -->
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.11.3/sorting/datetime-moment.js"></script>
+
+    <!--Multi Select -->
+    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
+</head>
+
+<body  ng-app="myApp" ng-controller="JobWorkReceiptCtrl" ng-init="">
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                   
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+
+                        <li class="sidebar-item active ">
+                            <a href="/Home/Index" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Transaction Details</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item  ">
+                            <a href="/Home/JobworkReceipt" class='sidebar-link'>
+                                <i class="bi bi-file-earmark-medical-fill"></i>
+                                <span>Job Reciept</span>
+                            </a>
+                        </li>
+
+
+
+                        <li class="sidebar-item  ">
+                            <a href="/Home/JobWorkDespatch" class='sidebar-link'>
+                                <i class="bi bi-file-earmark-medical-fill"></i>
+                                <span>Job Despatch</span>
+                            </a>
+                        </li>
+
+                        @*<li class="sidebar-item  ">
+                            <a href="" class='sidebar-link'>
+                                <i class="bi bi-file-earmark-medical-fill"></i>
+                                <span>Job Billing</span>
+                            </a>
+                        </li>*@
+                        <li class="sidebar-item  ">
+                            <a href="/Home/Test" class='sidebar-link'>
+                                <i class="bi bi-file-earmark-medical-fill"></i>
+                                <span>Test</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+            <div class="page-heading">
+                <h3>Transaction Details</h3>
+            </div>
+            <div class="page-content">
+                <section class="row" style="width: 119%;">
+                    <div class="col-12 col-lg-9">
+                        <div class="row">
+                            <div class="col-6 col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="card-body px-3 py-4-5">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Home</button>
+                                    </div>
+                                </div>
+                            </div>
+                         
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+
+                                    @RenderBody()
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div class="col-12 col-lg-3" style="margin-left: -251px;">
+                        <div class="card">
+                            <div class="card-body py-4 px-5">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-xl">
+                                        <img src="~/assets/images/faces/1.jpg" alt="Face 1">
+                                    </div>
+                                    <div class="ms-3 name">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1">Logout</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </section>
+            </div>
+
+          
+        </div>
+    </div>
+    <script src="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+
+    @*<script src="~/assets/vendors/apexcharts/apexcharts.js"></script>*@
+    @*<script src="~/assets/js/pages/dashboard.js"></script>*@
+
+    @*<script src="~/assets/js/main.js"></script>*@
+</body>
+
+</html>

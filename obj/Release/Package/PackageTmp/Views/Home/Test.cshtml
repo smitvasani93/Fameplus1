@@ -1,0 +1,37 @@
+﻿@using Transactiondetails.Models;
+@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/assets/css/bootstrap.css">
+@*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+@*<script src="~/Scripts/MultiSelect/MultiSelect.js"></script>*@
+
+<div style="margin-left: 100px;
+        margin-top: 109px;">
+    @*<select class="selectpicker" multiple data-live-search="true">
+            <option>Mustard</option>
+            <option>Ketchup</option>
+            <option>Relish</option>
+        </select>*@
+    @Html.ListBox("SerialNumber", new SelectList(ViewBag.serialNo), new { @id = "ddlReciept", @class = "form-MultiSelect selectpicker" })
+
+    <input type="submit" id="btnn" />
+</div>
+<script>
+
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker({
+            liveSearch: true,
+            showSubtext: true
+        });
+    });
+    var btn = document.getElementById("btnn");
+    btn.onclick = function () {
+        alert($('#ddlReciept').val());
+    }
+</script>
