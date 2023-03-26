@@ -75,13 +75,13 @@ namespace Transactiondetails.Controllers
             return Json(status);
         }
 
-        public ActionResult CompanyDetails()
+        public PartialViewResult CompanyDetails()
         {
             var vm = new CompanyViewModel();
             var dbutility = new DBUtility();
             var componyList = dbutility.CompanyList();
             vm.Companys = componyList;
-            return View(vm);
+            return PartialView(vm);
         }
 
         public ActionResult GetFYear(string CompanyCode)
