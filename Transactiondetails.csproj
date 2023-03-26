@@ -3012,7 +3012,6 @@
     <Compile Include="DBModels\Company.cs" />
     <Compile Include="DBModels\FYear.cs" />
     <Compile Include="DBModels\JobRecieptData.cs" />
-    <Compile Include="DBModels\JobRecieptDetail.cs" />
     <Compile Include="DBModels\JobRecieptMaster.cs" />
     <Compile Include="DBModels\ProcessMaster.cs" />
     <Compile Include="DBModels\System3.cs" />
