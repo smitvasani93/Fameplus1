@@ -132,6 +132,7 @@
     <Content Include="assets\css\pages\error.css" />
     <Content Include="assets\css\pages\error.rtl.css" />
     <Content Include="assets\css\style.css" />
+    <Content Include="assets\css\sweetalert2.min.css" />
     <Content Include="assets\css\widgets\chat.css" />
     <Content Include="assets\css\widgets\chat.rtl.css" />
     <Content Include="assets\css\widgets\todo.css" />
@@ -1950,10 +1951,22 @@
     <Content Include="assets\vendor\tinymce\themes\silver\theme.min.js" />
     <Content Include="assets\vendor\tinymce\tinymce.js" />
     <Content Include="assets\vendor\tinymce\tinymce.min.js" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\ej2\bootstrap-dark.css" />
     <Content Include="Content\ej2\bootstrap.css" />
     <Content Include="Content\ej2\bootstrap4.css" />
@@ -1978,7 +1991,6 @@
     <Content Include="Css\responsive.bootstrap.min.css" />
     <Content Include="Css\SMStyle.css" />
     <Content Include="Css\Style.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Models\TransactionDetails.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -2016,9 +2028,13 @@
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Grid.mvc.readme" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Grid.mvc.readme" />
     <Content Include="Scripts\datatable Scripts\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\datatable Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\datatable Scripts\jquery.dataTables.min.js" />
@@ -2201,7 +2217,29 @@
     <Content Include="assets\vendor\tinymce\composer.json" />
     <Content Include="assets\vendor\tinymce\package.json" />
     <Content Include="assets\vendor\tinymce\README.md" />
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Properties\PublishProfiles\fameapp - Web Deploy.pubxml" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\ej2\ej2.min.js" />
     <Content Include="Scripts\gridmvc.js" />
@@ -2952,6 +2990,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\MultiSelect\MultiSelect.js" />
     <Content Include="Scripts\sitemap.xml" />
+    <Content Include="Scripts\sweetalert2\sweetalert2.all.min.js" />
     <Content Include="Scripts\test-bundles\angular-aria.js" />
     <Content Include="Scripts\test-bundles\angular-cookies.js" />
     <Content Include="Scripts\test-bundles\angular-message-format.js" />
@@ -3001,6 +3040,7 @@
     <Compile Include="Models\JobReceiptMa.cs">
       <DependentUpon>TransactionDetails.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginStatus.cs" />
     <Compile Include="Models\ProcessDet.cs">
       <DependentUpon>TransactionDetails.tt</DependentUpon>
     </Compile>
@@ -3057,14 +3097,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

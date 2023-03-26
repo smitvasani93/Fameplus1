@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Security;
 using Transactiondetails.DBModels;
+using Transactiondetails.Models;
 using Transactiondetails.Models.Utility;
 using Transactiondetails.ViewModels;
 
@@ -36,13 +37,42 @@ namespace Transactiondetails.Controllers
                     return View();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ViewBag.Message = "Something went wrong. Please try again later.";
                 return View();
             }
 
             //return View();
+        }
+
+
+        [HttpPost]
+        public JsonResult ValidateUser(string userName, string password,
+                               bool rememberme)
+        {
+            var dbutility = new DBUtility();
+            LoginStatus status = new LoginStatus();
+            if (dbutility.CheckLogin(userName, password))
+            {
+                FormsAuthentication.SetAuthCookie(userName, rememberme);
+                Session["UserData"] = new UserData { UserName = userName };
+                status.Success = true;
+                status.TargetURL = FormsAuthentication.
+                                   GetRedirectUrl(userName, rememberme);
+                if (string.IsNullOrEmpty(status.TargetURL))
+                {
+                    status.TargetURL = FormsAuthentication.DefaultUrl;
+                }
+                status.Message = "Login attempt successful!";
+            }
+            else
+            {
+                status.Success = false;
+                status.Message = "Invalid UserID or Password!";
+                status.TargetURL = FormsAuthentication.LoginUrl;
+            }
+            return Json(status);
         }
 
         public ActionResult CompanyDetails()
