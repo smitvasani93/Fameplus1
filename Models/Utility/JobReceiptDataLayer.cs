@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -12,14 +11,24 @@ namespace Transactiondetails.Models.Utility
         public JobRecieptData GetJobReciept(string companyCode, string FYear)
         {
             var JobRecieptData = new JobRecieptData();
-            var processMasterList = new List<ProcessMaster>();
-            var accountMasterList = new List<AccountMaster>();
-            var jobRecieptMasterList = new List<JobRecieptMaster>();
+            //var processMasterList = new List<ProcessMaster>();
+            //var accountMasterList = new List<AccountMaster>();
+            //var jobRecieptMasterList = new List<JobRecieptMaster>();
+            bool isAccountdataExists = false;
+            if (HttpContext.Current.Session["Accounts"] != null)
+            {
+                JobRecieptData.Accounts = (List<AccountMaster>)HttpContext.Current.Session["Accounts"];
+                isAccountdataExists = true;
+            }
+
             using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to get the JobReciepts
-                JobRecieptData.Processes = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
-                JobRecieptData.Accounts = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
+                //JobRecieptData.Processes = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
+                if(!isAccountdataExists)
+                {
+                    JobRecieptData.Accounts = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
+                }
                 var pFYear = new SqlParameter("@FinancialYearCode", FYear);
 
                 JobRecieptData.JobRecieptMasts = db.Database.SqlQuery<JobRecieptMaster>("exec spGetJobReceipt @FinancialYearCode", pFYear).ToList();

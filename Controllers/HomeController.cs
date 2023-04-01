@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Transactiondetails.Models;
@@ -32,20 +32,21 @@ namespace Transactiondetails.Controllers
         #region JobworkReceipt
         public ActionResult JobworkReceipt()
         {
-            var dbutility = new JobReceiptDataLayer();
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
 
             ViewBag.Menu = "Master";
             ViewBag.SubMenu = "JobworkReceipt";
             try
             {
                 var userData = (UserData)Session["UserData"];
-
-                var jobReciept = dbutility.GetJobReciept(userData.Company, userData.FYear);
+                var jobReciept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.FYear);
+                var process = dbutility.GetProcesses();
                 var recieptNo = jobReciept.JobRecieptMasts.Max(a => a.SerialNumber);
                 recieptNo++;
                 TempData["recieptNo"] = recieptNo;
                 ViewBag.Search = jobReciept.JobRecieptMasts;
-                ViewBag.Process = jobReciept.Processes;
+                ViewBag.Process = process;
                 ViewBag.Customer = jobReciept.Accounts;
             }
             catch (Exception ex)

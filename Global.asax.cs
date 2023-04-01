@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Transactiondetails.Models.Utility;
 
 namespace Transactiondetails
 {
@@ -13,6 +10,16 @@ namespace Transactiondetails
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            //Load data to application cache
+            LoadAplicatioCache();
+        }
+
+        private void LoadAplicatioCache()
+        {
+            var dbutility = new DBUtility();
+            Application["Process"] =  dbutility.GetProcesses();
+           // Application["Accounts"] = dbutility.GetAccounts();
         }
     }
 }
