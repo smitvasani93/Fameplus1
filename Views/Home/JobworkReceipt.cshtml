@@ -226,10 +226,13 @@
                 var referenceDate = $('#referenceDate').val();
                 var recieptNo = $('#recieptNo').val();
                 var AccountCode = $('#ddlCustomer').val();
+                var ItemSerialNumber = 1;
+
                 $("#receipt tbody tr").each(function () {
                     var row = $(this);
                     var JobReceiptDet = {};
-                    JobReceiptDet.ItemSerialNumber = row.find("td:eq(7) input[type='text']").val();
+                    JobReceiptDet.ItemSerialNumber = ItemSerialNumber;// row.find("td:eq(7) input[type='text']").val();
+                    JobReceiptDet.SerialNumber = recieptNo;
                     JobReceiptDet.ProcessCode = row.find("td:eq(0) select").val();
                     JobReceiptDet.PacketNumber = row.find("td:eq(1) input[type='text']").val();
                     JobReceiptDet.ItemPieces = row.find("td:eq(2) input[type='text']").val();
@@ -237,7 +240,8 @@
                     JobReceiptDet.ItemLines = row.find("td:eq(4) input[type='text']").val();
                     JobReceiptDet.Remarks = row.find("td:eq(5) input[type='text']").val();
                     JobReceiptDets.push(JobReceiptDet);
-                    ItemSerialNumberSearch = row.find("td:eq(7) input[type='text']").val();
+                    ItemSerialNumber++;
+                    //ItemSerialNumberSearch = row.find("td:eq(7) input[type='text']").val();
                 });
                 $.ajax({
                     type: "POST",
@@ -247,14 +251,29 @@
                     dataType: "json",
                     success: function (r) {
                         console.log(r);
-                        swal.fire({
-                            title: "Success",
-                            text: "You saved successfully!",
-                            type: "success"
-                        }).then(function () {
-                            //window.location = "redirectURL";
-                            location.reload();
-                        });
+                        if (r.error == "false") {
+
+                            swal.fire({
+                                title: "Success",
+                                text: "You saved successfully!",
+                                type: "success"
+                            }).then(function () {
+                                //window.location = "redirectURL";
+                                location.reload();
+                            });
+
+                          
+                        }
+
+                        else {
+
+                            swal.fire({
+                                title: "Failed",
+                                text: "Error Occured!!!",
+                                type: "failed"
+                            })
+                            return false;
+                        }
                     }
                 });
             }

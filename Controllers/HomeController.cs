@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Transactiondetails.Models;
@@ -45,7 +44,7 @@ namespace Transactiondetails.Controllers
                 var recieptNo = jobReciept.JobRecieptMasts.Max(a => a.SerialNumber);
                 recieptNo++;
                 TempData["recieptNo"] = recieptNo;
-                ViewBag.Search = jobReciept.JobRecieptMasts;
+                ViewBag.Search = jobReciept.JobRecieptMasts.OrderByDescending(x=> x.ReferenceDate);
                 ViewBag.Process = process;
                 ViewBag.Customer = jobReciept.Accounts;
             }
