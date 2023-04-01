@@ -190,7 +190,7 @@
         });
 
         $("body").on("click", "#btnSave", function () {
-            if (document.getElementById("divPartial").style.display != "none") {
+            if (document.getElementById("divPartial").style.display != "none" || document.getElementById("divPartial").style.display != "") {
                 //debugger;
                 //if (angular.element(this).scope().EditreceiptValidation.$invalid) {
                 //    // angular.element(this).scope().toastr.error("Please Fill All Mandatory Fields");
@@ -201,7 +201,7 @@
                 //}
                 var arr = [];
                 var flag = 0;
-                $("#recipt TBODY TR").each(function () {
+                $("#receipt tbody tr").each(function () {
                     arr.push(this.id);
                 });
                 for (let j = 0; j < arr.length; j++) {
@@ -223,8 +223,10 @@
                 if (flag == 1)
                     return;
                 var JobReceiptDets = new Array();
+                var referenceDate = $('#referenceDate').val();
+                var recieptNo = $('#recieptNo').val();
                 var AccountCode = $('#ddlCustomer').val();
-                $("#recipt TBODY TR").each(function () {
+                $("#receipt tbody tr").each(function () {
                     var row = $(this);
                     var JobReceiptDet = {};
                     JobReceiptDet.ItemSerialNumber = row.find("td:eq(7) input[type='text']").val();
@@ -240,7 +242,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/Home/SaveJobworkReceipt",
-                    data: JSON.stringify(JobReceiptDets),
+                    data: JSON.stringify({ lstjobReceiptDets: JobReceiptDets, referenceDate: referenceDate, accountCode: AccountCode, serialNumber: recieptNo }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
@@ -266,7 +268,7 @@
                 }
                 var arr = [];
                 var flag = 0;
-                $("#receipt TBODY TR").each(function () {
+                $("#receipt tbody tr").each(function () {
                     arr.push(this.id);
                 });
                 for (let j = 0; j < arr.length; j++) {

@@ -16,7 +16,7 @@ namespace Transactiondetails.Controllers
         // GET: Home
         public ActionResult Index(CompanyViewModel companyViewModel)
         {
-            var userData = (UserData) Session["UserData"];
+            var userData = (UserData)Session["UserData"];
             userData.Branch = companyViewModel.Branch;
             userData.FYear = companyViewModel.FYear;
             userData.Company = companyViewModel.Company;
@@ -58,38 +58,42 @@ namespace Transactiondetails.Controllers
         [HttpPost]
         public PartialViewResult EditJobworkReceipt(int serialNo)
         {
-             var dbutility = new JobReceiptDataLayer();
+            var dbutility = new JobReceiptDataLayer();
 
             //try
             //{
-                var userData = (UserData)Session["UserData"];
+            var userData = (UserData)Session["UserData"];
 
-                var jobReciept = dbutility.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, serialNo);
+            var jobReciept = dbutility.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, serialNo);
 
-                TempData["AccountCode"] = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
-                TempData["ReferenceDate"] = Convert.ToDateTime(jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");  //Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
+            TempData["AccountCode"] = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
+            TempData["ReferenceDate"] = Convert.ToDateTime(jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");  //Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
 
-                ViewBag.Process = jobReciept.Processes;
-                ViewBag.Customer = jobReciept.Accounts;
-                TempData["serialNo"] = serialNo;
-                TempData.Keep("serialNo");
-                return PartialView(jobReciept.JobRecieptDets);
+            ViewBag.Process = jobReciept.Processes;
+            ViewBag.Customer = jobReciept.Accounts;
+            TempData["serialNo"] = serialNo;
+            TempData.Keep("serialNo");
+            return PartialView(jobReciept.JobRecieptDets);
 
-                 
+
             //}
             //catch (Exception ex)
             //{
             //}
 
-           // return PartialView();
-             
+            // return PartialView();
+
         }
         public JsonResult SaveJobworkReceipt(List<JobReceiptDet> lstjobReceiptDets, string referenceDate = "", string accountCode = "", int serialNumber = 0)
         {
+            var dbutility = new JobReceiptDataLayer();
+
             try
             {
                 if (!string.IsNullOrEmpty(referenceDate) && !string.IsNullOrEmpty(accountCode) && serialNumber > 0)
                 {
+                    var userData = (UserData)Session["UserData"];
+
                     var jobRecieptMas = new JobReceiptMa();
                     //put your Fields Here
                     jobRecieptMas.SerialNumber = serialNumber;
@@ -97,36 +101,32 @@ namespace Transactiondetails.Controllers
                     jobRecieptMas.ReferenceDate = Convert.ToDateTime(referenceDate);
                     jobRecieptMas.EntryDate = DateTime.Now;
                     jobRecieptMas.ModiDate = DateTime.Now;
+                    jobRecieptMas.FinancialYearCode = userData.FYear;
+                    jobRecieptMas.BranchCode = userData.Branch;
+                    jobRecieptMas.UserCode = 1; //Get usercode from session
+                    jobRecieptMas.ModiUserCode = 1; //Get usercode from session
+                    jobRecieptMas.DeletedFlag = false;
 
                     var jobRecipt = new JobReceipt();
                     jobRecipt.JobReceiptMaster = jobRecieptMas;
                     jobRecipt.JobReceiptDetails = lstjobReceiptDets;
 
+                    var data = dbutility.SaveJobworkReceipt(jobRecipt, userData.Company, userData.FYear);
 
-                    var xmlString = XmlUtility.Serialize(jobRecipt);
-
-                    var pxmlString = new SqlParameter("@xmlString", xmlString);
-
-                    using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+                    if (data != null)
                     {
-                        //Call Stored Procedure to dump the xml to database
-                        var data = db.Database.SqlQuery<DatabaseResponse>("exec spJobReceiptAdd @xmlString", pxmlString);
-
-
-                        if (data != null)
+                        if (data.ErrorCode == "00")
                         {
-                            if (data.First().ErrorCode == "00")
-                            {
-                                var successMessage = new { message = "Success", error = "false" };
-                                return Json(successMessage, JsonRequestBehavior.AllowGet);
-                            }
-                            else
-                            {
-                                var failedMessage = new { message = "Failed", error = "True" };
-                                return Json(failedMessage, JsonRequestBehavior.AllowGet);
-                            }
+                            var successMessage = new { message = "Success", error = "false" };
+                            return Json(successMessage, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            var failedMessage = new { message = "Failed", error = "True" };
+                            return Json(failedMessage, JsonRequestBehavior.AllowGet);
                         }
                     }
+
                 }
                 else if (lstjobReceiptDets != null && !string.IsNullOrEmpty(TempData["serialNo"].ToString()))
                 {
