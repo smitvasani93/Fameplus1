@@ -58,18 +58,20 @@ namespace Transactiondetails.Controllers
         [HttpPost]
         public PartialViewResult EditJobworkReceipt(int serialNo)
         {
-            var dbutility = new JobReceiptDataLayer();
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
 
             //try
             //{
             var userData = (UserData)Session["UserData"];
 
-            var jobReciept = dbutility.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, serialNo);
+            var jobReciept = jobReceiptDataLayer.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, serialNo);
+            var process = dbutility.GetProcesses();
 
             TempData["AccountCode"] = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
             TempData["ReferenceDate"] = Convert.ToDateTime(jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");  //Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
 
-            ViewBag.Process = jobReciept.Processes;
+            ViewBag.Process = process;
             ViewBag.Customer = jobReciept.Accounts;
             TempData["serialNo"] = serialNo;
             TempData.Keep("serialNo");

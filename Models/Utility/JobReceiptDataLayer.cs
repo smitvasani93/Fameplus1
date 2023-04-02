@@ -25,7 +25,7 @@ namespace Transactiondetails.Models.Utility
             {
                 //Call Stored Procedure to get the JobReciepts
                 //JobRecieptData.Processes = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
-                if(!isAccountdataExists)
+                if (!isAccountdataExists)
                 {
                     JobRecieptData.Accounts = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
                 }
@@ -40,12 +40,21 @@ namespace Transactiondetails.Models.Utility
         {
             var JobRecieptData = new JobRecieptData();
 
+            bool isAccountdataExists = false;
+            if (HttpContext.Current.Session["Accounts"] != null)
+            {
+                JobRecieptData.Accounts = (List<AccountMaster>)HttpContext.Current.Session["Accounts"];
+                isAccountdataExists = true;
+            }
 
             using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to get the JobReciepts
-                JobRecieptData.Processes = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
-                JobRecieptData.Accounts = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
+                //JobRecieptData.Processes = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
+                if (!isAccountdataExists)
+                {
+                    JobRecieptData.Accounts = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
+                }
                 var pSNumber = new SqlParameter("@SerialNumber", serialNo);
 
                 JobRecieptData.JobRecieptDets = db.Database.SqlQuery<JobRecieptDetail>("exec SpGetJobRecieptBySerialNumber @SerialNumber", pSNumber).ToList();
