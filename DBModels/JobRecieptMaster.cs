@@ -8,5 +8,6 @@ namespace Transactiondetails.DBModels
         public string AccountName { get; set; }
         public DateTime ReferenceDate { get; set; }
         public int SerialNumber { get; set; }
+        public int MaxSerialNumber { get; set; }
     }
 }

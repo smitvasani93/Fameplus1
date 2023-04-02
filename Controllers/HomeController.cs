@@ -39,14 +39,15 @@ namespace Transactiondetails.Controllers
             try
             {
                 var userData = (UserData)Session["UserData"];
-                var jobReciept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.FYear);
+                var jobReciept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
                 var process = dbutility.GetProcesses();
-                var recieptNo = jobReciept.JobRecieptMasts.Max(a => a.SerialNumber);
+                var recieptNo = jobReciept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
                 TempData["recieptNo"] = recieptNo;
                 ViewBag.Search = jobReciept.JobRecieptMasts.OrderByDescending(x=> x.ReferenceDate);
                 ViewBag.Process = process;
-                ViewBag.Customer = jobReciept.Accounts;
+                ViewBag.Customer = accounts;
             }
             catch (Exception ex)
             {
@@ -67,12 +68,13 @@ namespace Transactiondetails.Controllers
 
             var jobReciept = jobReceiptDataLayer.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, serialNo);
             var process = dbutility.GetProcesses();
+            var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
 
             TempData["AccountCode"] = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
             TempData["ReferenceDate"] = Convert.ToDateTime(jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");  //Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
 
             ViewBag.Process = process;
-            ViewBag.Customer = jobReciept.Accounts;
+            ViewBag.Customer = accounts;
             TempData["serialNo"] = serialNo;
             TempData.Keep("serialNo");
             return PartialView(jobReciept.JobRecieptDets);

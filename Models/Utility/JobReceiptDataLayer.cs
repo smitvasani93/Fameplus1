@@ -8,60 +8,51 @@ namespace Transactiondetails.Models.Utility
 {
     public class JobReceiptDataLayer
     {
-        public JobRecieptData GetJobReciept(string companyCode, string FYear)
+        public JobRecieptData GetJobReciept(string companyCode, string branchCode,  string FYear)
         {
             var JobRecieptData = new JobRecieptData();
-            //var processMasterList = new List<ProcessMaster>();
-            //var accountMasterList = new List<AccountMaster>();
-            //var jobRecieptMasterList = new List<JobRecieptMaster>();
-            bool isAccountdataExists = false;
-            if (HttpContext.Current.Session["Accounts"] != null)
-            {
-                JobRecieptData.Accounts = (List<AccountMaster>)HttpContext.Current.Session["Accounts"];
-                isAccountdataExists = true;
-            }
-
             using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to get the JobReciepts
-                //JobRecieptData.Processes = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
-                if (!isAccountdataExists)
-                {
-                    JobRecieptData.Accounts = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
-                }
                 var pFYear = new SqlParameter("@FinancialYearCode", FYear);
+                var pBranch = new SqlParameter("@BranchCode", branchCode);
 
-                JobRecieptData.JobRecieptMasts = db.Database.SqlQuery<JobRecieptMaster>("exec spGetJobReceipt @FinancialYearCode", pFYear).ToList();
+                JobRecieptData.JobRecieptMasts = db.Database.SqlQuery<JobRecieptMaster>("exec spGetJobReceipt @FinancialYearCode, @BranchCode", pFYear, pBranch).ToList();
             }
 
             return JobRecieptData;
         }
+
+        public List<AccountMaster> GetAccounts(string companyCode, string branchCode, string FYear)
+        {
+            var accountMasterList = new List<AccountMaster>();
+            //if Data Exists in session
+            if (HttpContext.Current.Session["Accounts"] != null)
+            {
+                return  (List<AccountMaster>)HttpContext.Current.Session["Accounts"];
+            }
+            using (CompanyDBContext db = new CompanyDBContext(companyCode))
+            {
+                accountMasterList = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
+
+                HttpContext.Current.Session["Accounts"] = accountMasterList;
+            }
+
+            return accountMasterList;
+        }
+
+
         public JobRecieptData GetJobRecieptBySerialNumber(string companyCode, string FYear, int serialNo)
         {
             var JobRecieptData = new JobRecieptData();
-
-            bool isAccountdataExists = false;
-            if (HttpContext.Current.Session["Accounts"] != null)
-            {
-                JobRecieptData.Accounts = (List<AccountMaster>)HttpContext.Current.Session["Accounts"];
-                isAccountdataExists = true;
-            }
-
             using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to get the JobReciepts
-                //JobRecieptData.Processes = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
-                if (!isAccountdataExists)
-                {
-                    JobRecieptData.Accounts = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
-                }
                 var pSNumber = new SqlParameter("@SerialNumber", serialNo);
-
                 JobRecieptData.JobRecieptDets = db.Database.SqlQuery<JobRecieptDetail>("exec SpGetJobRecieptBySerialNumber @SerialNumber", pSNumber).ToList();
             }
 
             return JobRecieptData;
-
         }
 
         public DatabaseResponse SaveJobworkReceipt(JobReceipt jobRecipt, string companyCode, string fYear)
