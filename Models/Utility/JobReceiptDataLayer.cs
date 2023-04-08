@@ -65,5 +65,15 @@ namespace Transactiondetails.Models.Utility
                 return db.Database.SqlQuery<DatabaseResponse>("exec spJobReceiptAdd @xmlString", pxmlString).FirstOrDefault();
             }
         }
+        public DatabaseResponse UpdateJobworkReceipt(JobReceipt jobRecipt, string companyCode, string fYear)
+        {
+            var xmlString = XmlUtility.Serialize(jobRecipt);
+            var pxmlString = new SqlParameter("@xmlString", xmlString);
+            using (CompanyDBContext db = new CompanyDBContext(companyCode))
+            {
+                //Call Stored Procedure to dump the xml to database
+                return db.Database.SqlQuery<DatabaseResponse>("exec spJobReceiptUpdate @xmlString", pxmlString).FirstOrDefault();
+            }
+        }
     }
 }

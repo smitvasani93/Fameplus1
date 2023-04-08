@@ -45,7 +45,7 @@ namespace Transactiondetails.Controllers
                 var recieptNo = jobReciept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
                 TempData["recieptNo"] = recieptNo;
-                ViewBag.Search = jobReciept.JobRecieptMasts.OrderByDescending(x=> x.ReferenceDate);
+                ViewBag.Search = jobReciept.JobRecieptMasts.OrderByDescending(x => x.ReferenceDate);
                 ViewBag.Process = process;
                 ViewBag.Customer = accounts;
             }
@@ -88,100 +88,66 @@ namespace Transactiondetails.Controllers
             // return PartialView();
 
         }
-        public JsonResult SaveJobworkReceipt(List<JobReceiptDet> lstjobReceiptDets, string referenceDate = "", string accountCode = "", int serialNumber = 0)
+        public JsonResult SaveJobworkReceipt(List<JobReceiptDet> lstjobReceiptDets, string referenceDate = "", string accountCode = "", int serialNumber = 0, bool isEdit = false)
         {
             var dbutility = new JobReceiptDataLayer();
-
+            var message = new { message = "Failed", error = "True" };
+            DatabaseResponse databaseResponse = null;
             try
             {
-                if (!string.IsNullOrEmpty(referenceDate) && !string.IsNullOrEmpty(accountCode) && serialNumber > 0)
+                var userData = (UserData)Session["UserData"];
+
+                var jobRecieptMas = new JobReceiptMa();
+                //put your Fields Here
+                jobRecieptMas.SerialNumber = serialNumber;
+                jobRecieptMas.AccountCode = accountCode;
+                jobRecieptMas.ReferenceDate = Convert.ToDateTime(referenceDate);
+                //jobRecieptMas.EntryDate = DateTime.Now;
+                jobRecieptMas.ModiDate = DateTime.Now;
+                jobRecieptMas.FinancialYearCode = userData.FYear;
+                jobRecieptMas.BranchCode = userData.Branch;
+                jobRecieptMas.UserCode = 1; //Get usercode from session
+                jobRecieptMas.ModiUserCode = 1; //Get usercode from session
+                jobRecieptMas.DeletedFlag = false;
+
+                var jobRecipt = new JobReceipt();
+                jobRecipt.JobReceiptMaster = jobRecieptMas;
+                jobRecipt.JobReceiptDetails = lstjobReceiptDets;
+
+                if (isEdit) //Edit 
                 {
-                    var userData = (UserData)Session["UserData"];
-
-                    var jobRecieptMas = new JobReceiptMa();
-                    //put your Fields Here
-                    jobRecieptMas.SerialNumber = serialNumber;
-                    jobRecieptMas.AccountCode = accountCode;
-                    jobRecieptMas.ReferenceDate = Convert.ToDateTime(referenceDate);
-                    jobRecieptMas.EntryDate = DateTime.Now;
-                    jobRecieptMas.ModiDate = DateTime.Now;
-                    jobRecieptMas.FinancialYearCode = userData.FYear;
-                    jobRecieptMas.BranchCode = userData.Branch;
-                    jobRecieptMas.UserCode = 1; //Get usercode from session
-                    jobRecieptMas.ModiUserCode = 1; //Get usercode from session
-                    jobRecieptMas.DeletedFlag = false;
-
-                    var jobRecipt = new JobReceipt();
-                    jobRecipt.JobReceiptMaster = jobRecieptMas;
-                    jobRecipt.JobReceiptDetails = lstjobReceiptDets;
-
-                    var data = dbutility.SaveJobworkReceipt(jobRecipt, userData.Company, userData.FYear);
-
-                    if (data != null)
-                    {
-                        if (data.ErrorCode == "00")
-                        {
-                            var successMessage = new { message = "Success", error = "false" };
-                            return Json(successMessage, JsonRequestBehavior.AllowGet);
-                        }
-                        else
-                        {
-                            var failedMessage = new { message = "Failed", error = "True" };
-                            return Json(failedMessage, JsonRequestBehavior.AllowGet);
-                        }
-                    }
-
+                 //   var serialNo = Convert.ToInt32(TempData["serialNo"]);
+                    databaseResponse = dbutility.UpdateJobworkReceipt(jobRecipt, userData.Company, userData.FYear);
                 }
-                else if (lstjobReceiptDets != null && !string.IsNullOrEmpty(TempData["serialNo"].ToString()))
+                else  //Add
                 {
-                    using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+                    databaseResponse = dbutility.SaveJobworkReceipt(jobRecipt, userData.Company, userData.FYear);
+                }
+
+                if (databaseResponse != null)
+                {
+                    if (databaseResponse.ErrorCode == "00")
                     {
-                        var serialNo = Convert.ToInt32(TempData["serialNo"]);
-                        JobReceiptMa jobRecieptMasData = db.JobReceiptMas.Find(serialNo);
-                        jobRecieptMasData.ModiDate = DateTime.Now;
-                        List<JobReceiptDet> lstjobReceipt = db.JobReceiptDets.Where(a => a.SerialNumber == serialNo).ToList();
-                        foreach (var item in lstjobReceiptDets)
-                        {
-                            foreach (var data in lstjobReceipt)
-                            {
-                                if (item.ItemSerialNumber == data.ItemSerialNumber)
-                                {
-                                    data.ProcessCode = item.ProcessCode;
-                                    data.PacketNumber = item.PacketNumber;
-                                    data.ItemPieces = item.ItemPieces;
-                                    data.ItemCarats = item.ItemCarats;
-                                    data.ItemLines = item.ItemLines;
-                                    data.Remarks = item.Remarks;
-                                }
-                            }
-                        }
-                        lstjobReceiptDets = lstjobReceiptDets.Where(a => a.ItemSerialNumber == 0).ToList();
-                        if (lstjobReceiptDets.Count > 0)
-                        {
-                            int ItemSerialNumber = lstjobReceipt.Max(x => x.ItemSerialNumber);
-                            foreach (var item in lstjobReceiptDets)
-                            {
-                                ItemSerialNumber++;
-                                item.ItemSerialNumber = (short)ItemSerialNumber;
-                                item.SerialNumber = serialNo;
-                                db.JobReceiptDets.Add(item);
-                            }
-                        }
-                        db.SaveChanges();
+                        message = new { message = "Success", error = "false" };
+                        return Json(message, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        message = new { message = "Failed", error = "True" };
+                        return Json(message, JsonRequestBehavior.AllowGet);
                     }
                 }
-                var json2 = new { message = "Success", error = "false" };
-                return Json(json2, JsonRequestBehavior.AllowGet);
+                
             }
             catch (Exception ex)
             {
-                var json2 = new { message = "Exception occured", error = "True" };
-                return Json(json2, JsonRequestBehavior.AllowGet);
+                message = new { message = "Exception occured", error = "True" };
+                return Json(message, JsonRequestBehavior.AllowGet);
             }
+
+            return Json(message, JsonRequestBehavior.AllowGet);
         }
         #endregion
-
-
 
         #region JobWorkDespatch
         public ActionResult JobWorkDespatch()
