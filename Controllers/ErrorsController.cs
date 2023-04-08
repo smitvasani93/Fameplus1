@@ -4,7 +4,7 @@ using System.Web.Mvc;
 
 namespace Transactiondetails.Controllers
 {
-    public class ErrorsController :  Controller
+    public class ErrorsController : Controller
     {
         public ActionResult RaiseError(string error = null)
         {
@@ -18,10 +18,12 @@ namespace Transactiondetails.Controllers
             Response.StatusCode = (int)HttpStatusCode.NotFound;
             return View();
         }
+
+        [AllowAnonymous]
         public ActionResult NotFound()
         {
-            //Response.TrySkipIisCustomErrors = true;
-            //Response.StatusCode = (int)HttpStatusCode.NotFound;
+            Response.TrySkipIisCustomErrors = true;
+            Response.StatusCode = (int)HttpStatusCode.NotFound;
             return View();
         }
 

@@ -48,29 +48,40 @@ namespace Transactiondetails.Controllers
 
 
         [HttpPost]
-        public JsonResult ValidateUser(string userName, string password,
-                               bool rememberme)
+        public JsonResult ValidateUser(string userName, string password,bool rememberme)
         {
             var dbutility = new DBUtility();
             LoginStatus status = new LoginStatus();
-            if (dbutility.CheckLogin(userName, password))
+
+            try
             {
-                FormsAuthentication.SetAuthCookie(userName, rememberme);
-                Session["UserData"] = new UserData { UserName = userName };
-                status.Success = true;
-                status.TargetURL = FormsAuthentication.
-                                   GetRedirectUrl(userName, rememberme);
-                if (string.IsNullOrEmpty(status.TargetURL))
+                if (dbutility.CheckLogin(userName, password))
                 {
-                    status.TargetURL = FormsAuthentication.DefaultUrl;
+                    FormsAuthentication.SetAuthCookie(userName, rememberme);
+                    Session["UserData"] = new UserData { UserName = userName };
+                    status.Success = true;
+                    status.TargetURL = FormsAuthentication.
+                                       GetRedirectUrl(userName, rememberme);
+                    if (string.IsNullOrEmpty(status.TargetURL))
+                    {
+                        status.TargetURL = FormsAuthentication.DefaultUrl;
+                    }
+                    status.Message = "Login attempt successful!";
                 }
-                status.Message = "Login attempt successful!";
+                else
+                {
+                    status.Success = false;
+                    status.Message = "Invalid UserID or Password!";
+                    status.TargetURL = FormsAuthentication.LoginUrl;
+                }
             }
-            else
+            catch (Exception ex)
             {
                 status.Success = false;
-                status.Message = "Invalid UserID or Password!";
+                status.Message = "Something went wrong. Please try again later!";
                 status.TargetURL = FormsAuthentication.LoginUrl;
+
+                //ViewBag.Message = "Something went wrong. Please try again later.";
             }
             return Json(status);
         }

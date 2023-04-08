@@ -1,6 +1,5 @@
 using System.Web.Mvc;
 using System.Web.Routing;
-using Transactiondetails.Models.Utility;
 
 namespace Transactiondetails
 {
@@ -12,14 +11,25 @@ namespace Transactiondetails
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             //Load data to application cache
-            LoadAplicatioCache();
+            //LoadAplicatioCache();
         }
 
-        private void LoadAplicatioCache()
-        {
-            var dbutility = new DBUtility();
-            Application["Process"] =  dbutility.GetProcesses();
-           // Application["Accounts"] = dbutility.GetAccounts();
-        }
+        //private void LoadAplicatioCache()
+        //{
+        //    throw new FileNotFoundException();
+        //    try
+        //    {
+        //        var dbutility = new DBUtility();
+        //        dbutility.GetProcesses();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new FileNotFoundException();
+
+        //        //Response.Redirect("~/Errors/NotFound");
+        //       // throw ex;
+        //    }
+
+        //}
     }
 }

@@ -8,6 +8,8 @@ namespace Transactiondetails.Models.Utility
 {
     public class DBUtility
     {
+        static readonly object cacheLock = new object();
+
         public bool CheckLogin(string userName, string password)
         {
             bool isSuccessFulllogin = false;
@@ -85,6 +87,7 @@ namespace Transactiondetails.Models.Utility
         //}
         public List<ProcessMaster> GetProcesses()
         {
+
             var processMasterList = new List<ProcessMaster>();
 
             if (HttpContext.Current.Cache["Process"] != null)
@@ -92,9 +95,18 @@ namespace Transactiondetails.Models.Utility
                 processMasterList = (List<ProcessMaster>) HttpContext.Current.Cache["Process"];
                 return processMasterList;
             }
-             using (GenDBContext db = new GenDBContext())
+            lock (cacheLock)
             {
-                processMasterList = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
+
+                using (GenDBContext db = new GenDBContext())
+                {
+                    processMasterList = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
+
+                    if (processMasterList != null)
+                    {
+                        HttpContext.Current.Cache["Process"] = processMasterList;
+                    }
+                }
             }
 
             return processMasterList;
