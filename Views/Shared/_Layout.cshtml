@@ -71,7 +71,7 @@
         {
             var userdata = (UserData)Session["UserData"];
 
-        <nav class="header-nav ms-auto">
+            <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
 
                 <li class="nav-item dropdown pe-3">
@@ -151,8 +151,8 @@
                 </a>
                 <ul id="Master-nav" class="nav-content @(activeMenu=="Master"?"collapse show":"collapse") " data-bs-parent="#sidebar-nav">
                     <li>
-                        @*<a href="~/JobWorkReceipts/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>*@
-                        <a href="~/Home/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
+                        <a href="~/JobWorkReceipts/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
+                        @*<a href="~/Home/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>*@
                             <i class="bi bi-circle"></i><span>Job Receipt</span>
                         </a>
                     </li>
@@ -263,11 +263,6 @@
 
 
     <main id="main" class="main">
-        @if (Request.IsAuthenticated)
-        {
-        @Html.Partial("_UserData")
-        }
-
         <!-- End Page Title -->
         @RenderBody()
     </main>

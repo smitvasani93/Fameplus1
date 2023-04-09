@@ -3544,7 +3544,6 @@
     <Content Include="Views\Home\EditJobWorkDespatchNew.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\CompanyDetails.cshtml" />
-    <Content Include="Views\Shared\_UserData.cshtml" />
     <Content Include="Views\Errors\Errors500.cshtml" />
     <Content Include="Views\Shared\Errors.cshtml" />
     <Content Include="Views\Errors\NotFound.cshtml" />
