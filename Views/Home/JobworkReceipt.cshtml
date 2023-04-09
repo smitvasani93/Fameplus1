@@ -91,10 +91,10 @@
                                         required = (string)null,
                                         @ng_model = "ProcessCode"@*, @ng_class = "{true: 'reqNolabel'}[receiptValidation.ProcessCode.$error.required]"*@})
                                 </td>
-                                <td><input type="text" class="form-control" id="1" required></td>
-                                <td><input type="text" class="form-control" id="2" required></td>
-                                <td><input type="text" class="form-control" id="3" required></td>
-                                <td><input type="text" class="form-control" id="4" required></td>
+                                <td><input type="text" class="form-control numberonly" id="1" required></td>
+                                <td><input type="text" class="form-control numberonly" id="2" required></td>
+                                <td><input type="text" class="form-control numberonly" id="3" required></td>
+                                <td><input type="text" class="form-control numberonly" id="4" required></td>
                                 <td><input type="text" class="form-control" id="5" required></td>
                                 <td class="plsRow" id="1"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#"><i class="fa fa-trash"></i></a></td>
                             </tr>
@@ -190,7 +190,7 @@
         });
 
         $("body").on("click", "#btnSave", function () {
-            if (document.getElementById("divPartial").style.display != "none" || document.getElementById("divPartial").style.display != "") {
+            if (document.getElementById("divPartial").style.display != "none") {
                 //debugger;
                 //if (angular.element(this).scope().EditreceiptValidation.$invalid) {
                 //    // angular.element(this).scope().toastr.error("Please Fill All Mandatory Fields");
@@ -201,7 +201,7 @@
                 //}
                 var arr = [];
                 var flag = 0;
-                $("#receipt tbody tr").each(function () {
+                $("#recipt TBODY TR").each(function () {
                     arr.push(this.id);
                 });
                 for (let j = 0; j < arr.length; j++) {
@@ -223,16 +223,11 @@
                 if (flag == 1)
                     return;
                 var JobReceiptDets = new Array();
-                var referenceDate = $('#referenceDate').val();
-                var recieptNo = $('#recieptNo').val();
                 var AccountCode = $('#ddlCustomer').val();
-                var ItemSerialNumber = 1;
-                var isEdit = $("#IsEdit:hidden").val() == "true";
-                $("#receipt tbody tr").each(function () {
+                $("#recipt TBODY TR").each(function () {
                     var row = $(this);
                     var JobReceiptDet = {};
-                    JobReceiptDet.ItemSerialNumber = ItemSerialNumber;// row.find("td:eq(7) input[type='text']").val();
-                    JobReceiptDet.SerialNumber = recieptNo;
+                    JobReceiptDet.ItemSerialNumber = row.find("td:eq(7) input[type='text']").val();
                     JobReceiptDet.ProcessCode = row.find("td:eq(0) select").val();
                     JobReceiptDet.PacketNumber = row.find("td:eq(1) input[type='text']").val();
                     JobReceiptDet.ItemPieces = row.find("td:eq(2) input[type='text']").val();
@@ -240,42 +235,120 @@
                     JobReceiptDet.ItemLines = row.find("td:eq(4) input[type='text']").val();
                     JobReceiptDet.Remarks = row.find("td:eq(5) input[type='text']").val();
                     JobReceiptDets.push(JobReceiptDet);
-                    ItemSerialNumber++;
-                    //ItemSerialNumberSearch = row.find("td:eq(7) input[type='text']").val();
+                    ItemSerialNumberSearch = row.find("td:eq(7) input[type='text']").val();
                 });
                 $.ajax({
                     type: "POST",
                     url: "/Home/SaveJobworkReceipt",
-                    data: JSON.stringify({ lstjobReceiptDets: JobReceiptDets, referenceDate: referenceDate, accountCode: AccountCode, serialNumber: recieptNo, isEdit: isEdit }),
+                    data: JSON.stringify(JobReceiptDets),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
                         console.log(r);
-                        if (r.error == "false") {
-
-                            swal.fire({
-                                title: "Success",
-                                text: "You saved successfully!",
-                                type: "success"
-                            }).then(function () {
-                                //window.location = "redirectURL";
-                                location.reload();
-                            });
-
-                          
-                        }
-
-                        else {
-
-                            swal.fire({
-                                title: "Failed",
-                                text: "Error Occured!!!",
-                                type: "failed"
-                            })
-                            return false;
-                        }
+                        swal.fire({
+                            title: "Success",
+                            text: "You saved successfully!",
+                            type: "success"
+                        }).then(function () {
+                            //window.location = "redirectURL";
+                            location.reload();
+                        });
                     }
                 });
+            }
+            else {
+                if (angular.element(this).scope().receiptValidation.$invalid) {
+                    // angular.element(this).scope().toastr.error("Please Fill All Mandatory Fields");
+                    if (document.getElementById("divReceipt").style.display != "none") {
+                        swal("Please Fill All Mandatory Fields");
+                    }
+                    return;
+                }
+                var arr = [];
+                var flag = 0;
+                $("#receipt TBODY TR").each(function () {
+                    arr.push(this.id);
+                });
+                for (let j = 0; j < arr.length; j++) {
+                    if ($("#" + arr[j]).find("td:eq(0) select").find(':selected').val() == "" || $("#" + arr[j]).find("td:eq(0) select").find(':selected').val() == undefined) {
+                        $("#" + arr[j]).find("td:eq(0) select").addClass("reqNolabel");
+                        flag = 1;
+                    }
+                    else
+                        $("#" + arr[j]).find("td:eq(0) select").removeClass("reqNolabel");
+                    for (i = 1; i <= 4; i++) {
+                        if ($("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == "" || $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                            $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                            flag = 1;
+                        }
+                        else
+                            $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+                    }
+                }
+                if (flag == 1)
+                    return;
+                if (document.getElementById("divReceipt").style.display != "none") {
+                    var referenceDate = $('#referenceDate').val();
+                    var recieptNo = $('#recieptNo').val();
+                    var JobReceiptDets = new Array();
+                    var AccountCode = $('#ddlCustomer').val();
+                    var ItemSerialNumber = 1;
+                    $("#receipt TBODY TR").each(function () {
+                        var row = $(this);
+                        var JobReceiptDet = {};
+                        JobReceiptDet.SerialNumber = $('#recieptNo').val();
+                        JobReceiptDet.ItemSerialNumber = ItemSerialNumber;
+                        JobReceiptDet.ProcessCode = row.find("td:eq(0) select").val();
+                        JobReceiptDet.PacketNumber = row.find("td:eq(1) input[type='text']").val();
+                        JobReceiptDet.ItemPieces = row.find("td:eq(2) input[type='text']").val();
+                        JobReceiptDet.ItemCarats = row.find("td:eq(3) input[type='text']").val();
+                        JobReceiptDet.ItemLines = row.find("td:eq(4) input[type='text']").val();
+                        JobReceiptDet.Remarks = row.find("td:eq(5) input[type='text']").val();
+                        JobReceiptDets.push(JobReceiptDet);
+                        ItemSerialNumber++;
+                    });
+                    if (JobReceiptDets.length === 0) {
+                        alert("Empty Rows");
+                    }
+                    else {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Home/SaveJobworkReceipt",
+                            data: JSON.stringify({ lstjobReceiptDets: JobReceiptDets, referenceDate: referenceDate, accountCode: AccountCode, serialNumber: recieptNo }),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (r) {
+                                console.log(r);
+                                if (r.error == "True") {
+
+                                    swal({
+                                        title: "Failed",
+                                        text: "Error Occured!!!",
+                                        type: "failed"
+                                    })
+                                    return false;
+                                }
+
+                                else {
+
+                                    swal({
+                                        title: "Success",
+                                        text: "You saved successfully!",
+                                        type: "success"
+                                    }).then(function () {
+                                        //window.location = "redirectURL";
+                                        location.reload();
+                                    });
+                                }
+                            },
+                            error: function (textStatus, errorThrown) {
+                                console.log(textStatus, errorThrown);
+                                swal("Failed!", "something wrong has happened!", "error");
+                            }
+                        });
+                    }
+                    //Send the JSON array to Controller using AJAX.
+                }
             }
         });
     });
@@ -287,6 +360,12 @@
         //$('#tbsearch').DataTable();
 
     });
+
+
+    $(document).on("input", ".numberonly", function () {
+        this.value = this.value.replace(/\D/g, '');
+    });
+
 </script>
 <script>
     var mainDiv = document.getElementById("myModal");
