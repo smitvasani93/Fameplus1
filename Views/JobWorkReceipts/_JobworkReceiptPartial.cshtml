@@ -1,6 +1,6 @@
 ﻿@model  Transactiondetails.ViewModels.JobReciptVM
 
-@using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result",OnSuccess= "AjaxFormSuccess" }))
+@using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }))
 {
     <div class="row g-3">
         <div class="col-lg-12">
@@ -41,66 +41,38 @@
                             <th></th>
                         </tr>
                     </thead>
-
-                    @{
-                        var trcount = 1;
-                    }
                     @for (var i = 0; i < Model.JobReceiptDetails.Count(); i++)
                     {
                         <tr>
                             <td>
-                                @Html.DropDownListFor(model=> Model.JobReceiptDetails[i].ProcessCode, new SelectList(Model.Processes, "ProcessCode", "ProcessName", Model.JobReceiptDetails[i].ProcessCode),"Please select", new { @id = "ddlStatus", @class = "form-select" })
-
-                                @*@Html.DropDownList("ProcessCode", new SelectList(Model.Processes, "ProcessCode", "ProcessName", @item.ProcessCode), "Please select", new { @id = "ddlStatus", @class = "form-select" })*@
+                                @Html.DropDownListFor(model => Model.JobReceiptDetails[i].ProcessCode, new SelectList(Model.Processes, "ProcessCode", "ProcessName", Model.JobReceiptDetails[i].ProcessCode), "Please select", new { @id = "ddlStatus", @class = "form-select" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model=> Model.JobReceiptDetails[i].PacketNumber,new {@required=true,@class= "form-control numberonly" })
-                                @*<input type="text" class="form-control numberonly" id="1" name="PacketNumber" value="@item.PacketNumber" required>*@
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].PacketNumber, new { @required = true, @class = "form-control numberonly" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control numberonly" })
-                                @*<input type="text" class="form-control numberonly" id="2" name="ItemPieces" value="@item.ItemPieces" required>*@
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control numberonly" })
-                                @*<input type="text" class="form-control numberonly" id="3" name="ItemCarats" value="@item.ItemCarats" required>*@
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemLines, new { @required = true, @class = "form-control numberonly" })
-                                @*<input type="text" class="form-control numberonly" id="4" name="ItemLines" value="@item.ItemLines" required>*@
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @required = true, @class = "form-control numberonly" })
-                                
-                                @*<input type="text" class="form-control" id="5" name="Remarks" value="@item.Remarks" required>*@
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @required = true, @class = "form-control" })
                             </td>
-                            <td class="plsRow"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#"><i class="fa fa-trash"></i></a></td>
+                            <td class="plsRow">
+                                <a class="addRow" href="#">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <a class="deleteRow" href="#"><i class="fa fa-trash"></i></a>
+                            </td>
                             <td style="display:none">
                                 @Html.HiddenFor(model => Model.JobReceiptDetails[i].ItemSerialNumber)
-                                @*<input type="hidden" class="form-control" id="0" value="@item.ItemSerialNumber">*@
                             </td>
                         </tr>
-
                     }
-
-                    @*@foreach (var item in Model.JobReceiptDetails)
-                    {
-                        var idstr = "tr" + trcount;
-                        <tr id="@idstr">
-
-                            <td>
-                                @Html.DropDownList("ProcessCode", new SelectList(Model.Processes, "ProcessCode", "ProcessName", @item.ProcessCode), "Please select", new { @id = "ddlStatus", @class = "form-select" })
-                            </td>
-                            <td><input type="text" class="form-control numberonly" id="1" name="PacketNumber" value="@item.PacketNumber" required></td>
-                            <td><input type="text" class="form-control numberonly" id="2" name="ItemPieces" value="@item.ItemPieces" required></td>
-                            <td><input type="text" class="form-control numberonly" id="3" name="ItemCarats" value="@item.ItemCarats" required></td>
-                            <td><input type="text" class="form-control numberonly" id="4" name="ItemLines" value="@item.ItemLines" required></td>
-                            <td><input type="text" class="form-control" id="5" name="Remarks" value="@item.Remarks" required></td>
-                            <td class="plsRow"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#"><i class="fa fa-trash"></i></a></td>
-                            <td style="display:none"><input type="hidden" class="form-control" id="0" value="@item.ItemSerialNumber"></td>
-                        </tr>
-                        trcount++;
-                    }*@
                 </table>
             </div>
         </div>
@@ -111,7 +83,9 @@
             </div>
         </div>
     </div>
-    <div id="result"></div>
+    <div id="result">
+
+    </div>
 }
 
 <script type="text/javascript">
@@ -163,7 +137,8 @@
     });
 
     function AjaxFormSuccess(e) {
-        if (e == "Success") {
+
+        if (e.error == "false") {
             $('#dialog').dialog('close');
         }
     }
