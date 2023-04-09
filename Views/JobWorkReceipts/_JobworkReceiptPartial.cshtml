@@ -1,0 +1,102 @@
+﻿@model  Transactiondetails.ViewModels.JobReciptVM
+
+@using (Ajax.BeginForm("UpdateJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result" }))
+{
+    <div class="row g-3">
+        <div class="col-lg-10">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label for="inputEmail3" class="col-form-label">Receipt Date</label>
+                </div>
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(x => x.ReferenceDate, new { @class = "form-control" })
+                    @*<input type="date" class="form-control" value="@TempData["ReferenceDate"]" id="referenceDate" required />*@
+                </div>
+                <div class="col-sm-2 mr-minus">
+                    <label for="inputEmail3" class="col-form-label">Receipt No</label>
+                </div>
+                <div class="col-sm-3">
+                    @*<input type="text" class="form-control" value="@TempData["serialNo"]" id="recieptNo">*@
+                    @Html.TextBoxFor(x => x.SerialNumber, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Customer Name</label>
+                <div class="col-sm-5">
+                    @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @class = "form-select" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="newone" class="pt-4">
+        <table id="receipt" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Process</th>
+                    <th>Packet No</th>
+                    <th>Pieces</th>
+                    <th>Carats</th>
+                    <th>Lines</th>
+                    <th>Remarks</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            @*@foreach (var item in Model)
+            {
+                var idstr = "tr" + trcount;
+                <tr id="@idstr">
+
+                    <td>
+                        @Html.DropDownList("ProcessCode", new SelectList(ViewBag.Process, "ProcessCode", "ProcessName", @item.ProcessCode), "Please select", new { @id = "ddlStatus", @class = "form-select", required = (string)null, @ng_model = "ProcessCode", @ng_class = "{true: 'reqNolabel'}[receiptValidation.ProcessCode.$error.required]" })
+                    </td>
+                    <td><input type="text" class="form-control" id="1" value="@item.PacketNumber" required></td>
+                    <td><input type="text" class="form-control" id="2" value="@item.ItemPieces" required></td>
+                    <td><input type="text" class="form-control" id="3" value="@item.ItemCarats" required></td>
+                    <td><input type="text" class="form-control" id="4" value="@item.ItemLines" required></td>
+                    <td><input type="text" class="form-control" id="5" value="@item.Remarks" required></td>
+                    <td class="plsRow"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#"><i class="fa fa-trash"></i></a></td>
+                    <td style="display:none"><input type="text" class="form-control" id="0" value="@item.ItemSerialNumber"></td>
+                </tr>
+                trcount++;
+            }*@
+
+
+        </table>
+
+    </div>
+
+    @*<div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Account Code</label>
+            @Html.TextBoxFor(x => x.AccountCode, new { @class = "form-control" })
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Account Name</label>
+            @Html.TextBoxFor(x => x.AccountName, new { @class = "form-control" })
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Reference Date</label>
+            @Html.TextBoxFor(x => x.ReferenceDate, new { @class = "form-control" })
+        </div>*@
+
+    @*<button type="submit" class="btn btn-default">Submit</button>*@
+    @*<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">*@
+    @*</div>*@
+
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix mt-4">
+        <div class="ui-dialog-buttonset pe-sm-1">
+            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="button" class="btn btn-default">Close</button>
+        </div>
+    </div>
+}
+
+<div id="result"></div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#ReferenceDate").datepicker();
+    });
+</script>

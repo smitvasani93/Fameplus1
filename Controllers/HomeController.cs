@@ -41,10 +41,10 @@ namespace Transactiondetails.Controllers
                 var userData = (UserData)Session["UserData"];
 
                 var jobReciept = dbutility.GetJobReciept(userData.Company, userData.FYear);
-                var recieptNo = jobReciept.JobRecieptMasts.Max(a => a.SerialNumber);
+                var recieptNo = jobReciept.JobReciepts.Max(a => a.SerialNumber);
                 recieptNo++;
                 TempData["recieptNo"] = recieptNo;
-                ViewBag.Search = jobReciept.JobRecieptMasts;
+                ViewBag.Search = jobReciept.JobReciepts;
                 ViewBag.Process = jobReciept.Processes;
                 ViewBag.Customer = jobReciept.Accounts;
             }
@@ -64,25 +64,25 @@ namespace Transactiondetails.Controllers
             //{
                 var userData = (UserData)Session["UserData"];
 
-                var jobReciept = dbutility.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, serialNo);
+            //var jobReciept = dbutility.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, serialNo);
 
-                TempData["AccountCode"] = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
-                TempData["ReferenceDate"] = Convert.ToDateTime(jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");  //Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
+            //TempData["AccountCode"] = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
+            //TempData["ReferenceDate"] = Convert.ToDateTime(jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");  //Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
 
-                ViewBag.Process = jobReciept.Processes;
-                ViewBag.Customer = jobReciept.Accounts;
-                TempData["serialNo"] = serialNo;
-                TempData.Keep("serialNo");
-                return PartialView(jobReciept.JobRecieptDets);
+            //ViewBag.Process = jobReciept.Processes;
+            //ViewBag.Customer = jobReciept.Accounts;
+            //TempData["serialNo"] = serialNo;
+            //TempData.Keep("serialNo");
+            //return PartialView(jobReciept.JobRecieptDets);
+            return PartialView();
 
-                 
             //}
             //catch (Exception ex)
             //{
             //}
 
-           // return PartialView();
-             
+            // return PartialView();
+
         }
         public JsonResult SaveJobworkReceipt(List<JobReceiptDet> lstjobReceiptDets, string referenceDate = "", string accountCode = "", int serialNumber = 0)
         {

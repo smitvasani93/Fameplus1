@@ -1,0 +1,154 @@
+﻿
+@using System.Collections.Generic;
+@{
+    ViewBag.Title = "JobworkReceipt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Transactiondetails.ViewModels
+@using GridMvc.Html
+@model IEnumerable<JobReciptVM>
+<style>
+    /* #tbsearch span {
+        display: none;
+    }*/
+</style>
+<!--<div class="pagetitle">-->
+@*<h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>*@
+<!--</div>-->
+@*<link href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css" rel="stylesheet" />*@
+<link href="~/Content/jquery-ui-themes-1.13.2/jquery-ui.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui-themes-1.13.2/themes/base/theme.css" rel="stylesheet" />
+<style type="text/css">
+    .Pager span {
+        text-align: center;
+        color: #333;
+        display: inline-block;
+        width: 20px;
+        background-color: #B8DBFD;
+        margin-right: 3px;
+        line-height: 150%;
+        border: 1px solid #B8DBFD;
+    }
+
+    .Pager a {
+        text-align: center;
+        display: inline-block;
+        width: 20px;
+        background-color: #ccc;
+        color: #333;
+        border: 1px solid #ccc;
+        margin-right: 3px;
+        line-height: 150%;
+        text-decoration: none;
+    }
+</style>
+<section class="section dashboard">
+    <div class="row">
+
+        <div id="grd" class="col-lg-12">
+
+            @{
+                WebGrid objWebGrid = new WebGrid(Model, rowsPerPage: 10, ajaxUpdateContainerId: "grd", canPage: true);
+            }
+            @objWebGrid.GetHtml(
+
+       tableStyle: "table table-striped table-bordered",
+       headerStyle: "Grid-Header",
+       alternatingRowStyle: "Grid-alt",
+       selectedRowStyle: "Grid-selected",
+       rowStyle: "Grid-rowstyle",
+       footerStyle: "Pager",
+       mode: WebGridPagerModes.All, //Specifies flags that describe the methods that are provided for moving between the pages of a WebGrid instance. source msdn.microsoft.com
+    columns:
+       objWebGrid.Columns
+       (
+           objWebGrid.Column(columnName: "AccountCode", header: "Account Code"),
+           objWebGrid.Column(columnName: "AccountName", header: "Account Name"),
+           objWebGrid.Column(columnName: "SerialNumber", header: "Serial Number"),
+           objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date"),
+            @*objWebGrid.Column(format:@<text><a href="" onclick="DeleteME('@item.SerialNumber')">Delete</a></text>),*@
+objWebGrid.Column(header: "Action",
+format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btnEdit">Edit</a>)
+
+)
+
+)
+        </div>
+
+        @*<div id="divPartial" style="display:none">
+
+            </div>*@
+    </div>
+
+</section>
+<div id="dialog" title="edit view" style="overflow: hidden;"></div>
+
+@section Scripts{
+    @*<script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var id = 0;
+            $(document).on('click', '.btnEdit', function () {
+                id = $(this).attr("data-value");
+                $('#dialog').dialog('open');
+            });
+
+            $('#dialog').dialog({
+                autoOpen: false,
+                width: 'auto',
+                resizable: false,
+                title: 'Edit Jobwork Recipits',
+                modal: false,
+                open: function (event, ui) {
+                    // Load partial view _GridEditPartial
+                    $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
+                },
+                //buttons: {
+
+                //    "Save": function () {
+                //        $(this).dialog("close");
+                //    },
+
+                //    "Close": function () {
+                //        $(this).dialog("close");
+                //    }
+                //}
+            });
+        });
+    </script>
+}
+
+
+<style type="text/css">
+    .ui-dialog-titlebar-close {
+        padding: 0 !important;
+    }
+
+        .ui-dialog-titlebar-close:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            /* Change path to image*/
+            background-image: url(/Content/jquery-ui-themes-1.13.2/themes/base/images/ui-icons_777777_256x240.png);
+            background-position: -96px -128px;
+            background-repeat: no-repeat;
+        }
+
+    .ui-dialog-buttonset > button {
+        border: 1px solid #c5c5c5 !important;
+        /*border-top-right-radius: 3px !important;
+        border-top-left-radius: 3px !important;*/
+    border-radius:3px;
+    
+    }
+</style>
