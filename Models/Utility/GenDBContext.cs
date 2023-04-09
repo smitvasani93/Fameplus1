@@ -8,7 +8,8 @@ namespace Transactiondetails.Models.Utility
         public GenDBContext()
             : base("CompanyGen")
         {
-            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 0;
+            // ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 0;
+            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout =180;
         }
 
         //public GenDBContext(string connectionstring)

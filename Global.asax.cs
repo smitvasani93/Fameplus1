@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -13,6 +9,27 @@ namespace Transactiondetails
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            //Load data to application cache
+            //LoadAplicatioCache();
         }
+
+        //private void LoadAplicatioCache()
+        //{
+        //    throw new FileNotFoundException();
+        //    try
+        //    {
+        //        var dbutility = new DBUtility();
+        //        dbutility.GetProcesses();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new FileNotFoundException();
+
+        //        //Response.Redirect("~/Errors/NotFound");
+        //       // throw ex;
+        //    }
+
+        //}
     }
 }

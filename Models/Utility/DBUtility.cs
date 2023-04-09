@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Web;
 using Transactiondetails.DBModels;
 
 namespace Transactiondetails.Models.Utility
 {
     public class DBUtility
     {
+        static readonly object cacheLock = new object();
+
         public bool CheckLogin(string userName, string password)
         {
             bool isSuccessFulllogin = false;
@@ -66,8 +69,48 @@ namespace Transactiondetails.Models.Utility
             return branchList;
         }
 
+        //public List<AccountMaster> GetAccounts()
+        //{
+        //    var accountMasterList = new List<AccountMaster>();
 
+        //    if (HttpContext.Current.Cache["Accounts"] != null)
+        //    {
+        //        accountMasterList = (List<AccountMaster>)HttpContext.Current.Cache["Accounts"];
+        //        return accountMasterList;
+        //    }
+        //    using (GenDBContext db = new GenDBContext())
+        //    {
+        //        accountMasterList = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
+        //    }
 
+        //    return accountMasterList;
+        //}
+        public List<ProcessMaster> GetProcesses()
+        {
+
+            var processMasterList = new List<ProcessMaster>();
+
+            if (HttpContext.Current.Cache["Process"] != null)
+            {
+                processMasterList = (List<ProcessMaster>) HttpContext.Current.Cache["Process"];
+                return processMasterList;
+            }
+            lock (cacheLock)
+            {
+
+                using (GenDBContext db = new GenDBContext())
+                {
+                    processMasterList = db.Database.SqlQuery<ProcessMaster>("exec spGetProcessMaster").ToList();
+
+                    if (processMasterList != null)
+                    {
+                        HttpContext.Current.Cache["Process"] = processMasterList;
+                    }
+                }
+            }
+
+            return processMasterList;
+        }
     }
 
 }

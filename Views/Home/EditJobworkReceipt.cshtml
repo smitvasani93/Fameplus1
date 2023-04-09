@@ -1,5 +1,5 @@
-﻿@using Transactiondetails.Models;
-@model IEnumerable<sp_GetSelectedData_Result>
+﻿@using Transactiondetails.DBModels;
+@model IEnumerable<JobRecieptDetail>
 @*<span class="close" style="margin-right: 41px;" id="spanEdit">&times;</span>*@
 @{
     var trcount = 0;
@@ -9,17 +9,18 @@
         <div class="col-lg-10">
             <div class="row">
                 <div class="col-sm-2">
-                    <label for="inputEmail3" class="col-form-label">Receipt Date</label>
+                    <label for="inputReceiptDate" class="col-form-label">Receipt Date</label>
                 </div>
                 <div class="col-sm-5">
                     <input type="date" class="form-control" value="@TempData["ReferenceDate"]" id="referenceDate" required />
                 </div>
                 <div class="col-sm-2 mr-minus">
-                    <label for="inputEmail3" class="col-form-label">Receipt No</label>
+                    <label for="inputReceiptNo" class="col-form-label">Receipt No</label>
                 </div>
                 <div class="col-sm-3">
                     <input type="text" class="form-control" value="@TempData["serialNo"]" id="recieptNo">
                 </div>
+                @Html.Hidden("IsEdit", "true")
             </div>
         </div>
         <div class="col-lg-10">
@@ -28,10 +29,6 @@
                 <div class="col-sm-5">
                     @Html.DropDownList("AccountCode", new SelectList(ViewBag.Customer, "AccountCode", "AccountName", TempData["AccountCode"]), "Please select", new { @id = "ddlCustomer", @class = "form-select", required = (string)null, @ng_model = "AccountCode" })
                 </div>
-                @*<label for="inputEmail3" class="col-sm-2 col-form-label">Receipt No</label>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" value="@TempData["recieptNo"]" id="recieptNo">
-                    </div>*@
             </div>
         </div>
     </div>
@@ -80,38 +77,35 @@
 
         let rowCount = 1;
 
-        $("#ReceiptSearch").on('click', '.addRow', function (e) {
+        $("#receipt").on('click', '.addRow', function () {
             //rowCount = $('#receipt >tbody >tr').length;
-            //alert($(this).closest('td').parent()[0].sectionRowIndex);
-            rowCount = $(this).closest('td').parent()[0].sectionRowIndex;
             var flag = 0;
-            if ($('#ReceiptSearch>tbody>#tr' + rowCount).find("td:eq(0) select").find(':selected').val() == "" || $('#ReceiptSearch>tbody>#tr' + rowCount).find("td:eq(0) select").find(':selected').val() == undefined) {
-                $('#ReceiptSearch>tbody>#tr' + rowCount).find("td:eq(0) select").addClass("reqNolabel");
+            if ($("#tr" + rowCount).find("td:eq(0) select").find(':selected').val() == "" || $("#tr" + rowCount).find("td:eq(0) select").find(':selected').val() == undefined) {
+                $("#tr" + rowCount).find("td:eq(0) select").addClass("reqNolabel");
                 flag = 1;
             }
             else
-                $('#ReceiptSearch>tbody>#tr' + rowCount).find("td:eq(0) select").removeClass("reqNolabel");
+                $("#tr" + rowCount).find("td:eq(0) select").removeClass("reqNolabel");
             for (i = 1; i <= 4; i++) {
-                if ($('#ReceiptSearch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == "" || $('#ReceiptSearch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
-                    $('#ReceiptSearch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
+                if ($("#tr" + rowCount).find("td:eq(" + i + ") input[type='text']").val() == "" || $("#tr" + rowCount).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
+                    $("#tr" + rowCount).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
                     flag = 1;
                 }
                 else
-                    $('#ReceiptSearch>tbody>#tr' + rowCount).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
+                    $("#tr" + rowCount).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
             }
             if (flag == 1)
                 return;
-            var tr = $("#detailsdiv").find("Table").find("tr:last").clone();
+            var tr = $("#newone").find("Table").find("tr:last").clone();
             rowCount++;
             tr.attr("id", "tr" + rowCount);
             //tr.find("td:eq(0) select").attr({ "ng-model": "input1" + rowCount, "name": "input1" + rowCount, "ng-class": "{true: 'reqNolabel'}[receiptValidation.input1" + rowCount+".$error.required]" })
             tr.find("input:text").val("");
-            tr.find("select").val("");
-            $("#ReceiptSearch").append(tr);
+            $("#receipt").append(tr);
         });
 
-        $("#ReceiptSearch").on('click', '.deleteRow', function () {
-            if (1 != $('#exampleSearch >tbody >tr').length)
+        $("#receipt").on('click', '.deleteRow', function () {
+            if (1 != $('#receipt >tbody >tr').length)
                 $(this).parent().parent().remove();
         });
 

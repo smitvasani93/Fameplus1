@@ -190,7 +190,7 @@
         });
 
         $("body").on("click", "#btnSave", function () {
-            if (document.getElementById("divPartial").style.display != "none") {
+            if (document.getElementById("divPartial").style.display != "none" || document.getElementById("divPartial").style.display != "") {
                 //debugger;
                 //if (angular.element(this).scope().EditreceiptValidation.$invalid) {
                 //    // angular.element(this).scope().toastr.error("Please Fill All Mandatory Fields");
@@ -201,7 +201,7 @@
                 //}
                 var arr = [];
                 var flag = 0;
-                $("#recipt TBODY TR").each(function () {
+                $("#receipt tbody tr").each(function () {
                     arr.push(this.id);
                 });
                 for (let j = 0; j < arr.length; j++) {
@@ -223,11 +223,16 @@
                 if (flag == 1)
                     return;
                 var JobReceiptDets = new Array();
+                var referenceDate = $('#referenceDate').val();
+                var recieptNo = $('#recieptNo').val();
                 var AccountCode = $('#ddlCustomer').val();
-                $("#recipt TBODY TR").each(function () {
+                var ItemSerialNumber = 1;
+                var isEdit = $("#IsEdit:hidden").val() == "true";
+                $("#receipt tbody tr").each(function () {
                     var row = $(this);
                     var JobReceiptDet = {};
-                    JobReceiptDet.ItemSerialNumber = row.find("td:eq(7) input[type='text']").val();
+                    JobReceiptDet.ItemSerialNumber = ItemSerialNumber;// row.find("td:eq(7) input[type='text']").val();
+                    JobReceiptDet.SerialNumber = recieptNo;
                     JobReceiptDet.ProcessCode = row.find("td:eq(0) select").val();
                     JobReceiptDet.PacketNumber = row.find("td:eq(1) input[type='text']").val();
                     JobReceiptDet.ItemPieces = row.find("td:eq(2) input[type='text']").val();
@@ -235,120 +240,42 @@
                     JobReceiptDet.ItemLines = row.find("td:eq(4) input[type='text']").val();
                     JobReceiptDet.Remarks = row.find("td:eq(5) input[type='text']").val();
                     JobReceiptDets.push(JobReceiptDet);
-                    ItemSerialNumberSearch = row.find("td:eq(7) input[type='text']").val();
+                    ItemSerialNumber++;
+                    //ItemSerialNumberSearch = row.find("td:eq(7) input[type='text']").val();
                 });
                 $.ajax({
                     type: "POST",
                     url: "/Home/SaveJobworkReceipt",
-                    data: JSON.stringify(JobReceiptDets),
+                    data: JSON.stringify({ lstjobReceiptDets: JobReceiptDets, referenceDate: referenceDate, accountCode: AccountCode, serialNumber: recieptNo, isEdit: isEdit }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
                         console.log(r);
-                        swal.fire({
-                            title: "Success",
-                            text: "You saved successfully!",
-                            type: "success"
-                        }).then(function () {
-                            //window.location = "redirectURL";
-                            location.reload();
-                        });
-                    }
-                });
-            }
-            else {
-                if (angular.element(this).scope().receiptValidation.$invalid) {
-                    // angular.element(this).scope().toastr.error("Please Fill All Mandatory Fields");
-                    if (document.getElementById("divReceipt").style.display != "none") {
-                        swal("Please Fill All Mandatory Fields");
-                    }
-                    return;
-                }
-                var arr = [];
-                var flag = 0;
-                $("#receipt TBODY TR").each(function () {
-                    arr.push(this.id);
-                });
-                for (let j = 0; j < arr.length; j++) {
-                    if ($("#" + arr[j]).find("td:eq(0) select").find(':selected').val() == "" || $("#" + arr[j]).find("td:eq(0) select").find(':selected').val() == undefined) {
-                        $("#" + arr[j]).find("td:eq(0) select").addClass("reqNolabel");
-                        flag = 1;
-                    }
-                    else
-                        $("#" + arr[j]).find("td:eq(0) select").removeClass("reqNolabel");
-                    for (i = 1; i <= 4; i++) {
-                        if ($("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == "" || $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").val() == undefined) {
-                            $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").addClass("reqNolabel");
-                            flag = 1;
+                        if (r.error == "false") {
+
+                            swal.fire({
+                                title: "Success",
+                                text: "You saved successfully!",
+                                type: "success"
+                            }).then(function () {
+                                //window.location = "redirectURL";
+                                location.reload();
+                            });
+
+                          
                         }
-                        else
-                            $("#" + arr[j]).find("td:eq(" + i + ") input[type='text']").removeClass("reqNolabel");
-                    }
-                }
-                if (flag == 1)
-                    return;
-                if (document.getElementById("divReceipt").style.display != "none") {
-                    var referenceDate = $('#referenceDate').val();
-                    var recieptNo = $('#recieptNo').val();
-                    var JobReceiptDets = new Array();
-                    var AccountCode = $('#ddlCustomer').val();
-                    var ItemSerialNumber = 1;
-                    $("#receipt TBODY TR").each(function () {
-                        var row = $(this);
-                        var JobReceiptDet = {};
-                        JobReceiptDet.SerialNumber = $('#recieptNo').val();
-                        JobReceiptDet.ItemSerialNumber = ItemSerialNumber;
-                        JobReceiptDet.ProcessCode = row.find("td:eq(0) select").val();
-                        JobReceiptDet.PacketNumber = row.find("td:eq(1) input[type='text']").val();
-                        JobReceiptDet.ItemPieces = row.find("td:eq(2) input[type='text']").val();
-                        JobReceiptDet.ItemCarats = row.find("td:eq(3) input[type='text']").val();
-                        JobReceiptDet.ItemLines = row.find("td:eq(4) input[type='text']").val();
-                        JobReceiptDet.Remarks = row.find("td:eq(5) input[type='text']").val();
-                        JobReceiptDets.push(JobReceiptDet);
-                        ItemSerialNumber++;
-                    });
-                    if (JobReceiptDets.length === 0) {
-                        alert("Empty Rows");
-                    }
-                    else {
-                        $.ajax({
-                            type: "POST",
-                            url: "/Home/SaveJobworkReceipt",
-                            data: JSON.stringify({ lstjobReceiptDets: JobReceiptDets, referenceDate: referenceDate, accountCode: AccountCode, serialNumber: recieptNo }),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (r) {
-                                console.log(r);
-                                if (r.error == "True") {
 
-                                    swal({
-                                        title: "Failed",
-                                        text: "Error Occured!!!",
-                                        type: "failed"
-                                    })
-                                    return false;
-                                }
+                        else {
 
-                                else {
-
-                                    swal({
-                                        title: "Success",
-                                        text: "You saved successfully!",
-                                        type: "success"
-                                    }).then(function () {
-                                        //window.location = "redirectURL";
-                                        location.reload();
-                                    });
-                                }
-                            },
-                            error: function (textStatus, errorThrown) {
-                                console.log(textStatus, errorThrown);
-                                swal("Failed!", "something wrong has happened!", "error");
-                            }
-                        });
+                            swal.fire({
+                                title: "Failed",
+                                text: "Error Occured!!!",
+                                type: "failed"
+                            })
+                            return false;
+                        }
                     }
-                    //Send the JSON array to Controller using AJAX.
-                }
+                });
             }
         });
     });
