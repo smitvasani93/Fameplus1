@@ -21,7 +21,7 @@ namespace Transactiondetails.Models
         public Nullable<double> ItemPieces { get; set; }
         public Nullable<double> ItemCarats { get; set; }
         public Nullable<double> ItemLines { get; set; }
-        public bool ReWorkingFlag { get; set; }
+        public Nullable<bool> ReWorkingFlag { get; set; }
         public string Remarks { get; set; }
         public Nullable<double> BillingRate { get; set; }
         public Nullable<double> BillingQuantity { get; set; }

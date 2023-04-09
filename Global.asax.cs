@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using System.Web.Routing;
+using Transactiondetails.Models;
 
 namespace Transactiondetails
 {
@@ -9,7 +10,6 @@ namespace Transactiondetails
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
             //Load data to application cache
             //LoadAplicatioCache();
         }

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Transactiondetails.CustomFilter;
 using Transactiondetails.Models;
 using Transactiondetails.Models.Utility;
 using Transactiondetails.ViewModels;
 
 namespace Transactiondetails.Controllers
 {
+    [SessionExpireFilter]
     [Authorize]
 
     public class HomeController : Controller

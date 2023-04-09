@@ -12,6 +12,12 @@ namespace Transactiondetails.ViewModels
 
         public IEnumerable<ProcessMasterVM> Processes { get; set; }
         public IEnumerable<AccountMasterVM> Accounts { get; set; }
+        public List<JobReceiptDetailVM> JobReceiptDetails { get; set; }
+
+        public JobReciptVM()
+        {
+            JobReceiptDetails = new List<JobReceiptDetailVM>();
+        }
     }
 
     public class ProcessMasterVM
@@ -24,5 +30,16 @@ namespace Transactiondetails.ViewModels
     {
         public string AccountCode { get; set; }
         public string AccountName { get; set; }
+    }
+
+    public class JobReceiptDetailVM
+    {
+        public short PacketNumber { get; set; }
+        public double ItemPieces { get; set; }
+        public double ItemCarats { get; set; }
+        public double ItemLines { get; set; }
+        public string Remarks { get; set; }
+        public short ProcessCode { get; set; }
+        public short ItemSerialNumber { get; set; }
     }
 }

@@ -16,18 +16,18 @@
            Text = (option == null ? "None" : option.CompanyName),
            Value = option.CompanyCode.ToString(),
            //Selected = (Model != null) && (option.CompanyCode == Model.CompanyCode)
-        }), "Select Company", new { @class = "form-control", @onchange = "FillFYBranch()" })
+        }), "Select Company", new { @class = "form-control mb-3", @onchange = "FillFYBranch()" })
 
         <label for="FYear">Financial Year</label>
 
-        @Html.DropDownListFor(m => m.FYear, new SelectList(Enumerable.Empty<SelectListItem>(), "FinancialYearCode", "YearDescription"), "Select Fin. Year", new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.FYear, new SelectList(Enumerable.Empty<SelectListItem>(), "FinancialYearCode", "YearDescription"), "Select Fin. Year", new { @class = "form-control mb-3" })
 
         <label for="Branch">Branch</label>
 
         @Html.DropDownListFor(m => m.Branch,
             new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchShortName"),
             "Select Branch",
-            new { @class = "form-control" })
+            new { @class = "form-control mb-3" })
 
         @Html.HiddenFor(x => x.CompanyName)
         @Html.HiddenFor(x => x.FYearName)

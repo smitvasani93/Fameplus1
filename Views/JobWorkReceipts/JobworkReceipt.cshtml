@@ -51,17 +51,16 @@
 </style>
 <section class="section dashboard">
     <div class="row">
-
         <div id="grd" class="col-lg-12">
 
             @{
                 WebGrid objWebGrid = new WebGrid(Model, rowsPerPage: 10, ajaxUpdateContainerId: "grd", canPage: true);
             }
             @objWebGrid.GetHtml(
-
+       htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
        tableStyle: "table table-striped table-bordered",
        headerStyle: "Grid-Header",
-       alternatingRowStyle: "Grid-alt",
+       alternatingRowStyle: "Grid-rowstyle",
        selectedRowStyle: "Grid-selected",
        rowStyle: "Grid-rowstyle",
        footerStyle: "Pager",
@@ -81,12 +80,7 @@ format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btn
 
 )
         </div>
-
-        @*<div id="divPartial" style="display:none">
-
-            </div>*@
     </div>
-
 </section>
 <div id="dialog" title="edit view" style="overflow: hidden;"></div>
 
@@ -102,9 +96,16 @@ format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btn
                 $('#dialog').dialog('open');
             });
 
+            $("body").on("dblclick", "#WebGrid td", function () {
+                var row = $(this).closest("tr");
+                 id = $(row).find("a").attr("data-value")
+                $('#dialog').dialog('open');
+
+            });
+
             $('#dialog').dialog({
                 autoOpen: false,
-                width: 'auto',
+                width: '1000',
                 resizable: false,
                 title: 'Edit Jobwork Recipits',
                 modal: false,

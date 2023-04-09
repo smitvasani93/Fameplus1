@@ -2405,13 +2405,16 @@
     <Content Include="Css\Style.css" />
     <Content Include="Global.asax" />
     <Content Include="Models\TransactionDetails.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TransactionDetails.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TransactionDetails.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\TransactionDetails.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
+    <Content Include="Models\TransactionDetails.edmx.diagram">
       <DependentUpon>TransactionDetails.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\TransactionDetails.tt">
+      <DependentUpon>TransactionDetails.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TransactionDetails.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\angular-animate.js" />
@@ -2531,13 +2534,6 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
-    <EntityDeploy Include="Models\TransactionDetails.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TransactionDetails.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\TransactionDetails.edmx.diagram">
-      <DependentUpon>TransactionDetails.edmx</DependentUpon>
-    </Content>
     <Content Include="assets\vendor\apexcharts\locales\ar.json" />
     <Content Include="assets\vendor\apexcharts\locales\ca.json" />
     <Content Include="assets\vendor\apexcharts\locales\cs.json" />
@@ -3433,6 +3429,7 @@
     <Compile Include="Controllers\JobWorkReceiptsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="CustomFilter\CustomFilterController.cs" />
     <Compile Include="DBModels\AccountMaster.cs" />
     <Compile Include="DBModels\Branch.cs" />
     <Compile Include="DBModels\Company.cs" />
@@ -3501,19 +3498,19 @@
       <DependentUpon>TransactionDetails.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TransactionDetails.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>TransactionDetails.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\TransactionDetails.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>TransactionDetails.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\TransactionDetails.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>TransactionDetails.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\Utility\CompanyDBContext.cs" />
     <Compile Include="Models\Utility\DBUtility.cs" />
@@ -3567,6 +3564,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\CustomFilter\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -3678,6 +3676,12 @@
     <TypeScriptCompile Include="assets\vendor\chart.js\types\utils.d.ts" />
     <TypeScriptCompile Include="assets\vendor\tinymce\tinymce.d.ts" />
     <TypeScriptCompile Include="Scripts\ej2\ej2.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Models\TransactionDetails.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TransactionDetails.Designer.cs</LastGenOutput>
+    </EntityDeploy>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

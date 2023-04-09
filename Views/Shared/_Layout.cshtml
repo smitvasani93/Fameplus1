@@ -283,6 +283,12 @@
     <script src="@Url.Content("~/Scripts/sweetalert2/sweetalert2.all.min.js")"></script>
 
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+
+        $(document).on("input", ".numberonly", function () {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    </script>
 </body>
 </html>
 
