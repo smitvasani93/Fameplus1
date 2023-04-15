@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Transactiondetails.CustomFilter;
+using Transactiondetails.DBModels;
 using Transactiondetails.Models;
 using Transactiondetails.Models.Utility;
 using Transactiondetails.ViewModels;
@@ -126,7 +127,7 @@ namespace Transactiondetails.Controllers
             try
             {
                 var userData = (UserData)Session["UserData"];
-                var jobRecieptMas = new JobReceiptMa();
+                var jobRecieptMas = new JobRecieptMaster();
                 //put your Fields Here
                 jobRecieptMas.SerialNumber = model.SerialNumber;
                 jobRecieptMas.AccountCode = model.AccountCode;
@@ -140,7 +141,7 @@ namespace Transactiondetails.Controllers
 
                 var jobRecipt = new JobReceipt();
                 jobRecipt.JobReceiptMaster = jobRecieptMas;
-                jobRecipt.JobReceiptDetails = model.JobReceiptDetails.Select(sel => new JobReceiptDet
+                jobRecipt.JobReceiptDetails = model.JobReceiptDetails.Select(sel => new JobRecieptDetail
                 {
                     ItemCarats = sel.ItemCarats,
                     PacketNumber = sel.PacketNumber,

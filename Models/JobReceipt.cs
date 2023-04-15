@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Transactiondetails.DBModels;
 
 namespace Transactiondetails.Models
 {
     public class JobReceipt
     {
-        public JobReceiptMa JobReceiptMaster { get; set; }
-        public List<JobReceiptDet> JobReceiptDetails { get; set; }
+        public JobRecieptMaster JobReceiptMaster { get; set; }
+        public List<JobRecieptDetail> JobReceiptDetails { get; set; }
 
     }
 

@@ -150,8 +150,7 @@
         </div>
     </div>
 </section>
-<script
-<script>
+<script type="text/javascript">
     $(function () {
         let rowCount = 1;
         //$("#receipt TBODY TR")
@@ -202,7 +201,7 @@
                 //}
                 var arr = [];
                 var flag = 0;
-                $("#recipt TBODY TR").each(function () {
+                $("#receipt TBODY TR").each(function () {
                     arr.push(this.id);
                 });
                 for (let j = 0; j < arr.length; j++) {
@@ -223,9 +222,12 @@
                 }
                 if (flag == 1)
                     return;
+                var isEdit = $("#IsEdit:hidden").val() == "true";
+                var referenceDate = $('#referenceDate').val();
+                var recieptNo = $('#recieptNo').val();
                 var JobReceiptDets = new Array();
                 var AccountCode = $('#ddlCustomer').val();
-                $("#recipt TBODY TR").each(function () {
+                $("#receipt TBODY TR").each(function () {
                     var row = $(this);
                     var JobReceiptDet = {};
                     JobReceiptDet.ItemSerialNumber = row.find("td:eq(7) input[type='text']").val();
@@ -241,7 +243,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/Home/SaveJobworkReceipt",
-                    data: JSON.stringify(JobReceiptDets),
+                    data: JSON.stringify({ lstjobReceiptDets: JobReceiptDets, referenceDate: referenceDate, accountCode: AccountCode, serialNumber: recieptNo, isEdit: isEdit }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
@@ -256,45 +258,31 @@
                                 //window.location = "redirectURL";
                                 location.reload();
                             });
-
-
                         }
 
                         else {
 
-                                    swal({
-                                        title: "Failed",
-                                        text: "Error Occured!!!",
-                                        type: "failed"
-                                    })
-                                    return false;
-                                }
-
-                                else {
-
-                                    swal({
-                                        title: "Success",
-                                        text: "You saved successfully!",
-                                        type: "success"
-                                    }).then(function () {
-                                        //window.location = "redirectURL";
-                                        location.reload();
-                                    });
-                                }
-                            },
+                            swal.fire({
+                                title: "Failed",
+                                text: "Error Occured!!!",
+                                type: "failed"
+                            })
+                            return false;
+                        }
+                    },
                             error: function (textStatus, errorThrown) {
                                 console.log(textStatus, errorThrown);
-                                swal("Failed!", "something wrong has happened!", "error");
+                                swal.fire("Failed!", "something wrong has happened!", "error");
                             }
                         });
-                    }
+                    //}
                     //Send the JSON array to Controller using AJAX.
-                }
+               // }
             }
         });
     });
 </script>
-<script>
+<script type="text/javascript">
 
     $(document).ready(function () {
         //$.fn.dataTable.moment('dd/MM/yyyy');
@@ -308,7 +296,7 @@
     });
 
 </script>
-<script>
+<script type="text/javascript">
     var mainDiv = document.getElementById("myModal");
     var divPartial = document.getElementById("divPartial");
     var divReceipt = document.getElementById("divReceipt");
@@ -332,9 +320,9 @@
         }
     }
 </script>
-@*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>*@
+@*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>*@
 <script src="~/Scripts/jspdf.debug.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.min.js"></script>
@@ -360,17 +348,17 @@
 
     $("#tbsearch").css("display", "none");
 
-        $("#searchBtn").click(function (e) {
-        $("#tbsearch").css("display", "");
-        $("#btnClose").css("display", "");
-        $("#divPartial").css("display", "none");
-        })
-        $("#btnClose").click(function (e) {
-        location.reload()
-        })
-        $("#btnClose").click(function (e) {
-        location.reload()
-        })
+    $("#searchBtn").click(function (e) {
+    $("#tbsearch").css("display", "");
+    $("#btnClose").css("display", "");
+    $("#divPartial").css("display", "none");
+    })
+    $("#btnClose").click(function (e) {
+    location.reload()
+    })
+    $("#btnClose").click(function (e) {
+    location.reload()
+    })
 
 
     var pdfdoc = new jsPDF();

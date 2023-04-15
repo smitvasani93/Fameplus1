@@ -18,47 +18,17 @@ namespace Transactiondetails.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(string userName, string password)
-        {
-            //Check login
-            var dbutility = new DBUtility();
-            try
-            {
-                if (dbutility.CheckLogin(userName, password))
-                {
-                    FormsAuthentication.SetAuthCookie(userName, false);
-                    Session["UserData"] = new UserData { UserName = userName };
-                    //Session["Username"] = userName;
-                    return RedirectToAction("CompanyDetails", "Account");
-                }
-                else
-                {
-                    ViewBag.Message = "Username or password is incorrect";
-                    return View();
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = "Something went wrong. Please try again later.";
-                return View();
-            }
-
-            //return View();
-        }
-
-
-        [HttpPost]
         public JsonResult ValidateUser(string userName, string password,bool rememberme)
         {
             var dbutility = new DBUtility();
             LoginStatus status = new LoginStatus();
-
+            Int16 userId = 0;
             try
             {
-                if (dbutility.CheckLogin(userName, password))
+                if (dbutility.CheckLogin(userName, password, out userId))
                 {
                     FormsAuthentication.SetAuthCookie(userName, rememberme);
-                    Session["UserData"] = new UserData { UserName = userName };
+                    Session["UserData"] = new UserData { UserName = userName, UserId = userId };
                     status.Success = true;
                     status.TargetURL = FormsAuthentication.
                                        GetRedirectUrl(userName, rememberme);

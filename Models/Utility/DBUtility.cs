@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -10,9 +11,10 @@ namespace Transactiondetails.Models.Utility
     {
         static readonly object cacheLock = new object();
 
-        public bool CheckLogin(string userName, string password)
+        public bool CheckLogin(string userName, string password , out Int16 userId)
         {
             bool isSuccessFulllogin = false;
+            userId = 0;
             using (GenDBContext db = new GenDBContext())
             {
                 var puserName = new SqlParameter("@UserName", userName);
@@ -24,6 +26,7 @@ namespace Transactiondetails.Models.Utility
                 {
                     if (data.Field2.Trim().ToLower() == userName.ToLower())
                     {
+                        userId = data.Field1;
                         isSuccessFulllogin = true;
                     }
                 }

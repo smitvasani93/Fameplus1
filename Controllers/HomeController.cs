@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Transactiondetails.CustomFilter;
+using Transactiondetails.DBModels;
 using Transactiondetails.Models;
 using Transactiondetails.Models.Utility;
 using Transactiondetails.ViewModels;
@@ -90,7 +91,7 @@ namespace Transactiondetails.Controllers
             // return PartialView();
 
         }
-        public JsonResult SaveJobworkReceipt(List<JobReceiptDet> lstjobReceiptDets, string referenceDate = "", string accountCode = "", int serialNumber = 0, bool isEdit = false)
+        public JsonResult SaveJobworkReceipt(List<JobRecieptDetail> lstjobReceiptDets, string referenceDate = "", string accountCode = "", int serialNumber = 0, bool isEdit = false)
         {
             var dbutility = new JobReceiptDataLayer();
             var message = new { message = "Failed", error = "True" };
@@ -99,18 +100,18 @@ namespace Transactiondetails.Controllers
             {
                 var userData = (UserData)Session["UserData"];
 
-                var jobRecieptMas = new JobReceiptMa();
+                var jobRecieptMas = new JobRecieptMaster();
                 //put your Fields Here
                 jobRecieptMas.SerialNumber = serialNumber;
                 jobRecieptMas.AccountCode = accountCode;
                 jobRecieptMas.ReferenceDate = Convert.ToDateTime(referenceDate);
-                //jobRecieptMas.EntryDate = DateTime.Now;
+                jobRecieptMas.EntryDate = DateTime.Now;
                 jobRecieptMas.ModiDate = DateTime.Now;
                 jobRecieptMas.FinancialYearCode = userData.FYear;
                 jobRecieptMas.BranchCode = userData.Branch;
-                jobRecieptMas.UserCode = 1; //Get usercode from session
-                jobRecieptMas.ModiUserCode = 1; //Get usercode from session
-                jobRecieptMas.DeletedFlag = false;
+                jobRecieptMas.UserCode = userData.UserId; //Get usercode from session
+                jobRecieptMas.ModiUserCode = userData.UserId; //Get usercode from session
+                //jobRecieptMas.DeletedFlag = false;
 
                 var jobRecipt = new JobReceipt();
                 jobRecipt.JobReceiptMaster = jobRecieptMas;
