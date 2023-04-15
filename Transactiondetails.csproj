@@ -3400,6 +3400,7 @@
     <Content Include="Scripts\jquery-3.6.4.min.js" />
     <Content Include="Scripts\jquery-3.6.4.slim.js" />
     <Content Include="Scripts\jquery-3.6.4.slim.min.js" />
+    <Content Include="Scripts\jspdf.debug.js" />
     <Content Include="Scripts\ladda-bootstrap\ladda.min.js" />
     <Content Include="Scripts\ladda-bootstrap\spin.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
