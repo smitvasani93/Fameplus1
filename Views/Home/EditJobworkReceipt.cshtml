@@ -1,5 +1,5 @@
 ﻿@using Transactiondetails.DBModels;
-@model IEnumerable<JobRecieptDetail>
+@*@model IEnumerable<JobRecieptDetail>*@
 @*<span class="close" style="margin-right: 41px;" id="spanEdit">&times;</span>*@
 @{
     var trcount = 0;
@@ -54,10 +54,10 @@
                     <td>
                         @Html.DropDownList("ProcessCode", new SelectList(ViewBag.Process, "ProcessCode", "ProcessName", @item.ProcessCode), "Please select", new { @id = "ddlStatus", @class = "form-select", required = (string)null, @ng_model = "ProcessCode", @ng_class = "{true: 'reqNolabel'}[receiptValidation.ProcessCode.$error.required]" })
                     </td>
-                    <td><input type="text" class="form-control" id="1" value="@item.PacketNumber" required></td>
-                    <td><input type="text" class="form-control" id="2" value="@item.ItemPieces" required></td>
-                    <td><input type="text" class="form-control" id="3" value="@item.ItemCarats" required></td>
-                    <td><input type="text" class="form-control" id="4" value="@item.ItemLines" required></td>
+                    <td><input type="text" class="form-control numberonly" id="1" value="@item.PacketNumber" required></td>
+                    <td><input type="text" class="form-control numberonly" id="2" value="@item.ItemPieces" required></td>
+                    <td><input type="text" class="form-control numberonly" id="3" value="@item.ItemCarats" required></td>
+                    <td><input type="text" class="form-control numberonly" id="4" value="@item.ItemLines" required></td>
                     <td><input type="text" class="form-control" id="5" value="@item.Remarks" required></td>
                     <td class="plsRow"><a class="addRow" href="#"><i class="fa fa-plus"></i></a><a class="deleteRow" href="#"><i class="fa fa-trash"></i></a></td>
                     <td style="display:none"><input type="text" class="form-control" id="0" value="@item.ItemSerialNumber"></td>
@@ -113,5 +113,5 @@
     });
 
 
-    
+
 </script>

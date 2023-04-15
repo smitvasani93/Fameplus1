@@ -39,8 +39,9 @@
     </div>
 </div>
 
-
+<link href="@Url.Content("~/assets/css/sweetalert2.min.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/jquery-3.6.4.min.js")"></script>
+<script src="@Url.Content("~/Scripts/sweetalert2/sweetalert2.all.min.js")"></script>
 <script type="text/javascript">
 
 
@@ -77,11 +78,17 @@
     }
 
     $("#submit").click(function () {
-
-
+        /*Swal.fire('Any fool can use a computer')*/
+        
         if ($("#Company").val() == "") {
 
-            alert("Please select Company");
+            /*alert("Please select Company");*/
+            Swal.fire({
+                icon: 'error',
+                /*title: 'Oops...',*/
+                text: 'Please select Company',
+            });
+
             $("#Company").focus();
             return false;
         }
@@ -89,14 +96,24 @@
 
         if ($("#FYear").val() == "") {
 
-            alert("Please select Fin. Year");
+            //alert("Please select Fin. Year");
+            Swal.fire({
+                icon: 'error',
+                /*title: 'Oops...',*/
+                text: 'Please select Fin. Year',
+            });
             $("#FYear").focus();
             return false;
         }
 
         if ($("#Branch").val() == "") {
 
-            alert("Please select Branch");
+            /*alert("Please select Branch");*/
+            Swal.fire({
+                icon: 'error',
+                /*title: 'Oops...',*/
+                text: 'Please select Branch',
+            });
             $("#Branch").focus();
             return false;
         }

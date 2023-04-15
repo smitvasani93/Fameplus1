@@ -122,7 +122,6 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>*@
-
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="@Url.Action("Logout","Account")">
                                     <i class="bi bi-box-arrow-right"></i>
@@ -137,14 +136,10 @@
             </nav>
         }
         <!-- End Icons Navigation -->
-
     </header>
-
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
-
         <ul class="sidebar-nav" id="sidebar-nav">
-
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#Master-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-journal-text"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -154,6 +149,11 @@
                         <a href="~/Home/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
                             @*<a href="~/Home/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>*@
                             <i class="bi bi-circle"></i><span>Job Receipt</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/JobworkReceipts/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
+                            <i class="bi bi-circle"></i><span>Job Receipt Demo</span>
                         </a>
                     </li>
                     <li>
@@ -260,15 +260,13 @@
 
         </ul>
     </aside>
-
-
     <main id="main" class="main">
         <!-- End Page Title -->
         @RenderBody()
     </main>
     @*<script src="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
         <script src="~/assets/js/bootstrap.bundle.min.js"></script>*@
-
+<script src="~/Scripts/dist/jquery.validate.js"></script>
     <script src="@Url.Content("~/assets/vendor/apexcharts/apexcharts.min.js")"></script>
     <script src="@Url.Content("~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
     <script src="@Url.Content("~/assets/vendor/chart.js/chart.umd.js")"></script>
@@ -281,7 +279,7 @@
     <!-- Template Main JS File -->
     <script src="@Url.Content("~/assets/js/main1.js")"></script>
     <script src="@Url.Content("~/Scripts/sweetalert2/sweetalert2.all.min.js")"></script>
-
+    
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
 
@@ -298,7 +296,9 @@ if (props.status === 401) {
     </script>
 </body>
 </html>
-
+<style type="text/css">
+   
+</style>
 <!--<body ng-app="myApp" ng-controller="JobWorkReceiptCtrl" ng-init="">
     <div id="app">
         <div id="sidebar" class="active">

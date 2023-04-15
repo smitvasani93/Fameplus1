@@ -51,67 +51,117 @@
 </style>
 <section class="section dashboard">
     <div class="row">
-        <div id="grd" class="col-lg-12">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"> Jobwork Receipt</h4>
+                    <div class="row g-3">
+                        <div class="col-10 search-bar">
+                            <ul class="nav nav-pills card-header-pills">
+                                <li class="nav-item ps-lg-2">
+                                    <label for="inputEmail3" class="col-form-label">Receipt Date</label>
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    @Html.TextBox("ReferenceDate", null, new { @class = "form-control" })
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    <label for="inputEmail3" class="col-form-label">Account Code</label>
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    @Html.TextBox("AccountCode", null, new { @class = "form-control" })
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    <button id="btnSearch" class="btn btn-primary btn-sm">Search</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-2 text-sm-end">
+                            <button id="btnAddNew" class="btn btn-primary">Add New</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="grd">
 
-            @{
-                WebGrid objWebGrid = new WebGrid(Model, rowsPerPage: 10, ajaxUpdateContainerId: "grd", canPage: true);
-            }
-            @objWebGrid.GetHtml(
-       htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
-       tableStyle: "table table-striped table-bordered",
-       headerStyle: "Grid-Header",
-       alternatingRowStyle: "Grid-rowstyle",
-       selectedRowStyle: "Grid-selected",
-       rowStyle: "Grid-rowstyle",
-       footerStyle: "Pager",
-       mode: WebGridPagerModes.All, //Specifies flags that describe the methods that are provided for moving between the pages of a WebGrid instance. source msdn.microsoft.com
-    columns:
-       objWebGrid.Columns
-       (
-           objWebGrid.Column(columnName: "AccountCode", header: "Account Code"),
-           objWebGrid.Column(columnName: "AccountName", header: "Account Name"),
-           objWebGrid.Column(columnName: "SerialNumber", header: "Serial Number"),
-           objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date"),
+                        @{
+                            WebGrid objWebGrid = new WebGrid(Model, rowsPerPage: 10, ajaxUpdateContainerId: "grd", canPage: true);
+                        }
+                        @objWebGrid.GetHtml(
+                   htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+                   tableStyle: "table table-striped table-bordered",
+                   headerStyle: "Grid-Header",
+                   alternatingRowStyle: "Grid-rowstyle",
+                   selectedRowStyle: "Grid-selected",
+                   rowStyle: "Grid-rowstyle",
+                   footerStyle: "gridFooter",
+                   mode: WebGridPagerModes.All, //Specifies flags that describe the methods that are provided for moving between the pages of a WebGrid instance. source msdn.microsoft.com
+                columns:
+                   objWebGrid.Columns
+                   (
+                       objWebGrid.Column(columnName: "AccountCode", header: "Account Code"),
+                       objWebGrid.Column(columnName: "AccountName", header: "Account Name"),
+                       objWebGrid.Column(columnName: "SerialNumber", header: "Serial Number"),
+                       objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date"),
             @*objWebGrid.Column(format:@<text><a href="" onclick="DeleteME('@item.SerialNumber')">Delete</a></text>),*@
-objWebGrid.Column(header: "Action",
-format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btnEdit">Edit</a>)
-
+objWebGrid.Column(header: "Action", format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btn btn-primary btn-sm btnEdit">Edit</a>))
 )
-
-)
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 <div id="dialog" title="edit view" style="overflow: hidden;"></div>
 
 @section Scripts{
-    @*<script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>*@
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+
+
     <script type="text/javascript">
+        var id = 0;
+        $(document).on('click', '#btnAddNew', function () {
+            id = 0;
+            $('#dialog')
+                .dialog({ title: 'Add Jobwork Recipits' })
+                .dialog('open');
+        });
+
+        $(document).on('click', '.btnEdit', function () {
+            id = $(this).attr("data-value");
+            $('#dialog')
+                .dialog({ title: 'Edit Jobwork Recipits' })
+                .dialog('open');
+
+        });
+
+        $("body").on("dblclick", "#WebGrid .Grid-rowstyle td", function () {
+            var row = $(this).closest("tr");
+            id = $(row).find("a").attr("data-value");
+            title = 'Edit Jobwork Recipits';
+            $('#dialog')
+                .dialog({ title: 'Edit Jobwork Recipits' })
+                .dialog('open');
+
+        });
+
         $(function () {
-            var id = 0;
-            $(document).on('click', '.btnEdit', function () {
-                id = $(this).attr("data-value");
-                $('#dialog').dialog('open');
-            });
-
-            $("body").on("dblclick", "#WebGrid td", function () {
-                var row = $(this).closest("tr");
-                 id = $(row).find("a").attr("data-value")
-                $('#dialog').dialog('open');
-
-            });
 
             $('#dialog').dialog({
                 autoOpen: false,
                 width: '1000',
                 resizable: false,
-                title: 'Edit Jobwork Recipits',
+                title: 'Add Jobwork Recipits',
                 modal: false,
                 open: function (event, ui) {
                     // Load partial view _GridEditPartial
-                    $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
+                    if (id == 0) {
+                        $(this).load("@Url.Action("GetJobworkRecipt")");
+                    } else {
+                        $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
+                    }
+
                 },
                 //buttons: {
 
@@ -123,13 +173,40 @@ format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btn
                 //        $(this).dialog("close");
                 //    }
                 //}
+                //open: function (event, ui) {
+                //    $("body").css({
+                //        overflow: 'hidden'
+                //    });
+                //    //$(".ui-widget-overlay").css({
+                //    //   /* background: "rgb(0, 0, 0)",*/
+                //    //    opacity: ".50 !important",
+                //    //    filter: "Alpha(Opacity=50)",
+                //    //});
+                //},
+                //beforeClose: function (event, ui) {
+                //    $("body").css({ overflow: 'inherit' })
+                //}
             });
+        });
+
+
+        $(function () {
+            $("#ReferenceDate").datepicker();
         });
     </script>
 }
 
 
 <style type="text/css">
+
+    .search-bar .form-control {
+        padding: .200rem .50rem !important;
+    }
+
+    .search-bar .col-form-label {
+        padding-top: calc(.175rem + 1px) !important;
+    }
+
     .ui-dialog-titlebar-close {
         padding: 0 !important;
     }
@@ -149,7 +226,75 @@ format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btn
         border: 1px solid #c5c5c5 !important;
         /*border-top-right-radius: 3px !important;
         border-top-left-radius: 3px !important;*/
-    border-radius:3px;
-    
+        border-radius: 3px;
+    }
+
+    .ui-dialog.ui-widget.ui-widget-content {
+        /* and no special background for the dialog */
+    }
+
+    .ui-widget-overlay {
+        opacity: 1 !important; /* Make sure to change both of these, as IE only sees the second one */
+        /*filter: Alpha(Opacity=50) !important;
+        background: rgb(50, 50, 50) !important;*/ /* This will make it darker */
+    }
+
+    .gridTable {
+        margin: 5px;
+        padding: 10px;
+        border: 1px #c8c8c8 solid;
+        border-collapse: collapse;
+        min-width: 550px;
+        background-color: #fff;
+        color: #fff;
+    }
+
+    .gridHead th {
+        font-weight: bold;
+        background-color: #030D8D;
+        color: #fff;
+        padding: 10px
+    }
+
+    .gridHead a:link, .gridHead a:visited, .gridHead a:active, .gridHead a:hover {
+        color: #fff;
+    }
+
+    .gridHead a:hover {
+        text-decoration: underline;
+    }
+
+    .gridTable tr.gridAltRow {
+        background-color: #efeeef;
+    }
+
+    .gridTable tr:hover {
+        background-color: #f6f70a;
+    }
+
+    .gridAltRow td {
+        padding: 10px;
+        margin: 5px;
+        color: #333;
+    }
+
+    .gridRow td {
+        padding: 10px;
+        color: #333;
+    }
+
+    .gridFooter td {
+        padding: 10px;
+        background-color: #c7d1d6;
+        color: #999;
+        font-size: 12pt;
+        text-align: center;
+    }
+
+    .gridFooter a {
+        font-weight: bold;
+        color: #333;
+        border: 1px #333 solid;
+        padding: 2px 6px;
     }
 </style>

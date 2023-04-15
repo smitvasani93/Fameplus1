@@ -1,7 +1,21 @@
 ﻿@model  Transactiondetails.ViewModels.JobReciptVM
+@using Newtonsoft.Json;
+
+@{
+    var jsonMode = JsonConvert.SerializeObject(Model.Mode);
+    var htmlAttributes = new Dictionary<string, object>();
+    htmlAttributes.Add("class", "form-control");
+    if (Model.Mode == Transactiondetails.ViewModels.Mode.Update)
+    {
+        htmlAttributes.Add("readonly", true);
+    }
+}
 
 @using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }))
 {
+
+    @Html.HiddenFor(model => model.Mode)
+
     <div class="row g-3">
         <div class="col-lg-12">
             <div class="row">
@@ -15,7 +29,8 @@
                     <label for="inputEmail3" class="col-form-label">Receipt No</label>
                 </div>
                 <div class="col-sm-3">
-                    @Html.TextBoxFor(x => x.SerialNumber, new { @class = "form-control", @readonly = true })
+
+                    @Html.TextBoxFor(x => x.SerialNumber, htmlAttributes)
                 </div>
             </div>
         </div>
@@ -45,7 +60,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DropDownListFor(model => Model.JobReceiptDetails[i].ProcessCode, new SelectList(Model.Processes, "ProcessCode", "ProcessName", Model.JobReceiptDetails[i].ProcessCode), "Please select", new { @id = "ddlStatus", @class = "form-select" })
+                                @Html.DropDownListFor(model => Model.JobReceiptDetails[i].ProcessCode, new SelectList(Model.Processes, "ProcessCode", "ProcessName", Model.JobReceiptDetails[i].ProcessCode), "Please select", new { @class = "form-select", @required = true })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].PacketNumber, new { @required = true, @class = "form-control numberonly" })
@@ -79,16 +94,20 @@
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix mt-4">
             <div class="ui-dialog-buttonset pe-sm-1">
                 <button type="submit" class="btn btn-default">Submit</button>
-                <button type="button" class="btn btn-default">Close</button>
+                <button type="button" class="btn btn-default btn-close-dialog">Close</button>
             </div>
         </div>
     </div>
     <div id="result">
 
     </div>
+
 }
 
 <script type="text/javascript">
+
+    var mode =@(Html.Raw(jsonMode));
+
     $(function () {
         $("#ReferenceDate").datepicker();
     });
@@ -104,7 +123,11 @@
                     let select = $(td).find("select");
                     let text = $(td).find("input[type=text]");
 
+
                     if (select.length != 0) {
+
+                        $(select).rules("add", { required: true, messages: {required:""} });
+
                         if ($(select).val() == 0 || $(select).val() == "") {
                             $(select).addClass("error");
                             noclone = true;
@@ -113,6 +136,9 @@
                         }
                     }
                     if (text.length != 0) {
+
+                        $(text).rules("add", { required: true, messages: { required: "" } });
+
                         if ($(text).val() == "") {
                             $(text).addClass("error");
                             noclone = true;
@@ -124,10 +150,72 @@
             });
 
             if (!noclone) {
+
+                var rowCount = $("#receipt > tbody >tr").length
                 var tr = $("#newone").find("Table").find("tr:last").clone();
+
+                $(tr).find("td").each(function () {
+
+                    let cnt = rowCount;
+                    let selectName = $(this).find("input,select").attr("name");
+                    let name = $(this).find("input,text").attr("name");
+                    let $ctrl = undefined;
+                    if (selectName!==undefined && selectName.indexOf(".ProcessCode") != -1) {
+                        $(this).find("input,select").attr("id", "JobReceiptDetails_" + cnt + "__ProcessCode");
+                        $(this).find("input,select").attr("name", "JobReceiptDetails[" + cnt + "].ProcessCode");
+                        $ctrl= $(this).find("input,select").attr("JobReceiptDetails[" + cnt + "].ProcessCode")
+                    }
+                    if (name!==undefined && name.indexOf(".PacketNumber") != -1) {
+                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__PacketNumber");
+                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].PacketNumber");
+                        $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].PacketNumber");
+                    }
+                    if (name !== undefined && name.indexOf(".ItemPieces") != -1) {
+                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__ItemPieces");
+                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemPieces");
+                        $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemPieces");
+                    }
+                    if (name !== undefined && name.indexOf(".ItemCarats") != -1) {
+                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__ItemCarats");
+                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemCarats");
+                        $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemCarats");
+                    }
+                    if (name !== undefined && name.indexOf(".ItemLines") != -1) {
+                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__ItemLines");
+                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemLines");
+                        $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemLines");
+                    }
+                    if (name !== undefined && name.indexOf(".Remarks") != -1) {
+                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__Remarks");
+                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].Remarks");
+                        $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].Remarks");
+                    }
+
+                    if ($ctrl !== undefined) {
+                       // $ctrl.rules("add", { required: true, messages: { required: "" } });
+                    }
+                })
+
                 tr.find("input:text").val("");
                 $("#receipt").append(tr);
             }
+
+            $("#receipt tbody tr").each(function (i, row) {
+                let $actualrow = $(row);
+                $actualrow.find("td").each(function (column, td) {
+
+                    let select = $(td).find("select");
+                    let text = $(td).find("input[type=text]");
+
+                    if (select.length != 0) {
+                        $(select).rules("add", { required: true, messages: { required: "" } });
+                    }
+                    if (text.length != 0) {
+                        $(text).rules("add", { required: true, messages: { required: "" } });
+                    }
+                });
+            });
+
         });
 
         $("#receipt").on('click', '.deleteRow', function () {
@@ -138,13 +226,46 @@
 
     function AjaxFormSuccess(e) {
 
-        if (e.error == "false") {
-            $('#dialog').dialog('close');
+        $('#dialog').dialog('close');
+        //if (e.error == "false") {
+        //    $('#dialog').dialog('close');
+        //}
+    }
+
+    jQuery(document).ready(function () {
+
+        jQuery("#form0").validate({
+           rules: {
+                ReferenceDate: 'required',
+                AccountCode: 'required',
+                SerialNumber: 'required',
+                'JobReceiptDetails[0].ProcessCode': 'required',
+                'JobReceiptDetails[0].PacketNumber': 'required',
+                'JobReceiptDetails[0].ItemPieces': 'required',
+                'JobReceiptDetails[0].ItemCarats': 'required',
+                'JobReceiptDetails[0].ItemLines': 'required',
+                'JobReceiptDetails[0].Remarks': 'required',
+            }, messages: {
+                ReferenceDate: 'Enter Reference Date',
+                AccountCode: 'Enter Account Code',
+                SerialNumber: 'Enter Serial Number',
+                'JobReceiptDetails[0].ProcessCode': '',
+                'JobReceiptDetails[0].PacketNumber': '',
+                 'JobReceiptDetails[0].ItemPieces': '',
+                'JobReceiptDetails[0].ItemCarats': '',
+                'JobReceiptDetails[0].ItemLines': '',
+                'JobReceiptDetails[0].Remarks': '',
+            }
+        });
+
+        if (mode === 2) {
+            $("#SerialNumber").rules("remove", "required");
         }
-    }
+    });
+
+
+    $(document).on("click", ".btn-close-dialog", function (e) {
+        $('#dialog').dialog('close');
+    })
+
 </script>
-<style type="text/css">
-    .error {
-        border-color: red !important;
-    }
-</style>

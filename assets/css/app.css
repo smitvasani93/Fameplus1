@@ -1,3 +1,12 @@
 ﻿.mr-minus {
     margin-right:-2.9rem !important;
 }
+
+.error {
+    border-color: #dc3545 !important;
+}
+label.error {
+    color: #dc3545;
+    font-size: 14px;
+    /*   font-style: italic;*/
+}

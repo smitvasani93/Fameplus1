@@ -61,6 +61,46 @@ namespace Transactiondetails.Controllers
             return View();
         }
 
+        public ActionResult GetJobworkRecipt()
+        {
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
+            try
+            {
+                var userData = (UserData)Session["UserData"];
+                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var process = dbutility.GetProcesses();
+                var jobReceiptVM = new JobReciptVM();
+
+                jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
+                {
+                    ProcessCode = sel.ProcessCode,
+                    ProcessName = sel.ProcessName
+                });
+
+                jobReceiptVM.Accounts = accounts.Select(sel => new AccountMasterVM
+                {
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName
+                });
+
+                jobReceiptVM.JobReceiptDetails = new List<JobReceiptDetailVM>
+                {
+                    new JobReceiptDetailVM{
+                         ItemSerialNumber=1
+                    }
+                };
+
+                jobReceiptVM.Mode = Mode.Add;
+                return PartialView("_JobworkReceiptPartial", jobReceiptVM);
+            }
+            catch (Exception ex)
+            {
+                var message = new { message = "Exception occured", error = "True" };
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult GetJobworkReciptBySerialNo(int id)
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
@@ -109,6 +149,9 @@ namespace Transactiondetails.Controllers
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
                 });
+
+                jobReceiptVM.Mode = Mode.Update;
+
                 return PartialView("_JobworkReceiptPartial", jobReceiptVM);
             }
             catch (Exception ex)
@@ -129,9 +172,9 @@ namespace Transactiondetails.Controllers
                 var userData = (UserData)Session["UserData"];
                 var jobRecieptMas = new JobRecieptMaster();
                 //put your Fields Here
-                jobRecieptMas.SerialNumber = model.SerialNumber;
+                jobRecieptMas.SerialNumber = model.SerialNumber.Value;
                 jobRecieptMas.AccountCode = model.AccountCode;
-                jobRecieptMas.ReferenceDate = model.ReferenceDate;
+                jobRecieptMas.ReferenceDate = model.ReferenceDate.Value;
                 //jobRecieptMas.EntryDate = DateTime.Now;
                 jobRecieptMas.ModiDate = DateTime.Now;
                 jobRecieptMas.FinancialYearCode = userData.FYear;
@@ -143,16 +186,24 @@ namespace Transactiondetails.Controllers
                 jobRecipt.JobReceiptMaster = jobRecieptMas;
                 jobRecipt.JobReceiptDetails = model.JobReceiptDetails.Select(sel => new JobRecieptDetail
                 {
-                    ItemCarats = sel.ItemCarats,
-                    PacketNumber = sel.PacketNumber,
-                    ItemSerialNumber = sel.ItemSerialNumber,
-                    ItemLines = sel.ItemLines,
-                    SerialNumber = model.SerialNumber,
-                    ItemPieces = sel.ItemPieces,
+                    ItemCarats = sel.ItemCarats.Value,
+                    PacketNumber = sel.PacketNumber.Value,
+                    ItemSerialNumber = sel.ItemSerialNumber.Value,
+                    ItemLines = sel.ItemLines.Value,
+                    SerialNumber = model.SerialNumber.Value,
+                    ItemPieces = sel.ItemPieces.Value,
                     Remarks = sel.Remarks
                 }).ToList();
 
-                databaseResponse = dbutility.UpdateJobworkReceipt(jobRecipt, userData.Company, userData.FYear);
+                if (model.Mode == Mode.Add)
+                {
+                    databaseResponse = dbutility.SaveJobworkReceipt(jobRecipt, userData.Company, userData.FYear);
+                }
+                else if (model.Mode == Mode.Update)
+                {
+                    databaseResponse = dbutility.UpdateJobworkReceipt(jobRecipt, userData.Company, userData.FYear);
+                }
+
                 if (databaseResponse != null)
                 {
                     if (databaseResponse.ErrorCode == "00")
