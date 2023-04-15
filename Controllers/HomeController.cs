@@ -153,194 +153,194 @@ namespace Transactiondetails.Controllers
         #endregion
 
         #region JobWorkDespatch
-        public ActionResult JobWorkDespatch()
-        {
-            ViewBag.Menu = "JobWorkDespatch";
-            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
-            {
-                List<sp_GetCustomers_Result> lstGetCustomerData = new List<sp_GetCustomers_Result>();
-                lstGetCustomerData = db.sp_GetCustomers().ToList();
-                ViewBag.Search = lstGetCustomerData;
-                var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
-                ViewBag.Customer = customerList;
-                int serialNo = db.JobDespatchMas.Max(a => a.SerialNumber) + 1;
-                TempData["serialNo"] = serialNo;
-                return View();
-            }
-        }
-        [HttpPost]
-        public PartialViewResult EditJobWorkDespatch(string accountNo)
-        {
-            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
-            {
-                int serialNo;
-                if (db.JobDespatchMas.Any(a => a.AccountCode == accountNo))
-                    serialNo = db.JobDespatchMas.Where(a => a.AccountCode == accountNo).FirstOrDefault().SerialNumber;
-                else
-                    serialNo = db.JobDespatchMas.Max(a => a.SerialNumber) + 1;
-                List<sp_GetDespatchData_Result> lstSelectedData = new List<sp_GetDespatchData_Result>();
-                lstSelectedData = db.sp_GetDespatchData(accountNo).ToList();
-                ViewBag.Data = lstSelectedData;
-                var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
-                var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
-                TempData["serialNo"] = serialNo;
-                TempData["ReferenceDate"] = Convert.ToDateTime(db.JobReceiptMas.Where(x => x.AccountCode == accountNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
-                ViewBag.Process = processList;
-                ViewBag.Customer = customerList;
-                TempData["Customer"] = db.Accounts.Where(a => a.AccountCode == accountNo).FirstOrDefault().AccountCode;
-                ViewBag.serialNo = lstSelectedData.Select(a => a.SerialNumber).Distinct().ToList();
-                return PartialView(lstSelectedData);
-            }
-        }
-        [HttpPost]
-        public PartialViewResult SelectWorkDespatch(string serialNos = "")
-        {
-            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
-            {
-                List<sp_GetSelectedDespatchData_Result> lstSelectedData = new List<sp_GetSelectedDespatchData_Result>();
-                lstSelectedData = db.sp_GetSelectedDespatchData(serialNos).ToList();
-                ViewBag.Data = lstSelectedData;
-                var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
-                ViewBag.Process = processList;
-                return PartialView(lstSelectedData);
-            }
-        }
-        [HttpPost]
-        public PartialViewResult EditJobWorkDespatchNew(string accountNo)
-        {
-            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
-            {
-                //int  serialNo = db.JobDespatchMas.Max(a => a.SerialNumber) + 1;
-                List<sp_GetNewDespatchData_Result> lstSelectedData = new List<sp_GetNewDespatchData_Result>();
-                lstSelectedData = db.sp_GetNewDespatchData(accountNo).ToList();
-                ViewBag.Data = lstSelectedData;
-                var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
-                var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
-                //TempData["serialNo"] = serialNo;
-                ViewBag.Process = processList;
-                ViewBag.Customer = customerList;
-                ViewBag.serialNo = lstSelectedData.Select(a => a.SerialNumber).Distinct().ToList();
-                return PartialView(lstSelectedData);
-            }
-        }
-        public JsonResult SaveJobworkDespatch(List<JobDespatchDet> lstjobDespatchDets, string referenceDate = "", string accountCode = "", int serialNumber = 0)
-        {
-            try
-            {
-                using (TransactionDetailsEntities db = new TransactionDetailsEntities())
-                {
-                    if (!string.IsNullOrEmpty(referenceDate) && !string.IsNullOrEmpty(accountCode) && !db.JobDespatchMas.Any(a => a.SerialNumber == serialNumber))
-                    {
-                        var jobDespatchMa = new JobDespatchMa();
-                        //put your Fields Here
-                        jobDespatchMa.SerialNumber = serialNumber;
-                        jobDespatchMa.AccountCode = accountCode;
-                        jobDespatchMa.ReferenceDate = Convert.ToDateTime(referenceDate);
-                        jobDespatchMa.EntryDate = DateTime.Now;
-                        jobDespatchMa.ModiDate = DateTime.Now;
-                        db.JobDespatchMas.Add(jobDespatchMa);
-                        foreach (var item in lstjobDespatchDets)
-                        {
-                            db.JobDespatchDets.Add(item);
-                        }
-                        db.SaveChanges();
-                    }
-                    else if (lstjobDespatchDets != null && db.JobDespatchMas.Any(a => a.SerialNumber == serialNumber))
-                    {
-                        JobDespatchMa jobRecieptMasData = db.JobDespatchMas.Find(serialNumber);
-                        jobRecieptMasData.ModiDate = DateTime.Now;
-                        List<JobDespatchDet> lstjobDespatch = db.JobDespatchDets.Where(a => a.SerialNumber == serialNumber).ToList();
-                        foreach (var item in lstjobDespatchDets)
-                        {
-                            foreach (var data in lstjobDespatch)
-                            {
-                                if (item.ItemSerialNumber == data.ItemSerialNumber)
-                                {
-                                    data.JRSerialNumber = item.JRSerialNumber;
-                                    data.JRItemSerialNumber = item.JRItemSerialNumber;
-                                    data.ItemPieces = item.ItemPieces;
-                                    data.ItemCarats = item.ItemCarats;
-                                    data.ItemLines = item.ItemLines;
-                                    data.WeightLoss = item.WeightLoss;
-                                    data.PacketStatus = item.PacketStatus;
-                                    data.Remarks = item.Remarks;
-                                    data.BillingQuantity = item.BillingQuantity;
-                                    data.NoChargeQuantity = item.NoChargeQuantity;
-                                    data.BillingRate = item.BillingRate;
-                                }
-                            }
-                        }
-                        db.SaveChanges();
-                    }
-                }
-                var json2 = new { message = "Success", error = "false" };
-                return Json(json2, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var json2 = new { message = "Failed", error = "True" };
-                return Json(json2, JsonRequestBehavior.AllowGet);
-            }
+        //public ActionResult JobWorkDespatch()
+        //{
+        //    ViewBag.Menu = "JobWorkDespatch";
+        //    using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+        //    {
+        //        List<sp_GetCustomers_Result> lstGetCustomerData = new List<sp_GetCustomers_Result>();
+        //        lstGetCustomerData = db.sp_GetCustomers().ToList();
+        //        ViewBag.Search = lstGetCustomerData;
+        //        var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
+        //        ViewBag.Customer = customerList;
+        //        int serialNo = db.JobDespatchMas.Max(a => a.SerialNumber) + 1;
+        //        TempData["serialNo"] = serialNo;
+        //        return View();
+        //    }
+        //}
+        //[HttpPost]
+        //public PartialViewResult EditJobWorkDespatch(string accountNo)
+        //{
+        //    using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+        //    {
+        //        int serialNo;
+        //        if (db.JobDespatchMas.Any(a => a.AccountCode == accountNo))
+        //            serialNo = db.JobDespatchMas.Where(a => a.AccountCode == accountNo).FirstOrDefault().SerialNumber;
+        //        else
+        //            serialNo = db.JobDespatchMas.Max(a => a.SerialNumber) + 1;
+        //        List<sp_GetDespatchData_Result> lstSelectedData = new List<sp_GetDespatchData_Result>();
+        //        lstSelectedData = db.sp_GetDespatchData(accountNo).ToList();
+        //        ViewBag.Data = lstSelectedData;
+        //        var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
+        //        var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
+        //        TempData["serialNo"] = serialNo;
+        //        TempData["ReferenceDate"] = Convert.ToDateTime(db.JobReceiptMas.Where(x => x.AccountCode == accountNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
+        //        ViewBag.Process = processList;
+        //        ViewBag.Customer = customerList;
+        //        TempData["Customer"] = db.Accounts.Where(a => a.AccountCode == accountNo).FirstOrDefault().AccountCode;
+        //        ViewBag.serialNo = lstSelectedData.Select(a => a.SerialNumber).Distinct().ToList();
+        //        return PartialView(lstSelectedData);
+        //    }
+        //}
+        //[HttpPost]
+        //public PartialViewResult SelectWorkDespatch(string serialNos = "")
+        //{
+        //    using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+        //    {
+        //        List<sp_GetSelectedDespatchData_Result> lstSelectedData = new List<sp_GetSelectedDespatchData_Result>();
+        //        lstSelectedData = db.sp_GetSelectedDespatchData(serialNos).ToList();
+        //        ViewBag.Data = lstSelectedData;
+        //        var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
+        //        ViewBag.Process = processList;
+        //        return PartialView(lstSelectedData);
+        //    }
+        //}
+        //[HttpPost]
+        //public PartialViewResult EditJobWorkDespatchNew(string accountNo)
+        //{
+        //    using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+        //    {
+        //        //int  serialNo = db.JobDespatchMas.Max(a => a.SerialNumber) + 1;
+        //        List<sp_GetNewDespatchData_Result> lstSelectedData = new List<sp_GetNewDespatchData_Result>();
+        //        lstSelectedData = db.sp_GetNewDespatchData(accountNo).ToList();
+        //        ViewBag.Data = lstSelectedData;
+        //        var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
+        //        var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
+        //        //TempData["serialNo"] = serialNo;
+        //        ViewBag.Process = processList;
+        //        ViewBag.Customer = customerList;
+        //        ViewBag.serialNo = lstSelectedData.Select(a => a.SerialNumber).Distinct().ToList();
+        //        return PartialView(lstSelectedData);
+        //    }
+        //}
+        //public JsonResult SaveJobworkDespatch(List<JobDespatchDet> lstjobDespatchDets, string referenceDate = "", string accountCode = "", int serialNumber = 0)
+        //{
+        //    try
+        //    {
+        //        using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+        //        {
+        //            if (!string.IsNullOrEmpty(referenceDate) && !string.IsNullOrEmpty(accountCode) && !db.JobDespatchMas.Any(a => a.SerialNumber == serialNumber))
+        //            {
+        //                var jobDespatchMa = new JobDespatchMa();
+        //                //put your Fields Here
+        //                jobDespatchMa.SerialNumber = serialNumber;
+        //                jobDespatchMa.AccountCode = accountCode;
+        //                jobDespatchMa.ReferenceDate = Convert.ToDateTime(referenceDate);
+        //                jobDespatchMa.EntryDate = DateTime.Now;
+        //                jobDespatchMa.ModiDate = DateTime.Now;
+        //                db.JobDespatchMas.Add(jobDespatchMa);
+        //                foreach (var item in lstjobDespatchDets)
+        //                {
+        //                    db.JobDespatchDets.Add(item);
+        //                }
+        //                db.SaveChanges();
+        //            }
+        //            else if (lstjobDespatchDets != null && db.JobDespatchMas.Any(a => a.SerialNumber == serialNumber))
+        //            {
+        //                JobDespatchMa jobRecieptMasData = db.JobDespatchMas.Find(serialNumber);
+        //                jobRecieptMasData.ModiDate = DateTime.Now;
+        //                List<JobDespatchDet> lstjobDespatch = db.JobDespatchDets.Where(a => a.SerialNumber == serialNumber).ToList();
+        //                foreach (var item in lstjobDespatchDets)
+        //                {
+        //                    foreach (var data in lstjobDespatch)
+        //                    {
+        //                        if (item.ItemSerialNumber == data.ItemSerialNumber)
+        //                        {
+        //                            data.JRSerialNumber = item.JRSerialNumber;
+        //                            data.JRItemSerialNumber = item.JRItemSerialNumber;
+        //                            data.ItemPieces = item.ItemPieces;
+        //                            data.ItemCarats = item.ItemCarats;
+        //                            data.ItemLines = item.ItemLines;
+        //                            data.WeightLoss = item.WeightLoss;
+        //                            data.PacketStatus = item.PacketStatus;
+        //                            data.Remarks = item.Remarks;
+        //                            data.BillingQuantity = item.BillingQuantity;
+        //                            data.NoChargeQuantity = item.NoChargeQuantity;
+        //                            data.BillingRate = item.BillingRate;
+        //                        }
+        //                    }
+        //                }
+        //                db.SaveChanges();
+        //            }
+        //        }
+        //        var json2 = new { message = "Success", error = "false" };
+        //        return Json(json2, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var json2 = new { message = "Failed", error = "True" };
+        //        return Json(json2, JsonRequestBehavior.AllowGet);
+        //    }
 
-        }
+        //}
+        //#endregion
+
+        //[HttpPost]
+        //public PartialViewResult EditSearchDespatch(string serialNos = "")
+        //{
+        //    using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+        //    {
+        //        List<sp_GetSelectedDespatchData_Result> lstSelectedData = new List<sp_GetSelectedDespatchData_Result>();
+        //        lstSelectedData = db.sp_GetSelectedDespatchData(serialNos).ToList();
+        //        ViewBag.Data = lstSelectedData;
+        //        var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
+        //        var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
+        //        //TempData["AccountCode"] = db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().AccountCode;
+        //        //TempData["ReferenceDate"] = Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
+        //        ViewBag.Process = processList;
+        //        ViewBag.Customer = customerList;
+        //        //TempData["serialNo"] = serialNo;
+        //        return PartialView(lstSelectedData);
+        //    }
+        //}
+
+
+        //public ActionResult Test(string accountNo = "A0000901")
+        //{
+        //    using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+        //    {
+        //        int serialNo;
+        //        if (db.JobDespatchMas.Any(a => a.AccountCode == accountNo))
+        //            serialNo = db.JobDespatchMas.Where(a => a.AccountCode == accountNo).FirstOrDefault().SerialNumber;
+        //        else
+        //            serialNo = db.JobDespatchMas.Max(a => a.SerialNumber) + 1;
+        //        List<sp_GetDespatchData_Result> lstSelectedData = new List<sp_GetDespatchData_Result>();
+        //        lstSelectedData = db.sp_GetDespatchData(accountNo).ToList();
+        //        ViewBag.Data = lstSelectedData;
+        //        var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
+        //        var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
+        //        TempData["serialNo"] = serialNo;
+        //        TempData["ReferenceDate"] = Convert.ToDateTime(db.JobReceiptMas.Where(x => x.AccountCode == accountNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
+        //        ViewBag.Process = processList;
+        //        ViewBag.Customer = customerList;
+        //        TempData["Customer"] = db.Accounts.Where(a => a.AccountCode == accountNo).FirstOrDefault().AccountCode;
+        //        ViewBag.serialNo = lstSelectedData.Select(a => a.SerialNumber).Distinct().ToList();
+        //        return PartialView(lstSelectedData);
+        //    }
+        //}
+        //[HttpPost]
+        //public PartialViewResult SelectWorkDespatchTest(string serialNos = "")
+        //{
+        //    using (TransactionDetailsEntities db = new TransactionDetailsEntities())
+        //    {
+        //        List<sp_GetSelectedDespatchData_Result> lstSelectedData = new List<sp_GetSelectedDespatchData_Result>();
+        //        //lstSelectedData = db.sp_GetSelectedDespatchData(serialNo).ToList();
+        //        ViewBag.Data = lstSelectedData;
+        //        var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
+        //        ViewBag.Process = processList;
+        //        return PartialView(lstSelectedData);
+        //    }
+        //}
         #endregion
-
-        [HttpPost]
-        public PartialViewResult EditSearchDespatch(string serialNos = "")
-        {
-            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
-            {
-                List<sp_GetSelectedDespatchData_Result> lstSelectedData = new List<sp_GetSelectedDespatchData_Result>();
-                lstSelectedData = db.sp_GetSelectedDespatchData(serialNos).ToList();
-                ViewBag.Data = lstSelectedData;
-                var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
-                var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
-                //TempData["AccountCode"] = db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().AccountCode;
-                //TempData["ReferenceDate"] = Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
-                ViewBag.Process = processList;
-                ViewBag.Customer = customerList;
-                //TempData["serialNo"] = serialNo;
-                return PartialView(lstSelectedData);
-            }
-        }
-
-
-        public ActionResult Test(string accountNo = "A0000901")
-        {
-            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
-            {
-                int serialNo;
-                if (db.JobDespatchMas.Any(a => a.AccountCode == accountNo))
-                    serialNo = db.JobDespatchMas.Where(a => a.AccountCode == accountNo).FirstOrDefault().SerialNumber;
-                else
-                    serialNo = db.JobDespatchMas.Max(a => a.SerialNumber) + 1;
-                List<sp_GetDespatchData_Result> lstSelectedData = new List<sp_GetDespatchData_Result>();
-                lstSelectedData = db.sp_GetDespatchData(accountNo).ToList();
-                ViewBag.Data = lstSelectedData;
-                var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
-                var customerList = db.Accounts.Select(a => new { a.AccountCode, a.AccountName }).ToList();
-                TempData["serialNo"] = serialNo;
-                TempData["ReferenceDate"] = Convert.ToDateTime(db.JobReceiptMas.Where(x => x.AccountCode == accountNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
-                ViewBag.Process = processList;
-                ViewBag.Customer = customerList;
-                TempData["Customer"] = db.Accounts.Where(a => a.AccountCode == accountNo).FirstOrDefault().AccountCode;
-                ViewBag.serialNo = lstSelectedData.Select(a => a.SerialNumber).Distinct().ToList();
-                return PartialView(lstSelectedData);
-            }
-        }
-        [HttpPost]
-        public PartialViewResult SelectWorkDespatchTest(string serialNos = "")
-        {
-            using (TransactionDetailsEntities db = new TransactionDetailsEntities())
-            {
-                List<sp_GetSelectedDespatchData_Result> lstSelectedData = new List<sp_GetSelectedDespatchData_Result>();
-                //lstSelectedData = db.sp_GetSelectedDespatchData(serialNo).ToList();
-                ViewBag.Data = lstSelectedData;
-                var processList = db.ProcessMas.Select(a => new { a.ProcessCode, a.ProcessName }).ToList();
-                ViewBag.Process = processList;
-                return PartialView(lstSelectedData);
-            }
-        }
-
     }
 }

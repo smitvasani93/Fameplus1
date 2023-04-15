@@ -2404,19 +2404,6 @@
     <Content Include="Css\SMStyle.css" />
     <Content Include="Css\Style.css" />
     <Content Include="Global.asax" />
-    <Content Include="Models\TransactionDetails.Context.tt">
-      <DependentUpon>TransactionDetails.edmx</DependentUpon>
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TransactionDetails.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\TransactionDetails.edmx.diagram">
-      <DependentUpon>TransactionDetails.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\TransactionDetails.tt">
-      <DependentUpon>TransactionDetails.edmx</DependentUpon>
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TransactionDetails.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -3446,74 +3433,8 @@
     </Compile>
     <Compile Include="Helpers\GridMvcHelper.cs" />
     <Compile Include="Helpers\IGridMvcHelper.cs" />
-    <Compile Include="Models\Account.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\JobBillingDet.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\JobBillingMa.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\JobDespatchDet.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\JobDespatchMa.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\JobReceipt.cs" />
-    <Compile Include="Models\JobReceiptDet.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\JobReceiptMa.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\LoginStatus.cs" />
-    <Compile Include="Models\ProcessDet.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ProcessMa.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SplitString_Result.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_GetCustomers_Result.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_GetDespatchData_Result.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_GetNewDespatchData_Result.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_GetProcess_Result.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_GetSearchData_Result.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_GetSelectedData_Result.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_GetSelectedDespatchData_Result.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TransactionDetails.Context.cs">
-      <DependentUpon>TransactionDetails.Context.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Models\TransactionDetails.cs">
-      <DependentUpon>TransactionDetails.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Models\TransactionDetails.Designer.cs">
-      <DependentUpon>TransactionDetails.edmx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="Models\Utility\CompanyDBContext.cs" />
     <Compile Include="Models\Utility\DBUtility.cs" />
     <Compile Include="Models\Utility\GenDBContext.cs" />
@@ -3678,12 +3599,6 @@
     <TypeScriptCompile Include="assets\vendor\chart.js\types\utils.d.ts" />
     <TypeScriptCompile Include="assets\vendor\tinymce\tinymce.d.ts" />
     <TypeScriptCompile Include="Scripts\ej2\ej2.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="Models\TransactionDetails.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TransactionDetails.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
