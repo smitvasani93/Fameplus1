@@ -58,12 +58,40 @@
                         <div class="col-10 search-bar">
                             <ul class="nav nav-pills card-header-pills">
                                 <li class="nav-item ps-lg-2">
+                                    <label for="inputEmail3" class="col-form-label">Account Code</label>
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    @Html.TextBox("AccountCode", null, new { @class = "form-control" })
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    <label for="inputEmail3" class="col-form-label">Account Name</label>
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    @Html.TextBox("AccountName", null, new { @class = "form-control" })
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    <button id="btnSearch" class="btn btn-primary btn-sm">Search</button>
+                                    
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    <button id="btnPrint" class="btn btn-primary btn-sm">Print</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-2 text-sm-end">
+                            <button id="btnAddNew" class="btn btn-primary">Add New</button>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-10 search-bar">
+                            <ul class="nav nav-pills card-header-pills">
+                                <li class="nav-item ps-lg-2">
                                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                                 </li>
-                                <li class="nav-item ps-lg-2">
+                                <li class="nav-item ps-lg-3">
                                     @Html.TextBox("ReferenceDate", null, new { @class = "form-control" })
                                 </li>
-                                <li class="nav-item ps-lg-2">
+                                @*<li class="nav-item ps-lg-2">
                                     <label for="inputEmail3" class="col-form-label">Account Code</label>
                                 </li>
                                 <li class="nav-item ps-lg-2">
@@ -71,11 +99,11 @@
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     <button id="btnSearch" class="btn btn-primary btn-sm">Search</button>
-                                </li>
+                                </li>*@
                             </ul>
                         </div>
                         <div class="col-2 text-sm-end">
-                            <button id="btnAddNew" class="btn btn-primary">Add New</button>
+                            @*<button id="btnAddNew" class="btn btn-primary">Add New</button>*@
                         </div>
                     </div>
                 </div>
@@ -123,14 +151,14 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
         $(document).on('click', '#btnAddNew', function () {
             id = 0;
             $('#dialog')
-                .dialog({ title: 'Add Jobwork Recipits' })
+                .dialog({ title: 'Add Jobwork Receipt' })
                 .dialog('open');
         });
 
         $(document).on('click', '.btnEdit', function () {
             id = $(this).attr("data-value");
             $('#dialog')
-                .dialog({ title: 'Edit Jobwork Recipits' })
+                .dialog({ title: 'Edit Jobwork Receipt' })
                 .dialog('open');
 
         });
@@ -140,7 +168,7 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
             id = $(row).find("a").attr("data-value");
             title = 'Edit Jobwork Recipits';
             $('#dialog')
-                .dialog({ title: 'Edit Jobwork Recipits' })
+                .dialog({ title: 'Edit Jobwork Receipt' })
                 .dialog('open');
 
         });
@@ -194,6 +222,29 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
         $(function () {
             $("#ReferenceDate").datepicker();
         });
+
+        $(document).on("click", "#btnPrint", function () {
+            
+            var searchUrl = "/JobWorkReceipts/GetFilterJobworkRecipt/";
+            let referenceDate = $('#ReferenceDate1').datepicker().val();
+            var data = {
+                AccountCode: $("#AccountCode").val(),
+                AccountName: $("#AccountName").val(),
+                ReferenceDate: referenceDate
+            };
+
+            /*$("#btnSearch").attr({ 'value': 'Please wait..' });*/
+            $.ajax({
+                url: searchUrl,
+                data: data,
+                type: "POST",
+                success: function (data) {
+                    $("#divData").html(data);
+                    /*$("#btnSearch").attr({ 'value': 'Search' });*/
+                }
+            });
+        });
+
     </script>
 }
 

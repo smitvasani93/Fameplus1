@@ -27,7 +27,7 @@ label.error {
 }
 
 .ui-dialog-buttonset > button {
-    border: 1px solid #c5c5c5 !important;
+    border: 0.1px solid #c5c5c5 !important;
     /*border-top-right-radius: 3px !important;
         border-top-left-radius: 3px !important;*/
     border-radius: 3px;

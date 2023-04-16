@@ -234,5 +234,78 @@ namespace Transactiondetails.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult GetFilterJobworkRecipt(JobReciptVM model)
+        {
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
+            try
+            {
+                var userData = (UserData)Session["UserData"];
+                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+
+                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+                {
+                    SerialNumber = sel.SerialNumber,
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName,
+                    ReferenceDate = sel.ReferenceDate
+                }).OrderByDescending(x => x.SerialNumber);
+
+                if (!string.IsNullOrEmpty(model.AccountCode) &&
+                    !string.IsNullOrEmpty(model.AccountName) &&
+                    model.ReferenceDate.HasValue)
+                {
+                     data.Where(x => x.AccountCode.Contains(model.AccountCode) && x.AccountName.Contains(model.AccountName) && x.ReferenceDate == x.ReferenceDate).ToList();
+                }
+                else if (!string.IsNullOrEmpty(model.AccountCode) &&
+                    !string.IsNullOrEmpty(model.AccountName) &&
+                    !model.ReferenceDate.HasValue)
+                {
+                    data.Where(x => x.AccountCode.Contains(model.AccountCode) && x.AccountName.Contains(model.AccountName));
+                }
+                else if (!string.IsNullOrEmpty(model.AccountCode) &&
+                    string.IsNullOrEmpty(model.AccountName) &&
+                    model.ReferenceDate.HasValue)
+                {
+                    data.Where(x => x.AccountCode.Contains(model.AccountCode) && x.ReferenceDate == x.ReferenceDate);
+
+                }
+                else if (string.IsNullOrEmpty(model.AccountCode) &&
+                    !string.IsNullOrEmpty(model.AccountName) &&
+                    model.ReferenceDate.HasValue)
+                {
+                    data.Where(x => x.AccountName.Contains(model.AccountName) && x.ReferenceDate == x.ReferenceDate);
+                }
+                else if (!string.IsNullOrEmpty(model.AccountCode) &&
+                    string.IsNullOrEmpty(model.AccountName) &&
+                    !model.ReferenceDate.HasValue)
+                {
+                    data.Where(x => x.AccountName.Contains(model.AccountName));
+                }
+                else if (string.IsNullOrEmpty(model.AccountCode) &&
+                    !string.IsNullOrEmpty(model.AccountName) &&
+                    !model.ReferenceDate.HasValue)
+                {
+                    data.Where(x => x.AccountCode.Contains(model.AccountCode));
+                }
+                else if (string.IsNullOrEmpty(model.AccountCode) &&
+                      string.IsNullOrEmpty(model.AccountName) &&
+                    model.ReferenceDate.HasValue)
+                {
+                    data.Where(x => x.ReferenceDate == model.ReferenceDate);
+                }
+
+                var lst = data.ToList();
+
+                return Json(lst, JsonRequestBehavior.AllowGet);
+                //return PartialView("_JobworkReceiptPartial", jobReceiptVM);
+            }
+            catch (Exception ex)
+            {
+                var message = new { message = "Exception occured", error = "True" };
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
