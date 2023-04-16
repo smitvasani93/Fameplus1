@@ -179,8 +179,8 @@ namespace Transactiondetails.Controllers
                 jobRecieptMas.ModiDate = DateTime.Now;
                 jobRecieptMas.FinancialYearCode = userData.FYear;
                 jobRecieptMas.BranchCode = userData.Branch;
-                jobRecieptMas.UserCode = 1; //Get usercode from session
-                jobRecieptMas.ModiUserCode = 1; //Get usercode from session
+                jobRecieptMas.UserCode = userData.UserId; //Get usercode from session
+                jobRecieptMas.ModiUserCode = userData.UserId; //Get usercode from session
 
                 var jobRecipt = new JobReceipt();
                 jobRecipt.JobReceiptMaster = jobRecieptMas;

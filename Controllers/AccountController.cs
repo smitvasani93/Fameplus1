@@ -22,7 +22,7 @@ namespace Transactiondetails.Controllers
         {
             var dbutility = new DBUtility();
             LoginStatus status = new LoginStatus();
-            Int16 userId = 0;
+            int userId = 0;
             try
             {
                 if (dbutility.CheckLogin(userName, password, out userId))

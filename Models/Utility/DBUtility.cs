@@ -11,7 +11,7 @@ namespace Transactiondetails.Models.Utility
     {
         static readonly object cacheLock = new object();
 
-        public bool CheckLogin(string userName, string password , out Int16 userId)
+        public bool CheckLogin(string userName, string password , out int userId)
         {
             bool isSuccessFulllogin = false;
             userId = 0;
