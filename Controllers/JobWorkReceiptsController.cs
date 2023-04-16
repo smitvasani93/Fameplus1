@@ -49,7 +49,7 @@ namespace Transactiondetails.Controllers
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName,
                     ReferenceDate = sel.ReferenceDate
-                });
+                }).OrderByDescending(x=> x.ReferenceDate);
 
                 return View(data);
             }
@@ -70,7 +70,12 @@ namespace Transactiondetails.Controllers
                 var userData = (UserData)Session["UserData"];
                 var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
                 var process = dbutility.GetProcesses();
+                var jobReciept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var recieptNo = jobReciept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+                recieptNo++;
+
                 var jobReceiptVM = new JobReciptVM();
+                jobReceiptVM.SerialNumber = recieptNo;
 
                 jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
                 {
@@ -175,7 +180,7 @@ namespace Transactiondetails.Controllers
                 jobRecieptMas.SerialNumber = model.SerialNumber.Value;
                 jobRecieptMas.AccountCode = model.AccountCode;
                 jobRecieptMas.ReferenceDate = model.ReferenceDate.Value;
-                //jobRecieptMas.EntryDate = DateTime.Now;
+                jobRecieptMas.EntryDate = DateTime.Now;
                 jobRecieptMas.ModiDate = DateTime.Now;
                 jobRecieptMas.FinancialYearCode = userData.FYear;
                 jobRecieptMas.BranchCode = userData.Branch;
@@ -186,6 +191,7 @@ namespace Transactiondetails.Controllers
                 jobRecipt.JobReceiptMaster = jobRecieptMas;
                 jobRecipt.JobReceiptDetails = model.JobReceiptDetails.Select(sel => new JobRecieptDetail
                 {
+                    ProcessCode = sel.ProcessCode.Value,
                     ItemCarats = sel.ItemCarats.Value,
                     PacketNumber = sel.PacketNumber.Value,
                     ItemSerialNumber = sel.ItemSerialNumber.Value,

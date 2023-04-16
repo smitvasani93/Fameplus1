@@ -23,7 +23,7 @@
                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                 </div>
                 <div class="col-sm-5">
-                    @Html.TextBoxFor(x => x.ReferenceDate, new { @class = "form-control" })
+                    @Html.TextBoxFor(x => x.ReferenceDate, new {  @class = "form-control" })
                 </div>
                 <div class="col-sm-2 mr-minus">
                     <label for="inputEmail3" class="col-form-label">Receipt No</label>
@@ -109,6 +109,7 @@
     var mode =@(Html.Raw(jsonMode));
 
     $(function () {
+        //alert('hi');
         $("#ReferenceDate").datepicker();
     });
 

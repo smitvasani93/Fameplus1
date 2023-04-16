@@ -62,7 +62,7 @@
                                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    @Html.TextBox("ReferenceDate", null, new { @class = "form-control" })
+                                    @Html.TextBox("ReferenceDate1", null, new { @class = "form-control" })
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     <label for="inputEmail3" class="col-form-label">Account Code</label>
@@ -191,7 +191,7 @@ objWebGrid.Column(header: "Action", format: @<a data-value="@item.SerialNumber" 
 
 
         $(function () {
-            $("#ReferenceDate").datepicker();
+            $("#ReferenceDate1").datepicker();
         });
     </script>
 }

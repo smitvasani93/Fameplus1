@@ -15,7 +15,7 @@ namespace Transactiondetails.App_Start
             //            "~/Scripts/jquery-{version}.js"));
 
 
-            bundles.Add(new ScriptBundle("~/Scripts"));
+            bundles.Add(new ScriptBundle("~/Scripts").Include("~/Scripts/dist"));
             //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
             //            "~/Scripts/jquery.validate*"));
             bundles.Add(new StyleBundle("~/Content"));
@@ -24,6 +24,7 @@ namespace Transactiondetails.App_Start
             //bundles.Add(new StyleBundle("~/Content/css").Include(
             //          "~/Content/bootstrap.css",
             //          "~/Content/site.css"));
+            BundleTable.EnableOptimizations = true;
 
         }
     }
