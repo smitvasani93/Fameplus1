@@ -24,7 +24,6 @@
 <!--</div>-->
 @*<link href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css" rel="stylesheet" />*@
 <link href="~/Content/jquery-ui-themes-1.13.2/jquery-ui.css" rel="stylesheet" />
-<link href="~/Content/jquery-ui-themes-1.13.2/themes/base/theme.css" rel="stylesheet" />
 <style type="text/css">
     .Pager span {
         text-align: center;
@@ -62,7 +61,7 @@
                                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    @Html.TextBox("ReferenceDate1", null, new { @class = "form-control" })
+                                    @Html.TextBox("ReferenceDate", null, new { @class = "form-control" })
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     <label for="inputEmail3" class="col-form-label">Account Code</label>
@@ -98,12 +97,14 @@
                 columns:
                    objWebGrid.Columns
                    (
-                       objWebGrid.Column(columnName: "AccountCode", header: "Account Code"),
-                       objWebGrid.Column(columnName: "AccountName", header: "Account Name"),
-                       objWebGrid.Column(columnName: "SerialNumber", header: "Serial Number"),
-                       objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date"),
+                       objWebGrid.Column(columnName: "AccountCode", header: "Account Code",style: "css-accountcode"),
+                       objWebGrid.Column(columnName: "AccountName", header: "Account Name",style: "css-accountname"),
+                       objWebGrid.Column(columnName: "SerialNumber", header: "Serial Number",style: "css-serialnumber"),
+                       objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date",style: "css-referencedate", format: (item) => item.ReferenceDate != null
+                       ? item.ReferenceDate.ToString("dd/MM/yyyy") : "", canSort: true),
+
             @*objWebGrid.Column(format:@<text><a href="" onclick="DeleteME('@item.SerialNumber')">Delete</a></text>),*@
-objWebGrid.Column(header: "Action", format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btn btn-primary btn-sm btnEdit">Edit</a>))
+objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btn btn-primary btn-sm btnEdit">Edit</a>))
 )
                     </div>
                 </div>
@@ -117,8 +118,6 @@ objWebGrid.Column(header: "Action", format: @<a data-value="@item.SerialNumber" 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-
-
     <script type="text/javascript">
         var id = 0;
         $(document).on('click', '#btnAddNew', function () {
@@ -153,8 +152,10 @@ objWebGrid.Column(header: "Action", format: @<a data-value="@item.SerialNumber" 
                 width: '1000',
                 resizable: false,
                 title: 'Add Jobwork Recipits',
-                modal: false,
+                modal: true,
+                draggable:false,
                 open: function (event, ui) {
+                    /*$(this).parent().appendTo($("form:first"));*/
                     // Load partial view _GridEditPartial
                     if (id == 0) {
                         $(this).load("@Url.Action("GetJobworkRecipt")");
@@ -191,13 +192,31 @@ objWebGrid.Column(header: "Action", format: @<a data-value="@item.SerialNumber" 
 
 
         $(function () {
-            $("#ReferenceDate1").datepicker();
+            $("#ReferenceDate").datepicker();
         });
     </script>
 }
 
 
 <style type="text/css">
+
+    .css-accountcode {
+        width:150px ;
+    }
+
+    .css-accountname {
+        /*width: 150px;*/
+    }
+
+    .css-serialnumber {
+        width: 150px;
+    }
+    .css-referencedate {
+        width: 150px;
+    }
+    .css-action {
+        width: 80px;
+    }
 
     .search-bar .form-control {
         padding: .200rem .50rem !important;
@@ -207,38 +226,7 @@ objWebGrid.Column(header: "Action", format: @<a data-value="@item.SerialNumber" 
         padding-top: calc(.175rem + 1px) !important;
     }
 
-    .ui-dialog-titlebar-close {
-        padding: 0 !important;
-    }
-
-        .ui-dialog-titlebar-close:after {
-            content: '';
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            /* Change path to image*/
-            background-image: url(/Content/jquery-ui-themes-1.13.2/themes/base/images/ui-icons_777777_256x240.png);
-            background-position: -96px -128px;
-            background-repeat: no-repeat;
-        }
-
-    .ui-dialog-buttonset > button {
-        border: 1px solid #c5c5c5 !important;
-        /*border-top-right-radius: 3px !important;
-        border-top-left-radius: 3px !important;*/
-        border-radius: 3px;
-    }
-
-    .ui-dialog.ui-widget.ui-widget-content {
-        /* and no special background for the dialog */
-    }
-
-    .ui-widget-overlay {
-        opacity: 1 !important; /* Make sure to change both of these, as IE only sees the second one */
-        /*filter: Alpha(Opacity=50) !important;
-        background: rgb(50, 50, 50) !important;*/ /* This will make it darker */
-    }
-
+   
     .gridTable {
         margin: 5px;
         padding: 10px;

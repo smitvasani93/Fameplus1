@@ -10,3 +10,41 @@ label.error {
     font-size: 14px;
     /*   font-style: italic;*/
 }
+
+.ui-dialog-titlebar-close {
+    padding: 0 !important;
+}
+
+.ui-dialog-titlebar-close:after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    /* Change path to image*/
+    background-image: url(/Content/jquery-ui-themes-1.13.2/themes/base/images/ui-icons_777777_256x240.png);
+    background-position: -96px -128px;
+    background-repeat: no-repeat;
+}
+
+.ui-dialog-buttonset > button {
+    border: 1px solid #c5c5c5 !important;
+    /*border-top-right-radius: 3px !important;
+        border-top-left-radius: 3px !important;*/
+    border-radius: 3px;
+}
+
+.ui-dialog.ui-widget.ui-widget-content {
+    /* and no special background for the dialog */
+}
+
+.ui-widget-overlay {
+    opacity: 0.5 !important; /* Make sure to change both of these, as IE only sees the second one */
+    filter: Alpha(Opacity=50) !important;
+    background: rgb(50, 50, 50) !important;
+    This will make it darker z-index: 0 !important;
+}
+
+.ui-dialog {
+    z-index: 9999 !important;
+}
+   

@@ -49,10 +49,10 @@
     <!--Test datatable -->
 
     <script src="@Url.Content("~/Scripts/jquery-3.6.4.min.js")"></script>
-    <script src="~/Scripts/gridmvc.min.js"></script>
+    @*<script src="~/Scripts/gridmvc.min.js"></script>*@
 </head>
 
-<body ng-app="myApp" ng-controller="JobWorkReceiptCtrl" ng-init="">
+<body>
 
     @{
         var activeMenu = ViewBag.Menu ?? string.Empty;
@@ -286,6 +286,30 @@
         $(document).on("input", ".numberonly", function () {
             this.value = this.value.replace(/\D/g, '');
         });
+
+        $(document).on("keypress",".allow_decimal", function (evt) {
+            //var self = $(this);
+            //self.val(self.val().replace(/[^0-9\.]/g, ''));
+            //if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+            //    evt.preventDefault();
+            //}
+            return isNumber(evt, this);
+        });
+
+        function isNumber(evt, element) {
+
+            var charCode = (evt.which) ? evt.which : event.keyCode
+
+            if (
+                (charCode != 45 || $(element).val().indexOf('-') != -1) &&      // Check minus and only once.
+                (charCode != 46 || $(element).val().indexOf('.') != -1) &&      // Check dot and only once.
+                (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+
 
  $(document).ajaxError(function (xhr, props) {
 if (props.status === 401) {

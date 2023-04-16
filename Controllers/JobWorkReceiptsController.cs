@@ -38,10 +38,10 @@ namespace Transactiondetails.Controllers
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
-                TempData["recieptNo"] = recieptNo;
-                ViewBag.Search = jobReceiept.JobRecieptMasts.OrderByDescending(x => x.ReferenceDate);
-                ViewBag.Process = process;
-                ViewBag.Customer = accounts;
+                //TempData["recieptNo"] = recieptNo;
+                //ViewBag.Search = jobReceiept.JobRecieptMasts.OrderByDescending(x => x.ReferenceDate);
+                //ViewBag.Process = process;
+                //ViewBag.Customer = accounts;
 
                 var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
                 {
@@ -49,7 +49,7 @@ namespace Transactiondetails.Controllers
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName,
                     ReferenceDate = sel.ReferenceDate
-                }).OrderByDescending(x=> x.ReferenceDate);
+                }).OrderByDescending(x => x.SerialNumber);
 
                 return View(data);
             }
@@ -75,6 +75,7 @@ namespace Transactiondetails.Controllers
                 recieptNo++;
 
                 var jobReceiptVM = new JobReciptVM();
+
                 jobReceiptVM.SerialNumber = recieptNo;
 
                 jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM

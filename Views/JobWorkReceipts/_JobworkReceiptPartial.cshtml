@@ -5,10 +5,11 @@
     var jsonMode = JsonConvert.SerializeObject(Model.Mode);
     var htmlAttributes = new Dictionary<string, object>();
     htmlAttributes.Add("class", "form-control");
-    if (Model.Mode == Transactiondetails.ViewModels.Mode.Update)
-    {
-        htmlAttributes.Add("readonly", true);
-    }
+    htmlAttributes.Add("readonly", true);
+    //if (Model.Mode == Transactiondetails.ViewModels.Mode.Update)
+    //{
+    //    htmlAttributes.Add("readonly", true);
+    //}
 }
 
 @using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }))
@@ -23,13 +24,12 @@
                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                 </div>
                 <div class="col-sm-5">
-                    @Html.TextBoxFor(x => x.ReferenceDate, new {  @class = "form-control" })
+                    @Html.TextBoxFor(x => x.ReferenceDate, new { @id = "ReferenceDate1", @class = "form-control" })
                 </div>
                 <div class="col-sm-2 mr-minus">
                     <label for="inputEmail3" class="col-form-label">Receipt No</label>
                 </div>
                 <div class="col-sm-3">
-
                     @Html.TextBoxFor(x => x.SerialNumber, htmlAttributes)
                 </div>
             </div>
@@ -66,13 +66,13 @@
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].PacketNumber, new { @required = true, @class = "form-control numberonly" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control numberonly" })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control allow_decimal" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control numberonly" })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control allow_decimal" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemLines, new { @required = true, @class = "form-control numberonly" })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemLines, new { @required = true, @class = "form-control allow_decimal" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @required = true, @class = "form-control" })
@@ -109,8 +109,17 @@
     var mode =@(Html.Raw(jsonMode));
 
     $(function () {
-        //alert('hi');
-        $("#ReferenceDate").datepicker();
+        //$("#ReferenceDate1").datepicker();
+
+        $("#ReferenceDate1").datepicker({
+            showButtonPanel: true,
+            dateFormat: 'dd-mm-yy',
+            onSelect: function () {
+                //var dateObject = $('#datepicker').datepicker().val();
+                //alert(dateObject);
+            }
+        }
+        );
     });
 
     $(function () {
@@ -160,7 +169,15 @@
                     let cnt = rowCount;
                     let selectName = $(this).find("input,select").attr("name");
                     let name = $(this).find("input,text").attr("name");
+                    let hidenname = $(this).find("input,hidden").attr("name");
                     let $ctrl = undefined;
+
+                    if (hidenname !== undefined && hidenname.indexOf(".ItemSerialNumber") != -1) {
+                        
+                        $(this).find("input,hidden").attr("id", "JobReceiptDetails_" + cnt + "__ItemSerialNumber");
+                        $(this).find("input,hidden").attr("name", "JobReceiptDetails[" + cnt + "].ItemSerialNumber");
+                        $ctrl = $(this).find("input,hidden").attr("JobReceiptDetails[" + cnt + "].ItemSerialNumber");
+                    }
                     if (selectName!==undefined && selectName.indexOf(".ProcessCode") != -1) {
                         $(this).find("input,select").attr("id", "JobReceiptDetails_" + cnt + "__ProcessCode");
                         $(this).find("input,select").attr("name", "JobReceiptDetails[" + cnt + "].ProcessCode");
@@ -203,11 +220,16 @@
 
             $("#receipt tbody tr").each(function (i, row) {
                 let $actualrow = $(row);
+                i++;
                 $actualrow.find("td").each(function (column, td) {
 
                     let select = $(td).find("select");
                     let text = $(td).find("input[type=text]");
+                    let hidden = $(td).find("input[type=hidden]");
 
+                    if (hidden.length != 0) {
+                        $(hidden).val(i);
+                    }
                     if (select.length != 0) {
                         $(select).rules("add", { required: true, messages: { required: "" } });
                     }
@@ -225,9 +247,15 @@
         });
     });
 
+
+        $(document).ready(function () {
+
+        });
+
     function AjaxFormSuccess(e) {
 
         $('#dialog').dialog('close');
+        location.reload();
         //if (e.error == "false") {
         //    $('#dialog').dialog('close');
         //}
@@ -240,27 +268,44 @@
                 ReferenceDate: 'required',
                 AccountCode: 'required',
                 SerialNumber: 'required',
-                'JobReceiptDetails[0].ProcessCode': 'required',
-                'JobReceiptDetails[0].PacketNumber': 'required',
-                'JobReceiptDetails[0].ItemPieces': 'required',
-                'JobReceiptDetails[0].ItemCarats': 'required',
-                'JobReceiptDetails[0].ItemLines': 'required',
-                'JobReceiptDetails[0].Remarks': 'required',
+                //'JobReceiptDetails[0].ProcessCode': 'required',
+                //'JobReceiptDetails[0].PacketNumber': 'required',
+                //'JobReceiptDetails[0].ItemPieces': 'required',
+                //'JobReceiptDetails[0].ItemCarats': 'required',
+                //'JobReceiptDetails[0].ItemLines': 'required',
+                //'JobReceiptDetails[0].Remarks': 'required',
             }, messages: {
                 ReferenceDate: 'Enter Reference Date',
                 AccountCode: 'Enter Account Code',
                 SerialNumber: 'Enter Serial Number',
-                'JobReceiptDetails[0].ProcessCode': '',
-                'JobReceiptDetails[0].PacketNumber': '',
-                 'JobReceiptDetails[0].ItemPieces': '',
-                'JobReceiptDetails[0].ItemCarats': '',
-                'JobReceiptDetails[0].ItemLines': '',
-                'JobReceiptDetails[0].Remarks': '',
+                //'JobReceiptDetails[0].ProcessCode': '',
+                //'JobReceiptDetails[0].PacketNumber': '',
+                // 'JobReceiptDetails[0].ItemPieces': '',
+                //'JobReceiptDetails[0].ItemCarats': '',
+                //'JobReceiptDetails[0].ItemLines': '',
+                //'JobReceiptDetails[0].Remarks': '',
             }
         });
 
         if (mode === 2) {
             $("#SerialNumber").rules("remove", "required");
+
+            $("#receipt tbody tr").each(function (i, row) {
+
+                let $actualrow = $(row);
+                $actualrow.find("td").each(function (column, td) {
+
+                    let select = $(td).find("select");
+                    let text = $(td).find("input[type=text]");
+
+                    if (select.length != 0) {
+                        $(select).rules("add", { required: true, messages: { required: "" } });
+                    }
+                    if (text.length != 0) {
+                        $(text).rules("add", { required: true, messages: { required: "" } });
+                    }
+                });
+            });
         }
     });
 
