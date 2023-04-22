@@ -178,8 +178,9 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
             $('#dialog').dialog({
                 autoOpen: false,
                 width: '1000',
+                height: 600,
                 resizable: false,
-                title: 'Add Jobwork Recipits',
+                title: 'Add Jobwork Receipt',
                 modal: true,
                 draggable:false,
                 open: function (event, ui) {
@@ -221,6 +222,7 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
 
         $(function () {
             $("#ReferenceDate").datepicker();
+
         });
 
         $(document).on("click", "#btnPrint", function () {

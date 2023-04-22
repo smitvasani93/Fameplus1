@@ -77,6 +77,7 @@ namespace Transactiondetails.Controllers
                 var jobReceiptVM = new JobReciptVM();
 
                 jobReceiptVM.SerialNumber = recieptNo;
+                jobReceiptVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
 
                 jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
                 {

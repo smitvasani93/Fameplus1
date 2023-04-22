@@ -66,16 +66,16 @@
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].PacketNumber, new { @required = true, @class = "form-control numberonly" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control allow_decimal" })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control allow_decimal"  })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control allow_decimal" })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control allow_decimal"  })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemLines, new { @required = true, @class = "form-control allow_decimal" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @required = true, @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @required = false, @class = "form-control" })
                             </td>
                             <td class="plsRow">
                                 <a class="addRow" href="#">
@@ -112,8 +112,8 @@
         //$("#ReferenceDate1").datepicker();
 
         $("#ReferenceDate1").datepicker({
-            showButtonPanel: true,
-            dateFormat: 'dd-mm-yy',
+            showButtonPanel: false,
+            dateFormat: 'dd-mm-yyyy',
             onSelect: function () {
                 //var dateObject = $('#datepicker').datepicker().val();
                 //alert(dateObject);
@@ -213,8 +213,12 @@
                        // $ctrl.rules("add", { required: true, messages: { required: "" } });
                     }
                 })
-
-                tr.find("input:text").val("");
+                //tr.find('td[name="tcol1"]')
+//                tr.find("input:text").val("1");
+                tr.find("input[name*='PacketNumber']").val("1");
+                tr.find("input[name*='ItemPieces']").val("1");
+                tr.find("input[name*='ItemLines']").val("0");
+                tr.find("input[name*='ItemCarats']").val("0");
                 $("#receipt").append(tr);
             }
 

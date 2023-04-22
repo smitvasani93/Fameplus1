@@ -92,7 +92,16 @@
 
 <script type="text/javascript">
     $(function () {
-        $("#ReferenceDate").datepicker();
+       /* $("#ReferenceDate").datepicker();*/
+
+        $("#ReferenceDate").datepicker({
+            showButtonPanel: false,
+            dateFormat: 'dd-mm-yyyy',
+            onSelect: function () {
+                //var dateObject = $('#datepicker').datepicker().val();
+                //alert(dateObject);
+            }
+        });
     });
 
     $(function () {
@@ -127,7 +136,10 @@
 
             if (!noclone) {
                 var tr = $("#newone").find("Table").find("tr:last").clone();
-                tr.find("input:text").val("");
+                tr.find("input[name*='PacketNumber']").val("1");
+                tr.find("input[name*='ItemPieces']").val("1");
+                tr.find("input[name*='ItemLines']").val("0");
+                tr.find("input[name*='ItemCarats']").val("0");
                 $("#receipt").append(tr);
             }
         });

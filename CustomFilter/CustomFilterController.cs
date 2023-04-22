@@ -16,6 +16,12 @@ namespace Transactiondetails.CustomFilter
             // check if session is supported
             if (ctx.Session != null)
             {
+                if (HttpContext.Current.Session["UserData"] == null)
+                {
+                    ctx.Response.Redirect("~/account/Login");
+                    return;
+                }
+
                 // check if a new session id was generated
                 if (ctx.Session.IsNewSession)
                 {

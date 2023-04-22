@@ -1,6 +1,8 @@
+using System.Web;
+using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Transactiondetails.Models;
+using Transactiondetails.Controllers;
 
 namespace Transactiondetails
 {
@@ -14,31 +16,36 @@ namespace Transactiondetails
             //LoadAplicatioCache();
         }
 
-        //protected void Application_EndRequest()
-        //{
-        //    if (Context.Items["AjaxPermissionDenied"] is bool)
-        //    {
-        //        Context.Response.StatusCode = 401;
-        //        Context.Response.End();
-        //    }
-        //}
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception exception = Server.GetLastError();
+            //  _logger.LogError("UnhandledError", exception);
+            Server.ClearError();
 
-        //private void LoadAplicatioCache()
-        //{
-        //    throw new FileNotFoundException();
-        //    try
-        //    {
-        //        var dbutility = new DBUtility();
-        //        dbutility.GetProcesses();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new FileNotFoundException();
+            var httpContext = ((MvcApplication)sender).Context;
+            var controller = new ErrorController();
+            var routeData = new RouteData();
+            routeData.Values["controller"] = "Error";
+            routeData.Values["action"] = "Index";
+            ((IController)controller).Execute(new RequestContext(new HttpContextWrapper(httpContext), routeData));
+        }
+        protected void Session_End(Object sender, EventArgs e)
+        {
+            Session.Abandon();
+        }
+        protected void Application_PreSendRequestHeaders()
+        {
+            Response.Headers.Remove("Server");           //Remove Server Header   
+            Response.Headers.Remove("X-AspNet-Version"); //Remove X-AspNet-Version Header
+        }
 
-        //        //Response.Redirect("~/Errors/NotFound");
-        //       // throw ex;
-        //    }
-
-        //}
+        protected void Application_EndRequest(Object sender, EventArgs e)
+        {
+            if (Context.Items["AjaxPermissionDenied"] is bool)
+            {
+                Context.Response.StatusCode = 401;
+                Context.Response.End();
+            }
+        }
     }
 }

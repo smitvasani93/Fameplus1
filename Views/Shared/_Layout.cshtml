@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction Details</title>
+    <title>Fame</title>
 
     @*<link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -63,7 +63,7 @@
         <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="logo d-flex align-items-center">
                 <img src="~/assets/img/logo.png" alt="">
-                <span class="d-none d-lg-block">Admin</span>
+                <span class="d-none d-lg-block">Fame</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
@@ -142,7 +142,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#Master-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-journal-text"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-journal-text"></i><span>Transactions</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="Master-nav" class="nav-content @(activeMenu=="Master"?"collapse show":"collapse") " data-bs-parent="#sidebar-nav">
                     <li>
@@ -153,7 +153,7 @@
                     </li>
                     <li>
                         <a href="~/JobworkReceipts/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
-                            <i class="bi bi-circle"></i><span>Job Receipt Demo</span>
+                            <i class="bi bi-circle"></i><span>Job Receipt New</span>
                         </a>
                     </li>
                     <li>
