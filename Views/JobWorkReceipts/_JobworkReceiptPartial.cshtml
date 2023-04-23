@@ -12,7 +12,7 @@
     //}
 }
 
-@using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" },new { id= "JobworkReceiptPop" }))
+@using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobworkReceiptPop" }))
 {
 
     @Html.HiddenFor(model => model.Mode)
@@ -66,22 +66,30 @@
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].PacketNumber, new { @required = true, @class = "form-control numberonly" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control allow_decimal"  })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control allow_decimal" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control allow_decimal"  })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control allow_decimal" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemLines, new { @required = true, @class = "form-control allow_decimal" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new {  @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @class = "form-control" })
                             </td>
                             <td class="plsRow">
-                                <a class="addRow" href="#">
-                                    <i class="fa fa-plus"></i>
-                                </a>
-                                <a class="deleteRow" href="#"><i class="fa fa-trash"></i></a>
+                                @if (Model.JobReceiptDetails.Count() - 1 == i)
+                                {
+                                    <a class="addRow" href="javascript:void(0);">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="deleteRow" href="javascript:void(0);">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                }
                             </td>
                             <td style="display:none">
                                 @Html.HiddenFor(model => Model.JobReceiptDetails[i].ItemSerialNumber)
@@ -123,13 +131,17 @@
                 //alert(dateObject);
             }
         });
-        
+
     });
+
+
 
     $(function () {
 
-        $(document).on('click', '#receipt .addRow', function () {
-            var noclone = false;
+        $("#receipt ").on('click', '.addRow', function (evt) {
+            evt.stopPropagation();
+            let noclone = false;
+
             $("#receipt tbody tr").each(function (i, row) {
                 let $actualrow = $(row);
                 $actualrow.find("td").each(function (column, td) {
@@ -139,7 +151,7 @@
 
                     if (select.length != 0) {
 
-                        $(select).rules("add", { required: true, messages: {required:""} });
+                        $(select).rules("add", { required: true, messages: { required: "" } });
 
                         if ($(select).val() == 0 || $(select).val() == "") {
                             $(select).addClass("error");
@@ -161,11 +173,28 @@
                     }
                 });
             });
-            
+
             if (!noclone) {
 
-                var rowCount = $("#receipt > tbody >tr").length
-                var tr = $("#newone").find("Table").find("tr:last").clone();
+                let rowCount = $("#receipt > tbody >tr").length
+                let tr = $("#newone").find("Table").find("tr:last").clone();
+
+                $("#receipt tbody tr").each(function (i, row) {
+                    let $actualrow = $(row);
+                    $actualrow.find("td").each(function (column, td) {
+
+                        if ($(td).find("a.addRow").length !== 0) {
+                            $(td).find("a.addRow").remove();
+                        }
+
+                        if ($(td).hasClass("plsRow")) { 
+                            if ($(td).find("a.deleteRow").length === 0)
+                            {
+                              $(td).append($("<a class=\"deleteRow\" href=\"javascript: void (0); \"><i class=\"fa fa-trash\" ></i></a>"));
+                            }
+                        }
+                    });
+                });
 
                 $(tr).find("td").each(function () {
 
@@ -176,17 +205,17 @@
                     let $ctrl = undefined;
 
                     if (hidenname !== undefined && hidenname.indexOf(".ItemSerialNumber") != -1) {
-                        
+
                         $(this).find("input,hidden").attr("id", "JobReceiptDetails_" + cnt + "__ItemSerialNumber");
                         $(this).find("input,hidden").attr("name", "JobReceiptDetails[" + cnt + "].ItemSerialNumber");
                         $ctrl = $(this).find("input,hidden").attr("JobReceiptDetails[" + cnt + "].ItemSerialNumber");
                     }
-                    if (selectName!==undefined && selectName.indexOf(".ProcessCode") != -1) {
+                    if (selectName !== undefined && selectName.indexOf(".ProcessCode") != -1) {
                         $(this).find("input,select").attr("id", "JobReceiptDetails_" + cnt + "__ProcessCode");
                         $(this).find("input,select").attr("name", "JobReceiptDetails[" + cnt + "].ProcessCode");
-                        $ctrl= $(this).find("input,select").attr("JobReceiptDetails[" + cnt + "].ProcessCode")
+                        $ctrl = $(this).find("input,select").attr("JobReceiptDetails[" + cnt + "].ProcessCode")
                     }
-                    if (name!==undefined && name.indexOf(".PacketNumber") != -1) {
+                    if (name !== undefined && name.indexOf(".PacketNumber") != -1) {
                         $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__PacketNumber");
                         $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].PacketNumber");
                         $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].PacketNumber");
@@ -194,18 +223,19 @@
                     if (name !== undefined && name.indexOf(".ItemPieces") != -1) {
                         $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__ItemPieces");
                         $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemPieces");
-                        $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemPieces");
+                        $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemPieces");
                     }
                     if (name !== undefined && name.indexOf(".ItemCarats") != -1) {
                         $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__ItemCarats");
                         $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemCarats");
-                        $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemCarats");
+                        $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemCarats");
                     }
                     if (name !== undefined && name.indexOf(".ItemLines") != -1) {
                         $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__ItemLines");
                         $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemLines");
-                        $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemLines");
+                        $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemLines");
                     }
+
                     /*
                     if (name !== undefined && name.indexOf(".Remarks") != -1) {
                         $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__Remarks");
@@ -214,16 +244,17 @@
                     }
                     */
                     if ($ctrl !== undefined) {
-                       // $ctrl.rules("add", { required: true, messages: { required: "" } });
+                        // $ctrl.rules("add", { required: true, messages: { required: "" } });
                     }
-                })
+                });
                 //tr.find('td[name="tcol1"]')
-//                tr.find("input:text").val("1");
+                //tr.find("input:text").val("1");
                 tr.find("input[name*='PacketNumber']").val("1");
                 tr.find("input[name*='ItemPieces']").val("1");
                 tr.find("input[name*='ItemLines']").val("0");
                 tr.find("input[name*='ItemCarats']").val("0");
                 $("#receipt").append(tr);
+
             }
 
             $("#receipt tbody tr").each(function (i, row) {
@@ -322,7 +353,7 @@
 <style>
     #receipt .form-control {
         /*padding: .200rem .75rem;*/
-        border-radius:0;
+        border-radius: 0;
     }
 
     #receipt .form-select {
@@ -344,10 +375,16 @@
     }
 
         #newone table th, #newone table td {
-    /*        border-bottom: 1px solid #ddd;*/
+            /*        border-bottom: 1px solid #ddd;*/
         }
 
-  #newone table td {
+        #newone table td {
             padding: 5px !important;
-  }
+        }
+
+    .plsRow i {
+        text-align: center;
+        vertical-align: middle;
+        z-index: 9999;
+    }
 </style>

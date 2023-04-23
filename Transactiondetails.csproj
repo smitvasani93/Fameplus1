@@ -3606,7 +3606,6 @@
     <Content Include="Scripts\jquery-3.6.4.min.map" />
     <Content Include="Views\Shared\_AjaxGridPager.cshtml" />
     <Content Include="Views\JobWorkReceipts\_JobworkReceiptPartial.cshtml" />
-    <Content Include="Views\JobWorkReceipts\_AddJobworkReceiptPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
