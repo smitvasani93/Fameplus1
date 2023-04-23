@@ -48,7 +48,7 @@ namespace Transactiondetails.Controllers
                     SerialNumber = sel.SerialNumber,
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName,
-                    ReferenceDate = sel.ReferenceDate
+                    ReferenceDate = DateTime.Today
                 }).OrderByDescending(x => x.SerialNumber);
 
                 return View(data);

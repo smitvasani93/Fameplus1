@@ -48,7 +48,7 @@
         text-decoration: none;
     }
 </style>
-<section class="section dashboard">
+<section class="section dashboard mt-2">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -58,52 +58,28 @@
                         <div class="col-10 search-bar">
                             <ul class="nav nav-pills card-header-pills">
                                 <li class="nav-item ps-lg-2">
-                                    <label for="inputEmail3" class="col-form-label">Account Code</label>
-                                </li>
-                                <li class="nav-item ps-lg-2">
-                                    @Html.TextBox("AccountCode", null, new { @class = "form-control" })
-                                </li>
-                                <li class="nav-item ps-lg-2">
                                     <label for="inputEmail3" class="col-form-label">Account Name</label>
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     @Html.TextBox("AccountName", null, new { @class = "form-control" })
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    <button id="btnSearch" class="btn btn-primary btn-sm">Search</button>
-                                    
-                                </li>
-                                <li class="nav-item ps-lg-2">
-                                    <button id="btnPrint" class="btn btn-primary btn-sm">Print</button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-2 text-sm-end">
-                            <button id="btnAddNew" class="btn btn-primary">Add New</button>
-                        </div>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-10 search-bar">
-                            <ul class="nav nav-pills card-header-pills">
-                                <li class="nav-item ps-lg-2">
                                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                                 </li>
-                                <li class="nav-item ps-lg-3">
+                                <li class="nav-item ps-lg-2">
                                     @Html.TextBox("ReferenceDate", null, new { @class = "form-control" })
                                 </li>
-                                @*<li class="nav-item ps-lg-2">
-                                    <label for="inputEmail3" class="col-form-label">Account Code</label>
+                                <li class="nav-item ps-lg-2">
+                                    <button id="btnSearch" class="btn btn-secondary btn-sm">Search</button>
+
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    @Html.TextBox("AccountCode", null, new { @class = "form-control" })
+                                    <button id="btnPrint" class="btn btn-secondary btn-sm">Print</button>
                                 </li>
-                                <li class="nav-item ps-lg-2">
-                                    <button id="btnSearch" class="btn btn-primary btn-sm">Search</button>
-                                </li>*@
                             </ul>
                         </div>
                         <div class="col-2 text-sm-end">
-                            @*<button id="btnAddNew" class="btn btn-primary">Add New</button>*@
+                            <button id="btnAddNew" class="btn btn-secondary">Add New</button>
                         </div>
                     </div>
                 </div>
@@ -114,25 +90,25 @@
                             WebGrid objWebGrid = new WebGrid(Model, rowsPerPage: 10, ajaxUpdateContainerId: "grd", canPage: true);
                         }
                         @objWebGrid.GetHtml(
-                   htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
-                   tableStyle: "table table-striped table-bordered",
-                   headerStyle: "Grid-Header",
-                   alternatingRowStyle: "Grid-rowstyle",
-                   selectedRowStyle: "Grid-selected",
-                   rowStyle: "Grid-rowstyle",
-                   footerStyle: "gridFooter",
+                                              htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
+                                              tableStyle: "table table-striped table-bordered",
+                                              headerStyle: "gridHead",
+                                              alternatingRowStyle: "Grid-rowstyle",
+                                              selectedRowStyle: "Grid-selected",
+                                              rowStyle: "Grid-rowstyle",
+                                              footerStyle: "gridFooter",
                    mode: WebGridPagerModes.All, //Specifies flags that describe the methods that are provided for moving between the pages of a WebGrid instance. source msdn.microsoft.com
                 columns:
                    objWebGrid.Columns
                    (
-                       objWebGrid.Column(columnName: "AccountCode", header: "Account Code",style: "css-accountcode"),
-                       objWebGrid.Column(columnName: "AccountName", header: "Account Name",style: "css-accountname"),
-                       objWebGrid.Column(columnName: "SerialNumber", header: "Serial Number",style: "css-serialnumber"),
-                       objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date",style: "css-referencedate", format: (item) => item.ReferenceDate != null
-                       ? item.ReferenceDate.ToString("dd/MM/yyyy") : "", canSort: true),
-
-            @*objWebGrid.Column(format:@<text><a href="" onclick="DeleteME('@item.SerialNumber')">Delete</a></text>),*@
-objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btn btn-primary btn-sm btnEdit">Edit</a>))
+                       objWebGrid.Column(columnName: "AccountCode", header: "Account Code", style: "css-accountcode", format:@<text> @item.AccountCode<input type="hidden" name="SerialNumber" value="@item.SerialNumber"></input></text>),
+objWebGrid.Column(columnName: "AccountName", header: "Account Name", style: "css-accountname"),
+objWebGrid.Column(columnName: "SerialNumber", header: "Serial Number", style: "css-serialnumber"),
+objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: "css-referencedate", format: (item) => item.ReferenceDate != null
+? item.ReferenceDate.ToString("dd/MM/yyyy") : "", canSort: true)
+@*objWebGrid.Column(format:@<text><a href="" onclick="DeleteME('@item.SerialNumber')">Delete</a></text>),*@
+@*objWebGrid.Column(header: "Action", style: "css-action", format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btnEdit">Edit</a>)*@
+)
 )
                     </div>
                 </div>
@@ -165,7 +141,8 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
 
         $("body").on("dblclick", "#WebGrid .Grid-rowstyle td", function () {
             var row = $(this).closest("tr");
-            id = $(row).find("a").attr("data-value");
+            id = $(row).find("input[type=hidden][name='SerialNumber']").val();
+
             title = 'Edit Jobwork Recipits';
             $('#dialog')
                 .dialog({ title: 'Edit Jobwork Receipt' })
@@ -177,8 +154,7 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
 
             $('#dialog').dialog({
                 autoOpen: false,
-                width: '1000',
-                height: 600,
+                width: '90%',
                 resizable: false,
                 title: 'Add Jobwork Receipt',
                 modal: true,
@@ -186,13 +162,16 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
                 open: function (event, ui) {
                     /*$(this).parent().appendTo($("form:first"));*/
                     // Load partial view _GridEditPartial
+
                     if (id == 0) {
                         $(this).load("@Url.Action("GetJobworkRecipt")");
                     } else {
                         $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
                     }
-
                 },
+                close: function (event, ui) {
+                    $('#ReferenceDate1').datepicker('destroy');
+                }
                 //buttons: {
 
                 //    "Save": function () {
@@ -217,6 +196,7 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
                 //    $("body").css({ overflow: 'inherit' })
                 //}
             });
+
         });
 
 
@@ -226,7 +206,7 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
         });
 
         $(document).on("click", "#btnPrint", function () {
-            
+
             var searchUrl = "/JobWorkReceipts/GetFilterJobworkRecipt/";
             let referenceDate = $('#ReferenceDate1').datepicker().val();
             var data = {
@@ -254,7 +234,7 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
 <style type="text/css">
 
     .css-accountcode {
-        width:150px ;
+        width: 150px;
     }
 
     .css-accountname {
@@ -264,9 +244,11 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
     .css-serialnumber {
         width: 150px;
     }
+
     .css-referencedate {
         width: 150px;
     }
+
     .css-action {
         width: 80px;
     }
@@ -279,10 +261,11 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
         padding-top: calc(.175rem + 1px) !important;
     }
 
-   
+
+
     .gridTable {
         margin: 5px;
-        padding: 10px;
+        padding: 5px;
         border: 1px #c8c8c8 solid;
         border-collapse: collapse;
         min-width: 550px;
@@ -292,9 +275,9 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
 
     .gridHead th {
         font-weight: bold;
-        background-color: #030D8D;
+        background-color: #646464;
         color: #fff;
-        padding: 10px
+        padding: 5px
     }
 
     .gridHead a:link, .gridHead a:visited, .gridHead a:active, .gridHead a:hover {
@@ -302,7 +285,7 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
     }
 
     .gridHead a:hover {
-        text-decoration: underline;
+        text-decoration: underline !important;
     }
 
     .gridTable tr.gridAltRow {
@@ -314,7 +297,7 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
     }
 
     .gridAltRow td {
-        padding: 10px;
+        padding: 5px;
         margin: 5px;
         color: #333;
     }
@@ -326,7 +309,7 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
 
     .gridFooter td {
         padding: 10px;
-        background-color: #c7d1d6;
+        background-color: #c9c9c9;
         color: #999;
         font-size: 12pt;
         text-align: center;
@@ -338,4 +321,15 @@ objWebGrid.Column(header: "Action",style: "css-action", format: @<a data-value="
         border: 1px #333 solid;
         padding: 2px 6px;
     }
+
+    .Grid-rowstyle:hover {
+        background-color: #c1c1c1;
+        cursor: pointer;
+    }
+
+    .Grid-rowstyle td {
+        padding: 5px;
+    }
+
+ 
 </style>

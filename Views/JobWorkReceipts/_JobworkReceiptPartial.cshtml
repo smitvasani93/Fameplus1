@@ -12,7 +12,7 @@
     //}
 }
 
-@using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }))
+@using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" },new { id= "JobworkReceiptPop" }))
 {
 
     @Html.HiddenFor(model => model.Mode)
@@ -24,7 +24,7 @@
                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                 </div>
                 <div class="col-sm-5">
-                    @Html.TextBoxFor(x => x.ReferenceDate, new { @id = "ReferenceDate1", @class = "form-control" })
+                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:MM/dd/yyyy}", new { @id = "ReferenceDate1", @class = "form-control" })
                 </div>
                 <div class="col-sm-2 mr-minus">
                     <label for="inputEmail3" class="col-form-label">Receipt No</label>
@@ -43,11 +43,11 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <div id="newone" class="row pt-4">
+            <div id="newone" class="row pt-1">
                 <table id="receipt" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th style="width:320px;">Process</th>
+                            <th style="width:600px;">Process</th>
                             <th>Packet No</th>
                             <th>Pieces</th>
                             <th>Carats</th>
@@ -75,7 +75,7 @@
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemLines, new { @required = true, @class = "form-control allow_decimal" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @required = false, @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new {  @class = "form-control" })
                             </td>
                             <td class="plsRow">
                                 <a class="addRow" href="#">
@@ -93,7 +93,7 @@
         </div>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix mt-4">
             <div class="ui-dialog-buttonset pe-sm-1">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-secondary">Submit</button>
                 <button type="button" class="btn btn-default btn-close-dialog">Close</button>
             </div>
         </div>
@@ -111,15 +111,19 @@
     $(function () {
         //$("#ReferenceDate1").datepicker();
 
-        $("#ReferenceDate1").datepicker({
+        $("#ReferenceDate1").on("focusin", function (e) {
+            return false; // or e.stopPropagation();
+        }).datepicker({
+            /*showOn: "button",*/
+            autoOpen:false,
             showButtonPanel: false,
             dateFormat: 'dd-mm-yyyy',
             onSelect: function () {
                 //var dateObject = $('#datepicker').datepicker().val();
                 //alert(dateObject);
             }
-        }
-        );
+        });
+        
     });
 
     $(function () {
@@ -131,8 +135,7 @@
                 $actualrow.find("td").each(function (column, td) {
 
                     let select = $(td).find("select");
-                    let text = $(td).find("input[type=text]");
-
+                    let text = $(td).find("input[type=text]").not('[name*=Remark]');
 
                     if (select.length != 0) {
 
@@ -158,7 +161,7 @@
                     }
                 });
             });
-
+            
             if (!noclone) {
 
                 var rowCount = $("#receipt > tbody >tr").length
@@ -203,12 +206,13 @@
                         $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemLines");
                         $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemLines");
                     }
+                    /*
                     if (name !== undefined && name.indexOf(".Remarks") != -1) {
                         $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__Remarks");
                         $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].Remarks");
                         $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].Remarks");
                     }
-
+                    */
                     if ($ctrl !== undefined) {
                        // $ctrl.rules("add", { required: true, messages: { required: "" } });
                     }
@@ -228,7 +232,7 @@
                 $actualrow.find("td").each(function (column, td) {
 
                     let select = $(td).find("select");
-                    let text = $(td).find("input[type=text]");
+                    let text = $(td).find("input[type=text]").not('[name*=Remark]');
                     let hidden = $(td).find("input[type=hidden]");
 
                     if (hidden.length != 0) {
@@ -252,10 +256,6 @@
     });
 
 
-        $(document).ready(function () {
-
-        });
-
     function AjaxFormSuccess(e) {
 
         $('#dialog').dialog('close');
@@ -267,7 +267,7 @@
 
     jQuery(document).ready(function () {
 
-        jQuery("#form0").validate({
+        jQuery("#JobworkReceiptPop").validate({
            rules: {
                 ReferenceDate: 'required',
                 AccountCode: 'required',
@@ -300,7 +300,7 @@
                 $actualrow.find("td").each(function (column, td) {
 
                     let select = $(td).find("select");
-                    let text = $(td).find("input[type=text]");
+                    let text = $(td).find("input[type=text]").not('[name*=Remark]');
 
                     if (select.length != 0) {
                         $(select).rules("add", { required: true, messages: { required: "" } });
@@ -319,3 +319,35 @@
     })
 
 </script>
+<style>
+    #receipt .form-control {
+        /*padding: .200rem .75rem;*/
+        border-radius:0;
+    }
+
+    #receipt .form-select {
+        border-radius: 0;
+    }
+
+    #receipt .form-select {
+        /*padding: 0.2rem 2.25rem 0.2rem 0.75rem !important;*/
+    }
+
+    #newone .form-select {
+        padding: .375rem 2.25rem .375rem .75rem !important;
+    }
+
+
+    #newone table {
+        border-color: white;
+        /*border-width:1px 0 0 0 !important;*/
+    }
+
+        #newone table th, #newone table td {
+    /*        border-bottom: 1px solid #ddd;*/
+        }
+
+  #newone table td {
+            padding: 5px !important;
+  }
+</style>
