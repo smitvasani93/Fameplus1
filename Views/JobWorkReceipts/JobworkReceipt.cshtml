@@ -164,6 +164,7 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
                     // Load partial view _GridEditPartial
 
                     if (id == 0) {
+
                         $(this).load("@Url.Action("GetJobworkRecipt")");
                     } else {
                         $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
