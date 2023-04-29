@@ -154,11 +154,13 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
 
             $('#dialog').dialog({
                 autoOpen: false,
-                width: '90%',
+                width: '85%',
                 resizable: false,
                 title: 'Add Jobwork Receipt',
                 modal: true,
-                draggable:false,
+                draggable: false,
+                position: { my: "top", at: "top", of: "header"},
+                //position: ['center', 20],
                 open: function (event, ui) {
                     /*$(this).parent().appendTo($("form:first"));*/
                     // Load partial view _GridEditPartial
@@ -173,29 +175,7 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
                 close: function (event, ui) {
                     $('#ReferenceDate1').datepicker('destroy');
                 }
-                //buttons: {
-
-                //    "Save": function () {
-                //        $(this).dialog("close");
-                //    },
-
-                //    "Close": function () {
-                //        $(this).dialog("close");
-                //    }
-                //}
-                //open: function (event, ui) {
-                //    $("body").css({
-                //        overflow: 'hidden'
-                //    });
-                //    //$(".ui-widget-overlay").css({
-                //    //   /* background: "rgb(0, 0, 0)",*/
-                //    //    opacity: ".50 !important",
-                //    //    filter: "Alpha(Opacity=50)",
-                //    //});
-                //},
-                //beforeClose: function (event, ui) {
-                //    $("body").css({ overflow: 'inherit' })
-                //}
+             
             });
 
         });

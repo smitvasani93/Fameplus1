@@ -47,7 +47,7 @@
                 <table id="receipt" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th style="width:600px;">Process</th>
+                            <th style="width:400px;">Process</th>
                             <th>Packet No</th>
                             <th>Pieces</th>
                             <th>Carats</th>
@@ -99,7 +99,7 @@
                 </table>
             </div>
         </div>
-        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix mt-4">
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
             <div class="ui-dialog-buttonset pe-sm-1">
                 <button type="submit" class="btn btn-secondary">Submit</button>
                 <button type="button" class="btn btn-default btn-close-dialog">Close</button>
@@ -117,7 +117,7 @@
     var mode =@(Html.Raw(jsonMode));
 
     $(function () {
-        //$("#ReferenceDate1").datepicker();
+     
 
         $("#ReferenceDate1").on("focusin", function (e) {
             return false; // or e.stopPropagation();
@@ -127,14 +127,11 @@
             showButtonPanel: false,
             dateFormat: 'dd-mm-yyyy',
             onSelect: function () {
-                //var dateObject = $('#datepicker').datepicker().val();
-                //alert(dateObject);
+     
             }
         });
 
     });
-
-
 
     $(function () {
 
@@ -235,20 +232,11 @@
                         $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemLines");
                         $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemLines");
                     }
-
-                    /*
-                    if (name !== undefined && name.indexOf(".Remarks") != -1) {
-                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__Remarks");
-                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].Remarks");
-                        $ctrl =$(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].Remarks");
-                    }
-                    */
                     if ($ctrl !== undefined) {
                         // $ctrl.rules("add", { required: true, messages: { required: "" } });
                     }
                 });
-                //tr.find('td[name="tcol1"]')
-                //tr.find("input:text").val("1");
+                
                 tr.find("input[name*='PacketNumber']").val("1");
                 tr.find("input[name*='ItemPieces']").val("1");
                 tr.find("input[name*='ItemLines']").val("0");
@@ -291,9 +279,6 @@
 
         $('#dialog').dialog('close');
         location.reload();
-        //if (e.error == "false") {
-        //    $('#dialog').dialog('close');
-        //}
     }
 
     jQuery(document).ready(function () {
@@ -303,22 +288,10 @@
                 ReferenceDate: 'required',
                 AccountCode: 'required',
                 SerialNumber: 'required',
-                //'JobReceiptDetails[0].ProcessCode': 'required',
-                //'JobReceiptDetails[0].PacketNumber': 'required',
-                //'JobReceiptDetails[0].ItemPieces': 'required',
-                //'JobReceiptDetails[0].ItemCarats': 'required',
-                //'JobReceiptDetails[0].ItemLines': 'required',
-                //'JobReceiptDetails[0].Remarks': 'required',
             }, messages: {
                 ReferenceDate: 'Enter Reference Date',
                 AccountCode: 'Enter Account Code',
                 SerialNumber: 'Enter Serial Number',
-                //'JobReceiptDetails[0].ProcessCode': '',
-                //'JobReceiptDetails[0].PacketNumber': '',
-                // 'JobReceiptDetails[0].ItemPieces': '',
-                //'JobReceiptDetails[0].ItemCarats': '',
-                //'JobReceiptDetails[0].ItemLines': '',
-                //'JobReceiptDetails[0].Remarks': '',
             }
         });
 
@@ -351,40 +324,5 @@
 
 </script>
 <style>
-    #receipt .form-control {
-        /*padding: .200rem .75rem;*/
-        border-radius: 0;
-    }
 
-    #receipt .form-select {
-        border-radius: 0;
-    }
-
-    #receipt .form-select {
-        /*padding: 0.2rem 2.25rem 0.2rem 0.75rem !important;*/
-    }
-
-    #newone .form-select {
-        padding: .375rem 2.25rem .375rem .75rem !important;
-    }
-
-
-    #newone table {
-        border-color: white;
-        /*border-width:1px 0 0 0 !important;*/
-    }
-
-        #newone table th, #newone table td {
-            /*        border-bottom: 1px solid #ddd;*/
-        }
-
-        #newone table td {
-            padding: 5px !important;
-        }
-
-    .plsRow i {
-        text-align: center;
-        vertical-align: middle;
-        z-index: 9999;
-    }
 </style>
