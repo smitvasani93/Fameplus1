@@ -117,7 +117,6 @@
     var mode =@(Html.Raw(jsonMode));
 
     $(function () {
-     
 
         $("#ReferenceDate1").on("focusin", function (e) {
             return false; // or e.stopPropagation();
@@ -130,7 +129,6 @@
      
             }
         });
-
     });
 
     $(function () {
@@ -192,7 +190,7 @@
                         }
                     });
                 });
-
+                /*
                 $(tr).find("td").each(function () {
 
                     let cnt = rowCount;
@@ -236,6 +234,7 @@
                         // $ctrl.rules("add", { required: true, messages: { required: "" } });
                     }
                 });
+                */
                 
                 tr.find("input[name*='PacketNumber']").val("1");
                 tr.find("input[name*='ItemPieces']").val("1");
@@ -243,37 +242,105 @@
                 tr.find("input[name*='ItemCarats']").val("0");
                 $("#receipt").append(tr);
 
+                resetElementIndex();
             }
 
-            $("#receipt tbody tr").each(function (i, row) {
-                let $actualrow = $(row);
-                i++;
-                $actualrow.find("td").each(function (column, td) {
+            //$("#receipt tbody tr").each(function (i, row) {
+            //    let $actualrow = $(row);
+            //    i++;
+            //    $actualrow.find("td").each(function (column, td) {
 
-                    let select = $(td).find("select");
-                    let text = $(td).find("input[type=text]").not('[name*=Remark]');
-                    let hidden = $(td).find("input[type=hidden]");
+            //        let select = $(td).find("select");
+            //        let text = $(td).find("input[type=text]").not('[name*=Remark]');
+            //        let hidden = $(td).find("input[type=hidden]");
 
-                    if (hidden.length != 0) {
-                        $(hidden).val(i);
-                    }
-                    if (select.length != 0) {
-                        $(select).rules("add", { required: true, messages: { required: "" } });
-                    }
-                    if (text.length != 0) {
-                        $(text).rules("add", { required: true, messages: { required: "" } });
-                    }
-                });
-            });
+            //        if (hidden.length != 0) {
+            //            $(hidden).val(i);
+            //        }
+            //        if (select.length != 0) {
+            //            $(select).rules("add", { required: true, messages: { required: "" } });
+            //        }
+            //        if (text.length != 0) {
+            //            $(text).rules("add", { required: true, messages: { required: "" } });
+            //        }
+            //    });
+            //});
 
         });
 
         $("#receipt").on('click', '.deleteRow', function () {
-            if (1 != $('#receipt >tbody >tr').length)
+            if (1 != $('#receipt >tbody >tr').length) {
                 $(this).parent().parent().remove();
+            }
+            
+            resetElementIndex();
         });
     });
 
+    function resetElementIndex() {
+        let index = 0;
+        
+        $("#receipt tbody tr").each(function (i, row) {
+            let $actualrow = $(row);
+            $actualrow.find("td").each(function (column, td) {
+
+                let $selectName = $(this).find("input,select").attr("name");
+                let $name = $(this).find("input,text").attr("name");
+                let $hidenname = $(this).find("input,hidden").attr("name");
+                let $ctrl = undefined;
+
+                if ($hidenname !== undefined && $hidenname.indexOf(".ItemSerialNumber") != -1) {
+
+                    $(this).find("input,hidden").attr("id", "JobReceiptDetails_" + index + "__ItemSerialNumber");
+                    $(this).find("input,hidden").attr("name", "JobReceiptDetails[" + index + "].ItemSerialNumber");
+                    $ctrl = $(this).find("input,hidden").attr("name","JobReceiptDetails[" + index + "].ItemSerialNumber");
+                    $($ctrl).val(index);
+                }
+                if ($selectName !== undefined && $selectName.indexOf(".ProcessCode") != -1) {
+                    $(this).find("input,select").attr("id", "JobReceiptDetails_" + index + "__ProcessCode");
+                    $(this).find("input,select").attr("name", "JobReceiptDetails[" + index + "].ProcessCode");
+                    $ctrl = $(this).find("input,select").attr("name","JobReceiptDetails[" + index + "].ProcessCode");
+                    
+                }
+                if ($name !== undefined && $name.indexOf(".PacketNumber") != -1) {
+                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__PacketNumber");
+                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].PacketNumber");
+                    $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].PacketNumber");
+                }
+                if ($name !== undefined && $name.indexOf(".ItemPieces") != -1) {
+                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemPieces");
+                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemPieces");
+                    $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemPieces");
+                }
+                if ($name !== undefined && $name.indexOf(".ItemCarats") != -1) {
+                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemCarats");
+                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemCarats");
+                    $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemCarats");
+                }
+                if ($name !== undefined && $name.indexOf(".ItemLines") != -1) {
+                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemLines");
+                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemLines");
+                    $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemLines");
+                }
+
+                if ($name !== undefined && $name.indexOf(".Remark") != -1) {
+                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__Remark");
+                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].Remark");
+                    $ctrl = $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].Remark");
+                }
+
+                if ($ctrl !== undefined &&
+                    !$($ctrl).is(":hidden") &&
+                    !$($ctrl).is("[name*=Remark]")) {
+
+                    $($ctrl).rules("add", { required: true, messages: { required: "" } });
+                }
+                
+            });
+            index++;
+        });
+
+    }
 
     function AjaxFormSuccess(e) {
 
