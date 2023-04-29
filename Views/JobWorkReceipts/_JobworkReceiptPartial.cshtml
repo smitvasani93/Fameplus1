@@ -297,24 +297,24 @@
 
         if (mode === 2) {
             $("#SerialNumber").rules("remove", "required");
-
-            $("#receipt tbody tr").each(function (i, row) {
-
-                let $actualrow = $(row);
-                $actualrow.find("td").each(function (column, td) {
-
-                    let select = $(td).find("select");
-                    let text = $(td).find("input[type=text]").not('[name*=Remark]');
-
-                    if (select.length != 0) {
-                        $(select).rules("add", { required: true, messages: { required: "" } });
-                    }
-                    if (text.length != 0) {
-                        $(text).rules("add", { required: true, messages: { required: "" } });
-                    }
-                });
-            });
         }
+
+        $("#receipt tbody tr").each(function (i, row) {
+
+            let $actualrow = $(row);
+            $actualrow.find("td").each(function (column, td) {
+
+                let select = $(td).find("select");
+                let text = $(td).find("input[type=text]").not('[name*=Remark]');
+
+                if (select.length != 0) {
+                    $(select).rules("add", { required: true, messages: { required: "" } });
+                }
+                if (text.length != 0) {
+                    $(text).rules("add", { required: true, messages: { required: "" } });
+                }
+            });
+        });
     });
 
 
