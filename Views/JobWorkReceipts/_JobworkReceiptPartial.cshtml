@@ -195,6 +195,7 @@
                 tr.find("input[name*='ItemPieces']").val("1");
                 tr.find("input[name*='ItemLines']").val("0");
                 tr.find("input[name*='ItemCarats']").val("0");
+                tr.find("select[name*='ProcessCode']").val("");
                 $("#receipt").append(tr);
 
                 resetElementIndex();
@@ -254,7 +255,8 @@
                 if ($selectName !== undefined && $selectName.indexOf(".ProcessCode") != -1) {
                     $(this).find("input,select").attr("id", "JobReceiptDetails_" + index + "__ProcessCode");
                     $(this).find("input,select").attr("name", "JobReceiptDetails[" + index + "].ProcessCode");
-                    $ctrl = $(this).find("input,select").attr("name","JobReceiptDetails[" + index + "].ProcessCode");
+                    $ctrl = $(this).find("input,select").attr("name", "JobReceiptDetails[" + index + "].ProcessCode");
+                    
                     
                 }
                 if ($name !== undefined && $name.indexOf(".PacketNumber") != -1) {
@@ -310,9 +312,9 @@
                 AccountCode: 'required',
                 SerialNumber: 'required',
             }, messages: {
-                ReferenceDate: 'Enter Reference Date',
-                AccountCode: 'Enter Account Code',
-                SerialNumber: 'Enter Serial Number',
+                ReferenceDate: 'Select Reference Date',
+                AccountCode: 'Select Customer',
+                SerialNumber: 'Select Serial Number',
             }
         });
 

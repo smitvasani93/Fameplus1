@@ -94,7 +94,11 @@ namespace Transactiondetails.Controllers
                 jobReceiptVM.JobReceiptDetails = new List<JobReceiptDetailVM>
                 {
                     new JobReceiptDetailVM{
-                         ItemSerialNumber=1
+                         ItemSerialNumber=1,
+                          ItemLines=0,
+                          PacketNumber=1,
+                           ItemPieces=1,
+                            ItemCarats=0
                     }
                 };
 
@@ -257,7 +261,7 @@ namespace Transactiondetails.Controllers
                     !string.IsNullOrEmpty(model.AccountName) &&
                     model.ReferenceDate.HasValue)
                 {
-                     data.Where(x => x.AccountCode.Contains(model.AccountCode) && x.AccountName.Contains(model.AccountName) && x.ReferenceDate == x.ReferenceDate).ToList();
+                    data.Where(x => x.AccountCode.Contains(model.AccountCode) && x.AccountName.Contains(model.AccountName) && x.ReferenceDate == x.ReferenceDate).ToList();
                 }
                 else if (!string.IsNullOrEmpty(model.AccountCode) &&
                     !string.IsNullOrEmpty(model.AccountName) &&
