@@ -49,6 +49,7 @@ label.error {
 }
 
 .ui-dialog .ui-dialog-buttonpane {
+    margin-top: -5px !important;
     padding-top: 14px !important;
 }
 

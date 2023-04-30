@@ -100,7 +100,7 @@
             </div>
         </div>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <div class="ui-dialog-buttonset pe-sm-1">
+            <div class="ui-dialog-buttonset ps-sm-5">
                 <button type="submit" class="btn btn-secondary">Submit</button>
                 <button type="button" class="btn btn-default btn-close-dialog">Close</button>
             </div>
@@ -190,51 +190,6 @@
                         }
                     });
                 });
-                /*
-                $(tr).find("td").each(function () {
-
-                    let cnt = rowCount;
-                    let selectName = $(this).find("input,select").attr("name");
-                    let name = $(this).find("input,text").attr("name");
-                    let hidenname = $(this).find("input,hidden").attr("name");
-                    let $ctrl = undefined;
-
-                    if (hidenname !== undefined && hidenname.indexOf(".ItemSerialNumber") != -1) {
-
-                        $(this).find("input,hidden").attr("id", "JobReceiptDetails_" + cnt + "__ItemSerialNumber");
-                        $(this).find("input,hidden").attr("name", "JobReceiptDetails[" + cnt + "].ItemSerialNumber");
-                        $ctrl = $(this).find("input,hidden").attr("JobReceiptDetails[" + cnt + "].ItemSerialNumber");
-                    }
-                    if (selectName !== undefined && selectName.indexOf(".ProcessCode") != -1) {
-                        $(this).find("input,select").attr("id", "JobReceiptDetails_" + cnt + "__ProcessCode");
-                        $(this).find("input,select").attr("name", "JobReceiptDetails[" + cnt + "].ProcessCode");
-                        $ctrl = $(this).find("input,select").attr("JobReceiptDetails[" + cnt + "].ProcessCode")
-                    }
-                    if (name !== undefined && name.indexOf(".PacketNumber") != -1) {
-                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__PacketNumber");
-                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].PacketNumber");
-                        $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].PacketNumber");
-                    }
-                    if (name !== undefined && name.indexOf(".ItemPieces") != -1) {
-                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__ItemPieces");
-                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemPieces");
-                        $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemPieces");
-                    }
-                    if (name !== undefined && name.indexOf(".ItemCarats") != -1) {
-                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__ItemCarats");
-                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemCarats");
-                        $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemCarats");
-                    }
-                    if (name !== undefined && name.indexOf(".ItemLines") != -1) {
-                        $(this).find("input,text").attr("id", "JobReceiptDetails_" + cnt + "__ItemLines");
-                        $(this).find("input,text").attr("name", "JobReceiptDetails[" + cnt + "].ItemLines");
-                        $ctrl = $(this).find("input,text").attr("JobReceiptDetails[" + cnt + "].ItemLines");
-                    }
-                    if ($ctrl !== undefined) {
-                        // $ctrl.rules("add", { required: true, messages: { required: "" } });
-                    }
-                });
-                */
                 
                 tr.find("input[name*='PacketNumber']").val("1");
                 tr.find("input[name*='ItemPieces']").val("1");
@@ -332,7 +287,6 @@
                 if ($ctrl !== undefined &&
                     !$($ctrl).is(":hidden") &&
                     !$($ctrl).is("[name*=Remark]")) {
-
                     $($ctrl).rules("add", { required: true, messages: { required: "" } });
                 }
                 
