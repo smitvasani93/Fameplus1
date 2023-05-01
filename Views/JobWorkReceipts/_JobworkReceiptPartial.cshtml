@@ -14,9 +14,7 @@
 
 @using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobworkReceiptPop" }))
 {
-
     @Html.HiddenFor(model => model.Mode)
-
     <div class="row g-3">
         <div class="col-lg-12">
             <div class="row">
@@ -99,10 +97,12 @@
                 </table>
             </div>
         </div>
-        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <div class="ui-dialog-buttonset ps-sm-5">
-                <button type="submit" class="btn btn-secondary">Submit</button>
-                <button type="button" class="btn btn-default btn-close-dialog">Close</button>
+        <div class="col-lg-12">
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <div class="ui-dialog-buttonset ps-sm-5">
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+                    <button type="button" class="btn btn-default btn-close-dialog">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -126,7 +126,7 @@
             showButtonPanel: false,
             dateFormat: 'dd-mm-yyyy',
             onSelect: function () {
-     
+
             }
         });
     });
@@ -182,7 +182,7 @@
                             $(td).find("a.addRow").remove();
                         }
 
-                        if ($(td).hasClass("plsRow")) { 
+                        if ($(td).hasClass("plsRow")) {
                             if ($(td).find("a.deleteRow").length === 0)
                             {
                               $(td).append($("<a class=\"deleteRow\" href=\"javascript: void (0); \"><i class=\"fa fa-trash\" ></i></a>"));
@@ -190,7 +190,7 @@
                         }
                     });
                 });
-                
+
                 tr.find("input[name*='PacketNumber']").val("1");
                 tr.find("input[name*='ItemPieces']").val("1");
                 tr.find("input[name*='ItemLines']").val("0");
@@ -228,14 +228,14 @@
             if (1 != $('#receipt >tbody >tr').length) {
                 $(this).parent().parent().remove();
             }
-            
+
             resetElementIndex();
         });
     });
 
     function resetElementIndex() {
         let index = 0;
-        
+
         $("#receipt tbody tr").each(function (i, row) {
             let $actualrow = $(row);
             $actualrow.find("td").each(function (column, td) {
@@ -291,7 +291,7 @@
                     !$($ctrl).is("[name*=Remark]")) {
                     $($ctrl).rules("add", { required: true, messages: { required: "" } });
                 }
-                
+
             });
             index++;
         });
@@ -303,6 +303,21 @@
         $('#dialog').dialog('close');
         location.reload();
     }
+
+    $(document).ready(function () {
+        $(".addRow").keydown(function (event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $('.addRow').click();
+            }
+        });
+        $(".deleteRow").keydown(function (event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $('.deleteRow').click();
+            }
+        });
+    });
 
     jQuery(document).ready(function () {
 
@@ -347,5 +362,4 @@
 
 </script>
 <style>
-
 </style>

@@ -38,17 +38,12 @@ namespace Transactiondetails.Controllers
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
-                //TempData["recieptNo"] = recieptNo;
-                //ViewBag.Search = jobReceiept.JobRecieptMasts.OrderByDescending(x => x.ReferenceDate);
-                //ViewBag.Process = process;
-                //ViewBag.Customer = accounts;
-
                 var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
                 {
                     SerialNumber = sel.SerialNumber,
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName,
-                    ReferenceDate = DateTime.Today
+                    ReferenceDate = sel.ReferenceDate
                 }).OrderByDescending(x => x.SerialNumber);
 
                 return View(data);
@@ -61,6 +56,120 @@ namespace Transactiondetails.Controllers
             return View();
         }
 
+        public ActionResult JobworkReceiptDtTable()
+        {
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
+            ViewBag.Menu = "Master";
+            ViewBag.SubMenu = "JobworkReceipt";
+
+            try
+            {
+                var userData = (UserData)Session["UserData"];
+                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var process = dbutility.GetProcesses();
+                var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+                recieptNo++;
+                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+                {
+                    SerialNumber = sel.SerialNumber,
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName,
+                    ReferenceDate = sel.ReferenceDate
+                }).OrderByDescending(x => x.SerialNumber);
+
+                return View("~/Views/JobWorkReceipts/JobworkReceiptDtTable.cshtml", data);
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+
+            return View();
+        }
+
+        public ActionResult JobworkReceiptDataTable()
+        {
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
+            ViewBag.Menu = "Master";
+            ViewBag.SubMenu = "JobworkReceipt";
+
+            try
+            {
+
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+
+                var userData = (UserData)Session["UserData"];
+                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var process = dbutility.GetProcesses();
+                var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+                recieptNo++;
+                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+                {
+                    SerialNumber = sel.SerialNumber,
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName,
+                    ReferenceDate = sel.ReferenceDate
+                }).OrderByDescending(x => x.SerialNumber);
+
+
+                return Json(new { draw = draw, recordsFiltered = data.Count(), recordsTotal = data.Count(), data = data },JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+
+            return View();
+        }
+
+        /*
+        public ActionResult JobworkReceiptData([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
+        {
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
+            ViewBag.Menu = "Master";
+            ViewBag.SubMenu = "JobworkReceipt";
+
+            try
+            {
+                var userData = (UserData)Session["UserData"];
+                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var process = dbutility.GetProcesses();
+                var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+                recieptNo++;
+                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+                {
+                    SerialNumber = sel.SerialNumber,
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName,
+                    ReferenceDate = sel.ReferenceDate
+                }).OrderByDescending(x => x.SerialNumber);
+
+                var filteredCount = data.Count();
+                var totalCount= data.Count();
+
+                return Json(new DataTablesResponse(requestModel.Draw, data, filteredCount, totalCount), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+
+            return View();
+        }
+        */
         public ActionResult GetJobworkRecipt()
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
@@ -126,17 +235,9 @@ namespace Transactiondetails.Controllers
                 var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
                 var jobReceiptVM = new JobReciptVM();
 
-                //TempData["AccountCode"] = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
-                //TempData["ReferenceDate"] = Convert.ToDateTime(jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");  //Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
-
                 jobReceiptVM.AccountCode = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
                 jobReceiptVM.ReferenceDate = jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate;
                 jobReceiptVM.SerialNumber = id;
-
-                //ViewBag.Process = process;
-                //ViewBag.Customer = accounts;
-                //TempData["serialNo"] = id;
-                //TempData.Keep("serialNo");
 
                 jobReceiptVM.JobReceiptDetails = jobReciept.JobRecieptDets.Select(sel => new JobReceiptDetailVM
                 {
@@ -170,7 +271,6 @@ namespace Transactiondetails.Controllers
                 var message = new { message = "Exception occured", error = "True" };
                 return Json(message, JsonRequestBehavior.AllowGet);
             }
-            //return PartialView("_JobworkReceiptPartial");
         }
 
         public JsonResult SaveJobworkReceipt(JobReciptVM model)
@@ -249,6 +349,8 @@ namespace Transactiondetails.Controllers
                 var userData = (UserData)Session["UserData"];
                 var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
 
+                var list = Enumerable.Empty<JobReciptVM>();
+
                 var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
                 {
                     SerialNumber = sel.SerialNumber,
@@ -257,54 +359,40 @@ namespace Transactiondetails.Controllers
                     ReferenceDate = sel.ReferenceDate
                 }).OrderByDescending(x => x.SerialNumber);
 
-                if (!string.IsNullOrEmpty(model.AccountCode) &&
-                    !string.IsNullOrEmpty(model.AccountName) &&
+                if (!string.IsNullOrEmpty(model.AccountName) &&
                     model.ReferenceDate.HasValue)
                 {
-                    data.Where(x => x.AccountCode.Contains(model.AccountCode) && x.AccountName.Contains(model.AccountName) && x.ReferenceDate == x.ReferenceDate).ToList();
+                    list = data.Where(x => x.AccountName.Contains(model.AccountName) && x.ReferenceDate == x.ReferenceDate);
                 }
-                else if (!string.IsNullOrEmpty(model.AccountCode) &&
-                    !string.IsNullOrEmpty(model.AccountName) &&
-                    !model.ReferenceDate.HasValue)
+                else if (!string.IsNullOrEmpty(model.AccountName) &&
+                        !model.ReferenceDate.HasValue)
                 {
-                    data.Where(x => x.AccountCode.Contains(model.AccountCode) && x.AccountName.Contains(model.AccountName));
+                    list = data.Where(x => x.AccountName.Contains(model.AccountName));
                 }
-                else if (!string.IsNullOrEmpty(model.AccountCode) &&
-                    string.IsNullOrEmpty(model.AccountName) &&
-                    model.ReferenceDate.HasValue)
+                else if (string.IsNullOrEmpty(model.AccountName) &&
+                        model.ReferenceDate.HasValue)
                 {
-                    data.Where(x => x.AccountCode.Contains(model.AccountCode) && x.ReferenceDate == x.ReferenceDate);
-
-                }
-                else if (string.IsNullOrEmpty(model.AccountCode) &&
-                    !string.IsNullOrEmpty(model.AccountName) &&
-                    model.ReferenceDate.HasValue)
-                {
-                    data.Where(x => x.AccountName.Contains(model.AccountName) && x.ReferenceDate == x.ReferenceDate);
-                }
-                else if (!string.IsNullOrEmpty(model.AccountCode) &&
-                    string.IsNullOrEmpty(model.AccountName) &&
-                    !model.ReferenceDate.HasValue)
-                {
-                    data.Where(x => x.AccountName.Contains(model.AccountName));
-                }
-                else if (string.IsNullOrEmpty(model.AccountCode) &&
-                    !string.IsNullOrEmpty(model.AccountName) &&
-                    !model.ReferenceDate.HasValue)
-                {
-                    data.Where(x => x.AccountCode.Contains(model.AccountCode));
-                }
-                else if (string.IsNullOrEmpty(model.AccountCode) &&
-                      string.IsNullOrEmpty(model.AccountName) &&
-                    model.ReferenceDate.HasValue)
-                {
-                    data.Where(x => x.ReferenceDate == model.ReferenceDate);
+                    list = data.Where(x => x.ReferenceDate == x.ReferenceDate);
                 }
 
-                var lst = data.ToList();
+                var lst = list.ToList();
 
-                return Json(lst, JsonRequestBehavior.AllowGet);
-                //return PartialView("_JobworkReceiptPartial", jobReceiptVM);
+                string strTable = "";
+                strTable = strTable + "<table class=\"table table-striped table-bordered\"><thead><tr class=\"gridHead\"><th>Account Code</th><th>Account Name</th>";
+                strTable = strTable + "<th>Serial Number</th><th>Reference Date</th></tr></thead><tbody>";
+
+                foreach (var item in lst)
+                {
+                    strTable = strTable + "<tr>";
+                    strTable = strTable + "<td>" + item.AccountCode + "</td>";
+                    strTable = strTable + "<td>" + item.AccountName + "</td>";
+                    strTable = strTable + "<td>" + item.SerialNumber + "</td>";
+                    strTable = strTable + "<td>" + item.ReferenceDate + "</td>";
+                    strTable = strTable + "</tr>";
+                }
+                strTable = strTable + "</tbody></table>";
+
+                return Json(strTable, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

@@ -8,22 +8,7 @@
 @using Transactiondetails.ViewModels
 @using GridMvc.Html
 @model IEnumerable<JobReciptVM>
-<style>
-    /* #tbsearch span {
-        display: none;
-    }*/
-</style>
-<!--<div class="pagetitle">-->
-@*<h1>Dashboard</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-    </nav>*@
-<!--</div>-->
-@*<link href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css" rel="stylesheet" />*@
-<link href="~/Content/jquery-ui-themes-1.13.2/jquery-ui.css" rel="stylesheet" />
+
 <style type="text/css">
     .Pager span {
         text-align: center;
@@ -67,11 +52,10 @@
                                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    @Html.TextBox("ReferenceDate", null, new { @class = "form-control" })
+                                    @Html.TextBox("ReferenceDate", null, new { @id = "ReferenceDateSearch", @class = "form-control" })
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     <button id="btnSearch" class="btn btn-secondary btn-sm">Search</button>
-
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     <button id="btnPrint" class="btn btn-secondary btn-sm">Print</button>
@@ -84,11 +68,13 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @{
+                        WebGrid objWebGrid = new WebGrid(null, rowsPerPage: 10, ajaxUpdateContainerId: "WebGrid", canPage: true);
+                        objWebGrid.Bind(Model, rowCount: 3, autoSortAndPage: true);
+                        objWebGrid.Pager(mode: WebGridPagerModes.All);
+                    }
                     <div id="grd">
 
-                        @{
-                            WebGrid objWebGrid = new WebGrid(Model, rowsPerPage: 10, ajaxUpdateContainerId: "grd", canPage: true);
-                        }
                         @objWebGrid.GetHtml(
                                               htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
                                               tableStyle: "table table-striped table-bordered",
@@ -98,7 +84,7 @@
                                               rowStyle: "Grid-rowstyle",
                                               footerStyle: "gridFooter",
                    mode: WebGridPagerModes.All, //Specifies flags that describe the methods that are provided for moving between the pages of a WebGrid instance. source msdn.microsoft.com
-                columns:
+                   columns:
                    objWebGrid.Columns
                    (
                        objWebGrid.Column(columnName: "AccountCode", header: "Account Code", style: "css-accountcode", format:@<text> @item.AccountCode<input type="hidden" name="SerialNumber" value="@item.SerialNumber"></input></text>),
@@ -106,8 +92,8 @@ objWebGrid.Column(columnName: "AccountName", header: "Account Name", style: "css
 objWebGrid.Column(columnName: "SerialNumber", header: "Serial Number", style: "css-serialnumber"),
 objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: "css-referencedate", format: (item) => item.ReferenceDate != null
 ? item.ReferenceDate.ToString("dd/MM/yyyy") : "", canSort: true)
-@*objWebGrid.Column(format:@<text><a href="" onclick="DeleteME('@item.SerialNumber')">Delete</a></text>),*@
-@*objWebGrid.Column(header: "Action", style: "css-action", format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btnEdit">Edit</a>)*@
+                @*objWebGrid.Column(format:@<text><a href="" onclick="DeleteME('@item.SerialNumber')">Delete</a></text>),*@
+                @*objWebGrid.Column(header: "Action", style: "css-action", format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btnEdit">Edit</a>)*@
 )
 )
                     </div>
@@ -162,11 +148,7 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
                 position: { my: "top", at: "top", of: "header"},
                 //position: ['center', 20],
                 open: function (event, ui) {
-                    /*$(this).parent().appendTo($("form:first"));*/
-                    // Load partial view _GridEditPartial
-
-                    if (id == 0) {
-
+                    if (id === 0) {
                         $(this).load("@Url.Action("GetJobworkRecipt")");
                     } else {
                         $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
@@ -175,23 +157,20 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
                 close: function (event, ui) {
                     $('#ReferenceDate1').datepicker('destroy');
                 }
-             
             });
-
         });
 
 
         $(function () {
-            $("#ReferenceDate").datepicker();
-
+            $("#ReferenceDateSearch").datepicker();
         });
 
-        $(document).on("click", "#btnPrint", function () {
+        $(document).on("click", "#btnSearch", function () {
 
             var searchUrl = "/JobWorkReceipts/GetFilterJobworkRecipt/";
-            let referenceDate = $('#ReferenceDate1').datepicker().val();
+            let referenceDate = $('#ReferenceDateSearch').datepicker().val();
+
             var data = {
-                AccountCode: $("#AccountCode").val(),
                 AccountName: $("#AccountName").val(),
                 ReferenceDate: referenceDate
             };
@@ -202,13 +181,14 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
                 data: data,
                 type: "POST",
                 success: function (data) {
-                    $("#divData").html(data);
+                    $("#WebGrid").html(data);
                     /*$("#btnSearch").attr({ 'value': 'Search' });*/
                 }
             });
         });
 
     </script>
+
 }
 
 
@@ -311,6 +291,4 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
     .Grid-rowstyle td {
         padding: 5px;
     }
-
- 
 </style>

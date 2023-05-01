@@ -1,5 +1,5 @@
 ﻿@using Transactiondetails.ViewModels
-
+@using System.Web.Optimization
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +28,7 @@
     @*Google Fonts*@
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+    
     @*Vendor CSS Files*@
     <link href="@Url.Content("~/assets/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
     <link href="@Url.Content("~/assets/vendor/bootstrap-icons/bootstrap-icons.css")" rel="stylesheet">
@@ -37,19 +37,17 @@
     <link href="@Url.Content("~/assets/vendor/quill/quill.bubble.css")" rel="stylesheet">
     <link href="@Url.Content("~/assets/vendor/remixicon/remixicon.css")" rel="stylesheet">
     <link href="@Url.Content("~/assets/vendor/simple-datatables/style.css")" rel="stylesheet">
-
     @*Template Main CSS File*@
     <link href="@Url.Content("~/assets/css/style.css")" rel="stylesheet">
     <link href="@Url.Content("~/assets/css/app.css")" rel="stylesheet" />
+
     <!-- AngularJs-->
     @*<script src="~/Scripts/angular.min.js"></script>*@
     @*<script src="~/ajscript/JobWorkRececipt/ajJobworkreceiptService.js"></script>*@
-    <link href="@Url.Content("~/assets/css/sweetalert2.min.css")" rel="stylesheet" />
-    <link href="~/Content/Gridmvc.css" rel="stylesheet" />
+    @*<link href="@Url.Content("~/assets/css/sweetalert2.min.css")" rel="stylesheet" />*@
+    <link href="~/Content/jquery-ui-themes-1.13.2/jquery-ui.css" rel="stylesheet" />
     <!--Test datatable -->
-
     <script src="@Url.Content("~/Scripts/jquery-3.6.4.min.js")"></script>
-    @*<script src="~/Scripts/gridmvc.min.js"></script>*@
 </head>
 
 <body>
@@ -147,13 +145,17 @@
                 <ul id="Master-nav" class="nav-content @(activeMenu=="Master"?"collapse show":"collapse") " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="~/Home/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
-                            @*<a href="~/Home/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>*@
                             <i class="bi bi-circle"></i><span>Job Receipt</span>
                         </a>
                     </li>
                     <li>
                         <a href="~/JobworkReceipts/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
                             <i class="bi bi-circle"></i><span>Job Receipt New</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/JobworkReceipts/JobworkReceiptDtTable" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
+                            <i class="bi bi-circle"></i><span>Job Receipt Data Table</span>
                         </a>
                     </li>
                     <li>
@@ -266,7 +268,7 @@
     </main>
     @*<script src="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
         <script src="~/assets/js/bootstrap.bundle.min.js"></script>*@
-<script src="~/Scripts/dist/jquery.validate.js"></script>
+    <script src="@Url.Content("~/Scripts/dist/jquery.validate.js")"></script>
     <script src="@Url.Content("~/assets/vendor/apexcharts/apexcharts.min.js")"></script>
     <script src="@Url.Content("~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
     <script src="@Url.Content("~/assets/vendor/chart.js/chart.umd.js")"></script>
@@ -275,11 +277,9 @@
     <script src="@Url.Content("~/assets/vendor/simple-datatables/simple-datatables.js")"></script>
     <script src="@Url.Content("~/assets/vendor/tinymce/tinymce.min.js")"></script>
     <script src="@Url.Content("~/assets/vendor/php-email-form/validate.js")"></script>
-
     <!-- Template Main JS File -->
     <script src="@Url.Content("~/assets/js/main1.js")"></script>
     <script src="@Url.Content("~/Scripts/sweetalert2/sweetalert2.all.min.js")"></script>
-    
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
 
@@ -309,20 +309,17 @@
             return true;
         }
 
-
-
- $(document).ajaxError(function (xhr, props) {
-if (props.status === 401) {
-   window.location.href = '@Url.Action("Login","Account")';
-  }
-  });
+         $(document).ajaxError(function (xhr, props) {
+                if (props.status === 401) {
+                             window.location.href = '@Url.Action("Login","Account")';
+                   }
+          });
 
     </script>
 </body>
 </html>
-<style type="text/css">
-   
-</style>
+
+
 <!--<body ng-app="myApp" ng-controller="JobWorkReceiptCtrl" ng-init="">
     <div id="app">
         <div id="sidebar" class="active">
