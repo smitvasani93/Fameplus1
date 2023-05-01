@@ -3,6 +3,8 @@ using System;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Transactiondetails.Controllers;
+using System.Web.Optimization;
+using Transactiondetails.App_Start;
 
 namespace Transactiondetails
 {
@@ -12,6 +14,7 @@ namespace Transactiondetails
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
             //Load data to application cache
             //LoadAplicatioCache();
         }

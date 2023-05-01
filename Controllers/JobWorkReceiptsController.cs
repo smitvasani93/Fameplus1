@@ -1,4 +1,5 @@
-﻿using GridMVCAjaxDemo.Helpers;
+﻿using DataTables.Mvc;
+using GridMVCAjaxDemo.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,17 @@ using Transactiondetails.ViewModels;
 
 namespace Transactiondetails.Controllers
 {
+
+    public class JobReciptJq
+    {
+
+        public string AccountCode { get; set; }
+        public string AccountName { get; set; }
+        public DateTime? ReferenceDate { get; set; }
+        public int? SerialNumber { get; set; }
+
+    }
+
     [SessionExpireFilter]
     [Authorize]
     public class JobWorkReceiptsController : Controller
@@ -89,7 +101,8 @@ namespace Transactiondetails.Controllers
             return View();
         }
 
-        public ActionResult JobworkReceiptDataTable()
+        [HttpGet]
+        public JsonResult JobworkReceiptDataTable(string sidx, string sort, int page, int rows, bool _search, string searchField, string searchOper, string searchString)
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
             var dbutility = new DBUtility();
@@ -99,12 +112,12 @@ namespace Transactiondetails.Controllers
             try
             {
 
-                var draw = Request.Form.GetValues("draw").FirstOrDefault();
-                var start = Request.Form.GetValues("start").FirstOrDefault();
-                var length = Request.Form.GetValues("length").FirstOrDefault();
-                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-                var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+                //var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                //var start = Request.Form.GetValues("start").FirstOrDefault();
+                //var length = Request.Form.GetValues("length").FirstOrDefault();
+                //var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                //var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                //var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
 
 
                 var userData = (UserData)Session["UserData"];
@@ -113,27 +126,33 @@ namespace Transactiondetails.Controllers
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
-                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+                var data = jobReceiept.JobRecieptMasts.Select(sel => new
                 {
                     SerialNumber = sel.SerialNumber,
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName,
                     ReferenceDate = sel.ReferenceDate
-                }).OrderByDescending(x => x.SerialNumber);
+                }).OrderByDescending(x => x.SerialNumber).ToList();
 
-
-                return Json(new { draw = draw, recordsFiltered = data.Count(), recordsTotal = data.Count(), data = data },JsonRequestBehavior.AllowGet);
-
+                var jsonData = new
+                {
+                    total = 2,
+                    page = 1,
+                    records = 20,
+                    rows = data
+                };
+                //return Json(new { draw = draw, recordsFiltered = data.Count(), recordsTotal = data.Count(), data = data },JsonRequestBehavior.AllowGet);
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 string message = ex.Message;
             }
 
-            return View();
+            return Json(new { }, JsonRequestBehavior.AllowGet); ;
         }
 
-        /*
+
         public ActionResult JobworkReceiptData([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
@@ -158,7 +177,7 @@ namespace Transactiondetails.Controllers
                 }).OrderByDescending(x => x.SerialNumber);
 
                 var filteredCount = data.Count();
-                var totalCount= data.Count();
+                var totalCount = data.Count();
 
                 return Json(new DataTablesResponse(requestModel.Draw, data, filteredCount, totalCount), JsonRequestBehavior.AllowGet);
             }
@@ -169,7 +188,7 @@ namespace Transactiondetails.Controllers
 
             return View();
         }
-        */
+
         public ActionResult GetJobworkRecipt()
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
