@@ -111,14 +111,9 @@ namespace Transactiondetails.Controllers
 
             try
             {
-
-                //var draw = Request.Form.GetValues("draw").FirstOrDefault();
-                //var start = Request.Form.GetValues("start").FirstOrDefault();
-                //var length = Request.Form.GetValues("length").FirstOrDefault();
-                //var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-                //var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-                //var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
-
+                sort = (sort == null) ? "" : sort;
+                int pageIndex = Convert.ToInt32(page) - 1;
+                int pageSize = rows;
 
                 var userData = (UserData)Session["UserData"];
                 var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
@@ -126,7 +121,7 @@ namespace Transactiondetails.Controllers
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
-                var data = jobReceiept.JobRecieptMasts.Select(sel => new
+                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
                 {
                     SerialNumber = sel.SerialNumber,
                     AccountCode = sel.AccountCode,
@@ -134,14 +129,39 @@ namespace Transactiondetails.Controllers
                     ReferenceDate = sel.ReferenceDate
                 }).OrderByDescending(x => x.SerialNumber).ToList();
 
+                if (_search)
+                {
+                    switch (searchField)
+                    {
+                        case "AccountName":
+                            data = data.Where(x => x.AccountName.Contains(searchString)).ToList();
+                            break;
+                        case "ReferenceDate":
+                            var dt = Convert.ToDateTime(searchString);
+                            data = data.Where(x => x.ReferenceDate == dt).ToList();
+                            break;
+                    }
+                }
+                int totalRecords = data.Count();
+                var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
+                if (sort.ToUpper() == "DESC")
+                {
+                    data = data.OrderByDescending(t => t.SerialNumber).ToList();
+                    data = data.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                }
+                else
+                {
+                    data = data.OrderBy(t => t.SerialNumber).ToList();
+                    data = data.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                }
+
                 var jsonData = new
                 {
-                    total = 2,
-                    page = 1,
-                    records = 20,
+                    total = totalPages,
+                    page,
+                    records = totalRecords,
                     rows = data
                 };
-                //return Json(new { draw = draw, recordsFiltered = data.Count(), recordsTotal = data.Count(), data = data },JsonRequestBehavior.AllowGet);
                 return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -152,6 +172,31 @@ namespace Transactiondetails.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet); ;
         }
 
+        [HttpPost]
+        public JsonResult GetProcessByCustomerCode(string customerCode)
+        {
+            try
+            {
+                var processMasterVM = new List<ProcessMasterVM>()
+                {
+                   new ProcessMasterVM{
+                       ProcessCode=1,
+                       ProcessName="process name 1" },
+                   new ProcessMasterVM{ ProcessCode=2,ProcessName="process name 2" },
+                   new ProcessMasterVM{ ProcessCode=3,ProcessName="process name 3"},
+                   new ProcessMasterVM{ ProcessCode=4,ProcessName="process name 4"}
+                };
+
+                return Json(processMasterVM, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                string message = ex.Message;
+            }
+
+            return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult JobworkReceiptData([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
         {
@@ -223,10 +268,10 @@ namespace Transactiondetails.Controllers
                 {
                     new JobReceiptDetailVM{
                          ItemSerialNumber=1,
-                          ItemLines=0,
-                          PacketNumber=1,
-                           ItemPieces=1,
-                            ItemCarats=0
+                         ItemLines=0,
+                         PacketNumber=1,
+                         ItemPieces=1,
+                         ItemCarats=0
                     }
                 };
 

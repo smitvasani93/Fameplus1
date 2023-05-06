@@ -8,30 +8,6 @@
 @using Transactiondetails.ViewModels
 @model IEnumerable<JobReciptVM>
 
-<style type="text/css">
-    .Pager span {
-        text-align: center;
-        color: #333;
-        display: inline-block;
-        width: 20px;
-        background-color: #B8DBFD;
-        margin-right: 3px;
-        line-height: 150%;
-        border: 1px solid #B8DBFD;
-    }
-
-    .Pager a {
-        text-align: center;
-        display: inline-block;
-        width: 20px;
-        background-color: #ccc;
-        color: #333;
-        border: 1px solid #ccc;
-        margin-right: 3px;
-        line-height: 150%;
-        text-decoration: none;
-    }
-</style>
 <section class="section dashboard mt-2">
     <div class="row">
         <div class="col-lg-12">
@@ -42,22 +18,22 @@
                         <div class="col-10 search-bar">
                             <ul class="nav nav-pills card-header-pills">
                                 <li class="nav-item ps-lg-2">
-                                    <label for="inputEmail3" class="col-form-label">Account Name</label>
+                                    @*<label for="inputEmail3" class="col-form-label">Account Name</label>*@
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    @Html.TextBox("AccountName", null, new { @class = "form-control" })
+                                    @*@Html.TextBox("AccountName", null, new { @class = "form-control" })*@
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    <label for="inputEmail3" class="col-form-label">Receipt Date</label>
+                                    @*<label for="inputEmail3" class="col-form-label">Receipt Date</label>*@
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    @Html.TextBox("ReferenceDate", null, new { @id = "ReferenceDateSearch", @class = "form-control" })
+                                    @*@Html.TextBox("ReferenceDate", null, new { @id = "ReferenceDateSearch", @class = "form-control" })*@
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    <button id="btnSearch" class="btn btn-secondary btn-sm">Search</button>
+                                    @*<button id="btnSearch" class="btn btn-secondary btn-sm">Search</button>*@
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    <button id="btnPrint" class="btn btn-secondary btn-sm">Print</button>
+                                    @*<button id="btnPrint" class="btn btn-secondary btn-sm">Print</button>*@
                                 </li>
                             </ul>
                         </div>
@@ -85,9 +61,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-
-
     <script>
+        var id = 0;
+        $(document).on('click', '#btnAddNew', function () {
+            id = 0;
+            $('#dialog')
+                .dialog({ title: 'Add Jobwork Receipt' })
+                .dialog('open');
+        });
 
          $(function () {
 
@@ -110,6 +91,7 @@
                 },
                 close: function (event, ui) {
                     $('#ReferenceDate1').datepicker('destroy');
+                    $("#jqgridtbl").trigger("reloadGrid");
                 }
             });
         });
@@ -127,17 +109,16 @@
 
     <script type="text/javascript">
 
-           var id = 0;
         $(function () {
             $jqgrid = $("#jqgridtbl").jqGrid({
                 url: "@Url.Action("JobworkReceiptDataTable", "JobWorkReceipts")",
                 mtype: "GET",
                 datatype: 'json',
                 colModel: [
-                    { label: "AccountCode", name: "AccountCode" },
-                    { label: "AccountName", name: "AccountName" },
-                    { label: "SerialNumber", name: "SerialNumber" },
-                    { label: "Reference Date", name: "ReferenceDate", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "Y-m-d" } }
+                    { label: "AccountCode", name: "AccountCode",search:false },
+                    { label: "AccountName", name: "AccountName", searchoptions: { sopt: ['cn'] }},
+                    { label: "SerialNumber", name: "SerialNumber", search: false },
+                    { label: "Reference Date", name: "ReferenceDate", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "Y-m-d" }, searchoptions: { sopt: ['eq', 'ne'] } }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30, 40, 50],
@@ -157,24 +138,19 @@
                 multiselect: false,
                 ondblClickRow: function (rowId) {
                     var rowData = jQuery(this).getRowData(rowId);
-
                     var srNumber = rowData['SerialNumber'];
-
                     id = srNumber;
                     $('#dialog')
                         .dialog({ title: 'Edit Jobwork Receipt' })
                         .dialog('open');
-
-                    //var jobName = rowData['description'];
-                    //var jobCustomer = rowData['customerName'];
-                    //var jobStatus = rowData['jobStatus'];
-                    //jobName = jobName.replace(/&/g, "``");
-                    //jobName = jobName.replace(/#/, "__");
-                    //var aQryStr = "jobNumber=" + jobNumber + "&jobName=" + jobName + "&jobCustomer=" + jobCustomer;
-                    //console.log("./jobflow?token=view&" + aQryStr);
-                    //document.location.href = "./jobflow?token=view&" + aQryStr;
                 }
-            });
+            }).navGrid('#gqgridpager', { view: false, del: false, add: false, edit: false },
+                {}, // default settings for edit
+                {}, // default settings for add
+                {}, // delete instead that del:false we need this
+                { closeOnEscape: true, multipleSearch: false, closeAfterSearch: true }, // search options
+                {} /* view parameters*/
+            )
         });
 
     </script>
@@ -186,101 +162,7 @@
 
 <style type="text/css">
 
-    .css-accountcode {
-        width: 150px;
-    }
-
-    .css-accountname {
-        /*width: 150px;*/
-    }
-
-    .css-serialnumber {
-        width: 150px;
-    }
-
-    .css-referencedate {
-        width: 150px;
-    }
-
-    .css-action {
-        width: 80px;
-    }
-
-    .search-bar .form-control {
-        padding: .200rem .50rem !important;
-    }
-
-    .search-bar .col-form-label {
-        padding-top: calc(.175rem + 1px) !important;
-    }
-
-
-
-    .gridTable {
-        margin: 5px;
-        padding: 5px;
-        border: 1px #c8c8c8 solid;
-        border-collapse: collapse;
-        min-width: 550px;
-        background-color: #fff;
-        color: #fff;
-    }
-
-    .gridHead th {
-        font-weight: bold;
-        background-color: #646464;
-        color: #fff;
-        padding: 5px
-    }
-
-    .gridHead a:link, .gridHead a:visited, .gridHead a:active, .gridHead a:hover {
-        color: #fff;
-    }
-
-    .gridHead a:hover {
-        text-decoration: underline !important;
-    }
-
-    .gridTable tr.gridAltRow {
-        background-color: #efeeef;
-    }
-
-    .gridTable tr:hover {
-        background-color: #f6f70a;
-    }
-
-    .gridAltRow td {
-        padding: 5px;
-        margin: 5px;
-        color: #333;
-    }
-
-    .gridRow td {
-        padding: 10px;
-        color: #333;
-    }
-
-    .gridFooter td {
-        padding: 10px;
-        background-color: #c9c9c9;
-        color: #999;
-        font-size: 12pt;
-        text-align: center;
-    }
-
-    .gridFooter a {
-        font-weight: bold;
-        color: #333;
-        border: 1px #333 solid;
-        padding: 2px 6px;
-    }
-
-    .Grid-rowstyle:hover {
-        background-color: #c1c1c1;
-        cursor: pointer;
-    }
-
-    .Grid-rowstyle td {
-        padding: 5px;
+    .ui-jqgrid .ui-jqgrid-pager {
+        padding-top: 5px !important;
     }
 </style>

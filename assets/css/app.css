@@ -1,10 +1,11 @@
 ﻿.mr-minus {
-    margin-right:-2.9rem !important;
+    margin-right: -2.9rem !important;
 }
 
 .error {
     border-color: #dc3545 !important;
 }
+
 label.error {
     color: #dc3545;
     font-size: 14px;
@@ -12,8 +13,8 @@ label.error {
 }
 
 .ui-widget {
-    font-family:inherit !important;
-    font-size:inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
 }
 
 
@@ -79,20 +80,20 @@ table {
 }
 
 
- .ui-dialog-titlebar-close {
+.ui-dialog-titlebar-close {
     padding: 0 !important;
 }
 
-.ui-dialog-titlebar-close:after {
-    content: '';
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    /* Change path to image*/
-    background-image: url(/Content/jquery-ui-themes-1.13.2/themes/base/images/ui-icons_777777_256x240.png);
-    background-position: -96px -128px;
-    background-repeat: no-repeat;
-}
+    .ui-dialog-titlebar-close:after {
+        content: '';
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        /* Change path to image*/
+        background-image: url(/Content/jquery-ui-themes-1.13.2/themes/base/images/ui-icons_777777_256x240.png);
+        background-position: -96px -128px;
+        background-repeat: no-repeat;
+    }
 
 .ui-dialog-buttonset > button {
     border: 0.1px solid #c5c5c5 !important;
@@ -116,10 +117,10 @@ table {
     z-index: 9999 !important;
 }
 
-.ui-dialog .ui-dialog-buttonpane {
-    margin-top: -5px !important;
-    padding-top: 14px !important;
-}
+    .ui-dialog .ui-dialog-buttonpane {
+        margin-top: -5px !important;
+        padding-top: 14px !important;
+    }
 
 .fa-trash:before {
     color: #dc3545 !important;
@@ -128,18 +129,19 @@ table {
 .fa-plus:before {
     color: #0a58ca !important;
 }
+
 #newone {
     padding: 0 10px 0 10px !important;
 }
 
-#newone .form-control {
-    padding: .200rem .75rem;
-}
+    #newone .form-control {
+        padding: .200rem .75rem;
+    }
 
-#newone .form-select {
-    padding: .200rem 2.25rem .200rem .75rem !important;
-    background-size: 12px 10px !important;
-}
+    #newone .form-select {
+        padding: .200rem 2.25rem .200rem .75rem !important;
+        background-size: 12px 10px !important;
+    }
 
 #receipt .form-control, #receipt .form-select {
     font-size: 13px !important;
@@ -150,7 +152,7 @@ table {
     border-color: white !important;
 }
 
-#newone table td {
+    #newone table td {
         padding: 5px !important;
     }
 
@@ -177,14 +179,15 @@ table {
     height: 40px !important;
     /*padding: 0 2px 0 2px;*/
 }
-.ui-jqgrid .ui-jqgrid-htable th div {
- 
-    height: 22px !important;
-}
+
+    .ui-jqgrid .ui-jqgrid-htable th div {
+        height: 22px !important;
+    }
 
 .ui-jqgrid .ui-icon-asc {
     margin-top: 1px !important;
 }
+
 .ui-jqgrid .ui-icon-desc {
     margin-top: 8px !important;
 }
@@ -198,7 +201,47 @@ ui-icon-triangle-1-n {
 }
 
 .ui-jqgrid tr.jqgrow td {
-    
     padding: 5px 5px 5px 5px !important;
-  
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default {
+    font-weight: bold !important;
+    background-color: dimgray !important;
+    background-image: none !important;
+    color: #fff !important;
+}
+
+.ui-jqgrid .ui-jqgrid-pager {
+    font-size: 13px !important;
+    height:35px !important;
+    padding:5px !important;
+}
+
+.ui-jqgrid .ui-pg-table {
+ 
+    margin: 2px !important;
+}
+
+.ui-jqgrid .ui-pg-input {
+    font-size: 13px !important;
+    padding-left:9px !important;
+    height:20px !important;
+    width:30px !important;
+}
+
+.ui-jqgrid .ui-pg-selbox {
+    font-size: 13px !important;
+    height:20px !important;
+}
+
+.ui-state-highlight {
+    border: 1px solid solid !important;
+    background-image: none !important;
+    background-color: #aaaaaa !important;
+}
+
+.ui-jqgrid tr.jqgrow :hover {
+   
+   cursor:pointer !important;
+   pointer-events:painted !important;
 }

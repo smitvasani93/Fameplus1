@@ -246,34 +246,36 @@
                 let $ctrl = undefined;
 
                 if ($hidenname !== undefined && $hidenname.indexOf(".ItemSerialNumber") != -1) {
-
                     $(this).find("input,hidden").attr("id", "JobReceiptDetails_" + index + "__ItemSerialNumber");
                     $(this).find("input,hidden").attr("name", "JobReceiptDetails[" + index + "].ItemSerialNumber");
                     $ctrl = $(this).find("input,hidden").attr("name","JobReceiptDetails[" + index + "].ItemSerialNumber");
                     $($ctrl).val(index);
                 }
+
                 if ($selectName !== undefined && $selectName.indexOf(".ProcessCode") != -1) {
                     $(this).find("input,select").attr("id", "JobReceiptDetails_" + index + "__ProcessCode");
                     $(this).find("input,select").attr("name", "JobReceiptDetails[" + index + "].ProcessCode");
                     $ctrl = $(this).find("input,select").attr("name", "JobReceiptDetails[" + index + "].ProcessCode");
-                    
-                    
                 }
+
                 if ($name !== undefined && $name.indexOf(".PacketNumber") != -1) {
                     $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__PacketNumber");
                     $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].PacketNumber");
                     $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].PacketNumber");
                 }
+
                 if ($name !== undefined && $name.indexOf(".ItemPieces") != -1) {
                     $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemPieces");
                     $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemPieces");
                     $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemPieces");
                 }
+
                 if ($name !== undefined && $name.indexOf(".ItemCarats") != -1) {
                     $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemCarats");
                     $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemCarats");
                     $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemCarats");
                 }
+
                 if ($name !== undefined && $name.indexOf(".ItemLines") != -1) {
                     $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemLines");
                     $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemLines");
@@ -358,6 +360,26 @@
     $(document).on("click", ".btn-close-dialog", function (e) {
         $('#dialog').dialog('close');
     })
+
+    
+    @*$(document).on("change", "#ddlCustomer123", function (e) {
+
+        let ddlProcess = $("#JobReceiptDetails_0__ProcessCode");
+
+        $.ajax({
+            url: "@Url.Action("GetProcessByCustomerCode", "JobWorkReceipts")",
+            type: "POST",
+            data: { customerCode: this.value },
+            dataType: 'json',
+            success: function (data) {
+                debugger;
+                ddlProcess.html("");
+                ddlProcess.append($('<option></option>').val("").html("Please select"));
+                $.each(data, function (id, option) {
+                    ddlProcess.append($('<option></option>').val(option.ProcessCode).html(option.ProcessName));
+                });
+            }
+        });
+    });*@
+    
 </script>
-<style>
-</style>

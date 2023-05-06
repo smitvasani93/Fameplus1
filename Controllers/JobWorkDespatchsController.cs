@@ -36,12 +36,13 @@ namespace Transactiondetails.Controllers
 
             var jobDespatch = new JobDespatch();
             jobDespatch.JobDespatchMaster = new JobDespatchMaster
-            { AccountCode   = accountcode,
-             BranchCode = userData.Branch,
+            {
+                AccountCode = accountcode,
+                BranchCode = userData.Branch,
             };
             jobDespatch.JobDespatchDetails = jobDespatchDetails;
 
-            jobDespatchDataLayer.SaveJobDespatch(jobDespatch,userData.Company, userData.FYear);
+            jobDespatchDataLayer.SaveJobDespatch(jobDespatch, userData.Company, userData.FYear);
 
             return View();
 
