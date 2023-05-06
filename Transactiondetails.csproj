@@ -3974,6 +3974,7 @@
     <Compile Include="DBModels\JobRecieptData.cs" />
     <Compile Include="DBModels\JobRecieptDetail.cs" />
     <Compile Include="DBModels\JobRecieptMaster.cs" />
+    <Compile Include="DBModels\PendingJobRecieptDetail.cs" />
     <Compile Include="DBModels\ProcessMaster.cs" />
     <Compile Include="DBModels\System3.cs" />
     <Compile Include="Global.asax.cs">
@@ -3986,6 +3987,7 @@
     <Compile Include="Models\Utility\CompanyDBContext.cs" />
     <Compile Include="Models\Utility\DBUtility.cs" />
     <Compile Include="Models\Utility\GenDBContext.cs" />
+    <Compile Include="Models\Utility\JobDespatchDataLayer.cs" />
     <Compile Include="Models\Utility\JobReceiptDataLayer.cs" />
     <Compile Include="Models\Utility\XmlUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -23,6 +23,18 @@ namespace Transactiondetails.Controllers
             this.gridMvcHelper = new GridMvcHelper();
         }
 
+        public ActionResult GetPendingJobworkReceipt()
+        {
+            string accountcode = "A0000101";
+            var userData = (UserData)Session["UserData"];
+
+            var jobDespatchDataLayer = new JobDespatchDataLayer();
+            jobDespatchDataLayer.GetPendingJobReciept(accountcode, userData.Company, userData.Branch, userData.FYear);
+
+            return View();
+
+        }
+
         public ActionResult JobworkReceipt()
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
@@ -122,7 +134,7 @@ namespace Transactiondetails.Controllers
                 }).OrderByDescending(x => x.SerialNumber);
 
 
-                return Json(new { draw = draw, recordsFiltered = data.Count(), recordsTotal = data.Count(), data = data },JsonRequestBehavior.AllowGet);
+                return Json(new { draw = draw, recordsFiltered = data.Count(), recordsTotal = data.Count(), data = data }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
