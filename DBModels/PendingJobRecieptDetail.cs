@@ -1,6 +1,4 @@
 ﻿using System;
-
-
 public class PendingJobRecieptDetail
 {
     public int SerialNumber { get; set; }

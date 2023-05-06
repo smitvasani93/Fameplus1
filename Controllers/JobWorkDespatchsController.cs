@@ -31,6 +31,18 @@ namespace Transactiondetails.Controllers
             var jobDespatchDataLayer = new JobDespatchDataLayer();
             jobDespatchDataLayer.GetPendingJobReciept(accountcode, userData.Company, userData.Branch, userData.FYear);
 
+            var jobDespatchDetails = new List<JobDespatchDetail>();
+            jobDespatchDetails.Add(new JobDespatchDetail { BillingQuantity = 1, BillingRate = 1 });
+
+            var jobDespatch = new JobDespatch();
+            jobDespatch.JobDespatchMaster = new JobDespatchMaster
+            { AccountCode   = accountcode,
+             BranchCode = userData.Branch,
+            };
+            jobDespatch.JobDespatchDetails = jobDespatchDetails;
+
+            jobDespatchDataLayer.SaveJobDespatch(jobDespatch,userData.Company, userData.FYear);
+
             return View();
 
         }

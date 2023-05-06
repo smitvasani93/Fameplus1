@@ -22,5 +22,16 @@ namespace Transactiondetails.Models.Utility
 
             return pendingJobReciepts;
         }
+
+        public DatabaseResponse SaveJobDespatch(JobDespatch jobDespatch, string companyCode, string fYear)
+        {
+            var xmlString = XmlUtility.Serialize(jobDespatch);
+            var pxmlString = new SqlParameter("@xmlString", xmlString);
+            using (CompanyDBContext db = new CompanyDBContext(companyCode))
+            {
+                //Call Stored Procedure to dump the xml to database
+                return db.Database.SqlQuery<DatabaseResponse>("exec spJobDespatchAdd @xmlString", pxmlString).FirstOrDefault();
+            }
+        }
     }
 }

@@ -3971,6 +3971,8 @@
     <Compile Include="DBModels\Branch.cs" />
     <Compile Include="DBModels\Company.cs" />
     <Compile Include="DBModels\FYear.cs" />
+    <Compile Include="DBModels\JobDespatchDetail.cs" />
+    <Compile Include="DBModels\JobDespatchMaster.cs" />
     <Compile Include="DBModels\JobRecieptData.cs" />
     <Compile Include="DBModels\JobRecieptDetail.cs" />
     <Compile Include="DBModels\JobRecieptMaster.cs" />
