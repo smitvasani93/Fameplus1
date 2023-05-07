@@ -3,6 +3,7 @@
 
 @{
     var jsonMode = JsonConvert.SerializeObject(Model.Mode);
+    var jsonModel = JsonConvert.SerializeObject(Model);
     var htmlAttributes = new Dictionary<string, object>();
     htmlAttributes.Add("class", "form-control");
     htmlAttributes.Add("readonly", true);
@@ -12,7 +13,7 @@
     //}
 }
 
-@using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobworkReceiptPop" }))
+@using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkDespatchs", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobworkReceiptPop" }))
 {
     @Html.HiddenFor(model => model.Mode)
     <div class="row g-3">
@@ -22,7 +23,7 @@
                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                 </div>
                 <div class="col-sm-5">
-                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { @id = "ReferenceDate1", @class = "form-control" })
+                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { @id = "ReferenceDate11", @class = "form-control", @readonly = true })
                 </div>
                 <div class="col-sm-2 mr-minus">
                     <label for="inputEmail3" class="col-form-label">Receipt No</label>
@@ -36,12 +37,13 @@
             <div class="row">
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Customer Name</label>
                 <div class="col-sm-5">
-                    @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @class = "form-select" })
+                    @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @class = "form-select", @disabled = true })
+                    @Html.HiddenFor(model=>model.AccountCode)
                 </div>
             </div>
         </div>
         <div class="col-lg-12">
-            <div id="newone" class="row pt-1">
+            <div id="newone" class="row pt-1 newone-css" >
                 <table id="receipt" class="table table-bordered">
                     <thead>
                         <tr>
@@ -56,9 +58,10 @@
                     </thead>
                     @for (var i = 0; i < Model.JobReceiptDetails.Count(); i++)
                     {
-                        <tr>
+                        <tr class="receipt-@Model.JobReceiptDetails[i].ProcessCode">
                             <td>
-                                @Html.DropDownListFor(model => Model.JobReceiptDetails[i].ProcessCode, new SelectList(Model.Processes, "ProcessCode", "ProcessName", Model.JobReceiptDetails[i].ProcessCode), "Please select", new { @class = "form-select", @required = true })
+                                @Html.DropDownListFor(model => Model.JobReceiptDetails[i].ProcessCode, new SelectList(Model.Processes, "ProcessCode", "ProcessName", Model.JobReceiptDetails[i].ProcessCode), "Please select", new { @class = "form-select", @required = true, @disabled=true })
+                                @Html.HiddenFor(model=> Model.JobReceiptDetails[i].ProcessCode)
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].PacketNumber, new { @required = true, @class = "form-control numberonly" })
@@ -76,18 +79,7 @@
                                 @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @class = "form-control" })
                             </td>
                             <td class="plsRow">
-                                @if (Model.JobReceiptDetails.Count() - 1 == i)
-                                {
-                                    <a class="addRow" href="javascript:void(0);">
-                                        <i class="fa fa-plus"></i>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a class="deleteRow" href="javascript:void(0);">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                }
+                                
                             </td>
                             <td style="display:none">
                                 @Html.HiddenFor(model => Model.JobReceiptDetails[i].ItemSerialNumber)
@@ -95,13 +87,21 @@
                         </tr>
                     }
                 </table>
+
             </div>
+            <div class="jqueryTbl-container">
+                <table id="jqueryTbl"></table>
+                <div class="ui-dialog-buttonset offset-lg-11 pt-lg-3 pb-lg-1 ps-0">
+                    <button type="button" class="btn btn-default select-pending-receipt">Select</button>
+                </div>
+            </div>
+
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12 button-container newone-css" >
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
                 <div class="ui-dialog-buttonset ps-sm-5">
                     <button type="submit" class="btn btn-secondary">Submit</button>
-                    <button type="button" class="btn btn-default btn-close-dialog">Close</button>
+                    <button type="button" class="btn btn-default btn-close-dialog ">Close</button>
                 </div>
             </div>
         </div>
@@ -109,128 +109,101 @@
     <div id="result">
 
     </div>
-
 }
 
 <script type="text/javascript">
 
     var mode =@(Html.Raw(jsonMode));
-
+    
     $(function () {
 
-        $("#ReferenceDate1").on("focusin", function (e) {
-            return false; // or e.stopPropagation();
-        }).datepicker({
-            /*showOn: "button",*/
-            autoOpen:false,
-            showButtonPanel: false,
-            dateFormat: 'dd-mm-yyyy',
-            onSelect: function () {
+        var data =@(Html.Raw(jsonModel));
+        var pageWidth = $("#jqueryTbl").parent().width() - 100;
+        var currids = [];
+        $("#jqueryTbl").jqGrid({
+            data: data.JobReceiptDetails,
+            datatype: 'local',
+            colModel: [
+                //{ label: "", name: 'ProcessCode', index: '', width: 40, align: "center", edittype: 'checkbox', formatter: "checkbox", editoptions: { value: "True:False" }, editable: true, formatoptions: { disabled: false } },
+                { label: "Process Name", width: (pageWidth * (22 / 100)), align: "center",  name: "ProcessName"},
+                { label: "Packet Number", width: (pageWidth * (15 / 100)), align: "center", name: "PacketNumber"},
+                { label: "Item Pieces", width: (pageWidth * (15 / 100)), align: "center", name: "ItemPieces"},
+                { label: "Item Carats", width: (pageWidth * (15 / 100)), align: "center", name: "ItemCarats"},
+                { label: "Item Lines", width: (pageWidth * (15 / 100)), align: "center", name: "ItemLines"},
+                { label: "Remarks", width: (pageWidth * (22 / 100)), align: "center", name: "Remarks" },
+                { name: "ProcessCode", hidden: 'false',key:true }
+            ],
+            cmTemplate: { sortable: false },
+            loadonce: true,
+            height: '100%',
+            width: '100%',
+            multiselect: true,
+            onSelectRow: function (a, b, c) {
 
+                if (this.p.selarrrow.length === currids.length) {
+                    $('#cb_' + $.jgrid.jqID(this.p.id), this.grid.hDiv)[this.p.useProp ? 'prop' : 'attr']("checked", true);
+                }
+            },
+            gridComplete: function () {
+                currids = $(this).jqGrid('getDataIDs');
             }
         });
-    });
 
-    $(function () {
+        
+        $(".select-pending-receipt").on("click", function (e) {
+            getSelectedRows();
 
-        $("#receipt ").on('click', '.addRow', function (evt) {
-            evt.stopPropagation();
-            let noclone = false;
 
-            $("#receipt tbody tr").each(function (i, row) {
-                let $actualrow = $(row);
-                $actualrow.find("td").each(function (column, td) {
+            //var myGrid = $('#jqueryTbl'), i, rowData, names = [],
+            //    rowIds = myGrid.jqGrid("getDataIDs"),
+            //    n = rowIds.length;
 
-                    let select = $(td).find("select");
-                    let text = $(td).find("input[type=text]").not('[name*=Remark]');
+            ////console.log(JSON.stringify(rowIds));
+            //for (i = 0; i < n; i++) {
+            //    rowData = myGrid.jqGrid("getLocalRow", rowIds[i]);
+            //    if (rowData.active) {
+            //        names.push(rowData.name);
+            //    }
+            //    console.log('selected row data:'+ JSON.stringify(rowData));
+            //}
 
-                    if (select.length != 0) {
-
-                        $(select).rules("add", { required: true, messages: { required: "" } });
-
-                        if ($(select).val() == 0 || $(select).val() == "") {
-                            $(select).addClass("error");
-                            noclone = true;
-                        } else {
-                            $(select).removeClass("error");
-                        }
-                    }
-                    if (text.length != 0) {
-
-                        $(text).rules("add", { required: true, messages: { required: "" } });
-
-                        if ($(text).val() == "") {
-                            $(text).addClass("error");
-                            noclone = true;
-                        } else {
-                            $(text).removeClass("error");
-                        }
-                    }
-                });
-            });
-
-            if (!noclone) {
-
-                let rowCount = $("#receipt > tbody >tr").length
-                let tr = $("#newone").find("Table").find("tr:last").clone();
-
-                $("#receipt tbody tr").each(function (i, row) {
-                    let $actualrow = $(row);
-                    $actualrow.find("td").each(function (column, td) {
-
-                        if ($(td).find("a.addRow").length !== 0) {
-                            $(td).find("a.addRow").remove();
-                        }
-
-                        if ($(td).hasClass("plsRow")) {
-                            if ($(td).find("a.deleteRow").length === 0)
-                            {
-                              $(td).append($("<a class=\"deleteRow\" href=\"javascript: void (0); \"><i class=\"fa fa-trash\" ></i></a>"));
-                            }
-                        }
-                    });
-                });
-
-                tr.find("input[name*='PacketNumber']").val("1");
-                tr.find("input[name*='ItemPieces']").val("1");
-                tr.find("input[name*='ItemLines']").val("0");
-                tr.find("input[name*='ItemCarats']").val("0");
-                tr.find("select[name*='ProcessCode']").val("");
-                $("#receipt").append(tr);
-
-                resetElementIndex();
-            }
-
-            //$("#receipt tbody tr").each(function (i, row) {
-            //    let $actualrow = $(row);
-            //    i++;
-            //    $actualrow.find("td").each(function (column, td) {
-
-            //        let select = $(td).find("select");
-            //        let text = $(td).find("input[type=text]").not('[name*=Remark]');
-            //        let hidden = $(td).find("input[type=hidden]");
-
-            //        if (hidden.length != 0) {
-            //            $(hidden).val(i);
-            //        }
-            //        if (select.length != 0) {
-            //            $(select).rules("add", { required: true, messages: { required: "" } });
-            //        }
-            //        if (text.length != 0) {
-            //            $(text).rules("add", { required: true, messages: { required: "" } });
-            //        }
-            //    });
-            //});
-
+            //console.log(names);
         });
 
-        $("#receipt").on('click', '.deleteRow', function () {
-            if (1 != $('#receipt >tbody >tr').length) {
-                $(this).parent().parent().remove();
+        function getSelectedRows() {
+
+            var grid = $("#jqueryTbl");
+            var rowKey = grid.getGridParam("selrow");
+            var jobReceiptDetail = [];
+            for (let i = 0; i < data.JobReceiptDetails.length; i++) {
+                jobReceiptDetail.push(data.JobReceiptDetails[i].ProcessCode);
             }
 
+            if (!rowKey) {
+                alert("No rows are selected");
+                return;
+            }
+            else {
+                var selectedIDs = grid.getGridParam("selarrrow");
+                for (var i = 0; i < selectedIDs.length; i++) {
+
+                    jobReceiptDetail.removeByValue(parseInt(selectedIDs[i]));
+                }
+            }
+
+            for (let j = 0; j < jobReceiptDetail.length; j++) {
+                $("#receipt tbody tr").each(function (indx, row) {
+                    if ($(row).hasClass("receipt-" + jobReceiptDetail[j])) {
+                        $(row).remove();
+                    }
+                });
+            }
+
+            $(".jqueryTbl-container").remove();
+            $("#newone").removeClass("newone-css");
+            $(".button-container").removeClass("newone-css");
             resetElementIndex();
-        });
+        }
     });
 
     function resetElementIndex() {
@@ -246,34 +219,36 @@
                 let $ctrl = undefined;
 
                 if ($hidenname !== undefined && $hidenname.indexOf(".ItemSerialNumber") != -1) {
-
                     $(this).find("input,hidden").attr("id", "JobReceiptDetails_" + index + "__ItemSerialNumber");
                     $(this).find("input,hidden").attr("name", "JobReceiptDetails[" + index + "].ItemSerialNumber");
                     $ctrl = $(this).find("input,hidden").attr("name","JobReceiptDetails[" + index + "].ItemSerialNumber");
                     $($ctrl).val(index);
                 }
+
                 if ($selectName !== undefined && $selectName.indexOf(".ProcessCode") != -1) {
                     $(this).find("input,select").attr("id", "JobReceiptDetails_" + index + "__ProcessCode");
                     $(this).find("input,select").attr("name", "JobReceiptDetails[" + index + "].ProcessCode");
                     $ctrl = $(this).find("input,select").attr("name", "JobReceiptDetails[" + index + "].ProcessCode");
-                    
-                    
                 }
+
                 if ($name !== undefined && $name.indexOf(".PacketNumber") != -1) {
                     $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__PacketNumber");
                     $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].PacketNumber");
                     $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].PacketNumber");
                 }
+
                 if ($name !== undefined && $name.indexOf(".ItemPieces") != -1) {
                     $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemPieces");
                     $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemPieces");
                     $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemPieces");
                 }
+
                 if ($name !== undefined && $name.indexOf(".ItemCarats") != -1) {
                     $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemCarats");
                     $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemCarats");
                     $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemCarats");
                 }
+
                 if ($name !== undefined && $name.indexOf(".ItemLines") != -1) {
                     $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemLines");
                     $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemLines");
@@ -295,29 +270,12 @@
             });
             index++;
         });
-
     }
 
     function AjaxFormSuccess(e) {
 
         $('#dialog').dialog('close');
-        location.reload();
     }
-
-    $(document).ready(function () {
-        $(".addRow").keydown(function (event) {
-            if (event.which == 13) {
-                event.preventDefault();
-                $('.addRow').click();
-            }
-        });
-        $(".deleteRow").keydown(function (event) {
-            if (event.which == 13) {
-                event.preventDefault();
-                $('.deleteRow').click();
-            }
-        });
-    });
 
     jQuery(document).ready(function () {
 
@@ -333,9 +291,6 @@
             }
         });
 
-        if (mode === 2) {
-            $("#SerialNumber").rules("remove", "required");
-        }
 
         $("#receipt tbody tr").each(function (i, row) {
 
@@ -358,6 +313,66 @@
     $(document).on("click", ".btn-close-dialog", function (e) {
         $('#dialog').dialog('close');
     })
+
+
+    Array.prototype.removeByValue = function (val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] === val) {
+                this.splice(i, 1);
+                i--;
+            }
+        }
+        return this;
+    }
+
+
+    @*$(document).on("change", "#ddlCustomer123", function (e) {
+
+        let ddlProcess = $("#JobReceiptDetails_0__ProcessCode");
+
+        $.ajax({
+            url: "@Url.Action("GetProcessByCustomerCode", "JobWorkReceipts")",
+            type: "POST",
+            data: { customerCode: this.value },
+            dataType: 'json',
+            success: function (data) {
+                debugger;
+                ddlProcess.html("");
+                ddlProcess.append($('<option></option>').val("").html("Please select"));
+                $.each(data, function (id, option) {
+                    ddlProcess.append($('<option></option>').val(option.ProcessCode).html(option.ProcessName));
+                });
+            }
+        });
+    });*@
+
 </script>
 <style>
+    #JobworkReceiptPop .form-control:read-only {
+        background-color: #e9ecef !important;
+    }
+
+    #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-htable th {
+        height: 40px !important;
+        /* padding: 0 2px 0 2px; */
+    }
+
+    #JobworkReceiptPop .ui-jqgrid tr.jqgrow td {
+        padding:4px !important;
+    }
+    #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-view {
+        font-size: 13px !important;
+    }
+
+    #JobworkReceiptPop .ui-widget input {
+        margin-top:5px !important;
+    }
+
+    #JobworkReceiptPop .ui-widget-content {
+        border: 1px solid #efefef !important;
+    }
+
+    .newone-css{
+        display:none;
+    }
 </style>

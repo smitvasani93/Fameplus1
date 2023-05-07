@@ -245,3 +245,7 @@ ui-icon-triangle-1-n {
    cursor:pointer !important;
    pointer-events:painted !important;
 }
+
+.ui-jqgrid .ui-jqgrid-bdiv {
+    overflow: inherit !important;
+}

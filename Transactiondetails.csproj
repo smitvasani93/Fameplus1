@@ -4034,9 +4034,9 @@
     <Content Include="Views\JobBilling\JobBilling.cshtml" />
     <Content Include="Views\JobBilling\JobworkReceiptDtTable.cshtml" />
     <Content Include="Views\JobBilling\_JobBillingPartial.cshtml" />
-    <Content Include="Views\JobWorkDespatch\JobworkDespatch.cshtml" />
-    <Content Include="Views\JobWorkDespatch\JobworkReceiptDtTable.cshtml" />
-    <Content Include="Views\JobWorkDespatch\_JobworkDespatchPartial.cshtml" />
+    <Content Include="Views\JobWorkDespatchs\JobworkDespatchOld.cshtml" />
+    <Content Include="Views\JobWorkDespatchs\JobworkDespatch.cshtml" />
+    <Content Include="Views\JobWorkDespatchs\_JobworkDespatchPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

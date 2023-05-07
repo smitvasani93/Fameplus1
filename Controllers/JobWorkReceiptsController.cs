@@ -172,31 +172,32 @@ namespace Transactiondetails.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet); ;
         }
 
-        [HttpPost]
-        public JsonResult GetProcessByCustomerCode(string customerCode)
-        {
-            try
-            {
-                var processMasterVM = new List<ProcessMasterVM>()
-                {
-                   new ProcessMasterVM{
-                       ProcessCode=1,
-                       ProcessName="process name 1" },
-                   new ProcessMasterVM{ ProcessCode=2,ProcessName="process name 2" },
-                   new ProcessMasterVM{ ProcessCode=3,ProcessName="process name 3"},
-                   new ProcessMasterVM{ ProcessCode=4,ProcessName="process name 4"}
-                };
+     
+        //[HttpPost]
+        //public JsonResult GetProcessByCustomerCode(string customerCode)
+        //{
+        //    try
+        //    {
+        //        var processMasterVM = new List<ProcessMasterVM>()
+        //        {
+        //           new ProcessMasterVM{
+        //               ProcessCode=1,
+        //               ProcessName="process name 1" },
+        //           new ProcessMasterVM{ ProcessCode=2,ProcessName="process name 2" },
+        //           new ProcessMasterVM{ ProcessCode=3,ProcessName="process name 3"},
+        //           new ProcessMasterVM{ ProcessCode=4,ProcessName="process name 4"}
+        //        };
 
-                return Json(processMasterVM, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
+        //        return Json(processMasterVM, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                string message = ex.Message;
-            }
+        //        string message = ex.Message;
+        //    }
 
-            return Json(new { }, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(new { }, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult JobworkReceiptData([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
         {

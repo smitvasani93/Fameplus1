@@ -42,6 +42,7 @@ namespace Transactiondetails.ViewModels
 
     public class JobReceiptDetailVM
     {
+        public string ProcessName { get; set; }
         public short? PacketNumber { get; set; }
         public double? ItemPieces { get; set; }
         public double? ItemCarats { get; set; }

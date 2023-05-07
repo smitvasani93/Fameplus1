@@ -80,6 +80,93 @@ namespace Transactiondetails.Controllers
 
             return View();
         }
+        public ActionResult GetJobworkReciptBySerialNo(int id)
+        {
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
+
+            try
+            {
+                var userData = (UserData)Session["UserData"];
+
+                var jobReciept = jobReceiptDataLayer.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, id);
+                var process = dbutility.GetProcesses();
+                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var jobReceiptVM = new JobReciptVM();
+
+                jobReceiptVM.AccountCode = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
+                jobReceiptVM.ReferenceDate = jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate;
+                jobReceiptVM.SerialNumber = id;
+
+                jobReceiptVM.JobReceiptDetails = jobReciept.JobRecieptDets.Join(process,
+                   jd => jd.ProcessCode,
+                   prc => prc.ProcessCode,
+                   (jobreciptdet, process1) => new JobReceiptDetailVM
+                   {
+                       ProcessName = process1.ProcessName,
+                       ProcessCode = jobreciptdet.ProcessCode,
+                       ItemCarats = jobreciptdet.ItemCarats,
+                       ItemLines = jobreciptdet.ItemLines,
+                       ItemPieces = jobreciptdet.ItemPieces,
+                       PacketNumber = jobreciptdet.PacketNumber,
+                       ItemSerialNumber = jobreciptdet.ItemSerialNumber,
+                       Remarks = jobreciptdet.Remarks
+                   }).ToList();
+
+                jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
+                {
+                    ProcessCode = sel.ProcessCode,
+                    ProcessName = sel.ProcessName
+                });
+
+                jobReceiptVM.Accounts = accounts.Select(sel => new AccountMasterVM
+                {
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName
+                });
+
+                jobReceiptVM.Mode = Mode.Update;
+
+                return PartialView("_JobworkDespatchPartial", jobReceiptVM);
+            }
+            catch (Exception ex)
+            {
+                var message = new { message = "Exception occured", error = "True" };
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult JobworkDespatch()
+        {
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
+            ViewBag.Menu = "Master";
+            ViewBag.SubMenu = "JobworkDespatch";
+
+            try
+            {
+                var userData = (UserData)Session["UserData"];
+                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var process = dbutility.GetProcesses();
+                var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+                recieptNo++;
+                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+                {
+                    SerialNumber = sel.SerialNumber,
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName,
+                    ReferenceDate = sel.ReferenceDate
+                }).OrderByDescending(x => x.SerialNumber);
+
+                return View(data);
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+
+            return View();
+        }
 
         public ActionResult JobworkReceiptDtTable()
         {
@@ -157,6 +244,79 @@ namespace Transactiondetails.Controllers
 
             return View();
         }
+
+
+        [HttpGet]
+        public JsonResult JobworkDespatchDataTable(string sidx, string sort, int page, int rows, bool _search, string searchField, string searchOper, string searchString, string id)
+        {
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
+            ViewBag.Menu = "Master";
+            ViewBag.SubMenu = "JobworkReceipt";
+
+            try
+            {
+                sort = (sort == null) ? "" : sort;
+                int pageIndex = Convert.ToInt32(page) - 1;
+                int pageSize = rows;
+
+                var userData = (UserData)Session["UserData"];
+                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var process = dbutility.GetProcesses();
+                var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+                recieptNo++;
+                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+                {
+                    SerialNumber = sel.SerialNumber,
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName,
+                    ReferenceDate = sel.ReferenceDate
+                }).OrderByDescending(x => x.SerialNumber).ToList();
+
+                if (_search)
+                {
+                    switch (searchField)
+                    {
+                        case "AccountName":
+                            data = data.Where(x => x.AccountName.Contains(searchString)).ToList();
+                            break;
+                        case "ReferenceDate":
+                            var dt = Convert.ToDateTime(searchString);
+                            data = data.Where(x => x.ReferenceDate == dt).ToList();
+                            break;
+                    }
+                }
+                int totalRecords = data.Count();
+                var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
+                if (sort.ToUpper() == "DESC")
+                {
+                    data = data.OrderByDescending(t => t.SerialNumber).ToList();
+                    data = data.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                }
+                else
+                {
+                    data = data.OrderBy(t => t.SerialNumber).ToList();
+                    data = data.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                }
+
+                var jsonData = new
+                {
+                    total = totalPages,
+                    page,
+                    records = totalRecords,
+                    rows = data
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+
+            return Json(new { }, JsonRequestBehavior.AllowGet); ;
+        }
+
 
         /*
         public ActionResult JobworkReceiptData([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
@@ -237,58 +397,6 @@ namespace Transactiondetails.Controllers
                 };
 
                 jobReceiptVM.Mode = Mode.Add;
-                return PartialView("_JobworkReceiptPartial", jobReceiptVM);
-            }
-            catch (Exception ex)
-            {
-                var message = new { message = "Exception occured", error = "True" };
-                return Json(message, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public ActionResult GetJobworkReciptBySerialNo(int id)
-        {
-            var jobReceiptDataLayer = new JobReceiptDataLayer();
-            var dbutility = new DBUtility();
-
-            try
-            {
-                var userData = (UserData)Session["UserData"];
-
-                var jobReciept = jobReceiptDataLayer.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, id);
-                var process = dbutility.GetProcesses();
-                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
-                var jobReceiptVM = new JobReciptVM();
-
-                jobReceiptVM.AccountCode = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
-                jobReceiptVM.ReferenceDate = jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate;
-                jobReceiptVM.SerialNumber = id;
-
-                jobReceiptVM.JobReceiptDetails = jobReciept.JobRecieptDets.Select(sel => new JobReceiptDetailVM
-                {
-                    ProcessCode = sel.ProcessCode,
-                    ItemCarats = sel.ItemCarats,
-                    ItemLines = sel.ItemLines,
-                    ItemPieces = sel.ItemPieces,
-                    PacketNumber = sel.PacketNumber,
-                    ItemSerialNumber = sel.ItemSerialNumber,
-                    Remarks = sel.Remarks
-                }).ToList();
-
-                jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
-                {
-                    ProcessCode = sel.ProcessCode,
-                    ProcessName = sel.ProcessName
-                });
-
-                jobReceiptVM.Accounts = accounts.Select(sel => new AccountMasterVM
-                {
-                    AccountCode = sel.AccountCode,
-                    AccountName = sel.AccountName
-                });
-
-                jobReceiptVM.Mode = Mode.Update;
-
                 return PartialView("_JobworkReceiptPartial", jobReceiptVM);
             }
             catch (Exception ex)
