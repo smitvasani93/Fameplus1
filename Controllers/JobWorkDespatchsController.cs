@@ -173,7 +173,7 @@ namespace Transactiondetails.Controllers
          
 
         [HttpGet]
-        public JsonResult JobworkDespatchDataTable(string sidx, string sort, int page, int rows, bool _search, string searchField, string searchOper, string searchString, string id)
+        public JsonResult JobworkDespatchDataTable(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString, string id)
         {
             var jobDespatchDataLayer = new JobDespatchDataLayer();
             var dbutility = new DBUtility();
@@ -183,7 +183,7 @@ namespace Transactiondetails.Controllers
 
             try
             {
-                sort = (sort == null) ? "" : sort;
+                sord = (sord == null) ? "" : sord;
                 int pageIndex = Convert.ToInt32(page) - 1;
                 int pageSize = rows;
 
@@ -214,18 +214,63 @@ namespace Transactiondetails.Controllers
                             break;
                     }
                 }
+
+                switch (sidx)
+                {
+                    case "AccountCode":
+                        {
+                            if (sord == "desc")
+                            {
+                                data = data.OrderByDescending(x => x.AccountCode).ToList();
+                            }
+                            else
+                            {
+                                data = data.OrderBy(x => x.AccountCode).ToList();
+                            }
+                        }
+
+                        break;
+                    case "AccountName":
+                        {
+                            if (sord == "desc")
+                            {
+                                data = data.OrderByDescending(x => x.AccountName).ToList();
+                            }
+                            else
+                            {
+                                data = data.OrderBy(x => x.AccountName).ToList();
+                            }
+                        }
+
+                        break;
+                    case "SerialNumber":
+                        {
+                            if (sord == "desc")
+                            {
+                                data = data.OrderByDescending(x => x.SerialNumber).ToList();
+                            }
+                            else
+                            {
+                                data = data.OrderBy(x => x.SerialNumber).ToList();
+                            }
+                        }
+                        break;
+                    case "ReferenceDate":
+                        {
+                            if (sord == "desc")
+                            {
+                                data = data.OrderByDescending(x => x.ReferenceDate).ToList();
+                            }
+                            else
+                            {
+                                data = data.OrderBy(x => x.ReferenceDate).ToList();
+                            }
+                        }
+                        break;
+                }
                 int totalRecords = data.Count();
                 var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-                if (sort.ToUpper() == "" || sort.ToUpper() == "DESC")
-                {
-                    data = data.OrderByDescending(t => t.SerialNumber).ToList();
-                    data = data.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                }
-                else
-                {
-                    data = data.OrderBy(t => t.SerialNumber).ToList();
-                    data = data.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                }
+                
 
                 var jsonData = new
                 {

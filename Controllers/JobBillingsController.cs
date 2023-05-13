@@ -56,81 +56,119 @@ namespace Transactiondetails.Controllers
             return View();
         }
 
-        public ActionResult JobworkReceiptDtTable()
+        public ActionResult JobworkBillingDataTable(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString, string id)
         {
-            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var jobBillingDataLayer = new JobBillingDataLayer();
             var dbutility = new DBUtility();
             ViewBag.Menu = "Master";
-            ViewBag.SubMenu = "JobworkReceipt";
-
+            ViewBag.SubMenu = "JobBilling";
+            var accountDataLayer = new AccountDataLayer();
             try
             {
+                sord = (sord == null) ? "" : sord;
+                int pageIndex = Convert.ToInt32(page) - 1;
+                int pageSize = rows;
+
                 var userData = (UserData)Session["UserData"];
-                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
-                //var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
-                var process = dbutility.GetProcesses();
-                var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+                var jobBills = jobBillingDataLayer.GetJobBilling(userData.Company, userData.Company, userData.FYear);
+                //var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                //var process = dbutility.GetProcesses();
+                var recieptNo = jobBills.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
-                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+                var data = jobBills.Select(sel => new JobReciptVM
                 {
                     SerialNumber = sel.SerialNumber,
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName,
                     ReferenceDate = sel.ReferenceDate
-                }).OrderByDescending(x => x.SerialNumber);
+                }).OrderByDescending(x => x.SerialNumber).ToList();
 
-                return View("~/Views/JobWorkReceipts/JobworkReceiptDtTable.cshtml", data);
+                if (_search)
+                {
+                    switch (searchField)
+                    {
+                        case "AccountName":
+                            data = data.Where(x => x.AccountName.Contains(searchString)).ToList();
+                            break;
+                        case "ReferenceDate":
+                            var dt = Convert.ToDateTime(searchString);
+                            data = data.Where(x => x.ReferenceDate == dt).ToList();
+                            break;
+                    }
+                }
+
+                switch (sidx)
+                {
+                    case "AccountCode":
+                        {
+                            if (sord == "desc")
+                            {
+                                data = data.OrderByDescending(x => x.AccountCode).ToList();
+                            }
+                            else
+                            {
+                                data = data.OrderBy(x => x.AccountCode).ToList();
+                            }
+                        }
+
+                        break;
+                    case "AccountName":
+                        {
+                            if (sord == "desc")
+                            {
+                                data = data.OrderByDescending(x => x.AccountName).ToList();
+                            }
+                            else
+                            {
+                                data = data.OrderBy(x => x.AccountName).ToList();
+                            }
+                        }
+
+                        break;
+                    case "SerialNumber":
+                        {
+                            if (sord == "desc")
+                            {
+                                data = data.OrderByDescending(x => x.SerialNumber).ToList();
+                            }
+                            else
+                            {
+                                data = data.OrderBy(x => x.SerialNumber).ToList();
+                            }
+                        }
+                        break;
+                    case "ReferenceDate":
+                        {
+                            if (sord == "desc")
+                            {
+                                data = data.OrderByDescending(x => x.ReferenceDate).ToList();
+                            }
+                            else
+                            {
+                                data = data.OrderBy(x => x.ReferenceDate).ToList();
+                            }
+                        }
+                        break;
+                }
+                int totalRecords = data.Count();
+                var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
+
+
+                var jsonData = new
+                {
+                    total = totalPages,
+                    page,
+                    records = totalRecords,
+                    rows = data
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 string message = ex.Message;
             }
 
-            return View();
-        }
-
-        public ActionResult JobworkReceiptDataTable()
-        {
-            var jobReceiptDataLayer = new JobReceiptDataLayer();
-            var dbutility = new DBUtility();
-            ViewBag.Menu = "Master";
-            ViewBag.SubMenu = "JobworkReceipt";
-
-            try
-            {
-
-                var draw = Request.Form.GetValues("draw").FirstOrDefault();
-                var start = Request.Form.GetValues("start").FirstOrDefault();
-                var length = Request.Form.GetValues("length").FirstOrDefault();
-                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-                var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
-
-
-                var userData = (UserData)Session["UserData"];
-                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
-                //var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
-                var process = dbutility.GetProcesses();
-                var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
-                recieptNo++;
-                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
-                {
-                    SerialNumber = sel.SerialNumber,
-                    AccountCode = sel.AccountCode,
-                    AccountName = sel.AccountName,
-                    ReferenceDate = sel.ReferenceDate
-                }).OrderByDescending(x => x.SerialNumber);
-
-
-                return Json(new { draw = draw, recordsFiltered = data.Count(), recordsTotal = data.Count(), data = data },JsonRequestBehavior.AllowGet);
-
-            }
-            catch (Exception ex)
-            {
-                string message = ex.Message;
-            }
-
-            return View();
+            return Json(new { }, JsonRequestBehavior.AllowGet); ;
         }
 
         public ActionResult JobworkBilling()
