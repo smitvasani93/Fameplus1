@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using Transactiondetails.DBModels;
 
 namespace Transactiondetails.Models.Utility
 {
@@ -21,6 +22,36 @@ namespace Transactiondetails.Models.Utility
 
             return pendingJobReciepts;
         }
+
+        public List<JobDespatchMaster> GetJobDespatch(string companyCode, string branchCode, string FYear)
+        {
+            var jobDespatchMasters = new List<JobDespatchMaster>();
+            using (CompanyDBContext db = new CompanyDBContext(companyCode))
+            {
+                //Call Stored Procedure to get the JobReciepts
+                var pFYear = new SqlParameter("@FinancialYearCode", FYear);
+                var pBranch = new SqlParameter("@BranchCode", branchCode);
+
+                jobDespatchMasters = db.Database.SqlQuery<JobDespatchMaster>("exec spGetJobDespatch @FinancialYearCode, @BranchCode", pFYear, pBranch).ToList();
+            }
+
+            return jobDespatchMasters;
+        }
+
+
+        public JobRecieptData GetJobDesptachBySerialNo(string companyCode, string FYear, int serialNo)
+        {
+            var JobRecieptData = new JobRecieptData();
+            using (CompanyDBContext db = new CompanyDBContext(companyCode))
+            {
+                //Call Stored Procedure to get the JobReciepts
+                var pSNumber = new SqlParameter("@SerialNumber", serialNo);
+                JobRecieptData.JobRecieptDets = db.Database.SqlQuery<JobRecieptDetail>("exec SpGetJobDesptachBySerialNumber @SerialNumber", pSNumber).ToList();
+            }
+
+            return JobRecieptData;
+        }
+
 
         public DatabaseResponse SaveJobDespatch(JobDespatch jobDespatch, string companyCode, string fYear)
         {

@@ -23,23 +23,7 @@ namespace Transactiondetails.Models.Utility
             return JobRecieptData;
         }
 
-        public List<AccountMaster> GetAccounts(string companyCode, string branchCode, string FYear)
-        {
-            var accountMasterList = new List<AccountMaster>();
-            //if Data Exists in session
-            if (HttpContext.Current.Session["Accounts"] != null)
-            {
-                return  (List<AccountMaster>)HttpContext.Current.Session["Accounts"];
-            }
-            using (CompanyDBContext db = new CompanyDBContext(companyCode))
-            {
-                accountMasterList = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
-
-                HttpContext.Current.Session["Accounts"] = accountMasterList;
-            }
-
-            return accountMasterList;
-        }
+        
 
 
         public JobRecieptData GetJobRecieptBySerialNumber(string companyCode, string FYear, int serialNo)

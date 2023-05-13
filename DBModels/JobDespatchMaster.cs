@@ -16,8 +16,7 @@ namespace Transactiondetails.DBModels
         public int ModiUserCode { get; set; }
         public DateTime ModiDate { get; set; }
         public string ReferenceNumber { get; set; }
-
-        //public string AccountName { get; set; }
-        //public int MaxSerialNumber { get; set; }
+        public int MaxSerialNumber { get; set; }
+        public string AccountName { get; set; }
     }
 }

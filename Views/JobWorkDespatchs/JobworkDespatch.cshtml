@@ -1,19 +1,19 @@
 ﻿
 @using System.Collections.Generic;
 @{
-    ViewBag.Title = "JobworkReceipt";
+    ViewBag.Title = "JobworkDespatch";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @using Transactiondetails.ViewModels
-@model IEnumerable<JobReciptVM>
+@model IEnumerable<JobDespatchViewModel>
 
 <section class="section dashboard mt-2">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title"> Jobwork Despatch</h4>
+                    <h4 class="card-title">Jobwork Despatch</h4>
                     <div class="row g-3">
                         <div class="col-10 search-bar">
                             <!--<ul class="nav nav-pills card-header-pills">
@@ -82,7 +82,7 @@
                 position: { my: "top", at: "top", of: "header"},
                 //position: ['center', 20],
                 open: function (event, ui) {
-                  $(this).load("@Url.Action("GetJobworkReciptBySerialNo", "JobWorkDespatchs")", { id: id });
+                  $(this).load("@Url.Action("GetJobDesptachBySerialNo", "JobWorkDespatchs")", { id: id });
                 },
                 close: function (event, ui) {
                     $('#ReferenceDate1').datepicker('destroy');
@@ -121,7 +121,7 @@
                 height: '100%',
                 pager: jQuery('#gqgridpager'),
                 viewrecords: true,
-                emptyrecords: 'No Students Records are Available to Display',
+                emptyrecords: 'No records are Available to Display',
                 jsonReader: {
                     root: "rows",
                     page: "page",

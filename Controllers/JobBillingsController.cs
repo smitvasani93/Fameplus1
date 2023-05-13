@@ -34,8 +34,8 @@ namespace Transactiondetails.Controllers
             {
                 var userData = (UserData)Session["UserData"];
                 var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
-                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
-                var process = dbutility.GetProcesses();
+                //var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                //var process = dbutility.GetProcesses();
                 var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
                 var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
@@ -67,7 +67,7 @@ namespace Transactiondetails.Controllers
             {
                 var userData = (UserData)Session["UserData"];
                 var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
-                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                //var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
@@ -109,7 +109,7 @@ namespace Transactiondetails.Controllers
 
                 var userData = (UserData)Session["UserData"];
                 var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
-                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                //var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
@@ -174,10 +174,12 @@ namespace Transactiondetails.Controllers
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
             var dbutility = new DBUtility();
+            var accountDataLayer = new AccountDataLayer();
+
             try
             {
                 var userData = (UserData)Session["UserData"];
-                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
                 var process = dbutility.GetProcesses();
                 var jobReciept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
                 var recieptNo = jobReciept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
@@ -225,6 +227,7 @@ namespace Transactiondetails.Controllers
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
             var dbutility = new DBUtility();
+            var accountDataLayer = new AccountDataLayer();
 
             try
             {
@@ -232,7 +235,7 @@ namespace Transactiondetails.Controllers
 
                 var jobReciept = jobReceiptDataLayer.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, id);
                 var process = dbutility.GetProcesses();
-                var accounts = jobReceiptDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
                 var jobReceiptVM = new JobReciptVM();
 
                 jobReceiptVM.AccountCode = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;

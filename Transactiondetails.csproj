@@ -3984,6 +3984,7 @@
     </Compile>
     <Compile Include="Helpers\GridMvcHelper.cs" />
     <Compile Include="Helpers\IGridMvcHelper.cs" />
+    <Compile Include="Models\AccountDataLayer.cs" />
     <Compile Include="Models\JobReceipt.cs" />
     <Compile Include="Models\LoginStatus.cs" />
     <Compile Include="Models\Utility\CompanyDBContext.cs" />
@@ -3993,6 +3994,7 @@
     <Compile Include="Models\Utility\JobReceiptDataLayer.cs" />
     <Compile Include="Models\Utility\XmlUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\JobDespatchViewModel.cs" />
     <Compile Include="ViewModels\JobReciptViewModel.cs" />
     <Compile Include="ViewModels\CompanyViewModel.cs" />
     <Compile Include="ViewModels\UserData.cs" />
