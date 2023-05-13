@@ -71,35 +71,35 @@ namespace Transactiondetails.Controllers
 
         public ActionResult JobworkReceiptDtTable()
         {
-            var jobReceiptDataLayer = new JobReceiptDataLayer();
-            var dbutility = new DBUtility();
+            //var jobReceiptDataLayer = new JobReceiptDataLayer();
+            //var dbutility = new DBUtility();
             ViewBag.Menu = "Master";
             ViewBag.SubMenu = "JobworkReceipt";
-            var accountDataLayer = new AccountDataLayer();
-            try
-            {
-                var userData = (UserData)Session["UserData"];
-                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
-                var process = dbutility.GetProcesses();
-                var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
-                recieptNo++;
-                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
-                {
-                    SerialNumber = sel.SerialNumber,
-                    AccountCode = sel.AccountCode,
-                    AccountName = sel.AccountName,
-                    ReferenceDate = sel.ReferenceDate
-                }).OrderByDescending(x => x.SerialNumber);
+            //var accountDataLayer = new AccountDataLayer();
+            //try
+            //{
+            //    var userData = (UserData)Session["UserData"];
+            //    var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+            //    var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+            //    var process = dbutility.GetProcesses();
+            //    var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+            //    recieptNo++;
+            //    var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+            //    {
+            //        SerialNumber = sel.SerialNumber,
+            //        AccountCode = sel.AccountCode,
+            //        AccountName = sel.AccountName,
+            //        ReferenceDate = sel.ReferenceDate
+            //    }).OrderByDescending(x => x.SerialNumber);
 
-                return View("~/Views/JobWorkReceipts/JobworkReceiptDtTable.cshtml", data);
-            }
-            catch (Exception ex)
-            {
-                string message = ex.Message;
-            }
+            //    return View("~/Views/JobWorkReceipts/JobworkReceiptDtTable.cshtml", data);
+            //}
+            //catch (Exception ex)
+            //{
+            //    string message = ex.Message;
+            //}
 
-            return View();
+            return View(new List<JobReciptVM>());
         }
 
         [HttpGet]
@@ -146,7 +146,7 @@ namespace Transactiondetails.Controllers
                 }
                 int totalRecords = data.Count();
                 var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-                if (sort.ToUpper() == "DESC")
+                if (sort.ToUpper() == "" || sort.ToUpper() == "DESC")
                 {
                     data = data.OrderByDescending(t => t.SerialNumber).ToList();
                     data = data.Skip(pageIndex * pageSize).Take(pageSize).ToList();

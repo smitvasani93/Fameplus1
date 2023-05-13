@@ -148,12 +148,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="~/JobworkDespatchs/JobworkDespatch"  class=@(activeSubMenu=="JobworkDespatch"?"active":string.Empty)>
+                        <a href="~/JobworkDespatchs/JobworkDespatch" class=@(activeSubMenu=="JobworkDespatch"?"active":string.Empty)>
                             <i class="bi bi-circle"></i><span>Job Despatch</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="#">
+                        <a href="~/JobBillings/JobworkBilling" class=@(activeSubMenu=="JobBilling"?"active":string.Empty)>
                             <i class="bi bi-circle"></i><span>Job Billing</span>
                         </a>
                     </li>
@@ -272,7 +273,7 @@
     <script src="@Url.Content("~/Scripts/sweetalert2/sweetalert2.all.min.js")"></script>
 
     @Scripts.Render("~/bundles/jq/jqueryval")
-    @Scripts.Render("~/bundles/bootstrap")
+    @*@Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
     @RenderSection("jQgridScripts", required: false)
     <script type="text/javascript">

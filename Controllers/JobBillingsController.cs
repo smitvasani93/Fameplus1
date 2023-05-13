@@ -133,6 +133,40 @@ namespace Transactiondetails.Controllers
             return View();
         }
 
+        public ActionResult JobworkBilling()
+        {
+            //var jobDespatchDataLayer = new JobDespatchDataLayer();
+            //var dbutility = new DBUtility();
+            ViewBag.Menu = "Master";
+            ViewBag.SubMenu = "JobworkBilling";
+            //var accountDataLayer = new AccountDataLayer();
+            //try
+            //{
+            //    var userData = (UserData)Session["UserData"];
+            //    var jobDespatchs = jobDespatchDataLayer.GetJobDespatch(userData.Company, userData.Company, userData.FYear);
+            //    //var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+            //    //var process = dbutility.GetProcesses();
+            //    //var recieptNo = jobDespatchs.FirstOrDefault().MaxSerialNumber;
+            //    //recieptNo++;
+            //    var data = jobDespatchs.Select(sel => new JobDespatchViewModel
+            //    {
+            //        SerialNumber = sel.SerialNumber,
+            //        AccountCode = sel.AccountCode,
+            //        AccountName = sel.AccountName,
+            //        ReferenceDate = sel.ReferenceDate
+            //    }).OrderByDescending(x => x.SerialNumber);
+
+            //    return View(data);
+            //}
+            //catch (Exception ex)
+            //{
+            //    string message = ex.Message;
+            //}s
+
+            return View(new List<JobReciptVM>());
+        }
+
+
         /*
         public ActionResult JobworkReceiptData([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
         {

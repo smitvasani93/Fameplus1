@@ -4033,9 +4033,9 @@
     <Content Include="Views\Shared\_AjaxGridPager.cshtml" />
     <Content Include="Views\JobWorkReceipts\_JobworkReceiptPartial.cshtml" />
     <Content Include="Views\JobWorkReceipts\JobworkReceiptDtTable.cshtml" />
-    <Content Include="Views\JobBilling\JobBilling.cshtml" />
-    <Content Include="Views\JobBilling\JobworkReceiptDtTable.cshtml" />
-    <Content Include="Views\JobBilling\_JobBillingPartial.cshtml" />
+    <Content Include="Views\JobBillings\JobworkBilling.cshtml" />
+    <Content Include="Views\JobBillings\JobworkReceiptDtTable.cshtml" />
+    <Content Include="Views\JobBillings\_JobBillingPartial.cshtml" />
     <Content Include="Views\JobWorkDespatchs\JobworkDespatchOld.cshtml" />
     <Content Include="Views\JobWorkDespatchs\JobworkDespatch.cshtml" />
     <Content Include="Views\JobWorkDespatchs\_JobworkDespatchPartial.cshtml" />
