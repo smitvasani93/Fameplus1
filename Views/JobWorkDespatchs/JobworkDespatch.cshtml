@@ -16,29 +16,29 @@
                     <h4 class="card-title">Jobwork Despatch</h4>
                     <div class="row g-3">
                         <div class="col-10 search-bar">
-                            <!--<ul class="nav nav-pills card-header-pills">
-                                <li class="nav-item ps-lg-2">-->
-                                    @*<label for="inputEmail3" class="col-form-label">Account Name</label>*@
-                                <!--</li>
-                                <li class="nav-item ps-lg-2">-->
-                                    @*@Html.TextBox("AccountName", null, new { @class = "form-control" })*@
-                                <!--</li>
-                                <li class="nav-item ps-lg-2">-->
-                                    @*<label for="inputEmail3" class="col-form-label">Receipt Date</label>*@
-                                <!--</li>
-                                <li class="nav-item ps-lg-2">-->
-                                    @*@Html.TextBox("ReferenceDate", null, new { @id = "ReferenceDateSearch", @class = "form-control" })*@
-                                <!--</li>
-                                <li class="nav-item ps-lg-2">-->
-                                    @*<button id="btnSearch" class="btn btn-secondary btn-sm">Search</button>*@
-                                <!--</li>
-                                <li class="nav-item ps-lg-2">-->
+                            <ul class="nav nav-pills card-header-pills">
+                                <li class="nav-item ps-lg-2">
+                                    <label for="inputEmail3" class="col-form-label">Account Name</label>
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    @Html.TextBox("AccountName", null, new { @class = "form-control" })
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    <label for="inputEmail3" class="col-form-label">Receipt Date</label>
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    @Html.TextBox("ReferenceDate", null, new { @id = "ReferenceDateSearch", @class = "form-control" })
+                                </li>
+                                <li class="nav-item ps-lg-2">
+                                    <button id="btnSearch" class="btn btn-secondary btn-sm">Search</button>
+                                </li>
+                                <li class="nav-item ps-lg-2">
                                     @*<button id="btnPrint" class="btn btn-secondary btn-sm">Print</button>*@
-                                <!--</li>
-                            </ul>-->
+                                </li>
+                            </ul>
                         </div>
                         <div class="col-2 text-sm-end">
-                            @*<button id="btnAddNew" class="btn btn-secondary">Add New</button>*@
+                            <button id="btnAddNew" class="btn btn-secondary">Add New</button>
                         </div>
                     </div>
                 </div>
@@ -63,12 +63,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script>
         var id = 0;
-        //$(document).on('click', '#btnAddNew', function () {
-        //    id = 0;
-        //    $('#dialog')
-        //        .dialog({ title: 'Add Jobwork Receipt' })
-        //        .dialog('open');
-        //});
+        $(document).on('click', '#btnAddNew', function () {
+            id = 0;
+            $('#dialog')
+                .dialog({ title: 'Add Jobwork Receipt' })
+                .dialog('open');
+        });
+
+        $('#btnSearch').on('click', function () {
+
+            var postData = $("#jqgridtbl").jqGrid('getGridParam', 'postData');
+            postData.filters = '{"groupOp":"AND","rules":[{"field":"AccountName","op":"cn","data":"' + $("#AccountName").val() + '"},{"field":"ReferenceDate","op":"eq","data":"' + $("#ReferenceDateSearch").val() + '"}]}';
+            $("#jqgridtbl").jqGrid('setGridParam', { postData: postData, search: true }).trigger("reloadGrid");
+        });
+
+        $(function () {
+
+            $("#ReferenceDateSearch").on("focusin", function (e) {
+                return false; // or e.stopPropagation();
+            }).datepicker({
+                /*showOn: "button",*/
+                autoOpen: false,
+                showButtonPanel: false,
+                dateFormat: 'dd-mm-yy',
+                onSelect: function () {
+
+                }
+            });
+        });
 
          $(function () {
 
@@ -82,7 +104,13 @@
                 position: { my: "top", at: "top", of: "header"},
                 //position: ['center', 20],
                 open: function (event, ui) {
+
+                    if (id === 0) {
+                        $(this).load("@Url.Action("GetJobworkDespatch")");
+                    } else {
                   $(this).load("@Url.Action("GetJobDesptachBySerialNo", "JobWorkDespatchs")", { id: id });
+                    }
+
                 },
                 close: function (event, ui) {
                     $('#ReferenceDate1').datepicker('destroy');
@@ -152,16 +180,18 @@
 
     </script>
 }
-<script type="text/javascript">
-
-
-</script>
 
 <style type="text/css">
 
     .ui-jqgrid .ui-jqgrid-pager {
         padding-top: 5px !important;
     }
+       .search-bar .form-control {
+        padding: .200rem .50rem !important;
+    }
 
-    
+    .search-bar .col-form-label {
+        padding-top: calc(.175rem + 1px) !important;
+    }
+
 </style>

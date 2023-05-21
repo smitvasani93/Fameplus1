@@ -107,8 +107,7 @@ namespace Transactiondetails.Controllers
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
             var dbutility = new DBUtility();
-            ViewBag.Menu = "Master";
-            ViewBag.SubMenu = "JobworkReceipt";
+            
             var accountDataLayer = new AccountDataLayer();
 
             try

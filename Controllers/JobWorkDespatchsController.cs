@@ -1,8 +1,10 @@
 ﻿using GridMVCAjaxDemo.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Transactiondetails.CustomFilter;
 using Transactiondetails.DBModels;
 using Transactiondetails.Models;
@@ -23,31 +25,36 @@ namespace Transactiondetails.Controllers
             this.gridMvcHelper = new GridMvcHelper();
         }
 
-        public ActionResult GetPendingJobworkReceipt()
+        public ActionResult GetPendingJobworkReceipt(string accountcode)
         {
-            string accountcode = "A0000101";
+            //string accountcode = "A0000101";
             var userData = (UserData)Session["UserData"];
 
             var jobDespatchDataLayer = new JobDespatchDataLayer();
-            jobDespatchDataLayer.GetPendingJobReciept(accountcode, userData.Company, userData.Branch, userData.FYear);
+            var accountDataLayer = new AccountDataLayer();
+            var account = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear).FirstOrDefault(x => x.AccountCode == accountcode);
 
-            var jobDespatchDetails = new List<JobDespatchDetail>();
-            jobDespatchDetails.Add(new JobDespatchDetail { BillingQuantity = 1, BillingRate = 1 });
+            var pendingJobReciepts = jobDespatchDataLayer.GetPendingJobReciept(accountcode, userData.Company, userData.Branch, userData.FYear)
+                                     .Select(x => new JobDespatchDetailViewModel
+                                     {
+                                         SerialNumber = x.SerialNumber,
+                                         CustomrName = account.AccountName,
+                                         ItemSerialNumber = x.ItemSerialNumber,
+                                         ReferenceDate = x.ReferenceDate,
+                                         ProcessName = x.ProcessName,
+                                         ProcessCode = x.ProcessCode,
+                                         PacketNumber = x.PacketNumber,
+                                         Bal_ItemCarats = x.Bal_ItemCarats,
+                                         Bal_ItemPieces = x.Bal_ItemPieces,
+                                         BillingType = x.BillingType,
+                                         ItemCarats = x.ItemCarats,
+                                         ItemLines = x.ItemLines,
+                                         ItemPieces = x.ItemPieces
+                                     });
 
-            var jobDespatch = new JobDespatch();
-            jobDespatch.JobDespatchMaster = new JobDespatchMaster
-            {
-                AccountCode = accountcode,
-                BranchCode = userData.Branch,
-            };
-            jobDespatch.JobDespatchDetails = jobDespatchDetails;
-
-            jobDespatchDataLayer.SaveJobDespatch(jobDespatch, userData.Company, userData.FYear);
-
-            return View();
-
+            return Json(pendingJobReciepts, JsonRequestBehavior.AllowGet);
         }
- 
+
         public ActionResult GetJobDesptachBySerialNo(int id)
         {
             var jobDespatchDataLayer = new JobDespatchDataLayer();
@@ -106,10 +113,13 @@ namespace Transactiondetails.Controllers
         }
         public ActionResult JobworkDespatch()
         {
-            //var jobDespatchDataLayer = new JobDespatchDataLayer();
-            //var dbutility = new DBUtility();
             ViewBag.Menu = "Master";
             ViewBag.SubMenu = "JobworkDespatch";
+
+            //var jobDespatchDataLayer = new JobDespatchDataLayer();
+            //var dbutility = new DBUtility();
+            //ViewBag.Menu = "Master";
+            //ViewBag.SubMenu = "JobworkDespatch";
             //var accountDataLayer = new AccountDataLayer();
             //try
             //{
@@ -132,17 +142,16 @@ namespace Transactiondetails.Controllers
             //catch (Exception ex)
             //{
             //    string message = ex.Message;
-            //}s
+            //}
 
-            return View(new List<JobDespatchViewModel>());
+            return View(Enumerable.Empty<JobDespatchViewModel>());
         }
 
         public ActionResult JobworkReceiptDtTable()
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
             var dbutility = new DBUtility();
-            ViewBag.Menu = "Master";
-            ViewBag.SubMenu = "JobworkReceipt";
+
             var accountDataLayer = new AccountDataLayer();
 
             try
@@ -170,15 +179,13 @@ namespace Transactiondetails.Controllers
 
             return View();
         }
-         
+
 
         [HttpGet]
-        public JsonResult JobworkDespatchDataTable(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString, string id)
+        public JsonResult JobworkDespatchDataTable(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString, string filters, string id)
         {
             var jobDespatchDataLayer = new JobDespatchDataLayer();
             var dbutility = new DBUtility();
-            ViewBag.Menu = "Master";
-            ViewBag.SubMenu = "JobworkDespatch";
             var accountDataLayer = new AccountDataLayer();
 
             try
@@ -188,8 +195,8 @@ namespace Transactiondetails.Controllers
                 int pageSize = rows;
 
                 var userData = (UserData)Session["UserData"];
-                var jobDespatchs = jobDespatchDataLayer.GetJobDespatch(userData.Company, userData.Company, userData.FYear);
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var jobDespatchs = jobDespatchDataLayer.GetJobDespatch(userData.Company, userData.Branch, userData.FYear);
+                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Branch, userData.FYear);
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobDespatchs.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
@@ -203,18 +210,47 @@ namespace Transactiondetails.Controllers
 
                 if (_search)
                 {
-                    switch (searchField)
-                    {
-                        case "AccountName":
-                            data = data.Where(x => x.AccountName.Contains(searchString)).ToList();
-                            break;
-                        case "ReferenceDate":
-                            var dt = Convert.ToDateTime(searchString);
-                            data = data.Where(x => x.ReferenceDate == dt).ToList();
-                            break;
-                    }
-                }
 
+                    var serializer = new JavaScriptSerializer();
+
+                    Filters f = (!_search || string.IsNullOrEmpty(filters)) ? null : serializer.Deserialize<Filters>(filters);
+                    //ObjectQuery<Question> filteredQuery =
+                    //    (f == null ? context.Questions : f.FilterObjectSet(data));
+                    //filteredQuery.MergeOption = MergeOption.NoTracking; // we don't want to update the data
+                    //var totalRecords = filteredQuery.Count();
+
+                    var jobRecs = f.rules
+                        .Select(x => new JobReciptVM {
+                            AccountName = x.field == "AccountName" ? x.data : string.Empty,
+                            ReferenceDate = x.field == "ReferenceDate" ? Convert.ToDateTime(x.data) : (DateTime?)null 
+                        });
+
+                    foreach (var jr in jobRecs)
+                    {
+                        if (!string.IsNullOrEmpty(jr.AccountName))
+                        {
+                            data = data.Where(x => x.AccountName.ToLower().Contains(jr.AccountName.ToLower())).ToList();
+                        }
+
+                        if (jr.ReferenceDate.HasValue)
+                        {
+                            data = data.Where(x => x.ReferenceDate == jr.ReferenceDate).ToList();
+                        }
+                    }
+
+
+                    //switch (searchField)
+                    //{
+                    //    case "AccountName":
+                    //        data = data.Where(x => x.AccountName.Contains(searchString)).ToList();
+                    //        break;
+                    //    case "ReferenceDate":
+                    //        var dt = Convert.ToDateTime(searchString);
+                    //        data = data.Where(x => x.ReferenceDate == dt).ToList();
+                    //        break;
+                    //}
+                }
+                /*
                 switch (sidx)
                 {
                     case "AccountCode":
@@ -268,9 +304,11 @@ namespace Transactiondetails.Controllers
                         }
                         break;
                 }
+                */
                 int totalRecords = data.Count();
                 var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-                
+
+                data = data.Skip(pageIndex * pageSize).Take(pageSize).ToList();
 
                 var jsonData = new
                 {
@@ -288,7 +326,7 @@ namespace Transactiondetails.Controllers
 
             return Json(new { }, JsonRequestBehavior.AllowGet); ;
         }
-           
+
         public JsonResult SaveJobworkReceipt(JobReciptVM model)
         {
             var dbutility = new JobReceiptDataLayer();
@@ -355,60 +393,51 @@ namespace Transactiondetails.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult GetFilterJobworkRecipt(JobReciptVM model)
+        public ActionResult GetJobworkDespatch()
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
             var dbutility = new DBUtility();
+            var accountDataLayer = new AccountDataLayer();
+
             try
             {
                 var userData = (UserData)Session["UserData"];
-                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var process = dbutility.GetProcesses();
+                var jobReciept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var recieptNo = jobReciept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+                recieptNo++;
 
-                var list = Enumerable.Empty<JobReciptVM>();
+                var jobReceiptVM = new JobReciptVM();
 
-                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
+                jobReceiptVM.SerialNumber = recieptNo;
+                jobReceiptVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
+
+                jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
                 {
-                    SerialNumber = sel.SerialNumber,
+                    ProcessCode = sel.ProcessCode,
+                    ProcessName = sel.ProcessName
+                });
+
+                jobReceiptVM.Accounts = accounts.Select(sel => new AccountMasterVM
+                {
                     AccountCode = sel.AccountCode,
-                    AccountName = sel.AccountName,
-                    ReferenceDate = sel.ReferenceDate
-                }).OrderByDescending(x => x.SerialNumber);
+                    AccountName = sel.AccountName
+                });
 
-                if (!string.IsNullOrEmpty(model.AccountName) &&
-                    model.ReferenceDate.HasValue)
+                jobReceiptVM.JobReceiptDetails = new List<JobReceiptDetailVM>
                 {
-                    list = data.Where(x => x.AccountName.Contains(model.AccountName) && x.ReferenceDate == x.ReferenceDate);
-                }
-                else if (!string.IsNullOrEmpty(model.AccountName) &&
-                        !model.ReferenceDate.HasValue)
-                {
-                    list = data.Where(x => x.AccountName.Contains(model.AccountName));
-                }
-                else if (string.IsNullOrEmpty(model.AccountName) &&
-                        model.ReferenceDate.HasValue)
-                {
-                    list = data.Where(x => x.ReferenceDate == x.ReferenceDate);
-                }
+                    new JobReceiptDetailVM{
+                         ItemSerialNumber=1,
+                         ItemLines=0,
+                         PacketNumber=1,
+                         ItemPieces=1,
+                         ItemCarats=0
+                    }
+                };
 
-                var lst = list.ToList();
-
-                string strTable = "";
-                strTable = strTable + "<table class=\"table table-striped table-bordered\"><thead><tr class=\"gridHead\"><th>Account Code</th><th>Account Name</th>";
-                strTable = strTable + "<th>Serial Number</th><th>Reference Date</th></tr></thead><tbody>";
-
-                foreach (var item in lst)
-                {
-                    strTable = strTable + "<tr>";
-                    strTable = strTable + "<td>" + item.AccountCode + "</td>";
-                    strTable = strTable + "<td>" + item.AccountName + "</td>";
-                    strTable = strTable + "<td>" + item.SerialNumber + "</td>";
-                    strTable = strTable + "<td>" + item.ReferenceDate + "</td>";
-                    strTable = strTable + "</tr>";
-                }
-                strTable = strTable + "</tbody></table>";
-
-                return Json(strTable, JsonRequestBehavior.AllowGet);
+                jobReceiptVM.Mode = Mode.Add;
+                return PartialView("_JobworkDespatchPartial", jobReceiptVM);
             }
             catch (Exception ex)
             {

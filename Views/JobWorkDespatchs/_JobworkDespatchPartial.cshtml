@@ -37,8 +37,8 @@
             <div class="row">
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Customer Name</label>
                 <div class="col-sm-5">
-                    @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @class = "form-select", @disabled = true })
-                    @Html.HiddenFor(model=>model.AccountCode)
+                    @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @class = "form-select"})
+                    @*@Html.HiddenFor(model=>model.AccountCode)*@
                 </div>
             </div>
         </div>
@@ -47,6 +47,7 @@
                 <table id="receipt" class="table table-bordered">
                     <thead>
                         <tr>
+                            <th style="width:400px;">Process</th>
                             <th style="width:400px;">Process</th>
                             <th>Packet No</th>
                             <th>Pieces</th>
@@ -58,40 +59,42 @@
                     </thead>
                     @for (var i = 0; i < Model.JobReceiptDetails.Count(); i++)
                     {
-                        <tr class="receipt-@Model.JobReceiptDetails[i].ProcessCode">
-                            <td>
-                                @Html.DropDownListFor(model => Model.JobReceiptDetails[i].ProcessCode, new SelectList(Model.Processes, "ProcessCode", "ProcessName", Model.JobReceiptDetails[i].ProcessCode), "Please select", new { @class = "form-select", @required = true, @disabled=true })
-                                @Html.HiddenFor(model=> Model.JobReceiptDetails[i].ProcessCode)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].PacketNumber, new { @required = true, @class = "form-control numberonly" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control allow_decimal" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control allow_decimal" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemLines, new { @required = true, @class = "form-control allow_decimal" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @class = "form-control" })
-                            </td>
-                            <td class="plsRow">
-                                
-                            </td>
-                            <td style="display:none">
-                                @Html.HiddenFor(model => Model.JobReceiptDetails[i].ItemSerialNumber)
-                            </td>
-                        </tr>
+                <tr class="receipt-@Model.JobReceiptDetails[i].ProcessCode">
+                    <td>
+                        @Html.DropDownListFor(model => Model.JobReceiptDetails[i].ProcessCode, new SelectList(Model.Processes, "ProcessCode", "ProcessName", Model.JobReceiptDetails[i].ProcessCode), "Please select", new { @class = "form-select", @required = true, @disabled = true })
+                        @Html.HiddenFor(model => Model.JobReceiptDetails[i].ProcessCode)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => Model.JobReceiptDetails[i].PacketNumber, new { @required = true, @class = "form-control numberonly" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control allow_decimal" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control allow_decimal" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemLines, new { @required = true, @class = "form-control allow_decimal" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @class = "form-control" })
+                    </td>
+                    <td class="plsRow">
+                    </td>
+                    <td style="display:none">
+                        @Html.HiddenFor(model => Model.JobReceiptDetails[i].ItemSerialNumber)
+                    </td>
+                </tr>
                     }
                 </table>
 
             </div>
             <div class="jqueryTbl-container">
                 <table id="jqueryTbl"></table>
-                <div class="ui-dialog-buttonset offset-lg-11 pt-lg-3 pb-lg-1 ps-0">
+                <div class="ui-dialog-buttonset offset-lg-11 pt-lg-3 pb-lg-1 ps-3">
                     <button type="button" class="btn btn-default select-pending-receipt">Select</button>
                 </div>
             </div>
@@ -114,45 +117,61 @@
 <script type="text/javascript">
 
     var mode =@(Html.Raw(jsonMode));
-    
+
     $(function () {
 
         var data =@(Html.Raw(jsonModel));
         var pageWidth = $("#jqueryTbl").parent().width() - 100;
         var currids = [];
         $("#jqueryTbl").jqGrid({
-            data: data.JobReceiptDetails,
+            data: [],
             datatype: 'local',
             colModel: [
-                //{ label: "", name: 'ProcessCode', index: '', width: 40, align: "center", edittype: 'checkbox', formatter: "checkbox", editoptions: { value: "True:False" }, editable: true, formatoptions: { disabled: false } },
-                { label: "Process Name", width: (pageWidth * (22 / 100)), align: "center",  name: "ProcessName"},
-                { label: "Packet Number", width: (pageWidth * (15 / 100)), align: "center", name: "PacketNumber"},
-                { label: "Item Pieces", width: (pageWidth * (15 / 100)), align: "center", name: "ItemPieces"},
-                { label: "Item Carats", width: (pageWidth * (15 / 100)), align: "center", name: "ItemCarats"},
-                { label: "Item Lines", width: (pageWidth * (15 / 100)), align: "center", name: "ItemLines"},
-                { label: "Remarks", width: (pageWidth * (22 / 100)), align: "center", name: "Remarks" },
-                { name: "ProcessCode", hidden: 'false',key:true }
+                /*{ label: 'Tag', name: "Tag", width: 50, align: "center", sortable: false, formatter: "checkbox", formatoptions: { disabled: false }, edittype: "checkbox", editoptions: { value: "True:False" }, formatoptions: { disabled: false }, multiselect: true },*/
+                { label: "Ref Date", name: "ReferenceDate", width: (pageWidth * (15 / 100)), align: "center", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "Y-m-d" } },
+                { label: "Customer", width: (pageWidth * (20 / 100)), align: "center", name: "CustomrName" },
+                { label: "Process ", width: (pageWidth * (24 / 100)), align: "center",  name: "ProcessName"},
+                { label: "Packet No", width: (pageWidth * (10 / 100)), align: "center", name: "PacketNumber"},
+                { label: "Pieces", width: (pageWidth * (6 / 100)), align: "center", name: "ItemPieces"},
+                { label: "Pending Pieces", width: (pageWidth * (10 / 100)), align: "center", name: "Bal_ItemPieces"},
+                { label: "Carats", width: (pageWidth * (5 / 100)), align: "center", name: "ItemCarats"},
+                { label: "Pending Carats", width: (pageWidth * (10 / 100)), align: "center", name: "Bal_ItemCarats" },
+                { label: "Lines", width: (pageWidth * (5 / 100)), align: "center", name: "ItemLines" },
+                { name: "ItemSerialNumber", hidden: 'true'},
+                { name: "ProcessCode", hidden: 'true' }
             ],
             cmTemplate: { sortable: false },
             loadonce: true,
             height: '100%',
             width: '100%',
             multiselect: true,
-            onSelectRow: function (a, b, c) {
+            multiselectWidth: 30,
+            shrinkToFit: true,
+            onSelectRow: function (rowid, status, e) {
 
+               // $('#cb_' + $.jgrid.jqID(this.p.id), this.grid.hDiv)[this.p.useProp ? 'prop' : 'attr']("checked", true);
+                //var ch = jQuery(this).find('input[type=checkbox]').prop('checked');
+                //if (ch) {
+                //    jQuery(this).find('input[type=checkbox]').prop('checked', false);
+                //    jQuery(this).removeClass("ui-state-highlight");
+                //    $(e.currentTarget)
+                //} else {
+                //    jQuery(this).find('input[type=checkbox]').prop('checked', true);
+                //}
+                //debugger;
+                /*
                 if (this.p.selarrrow.length === currids.length) {
                     $('#cb_' + $.jgrid.jqID(this.p.id), this.grid.hDiv)[this.p.useProp ? 'prop' : 'attr']("checked", true);
-                }
+                }*/
             },
             gridComplete: function () {
-                currids = $(this).jqGrid('getDataIDs');
+             /*   currids = $(this).jqGrid('getDataIDs');*/
             }
         });
 
-        
+
         $(".select-pending-receipt").on("click", function (e) {
             getSelectedRows();
-
 
             //var myGrid = $('#jqueryTbl'), i, rowData, names = [],
             //    rowIds = myGrid.jqGrid("getDataIDs"),
@@ -172,24 +191,26 @@
 
         function getSelectedRows() {
 
-            var grid = $("#jqueryTbl");
-            var rowKey = grid.getGridParam("selrow");
+            debugger;
+            var $grid = $("#jqueryTbl");
+            var rowKey = $grid.getGridParam("selrow");
             var jobReceiptDetail = [];
-            for (let i = 0; i < data.JobReceiptDetails.length; i++) {
-                jobReceiptDetail.push(data.JobReceiptDetails[i].ProcessCode);
-            }
-
+         
             if (!rowKey) {
                 alert("No rows are selected");
                 return;
             }
-            else {
-                var selectedIDs = grid.getGridParam("selarrrow");
-                for (var i = 0; i < selectedIDs.length; i++) {
-
-                    jobReceiptDetail.removeByValue(parseInt(selectedIDs[i]));
-                }
+        
+            let selectedRows = $("#jqueryTbl").jqGrid("getGridParam", "selarrrow");
+            
+            // loop through the IDs to retrieve the data for each selected row
+            for (var i = 0; i < selectedRows.length; i++) {
+                var rowData = $("#jqueryTbl").jqGrid("getRowData", selectedRows[i]);
+                // do something with the row data, for example:
+                //console.log("Selected row ID: " + selectedRows[i]);
+                //console.log("Selected row data: " + JSON.stringify(rowData));
             }
+
 
             for (let j = 0; j < jobReceiptDetail.length; j++) {
                 $("#receipt tbody tr").each(function (indx, row) {
@@ -204,6 +225,24 @@
             $(".button-container").removeClass("newone-css");
             resetElementIndex();
         }
+    });
+
+
+    $("#ddlCustomer").on("change", function (e) {
+        
+        let accountcode = this.value;
+        $.ajax({
+            url: "@Url.Action("GetPendingJobworkReceipt", "JobWorkDespatchs")",
+            type: "POST",
+            data: { accountCode: accountcode },
+            dataType: 'json',
+            success: function (data) {
+
+                var $gParams = $('#jqueryTbl').jqGrid("getGridParam");
+                $gParams.data = data;
+                $('#jqueryTbl').trigger("reloadGrid", [{ page: 1 }]);
+            }
+        });
     });
 
     function resetElementIndex() {
@@ -324,27 +363,6 @@
         }
         return this;
     }
-
-
-    @*$(document).on("change", "#ddlCustomer123", function (e) {
-
-        let ddlProcess = $("#JobReceiptDetails_0__ProcessCode");
-
-        $.ajax({
-            url: "@Url.Action("GetProcessByCustomerCode", "JobWorkReceipts")",
-            type: "POST",
-            data: { customerCode: this.value },
-            dataType: 'json',
-            success: function (data) {
-                debugger;
-                ddlProcess.html("");
-                ddlProcess.append($('<option></option>').val("").html("Please select"));
-                $.each(data, function (id, option) {
-                    ddlProcess.append($('<option></option>').val(option.ProcessCode).html(option.ProcessName));
-                });
-            }
-        });
-    });*@
 
 </script>
 <style>

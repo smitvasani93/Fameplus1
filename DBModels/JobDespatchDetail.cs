@@ -2,6 +2,8 @@
 
 public class JobDespatchDetail
 {
+    public string ProcessName { get; set; }
+    public string ProcessCode { get; set; }
     public int SerialNumber { get; set; }
     public Int16 ItemSerialNumber { get; set; }
 

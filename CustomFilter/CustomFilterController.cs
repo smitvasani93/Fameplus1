@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Transactiondetails.CustomFilter
@@ -30,7 +31,16 @@ namespace Transactiondetails.CustomFilter
                     string sessionCookie = ctx.Request.Headers["Cookie"];
                     if ((null != sessionCookie) && (sessionCookie.IndexOf("ASP.NET_SessionId") >= 0))
                     {
-                        ctx.Response.Redirect("~/account/Login");
+                        if (filterContext.HttpContext.Request.IsAjaxRequest())
+                        {
+                            filterContext.HttpContext.Response.StatusCode = 403;
+                            filterContext.Result = new JsonResult { Data = "LogOut" };
+                        }
+                        else
+                        {
+                            filterContext.Result = new RedirectResult("~/account/Login");
+                        }
+                        //ctx.Response.Redirect("~/account/Login");
                         //new RedirectToRouteResult(new RouteValueDictionary { { "action", "Index" }, { "controller", "Login" } });
                     }
                 }
@@ -38,4 +48,19 @@ namespace Transactiondetails.CustomFilter
             base.OnActionExecuting(filterContext);
         }
     }
+
+    //[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
+    //public class AjaxAuthorizeAttribute : AuthorizeAttribute
+    //{
+    //    protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+    //    {
+    //        // returns a 401 already
+    //        base.HandleUnauthorizedRequest(filterContext);
+    //        if (filterContext.HttpContext.Request.IsAjaxRequest())
+    //        {
+    //            // we simply have to tell mvc not to redirect to login page
+    //            filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
+    //        }
+    //    }
+    //}
 }
