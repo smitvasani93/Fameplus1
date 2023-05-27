@@ -143,6 +143,7 @@ table {
         background-size: 12px 10px !important;
     }
 
+#despatch .form-control, #receipt .form-select,
 #receipt .form-control, #receipt .form-select {
     font-size: 13px !important;
     border-radius: 0.2rem !important;
@@ -152,9 +153,9 @@ table {
     border-color: white !important;
 }
 
-    #newone table td {
-        padding: 5px !important;
-    }
+ #newone table td {
+     padding: 5px !important;
+ }
 
 #newone .plsRow i {
     text-align: center;

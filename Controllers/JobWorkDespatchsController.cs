@@ -44,8 +44,8 @@ namespace Transactiondetails.Controllers
                                          ProcessName = x.ProcessName,
                                          ProcessCode = x.ProcessCode,
                                          PacketNumber = x.PacketNumber,
-                                         Bal_ItemCarats = x.Bal_ItemCarats,
-                                         Bal_ItemPieces = x.Bal_ItemPieces,
+                                         BalItemCarats = x.Bal_ItemCarats,
+                                         BalItemPieces = x.Bal_ItemPieces,
                                          BillingType = x.BillingType,
                                          ItemCarats = x.ItemCarats,
                                          ItemLines = x.ItemLines,
@@ -220,9 +220,10 @@ namespace Transactiondetails.Controllers
                     //var totalRecords = filteredQuery.Count();
 
                     var jobRecs = f.rules
-                        .Select(x => new JobReciptVM {
+                        .Select(x => new JobReciptVM
+                        {
                             AccountName = x.field == "AccountName" ? x.data : string.Empty,
-                            ReferenceDate = x.field == "ReferenceDate" ? Convert.ToDateTime(x.data) : (DateTime?)null 
+                            ReferenceDate = x.field == "ReferenceDate" ? Convert.ToDateTime(x.data) : (DateTime?)null
                         });
 
                     foreach (var jr in jobRecs)
@@ -327,7 +328,7 @@ namespace Transactiondetails.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet); ;
         }
 
-        public JsonResult SaveJobworkReceipt(JobReciptVM model)
+        public JsonResult SaveJobworkDespatch(JobDespatchViewModel model)
         {
             var dbutility = new JobReceiptDataLayer();
             var message = new { message = "Failed", error = "True" };
@@ -349,17 +350,18 @@ namespace Transactiondetails.Controllers
 
                 var jobRecipt = new JobReceipt();
                 jobRecipt.JobReceiptMaster = jobRecieptMas;
-                jobRecipt.JobReceiptDetails = model.JobReceiptDetails.Select(sel => new JobRecieptDetail
-                {
-                    ProcessCode = sel.ProcessCode.Value,
-                    ItemCarats = sel.ItemCarats.Value,
-                    PacketNumber = sel.PacketNumber.Value,
-                    ItemSerialNumber = sel.ItemSerialNumber.Value,
-                    ItemLines = sel.ItemLines.Value,
-                    SerialNumber = model.SerialNumber.Value,
-                    ItemPieces = sel.ItemPieces.Value,
-                    Remarks = sel.Remarks
-                }).ToList();
+                //jobRecipt.JobReceiptDetails = model.JobDespatchDetails.Select(sel => new JobDespatchViewModel
+                //{
+
+                //    ProcessCode = sel.ProcessCode.Value,
+                //    ItemCarats = sel.ItemCarats.Value,
+                //    PacketNumber = sel.PacketNumber.Value,
+                //    ItemSerialNumber = sel.ItemSerialNumber.Value,
+                //    ItemLines = sel.ItemLines.Value,
+                //    SerialNumber = model.SerialNumber.Value,
+                //    ItemPieces = sel.ItemPieces.Value,
+                //    Remarks = sel.Remarks
+                //}).ToList();
 
                 if (model.Mode == Mode.Add)
                 {
@@ -408,26 +410,26 @@ namespace Transactiondetails.Controllers
                 var recieptNo = jobReciept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
 
-                var jobReceiptVM = new JobReciptVM();
+                var jobDespatchVM = new JobDespatchViewModel();
 
-                jobReceiptVM.SerialNumber = recieptNo;
-                jobReceiptVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
+                jobDespatchVM.SerialNumber = recieptNo;
+                jobDespatchVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
 
-                jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
+                jobDespatchVM.Processes = process.Select(sel => new ProcessMasterVM
                 {
                     ProcessCode = sel.ProcessCode,
                     ProcessName = sel.ProcessName
                 });
 
-                jobReceiptVM.Accounts = accounts.Select(sel => new AccountMasterVM
+                jobDespatchVM.Accounts = accounts.Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
                 });
 
-                jobReceiptVM.JobReceiptDetails = new List<JobReceiptDetailVM>
+                jobDespatchVM.JobDespatchDetails = new List<JobDespatchDetailViewModel>
                 {
-                    new JobReceiptDetailVM{
+                    new JobDespatchDetailViewModel{
                          ItemSerialNumber=1,
                          ItemLines=0,
                          PacketNumber=1,
@@ -436,8 +438,8 @@ namespace Transactiondetails.Controllers
                     }
                 };
 
-                jobReceiptVM.Mode = Mode.Add;
-                return PartialView("_JobworkDespatchPartial", jobReceiptVM);
+                //jobDespatchVM.Mode = Mode.Add;
+                return PartialView("_JobworkDespatchPartial", jobDespatchVM);
             }
             catch (Exception ex)
             {
