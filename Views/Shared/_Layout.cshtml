@@ -132,7 +132,7 @@
                     <i class="bi bi-journal-text"></i><span>Transactions</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="Master-nav" class="nav-content @(activeMenu=="Master"?"collapse show":"collapse") " data-bs-parent="#sidebar-nav">
-                    <li>
+                    @*<li>
                         <a href="~/Home/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
                             <i class="bi bi-circle"></i><span>Job Receipt</span>
                         </a>
@@ -141,10 +141,10 @@
                         <a href="~/JobworkReceipts/JobworkReceipt" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
                             <i class="bi bi-circle"></i><span>Job Receipt New</span>
                         </a>
-                    </li>
+                    </li>*@
                     <li>
                         <a href="~/JobworkReceipts/JobworkReceiptDtTable" class=@(activeSubMenu=="JobworkReceipt"?"active":string.Empty)>
-                            <i class="bi bi-circle"></i><span>Job Receipt Data Table</span>
+                            <i class="bi bi-circle"></i><span>Job Receipt</span>
                         </a>
                     </li>
                     <li>
