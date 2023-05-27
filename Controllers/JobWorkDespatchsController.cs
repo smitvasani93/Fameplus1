@@ -1,7 +1,6 @@
 ﻿using GridMVCAjaxDemo.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -66,40 +65,44 @@ namespace Transactiondetails.Controllers
                 var userData = (UserData)Session["UserData"];
 
                 var jobReciept = jobDespatchDataLayer.GetJobDesptachBySerialNo(userData.Company, userData.FYear, id);
-                var process = dbutility.GetProcesses();
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                
+                //var process = dbutility.GetProcesses();
+
+                //var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+
+
                 var jobReceiptVM = new JobReciptVM();
 
                 jobReceiptVM.AccountCode = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
                 jobReceiptVM.ReferenceDate = jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate;
                 jobReceiptVM.SerialNumber = id;
 
-                jobReceiptVM.JobReceiptDetails = jobReciept.JobRecieptDets.Join(process,
-                   jd => jd.ProcessCode,
-                   prc => prc.ProcessCode,
-                   (jobreciptdet, process1) => new JobReceiptDetailVM
-                   {
-                       ProcessName = process1.ProcessName,
-                       ProcessCode = jobreciptdet.ProcessCode,
-                       ItemCarats = jobreciptdet.ItemCarats,
-                       ItemLines = jobreciptdet.ItemLines,
-                       ItemPieces = jobreciptdet.ItemPieces,
-                       PacketNumber = jobreciptdet.PacketNumber,
-                       ItemSerialNumber = jobreciptdet.ItemSerialNumber,
-                       Remarks = jobreciptdet.Remarks
-                   }).ToList();
+                //jobReceiptVM.JobReceiptDetails = jobReciept.JobRecieptDets.Join(process,
+                //   jd => jd.ProcessCode,
+                //   prc => prc.ProcessCode,
+                //   (jobreciptdet, process1) => new JobReceiptDetailVM
+                //   {
+                //       ProcessName = process1.ProcessName,
+                //       ProcessCode = jobreciptdet.ProcessCode,
+                //       ItemCarats = jobreciptdet.ItemCarats,
+                //       ItemLines = jobreciptdet.ItemLines,
+                //       ItemPieces = jobreciptdet.ItemPieces,
+                //       PacketNumber = jobreciptdet.PacketNumber,
+                //       ItemSerialNumber = jobreciptdet.ItemSerialNumber,
+                //       Remarks = jobreciptdet.Remarks
+                //   }).ToList();
 
-                jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
-                {
-                    ProcessCode = sel.ProcessCode,
-                    ProcessName = sel.ProcessName
-                });
+                //jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
+                //{
+                //    ProcessCode = sel.ProcessCode,
+                //    ProcessName = sel.ProcessName
+                //});
 
-                jobReceiptVM.Accounts = accounts.Select(sel => new AccountMasterVM
-                {
-                    AccountCode = sel.AccountCode,
-                    AccountName = sel.AccountName
-                });
+                //jobReceiptVM.Accounts = accounts.Select(sel => new AccountMasterVM
+                //{
+                //    AccountCode = sel.AccountCode,
+                //    AccountName = sel.AccountName
+                //});
 
                 jobReceiptVM.Mode = Mode.Update;
 
@@ -115,35 +118,6 @@ namespace Transactiondetails.Controllers
         {
             ViewBag.Menu = "Master";
             ViewBag.SubMenu = "JobworkDespatch";
-
-            //var jobDespatchDataLayer = new JobDespatchDataLayer();
-            //var dbutility = new DBUtility();
-            //ViewBag.Menu = "Master";
-            //ViewBag.SubMenu = "JobworkDespatch";
-            //var accountDataLayer = new AccountDataLayer();
-            //try
-            //{
-            //    var userData = (UserData)Session["UserData"];
-            //    var jobDespatchs = jobDespatchDataLayer.GetJobDespatch(userData.Company, userData.Company, userData.FYear);
-            //    //var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
-            //    //var process = dbutility.GetProcesses();
-            //    //var recieptNo = jobDespatchs.FirstOrDefault().MaxSerialNumber;
-            //    //recieptNo++;
-            //    var data = jobDespatchs.Select(sel => new JobDespatchViewModel
-            //    {
-            //        SerialNumber = sel.SerialNumber,
-            //        AccountCode = sel.AccountCode,
-            //        AccountName = sel.AccountName,
-            //        ReferenceDate = sel.ReferenceDate
-            //    }).OrderByDescending(x => x.SerialNumber);
-
-            //    return View(data);
-            //}
-            //catch (Exception ex)
-            //{
-            //    string message = ex.Message;
-            //}
-
             return View(Enumerable.Empty<JobDespatchViewModel>());
         }
 
@@ -330,46 +304,50 @@ namespace Transactiondetails.Controllers
 
         public JsonResult SaveJobworkDespatch(JobDespatchViewModel model)
         {
-            var dbutility = new JobReceiptDataLayer();
+            var dbutility = new JobDespatchDataLayer();
             var message = new { message = "Failed", error = "True" };
             DatabaseResponse databaseResponse = null;
             try
             {
                 var userData = (UserData)Session["UserData"];
-                var jobRecieptMas = new JobRecieptMaster();
+                var jobDespatchMaster = new JobDespatchMaster();
                 //put your Fields Here
-                jobRecieptMas.SerialNumber = model.SerialNumber.Value;
-                jobRecieptMas.AccountCode = model.AccountCode;
-                jobRecieptMas.ReferenceDate = model.ReferenceDate.Value;
-                jobRecieptMas.EntryDate = DateTime.Now;
-                jobRecieptMas.ModiDate = DateTime.Now;
-                jobRecieptMas.FinancialYearCode = userData.FYear;
-                jobRecieptMas.BranchCode = userData.Branch;
-                jobRecieptMas.UserCode = userData.UserId; //Get usercode from session
-                jobRecieptMas.ModiUserCode = userData.UserId; //Get usercode from session
+                jobDespatchMaster.SerialNumber = model.SerialNumber.Value;
+                jobDespatchMaster.AccountCode = model.AccountCode;
+                jobDespatchMaster.ReferenceDate = model.ReferenceDate.Value;
+                jobDespatchMaster.EntryDate = DateTime.Now;
+                jobDespatchMaster.ModiDate = DateTime.Now;
+                jobDespatchMaster.FinancialYearCode = userData.FYear;
+                jobDespatchMaster.BranchCode = userData.Branch;
+                jobDespatchMaster.UserCode = userData.UserId; //Get usercode from session
+                jobDespatchMaster.ModiUserCode = userData.UserId; //Get usercode from session
 
-                var jobRecipt = new JobReceipt();
-                jobRecipt.JobReceiptMaster = jobRecieptMas;
-                //jobRecipt.JobReceiptDetails = model.JobDespatchDetails.Select(sel => new JobDespatchViewModel
-                //{
-
-                //    ProcessCode = sel.ProcessCode.Value,
-                //    ItemCarats = sel.ItemCarats.Value,
-                //    PacketNumber = sel.PacketNumber.Value,
-                //    ItemSerialNumber = sel.ItemSerialNumber.Value,
-                //    ItemLines = sel.ItemLines.Value,
-                //    SerialNumber = model.SerialNumber.Value,
-                //    ItemPieces = sel.ItemPieces.Value,
-                //    Remarks = sel.Remarks
-                //}).ToList();
+                var jobDespatch = new JobDespatch();
+                jobDespatch.JobDespatchMaster = jobDespatchMaster;
+                jobDespatch.JobDespatchDetails = model.JobDespatchDetails.Select(sel => new JobDespatchDetail
+                {
+                    SerialNumber = model.SerialNumber.Value,
+                    ItemSerialNumber = sel.ItemSerialNumber,
+                    JRSerialNumber = sel.JRSerialNumber,
+                    JRItemSerialNumber = sel.JRItemSerialNumber,
+                    ItemCarats = sel.BalItemCarats,
+                    ItemLines = sel.BalItemLines,
+                    ItemPieces = sel.BalItemPieces,
+                    BillingQuantity = sel.BillingQuantity,
+                    BillingRate = sel.Rate,
+                    NoChargeQuantity = sel.NoChargeQuantity,
+                    WeightLoss = sel.WeightLoss,
+                    PacketStatus = sel.Status.ToLower() =="yes" ? "y" : "n",
+                    Remarks = sel.Remarks,
+                }).ToList();
 
                 if (model.Mode == Mode.Add)
                 {
-                    databaseResponse = dbutility.SaveJobworkReceipt(jobRecipt, userData.Company, userData.FYear);
+                    databaseResponse = dbutility.SaveJobDespatch(jobDespatch, userData.Company, userData.FYear);
                 }
                 else if (model.Mode == Mode.Update)
                 {
-                    databaseResponse = dbutility.UpdateJobworkReceipt(jobRecipt, userData.Company, userData.FYear);
+                    databaseResponse = dbutility.UpdateJobDespatch(jobDespatch, userData.Company, userData.FYear);
                 }
 
                 if (databaseResponse != null)
@@ -397,17 +375,19 @@ namespace Transactiondetails.Controllers
 
         public ActionResult GetJobworkDespatch()
         {
-            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var jobDespatchDataLayer = new JobDespatchDataLayer();
             var dbutility = new DBUtility();
             var accountDataLayer = new AccountDataLayer();
-
             try
             {
                 var userData = (UserData)Session["UserData"];
+
                 var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
-                var process = dbutility.GetProcesses();
-                var jobReciept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
-                var recieptNo = jobReciept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
+
+                //var process = dbutility.GetProcesses();
+
+                var jobDespatchMasters = jobDespatchDataLayer.GetJobDespatch(userData.Company, userData.Company, userData.FYear);
+                var recieptNo = jobDespatchMasters.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
 
                 var jobDespatchVM = new JobDespatchViewModel();
@@ -415,11 +395,11 @@ namespace Transactiondetails.Controllers
                 jobDespatchVM.SerialNumber = recieptNo;
                 jobDespatchVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
 
-                jobDespatchVM.Processes = process.Select(sel => new ProcessMasterVM
-                {
-                    ProcessCode = sel.ProcessCode,
-                    ProcessName = sel.ProcessName
-                });
+                //jobDespatchVM.Processes = process.Select(sel => new ProcessMasterVM
+                //{
+                //    ProcessCode = sel.ProcessCode,
+                //    ProcessName = sel.ProcessName
+                //});
 
                 jobDespatchVM.Accounts = accounts.Select(sel => new AccountMasterVM
                 {
@@ -438,7 +418,7 @@ namespace Transactiondetails.Controllers
                     }
                 };
 
-                //jobDespatchVM.Mode = Mode.Add;
+                jobDespatchVM.Mode = Mode.Add;
                 return PartialView("_JobworkDespatchPartial", jobDespatchVM);
             }
             catch (Exception ex)
