@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -33,8 +34,10 @@ namespace Transactiondetails.CustomFilter
                     {
                         if (filterContext.HttpContext.Request.IsAjaxRequest())
                         {
-                            filterContext.HttpContext.Response.StatusCode = 403;
-                            filterContext.Result = new JsonResult { Data = "LogOut" };
+                            filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
+                            filterContext.HttpContext.Response.End();
+                            //filterContext.Result = new JsonResult { Data = "LogOut" };
                         }
                         else
                         {

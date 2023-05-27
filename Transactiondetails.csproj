@@ -147,6 +147,7 @@
     <Content Include="assets\css\pages\email.rtl.css" />
     <Content Include="assets\css\pages\error.css" />
     <Content Include="assets\css\pages\error.rtl.css" />
+    <Content Include="assets\css\Responsive-jqGrid.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\sweetalert2.min.css" />
     <Content Include="assets\css\widgets\chat.css" />

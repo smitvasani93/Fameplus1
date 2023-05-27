@@ -22,12 +22,15 @@ namespace Transactiondetails.ViewModels
     public class JobDespatchDetailViewModel
     {
         public string CustomrName { get; set; }
+        public int JRSerialNumber { get; set; }
+        public Int16 JRItemSerialNumber { get; set; }
         public int SerialNumber { get; set; }
+        public Int16 ItemSerialNumber { get; set; }
         public DateTime ReferenceDate { get; set; }
         public Int16 ProcessCode { get; set; }
         public string ProcessName { get; set; }
         public string BillingType { get; set; }
-        public Int16 ItemSerialNumber { get; set; }
+        
         public Int16 PacketNumber { get; set; }
         public double ItemPieces { get; set; }
         public double ItemCarats { get; set; }

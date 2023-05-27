@@ -139,7 +139,8 @@ table {
     background-size: 12px 10px !important;
 }
 
-#despatch .form-control, #receipt .form-select,
+#despatch .form-control,
+#despatch .form-select,
 #receipt .form-control, #receipt .form-select {
     font-size: 13px !important;
     border-radius: 0.2rem !important;

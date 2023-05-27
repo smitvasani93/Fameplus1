@@ -27,7 +27,7 @@
         <link href="@Url.Content("~/assets/vendor/remixicon/remixicon.css")" rel="stylesheet">
         <link href="@Url.Content("~/assets/vendor/simple-datatables/style.css")" rel="stylesheet">
     
-
+        <link href="~/assets/css/Responsive-jqGrid.css" rel="stylesheet" />
     @*Template Main CSS File*@
     <link href="@Url.Content("~/assets/css/style.css")" rel="stylesheet">
     <link href="@Url.Content("~/assets/css/app.css")" rel="stylesheet" />
@@ -276,7 +276,7 @@
     @*@Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
     @RenderSection("jQgridScripts", required: false)
-    <script type="text/javascript">
+<script type="text/javascript">
 
         $(document).on("input", ".numberonly", function () {
             this.value = this.value.replace(/\D/g, '');
@@ -304,12 +304,19 @@
             return true;
         }
 
-         $(document).ajaxError(function (xhr, props) {
+         @*$(document).ajaxError(function (xhr, props) {
                 if (props.status === 401) {
                              window.location.href = '@Url.Action("Login","Account")';
                    }
-          });
+         })*@;
 
-    </script>
+        $(document).ajaxError(function (e, xhr) {
+            if (xhr.status == 401)
+                window.location = '@Url.Action("Login","Account")';
+            else if (xhr.status == 403)
+                alert("You have no enough permissions to request this resource.");
+        });
+
+</script>
 </body>
 </html>
