@@ -3,7 +3,7 @@
 public class JobDespatchDetail
 {
     public string ProcessName { get; set; }
-    public string ProcessCode { get; set; }
+    public Int16 ProcessCode { get; set; }
     public int SerialNumber { get; set; }
     public Int16 ItemSerialNumber { get; set; }
 
@@ -19,4 +19,6 @@ public class JobDespatchDetail
 
     public double NoChargeQuantity { get; set; }
     public double BillingRate { get; set; }
+    public string AccountCode { get; set; }
+    public DateTime? ReferenceDate { get; set; }
 }

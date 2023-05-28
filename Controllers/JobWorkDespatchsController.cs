@@ -57,25 +57,38 @@ namespace Transactiondetails.Controllers
         public ActionResult GetJobDesptachBySerialNo(int id)
         {
             var jobDespatchDataLayer = new JobDespatchDataLayer();
-            var dbutility = new DBUtility();
             var accountDataLayer = new AccountDataLayer();
 
             try
             {
                 var userData = (UserData)Session["UserData"];
 
-                var jobReciept = jobDespatchDataLayer.GetJobDesptachBySerialNo(userData.Company, userData.FYear, id);
-                
-                //var process = dbutility.GetProcesses();
+                var jobDespatch = jobDespatchDataLayer.GetJobDesptachBySerialNo(userData.Company, userData.FYear, id);
+                var jobDespatchViewModel = new JobDespatchViewModel();
 
-                //var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                jobDespatchViewModel.AccountCode = jobDespatch.JobDespatchDetails.FirstOrDefault().AccountCode;
+                jobDespatchViewModel.ReferenceDate = jobDespatch.JobDespatchDetails.FirstOrDefault().ReferenceDate;
+                jobDespatchViewModel.SerialNumber = id;
 
+                jobDespatchViewModel.JobDespatchDetails = jobDespatch.JobDespatchDetails.Select(x => new JobDespatchDetailViewModel
+                {
+                    WeightLoss = x.WeightLoss,
+                    JRSerialNumber = x.JRSerialNumber,
+                    JRItemSerialNumber = x.JRItemSerialNumber,
+                    ItemPieces = x.ItemPieces,
+                    ItemLines = x.ItemLines,
+                    ItemCarats = x.ItemCarats,
+                    NoChargeQuantity = x.NoChargeQuantity,
+                    BillingQuantity = x.BillingQuantity,
+                    Rate = x.BillingRate,
+                    ItemSerialNumber = x.ItemSerialNumber,
+                    Remarks = x.Remarks,
+                    Status = x.PacketStatus,
+                    ProcessCode = x.ProcessCode,
+                    ProcessName = x.ProcessName
 
-                var jobReceiptVM = new JobReciptVM();
+                }).ToList();
 
-                jobReceiptVM.AccountCode = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
-                jobReceiptVM.ReferenceDate = jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate;
-                jobReceiptVM.SerialNumber = id;
 
                 //jobReceiptVM.JobReceiptDetails = jobReciept.JobRecieptDets.Join(process,
                 //   jd => jd.ProcessCode,
@@ -97,16 +110,17 @@ namespace Transactiondetails.Controllers
                 //    ProcessCode = sel.ProcessCode,
                 //    ProcessName = sel.ProcessName
                 //});
+                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
 
-                //jobReceiptVM.Accounts = accounts.Select(sel => new AccountMasterVM
-                //{
-                //    AccountCode = sel.AccountCode,
-                //    AccountName = sel.AccountName
-                //});
+                jobDespatchViewModel.Accounts = accounts.Select(sel => new AccountMasterVM
+                {
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName
+                });
 
-                jobReceiptVM.Mode = Mode.Update;
+                jobDespatchViewModel.Mode = Mode.Update;
 
-                return PartialView("_JobworkDespatchPartial", jobReceiptVM);
+                return PartialView("_JobworkDespatchPartial", jobDespatchViewModel);
             }
             catch (Exception ex)
             {
@@ -337,7 +351,7 @@ namespace Transactiondetails.Controllers
                     BillingRate = sel.Rate,
                     NoChargeQuantity = sel.NoChargeQuantity,
                     WeightLoss = sel.WeightLoss,
-                    PacketStatus = sel.Status.ToLower() =="yes" ? "y" : "n",
+                    PacketStatus = sel.Status.ToLower() == "yes" ? "y" : "n",
                     Remarks = sel.Remarks,
                 }).ToList();
 

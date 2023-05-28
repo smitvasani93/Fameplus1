@@ -378,12 +378,13 @@
             type: "POST",
               data: { serialno: serialNo },
             dataType: 'json',
-            success: function (data) {
-                $('#dialog').dialog('close');
-                $('#jqgridtbl').trigger('reloadGrid');
+              success: function (data) {
+                  if (data.message ==="Success") {
+                      $('#dialog').dialog('close');
+                      $('#jqgridtbl').trigger('reloadGrid');
+                  }
             }
         });
-
 
     });
 

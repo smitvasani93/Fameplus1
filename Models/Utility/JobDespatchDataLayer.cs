@@ -39,17 +39,17 @@ namespace Transactiondetails.Models.Utility
         }
 
 
-        public JobRecieptData GetJobDesptachBySerialNo(string companyCode, string FYear, int serialNo)
+        public JobDespatch GetJobDesptachBySerialNo(string companyCode, string FYear, int serialNo)
         {
-            var JobRecieptData = new JobRecieptData();
+            var jobDespatch = new JobDespatch();
             using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to get the JobReciepts
                 var pSNumber = new SqlParameter("@SerialNumber", serialNo);
-                JobRecieptData.JobRecieptDets = db.Database.SqlQuery<JobRecieptDetail>("exec SpGetJobDesptachBySerialNumber @SerialNumber", pSNumber).ToList();
+                jobDespatch.JobDespatchDetails = db.Database.SqlQuery<JobDespatchDetail>("exec SpGetJobDesptachBySerialNumber @SerialNumber", pSNumber).ToList();
             }
 
-            return JobRecieptData;
+            return jobDespatch;
         }
 
 
