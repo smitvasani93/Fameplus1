@@ -6,39 +6,14 @@
 }
 
 @using Transactiondetails.ViewModels
-@using GridMvc.Html
 @model IEnumerable<JobReciptVM>
 
-<style type="text/css">
-    .Pager span {
-        text-align: center;
-        color: #333;
-        display: inline-block;
-        width: 20px;
-        background-color: #B8DBFD;
-        margin-right: 3px;
-        line-height: 150%;
-        border: 1px solid #B8DBFD;
-    }
-
-    .Pager a {
-        text-align: center;
-        display: inline-block;
-        width: 20px;
-        background-color: #ccc;
-        color: #333;
-        border: 1px solid #ccc;
-        margin-right: 3px;
-        line-height: 150%;
-        text-decoration: none;
-    }
-</style>
 <section class="section dashboard mt-2">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title"> Jobwork Receipt</h4>
+                    <h4 class="card-title">Jobwork Receipt</h4>
                     <div class="row g-3">
                         <div class="col-10 search-bar">
                             <ul class="nav nav-pills card-header-pills">
@@ -56,9 +31,10 @@
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     <button id="btnSearch" class="btn btn-secondary btn-sm">Search</button>
+                                    <button id="btnReset" class="btn btn-secondary btn-sm">Reset</button>
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    <button id="btnPrint" class="btn btn-secondary btn-sm">Print</button>
+                                    @*<button id="btnPrint" class="btn btn-secondary btn-sm">Print</button>*@
                                 </li>
                             </ul>
                         </div>
@@ -68,47 +44,25 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @{
-                        WebGrid objWebGrid = new WebGrid(null, rowsPerPage: 10, ajaxUpdateContainerId: "WebGrid", canPage: true);
-                        objWebGrid.Bind(Model, rowCount: 3, autoSortAndPage: true);
-                        objWebGrid.Pager(mode: WebGridPagerModes.All);
-                    }
-                    <div id="grd">
-
-                        @objWebGrid.GetHtml(
-                                              htmlAttributes: new { @id = "WebGrid", @class = "Grid" },
-                                              tableStyle: "table table-striped table-bordered",
-                                              headerStyle: "gridHead",
-                                              alternatingRowStyle: "Grid-rowstyle",
-                                              selectedRowStyle: "Grid-selected",
-                                              rowStyle: "Grid-rowstyle",
-                                              footerStyle: "gridFooter",
-                   mode: WebGridPagerModes.All, //Specifies flags that describe the methods that are provided for moving between the pages of a WebGrid instance. source msdn.microsoft.com
-                   columns:
-                   objWebGrid.Columns
-                   (
-                       objWebGrid.Column(columnName: "AccountCode", header: "Account Code", style: "css-accountcode", format:@<text> @item.AccountCode<input type="hidden" name="SerialNumber" value="@item.SerialNumber"></input></text>),
-objWebGrid.Column(columnName: "AccountName", header: "Account Name", style: "css-accountname"),
-objWebGrid.Column(columnName: "SerialNumber", header: "Serial Number", style: "css-serialnumber"),
-objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: "css-referencedate", format: (item) => item.ReferenceDate != null
-? item.ReferenceDate.ToString("dd/MM/yyyy") : "", canSort: true)
-                @*objWebGrid.Column(format:@<text><a href="" onclick="DeleteME('@item.SerialNumber')">Delete</a></text>),*@
-                @*objWebGrid.Column(header: "Action", style: "css-action", format: @<a data-value="@item.SerialNumber" href="javascript:void(0)" class="btnEdit">Edit</a>)*@
-)
-)
-                    </div>
+                    <table id="jqgridtbl">
+                    </table>
+                    <div id="gqgridpager"></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <div id="dialog" title="edit view" style="overflow: hidden;"></div>
+<script type="text/javascript">
 
+</script>
 @section Scripts{
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-    <script type="text/javascript">
+    <script>
         var id = 0;
         $(document).on('click', '#btnAddNew', function () {
             id = 0;
@@ -117,26 +71,44 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
                 .dialog('open');
         });
 
-        $(document).on('click', '.btnEdit', function () {
-            id = $(this).attr("data-value");
-            $('#dialog')
-                .dialog({ title: 'Edit Jobwork Receipt' })
-                .dialog('open');
 
+        $('#btnSearch').on('click', function () {
+
+            var postData = $("#jqgridtbl").jqGrid('getGridParam', 'postData');
+            postData.filters = '{"groupOp":"AND","rules":[{"field":"AccountName","op":"cn","data":"' + $("#AccountName").val() + '"},{"field":"ReferenceDate","op":"eq","data":"' + $("#ReferenceDateSearch").val() + '"}]}';
+            $("#jqgridtbl").jqGrid('setGridParam', { postData: postData, search: true }).trigger("reloadGrid");
         });
 
-        $("body").on("dblclick", "#WebGrid .Grid-rowstyle td", function () {
-            var row = $(this).closest("tr");
-            id = $(row).find("input[type=hidden][name='SerialNumber']").val();
+        $('#btnReset').on('click', function () {
 
-            title = 'Edit Jobwork Recipits';
-            $('#dialog')
-                .dialog({ title: 'Edit Jobwork Receipt' })
-                .dialog('open');
+            $("#AccountName").val("");
+            $("#ReferenceDateSearch").val("");
 
+            $("#jqgridtbl").jqGrid('setGridParam', {
+                postData: {
+                    filters: ''
+                },
+                search: false
+            }).trigger("reloadGrid");
         });
 
         $(function () {
+
+            $("#ReferenceDateSearch").on("focusin", function (e) {
+                return false; // or e.stopPropagation();
+            }).datepicker({
+                /*showOn: "button",*/
+                autoOpen: false,
+                showButtonPanel: false,
+                dateFormat: 'dd-mm-yy',
+                onSelect: function () {
+
+                }
+            });
+        });
+
+
+         $(function () {
 
             $('#dialog').dialog({
                 autoOpen: false,
@@ -148,6 +120,7 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
                 position: { my: "top", at: "top", of: "header"},
                 //position: ['center', 20],
                 open: function (event, ui) {
+
                     if (id === 0) {
                         $(this).load("@Url.Action("GetJobworkRecipt")");
                     } else {
@@ -156,62 +129,81 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
                 },
                 close: function (event, ui) {
                     $('#ReferenceDate1').datepicker('destroy');
-                }
-            });
-        });
-
-
-        $(function () {
-            $("#ReferenceDateSearch").datepicker();
-        });
-
-        $(document).on("click", "#btnSearch", function () {
-
-            var searchUrl = "/JobWorkReceipts/GetFilterJobworkRecipt/";
-            let referenceDate = $('#ReferenceDateSearch').datepicker().val();
-
-            var data = {
-                AccountName: $("#AccountName").val(),
-                ReferenceDate: referenceDate
-            };
-
-            /*$("#btnSearch").attr({ 'value': 'Please wait..' });*/
-            $.ajax({
-                url: searchUrl,
-                data: data,
-                type: "POST",
-                success: function (data) {
-                    $("#WebGrid").html(data);
-                    /*$("#btnSearch").attr({ 'value': 'Search' });*/
+                    $("#jqgridtbl").trigger("reloadGrid");
                 }
             });
         });
 
     </script>
-
 }
 
+@section jQgridScripts{
+
+    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $jqgrid = $("#jqgridtbl").jqGrid({
+                url: "@Url.Action("JobworkReceiptDataTable", "JobWorkReceipts")",
+                mtype: "GET",
+                datatype: 'json',
+                colModel: [
+                    { label: "Account Code", name: "AccountCode", search: false, sortable: true, sorttype: "text" },
+                    { label: "Account Name", name: "AccountName", sortable: true, searchoptions: { sopt: ['cn'] }},
+                    { label: "Receipt Number", name: "SerialNumber", sortable: true, search: false },
+                    { label: "Receipt Date", name: "ReferenceDate", sortable: true, formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "Y-m-d" }, searchoptions: { sopt: ['eq', 'ne'] } }
+                ],
+                sortname: "ReferenceDate",
+                sortorder: "desc",
+                rowNum: 10,
+                rowList: [10, 20, 30, 40, 50],
+                height: '100%',
+                pager: jQuery('#gqgridpager'),
+                viewrecords: true,
+                emptyrecords: 'No records are available to display',
+                jsonReader: {
+                    root: "rows",
+                    page: "page",
+                    total: "total",
+                    records: "records",
+                    repeatitems: false,
+                    Id: "0"
+                },
+                autowidth: true,
+                multiselect: false,
+                ondblClickRow: function (rowId) {
+                    var rowData = jQuery(this).getRowData(rowId);
+                    var srNumber = rowData['SerialNumber'];
+                    id = srNumber;
+                    $('#dialog')
+                        .dialog({ title: 'Edit Jobwork Receipt' })
+                        .dialog('open');
+                }
+            }).navGrid('#gqgridpager', { view: false, del: false, add: false, edit: false },
+                {}, // default settings for edit
+                {}, // default settings for add
+                {}, // delete instead that del:false we need this
+                { closeOnEscape: true, multipleSearch: false, closeAfterSearch: true }, // search options
+                {} /* view parameters*/
+            )
+        });
+
+    </script>
+}
+<script type="text/javascript">
+
+
+</script>
 
 <style type="text/css">
 
-    .css-accountcode {
-        width: 150px;
-    }
-
-    .css-accountname {
-        /*width: 150px;*/
-    }
-
-    .css-serialnumber {
-        width: 150px;
-    }
-
-    .css-referencedate {
-        width: 150px;
-    }
-
-    .css-action {
-        width: 80px;
+    .ui-jqgrid .ui-jqgrid-pager {
+        padding-top: 5px !important;
     }
 
     .search-bar .form-control {
@@ -222,73 +214,8 @@ objWebGrid.Column(columnName: "ReferenceDate", header: "Reference Date", style: 
         padding-top: calc(.175rem + 1px) !important;
     }
 
-
-
-    .gridTable {
-        margin: 5px;
-        padding: 5px;
-        border: 1px #c8c8c8 solid;
-        border-collapse: collapse;
-        min-width: 550px;
-        background-color: #fff;
-        color: #fff;
-    }
-
-    .gridHead th {
-        font-weight: bold;
-        background-color: #646464;
-        color: #fff;
-        padding: 5px
-    }
-
-    .gridHead a:link, .gridHead a:visited, .gridHead a:active, .gridHead a:hover {
-        color: #fff;
-    }
-
-    .gridHead a:hover {
-        text-decoration: underline !important;
-    }
-
-    .gridTable tr.gridAltRow {
-        background-color: #efeeef;
-    }
-
-    .gridTable tr:hover {
-        background-color: #f6f70a;
-    }
-
-    .gridAltRow td {
-        padding: 5px;
-        margin: 5px;
-        color: #333;
-    }
-
-    .gridRow td {
-        padding: 10px;
-        color: #333;
-    }
-
-    .gridFooter td {
-        padding: 10px;
-        background-color: #c9c9c9;
-        color: #999;
-        font-size: 12pt;
-        text-align: center;
-    }
-
-    .gridFooter a {
-        font-weight: bold;
-        color: #333;
-        border: 1px #333 solid;
-        padding: 2px 6px;
-    }
-
-    .Grid-rowstyle:hover {
-        background-color: #c1c1c1;
-        cursor: pointer;
-    }
-
-    .Grid-rowstyle td {
-        padding: 5px;
+    .table-container {
+        width: 100%;
+        overflow: auto;
     }
 </style>

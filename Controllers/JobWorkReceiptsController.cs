@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Services.Description;
 using Transactiondetails.CustomFilter;
 using Transactiondetails.DBModels;
@@ -36,6 +37,7 @@ namespace Transactiondetails.Controllers
             this.gridMvcHelper = new GridMvcHelper();
         }
 
+        /*
         public ActionResult JobworkReceipt()
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
@@ -68,9 +70,9 @@ namespace Transactiondetails.Controllers
             }
 
             return View();
-        }
+        }*/
 
-        public ActionResult JobworkReceiptDtTable()
+        public ActionResult JobworkReceipt()
         {
             //var jobReceiptDataLayer = new JobReceiptDataLayer();
             //var dbutility = new DBUtility();
@@ -104,11 +106,11 @@ namespace Transactiondetails.Controllers
         }
 
         [HttpGet]
-        public JsonResult JobworkReceiptDataTable(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString)
+        public JsonResult JobworkReceiptDataTable(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string filters, string searchString)
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
             var dbutility = new DBUtility();
-            
+
             var accountDataLayer = new AccountDataLayer();
 
             try
@@ -133,6 +135,35 @@ namespace Transactiondetails.Controllers
 
                 if (_search)
                 {
+                    var serializer = new JavaScriptSerializer();
+
+                    Filters f = (!_search || string.IsNullOrEmpty(filters)) ? null : serializer.Deserialize<Filters>(filters);
+                    //ObjectQuery<Question> filteredQuery =
+                    //    (f == null ? context.Questions : f.FilterObjectSet(data));
+                    //filteredQuery.MergeOption = MergeOption.NoTracking; // we don't want to update the data
+                    //var totalRecords = filteredQuery.Count();
+
+                    var jobRecs = f.rules
+                        .Select(x => new JobReciptVM
+                        {
+                            AccountName = x.field == "AccountName" ? x.data : string.Empty,
+                            ReferenceDate = x.field == "ReferenceDate" ? (string.IsNullOrEmpty(x.data) ? (DateTime?)null : Convert.ToDateTime(x.data)) : (DateTime?)null
+                        });
+
+                    foreach (var jr in jobRecs)
+                    {
+                        if (!string.IsNullOrEmpty(jr.AccountName))
+                        {
+                            data = data.Where(x => x.AccountName.ToLower().Contains(jr.AccountName.ToLower())).ToList();
+                        }
+
+                        if (jr.ReferenceDate.HasValue)
+                        {
+                            data = data.Where(x => x.ReferenceDate == jr.ReferenceDate).ToList();
+                        }
+                    }
+
+                    /*
                     switch (searchField)
                     {
                         case "AccountName":
@@ -142,9 +173,9 @@ namespace Transactiondetails.Controllers
                             var dt = Convert.ToDateTime(searchString);
                             data = data.Where(x => x.ReferenceDate == dt).ToList();
                             break;
-                    }
+                    }*/
                 }
-                
+
                 switch (sidx)
                 {
                     case "AccountCode":
@@ -547,7 +578,7 @@ namespace Transactiondetails.Controllers
             }
             catch (Exception ex)
             {
-                 message = new { message = "Exception occured", error = "True" };
+                message = new { message = "Exception occured", error = "True" };
                 return Json(message, JsonRequestBehavior.AllowGet);
             }
         }

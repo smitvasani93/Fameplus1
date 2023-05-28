@@ -212,7 +212,7 @@ namespace Transactiondetails.Controllers
                         .Select(x => new JobReciptVM
                         {
                             AccountName = x.field == "AccountName" ? x.data : string.Empty,
-                            ReferenceDate = x.field == "ReferenceDate" ? Convert.ToDateTime(x.data) : (DateTime?)null
+                            ReferenceDate = x.field == "ReferenceDate" ? (string.IsNullOrEmpty(x.data) ? (DateTime?)null : Convert.ToDateTime(x.data)) : (DateTime?)null
                         });
 
                     foreach (var jr in jobRecs)

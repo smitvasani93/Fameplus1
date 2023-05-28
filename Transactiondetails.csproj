@@ -4029,12 +4029,12 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\RecipientNotExist.cshtml" />
     <Content Include="Views\Error\UserNotExist.cshtml" />
-    <Content Include="Views\JobWorkReceipts\JobworkReceipt.cshtml" />
+    <Content Include="Views\JobWorkReceipts\JobworkReceiptOld.cshtml" />
     <Content Include="Scripts\jquery-3.6.4.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.4.min.map" />
     <Content Include="Views\Shared\_AjaxGridPager.cshtml" />
     <Content Include="Views\JobWorkReceipts\_JobworkReceiptPartial.cshtml" />
-    <Content Include="Views\JobWorkReceipts\JobworkReceiptDtTable.cshtml" />
+    <Content Include="Views\JobWorkReceipts\JobworkReceipt.cshtml" />
     <Content Include="Views\JobBillings\JobworkBilling.cshtml" />
     <Content Include="Views\JobBillings\JobworkReceiptDtTable.cshtml" />
     <Content Include="Views\JobBillings\_JobBillingPartial.cshtml" />
