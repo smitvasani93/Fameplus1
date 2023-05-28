@@ -86,7 +86,9 @@ namespace Transactiondetails.Controllers
                     Remarks = x.Remarks,
                     Status = x.PacketStatus,
                     ProcessCode = x.ProcessCode,
-                    ProcessName = x.ProcessName
+                    ProcessName = x.ProcessName,
+                    BillingType =x.BillingType,
+                    BillingUnit = x.BillingType
 
                 }).ToList();
 
@@ -450,10 +452,21 @@ namespace Transactiondetails.Controllers
             var jobDespatchDataLayer = new JobDespatchDataLayer();
             var dbutility = new DBUtility();
             var accountDataLayer = new AccountDataLayer();
+            decimal rate = 0;
+
             try
             {
+                var processdetails = dbutility.GetProcessDetails().Where(x => x.ProcessCode == ProcessCode).ToList();
 
-                var rate = BillingQty;
+                if(processdetails!= null)
+                {
+                    //var data = processdetails.Where(x => BillingQty <= x.RangeFrom && BillingQty >= x.RangeTo).FirstOrDefault();
+                    var data = processdetails.Where(x => x.RangeFrom >= BillingQty).OrderBy(y=> y.RangeFrom).FirstOrDefault();
+                    if (data != null)
+                    {
+                        rate = data.BillingRate;
+                    }
+                }
 
                 return Json(new { Rate = rate, message = "Success" }, JsonRequestBehavior.AllowGet);
             }

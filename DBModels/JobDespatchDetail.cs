@@ -21,4 +21,6 @@ public class JobDespatchDetail
     public double BillingRate { get; set; }
     public string AccountCode { get; set; }
     public DateTime? ReferenceDate { get; set; }
+    public string BillingType { get; set; }
+
 }

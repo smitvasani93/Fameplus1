@@ -74,6 +74,7 @@ namespace Transactiondetails.Models.Utility
         public List<ProcessMaster> GetProcesses()
         {
             var processMasterList = new List<ProcessMaster>();
+            var processDetailList = new List<ProcessDetail>();
 
             if (HttpContext.Current.Cache["Process"] != null)
             {
@@ -90,11 +91,45 @@ namespace Transactiondetails.Models.Utility
                     {
                         HttpContext.Current.Cache["Process"] = processMasterList;
                     }
+
+                    //processDetailList = db.Database.SqlQuery<ProcessDetail>("exec spGetProcessDetail").ToList();
+
+
+                    //if (processDetailList != null)
+                    //{
+                    //    HttpContext.Current.Cache["ProcessDetail"] = processDetailList;
+                    //}
                 }
             }
             
             return processMasterList;
         }
+
+        public List<ProcessDetail> GetProcessDetails()
+        {
+            var processDetailList = new List<ProcessDetail>();
+
+            if (HttpContext.Current.Cache["ProcessDetail"] != null)
+            {
+                processDetailList = (List<ProcessDetail>)HttpContext.Current.Cache["ProcessDetail"];
+                return processDetailList;
+            }
+            lock (cacheLock)
+            {
+                using (GenDBContext db = new GenDBContext())
+                {
+                    processDetailList = db.Database.SqlQuery<ProcessDetail>("exec spGetProcessDetail").ToList();
+
+                    if (processDetailList != null)
+                    {
+                        HttpContext.Current.Cache["ProcessDetail"] = processDetailList;
+                    }
+                }
+            }
+
+            return processDetailList;
+        }
+
     }
 
 }
