@@ -4040,6 +4040,7 @@
     <Content Include="Views\JobBillings\_JobBillingPartial.cshtml" />
     <Content Include="Views\JobWorkDespatchs\JobworkDespatch.cshtml" />
     <Content Include="Views\JobWorkDespatchs\_JobworkDespatchPartial.cshtml" />
+    <Content Include="Views\JobWorkDespatchs\_JobworkDespatchUpdatePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

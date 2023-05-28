@@ -441,5 +441,25 @@ namespace Transactiondetails.Controllers
                 return Json(message, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        public ActionResult GetRateByBillingQty(int BillingQty)
+        {
+            var jobDespatchDataLayer = new JobDespatchDataLayer();
+            var dbutility = new DBUtility();
+            var accountDataLayer = new AccountDataLayer();
+            try
+            {
+
+                var rate = BillingQty;
+
+                return  Json(new { Rate=rate, message = "Success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var message = new { message = "Exception occured", error = "True" };
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
