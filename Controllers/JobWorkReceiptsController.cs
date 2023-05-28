@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using Transactiondetails.CustomFilter;
 using Transactiondetails.DBModels;
 using Transactiondetails.Models;
@@ -522,19 +523,33 @@ namespace Transactiondetails.Controllers
         public ActionResult DeleteReceipt(string serialNo)
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
-            var dbutility = new DBUtility();
+            var message = new { message = "Failed", error = "True" };
             try
             {
+                var userData = (UserData)Session["UserData"];
+                var databaseResponse = jobReceiptDataLayer.DeleteJobReciept(userData.Company, userData.FYear, Convert.ToInt32(serialNo));
+
+                if (databaseResponse != null)
+                {
+                    if (databaseResponse.ErrorCode == "00")
+                    {
+                        message = new { message = "Success", error = "false" };
+                        return Json(message, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        message = new { message = "Failed", error = "True" };
+                        return Json(message, JsonRequestBehavior.AllowGet);
+                    }
+                }
 
                 return Json(new { }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                var message = new { message = "Exception occured", error = "True" };
+                 message = new { message = "Exception occured", error = "True" };
                 return Json(message, JsonRequestBehavior.AllowGet);
             }
         }
-
-
     }
 }

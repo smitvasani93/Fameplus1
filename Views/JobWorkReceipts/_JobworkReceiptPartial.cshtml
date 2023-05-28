@@ -369,6 +369,10 @@
 
         let serialNo = $(this).data("serial-no");
 
+        if (confirm("Are you sure you want to delete Recipet No:" + serialNo + " ?") == false) {
+            return false;
+        }
+
           $.ajax({
             url: "@Url.Action("deleteReceipt", "jobworkreceipts")",
             type: "POST",

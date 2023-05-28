@@ -59,5 +59,16 @@ namespace Transactiondetails.Models.Utility
                 return db.Database.SqlQuery<DatabaseResponse>("exec spJobReceiptUpdate @xmlString", pxmlString).FirstOrDefault();
             }
         }
+
+        public DatabaseResponse DeleteJobReciept(string companyCode, string FYear, int serialNo)
+        {
+            var JobRecieptData = new JobRecieptData();
+            using (CompanyDBContext db = new CompanyDBContext(companyCode))
+            {
+                //Call Stored Procedure to get the JobReciepts
+                var pSNumber = new SqlParameter("@SerialNumber", serialNo);
+                return   db.Database.SqlQuery<DatabaseResponse>("exec SpDeleteJobReciept @SerialNumber", pSNumber).FirstOrDefault();
+            }
+         }
     }
 }
