@@ -517,5 +517,24 @@ namespace Transactiondetails.Controllers
                 return Json(message, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        public ActionResult DeleteReceipt(string serialNo)
+        {
+            var jobReceiptDataLayer = new JobReceiptDataLayer();
+            var dbutility = new DBUtility();
+            try
+            {
+
+                return Json(new { }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var message = new { message = "Exception occured", error = "True" };
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
     }
 }
