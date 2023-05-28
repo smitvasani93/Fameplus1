@@ -70,7 +70,7 @@
                         
                 <tr class="receipt-@Model.JobDespatchDetails[i].ProcessCode">
                     <td>
-                        @Model.JobDespatchDetails[i].ReferenceDate
+                        @Model.JobDespatchDetails[i].ReferenceDate.ToString("MM/dd/yyyy")
                         
                     </td>
                     <td>
@@ -148,19 +148,6 @@
 
     var mode =@(Html.Raw(jsonMode));
 
-    function addRequiredRules() {
-
-        $("#despatch tbody tr").each(function (i, row) {
-            let $actualrow = $(row);
-            $actualrow.find("td").each(function (column, td) {
-                let text = $(td).find("input[type=text]").not('[name*=Remark]');
-                if (text.length != 0) {
-                    $(text).rules("add", { required: true, messages: { required: "" } });
-                }
-            });
-        });
-    }
-
     function AjaxFormSuccess(e) {
 
         $('#dialog').dialog('close');
@@ -182,7 +169,6 @@
             errorPlacement: $.noop
         });
 
-
         $("#despatch tbody tr").each(function (i, row) {
 
             let $actualrow = $(row);
@@ -203,7 +189,70 @@
 
     $(document).on("click", ".btn-close-dialog", function (e) {
         $('#dialog').dialog('close');
-    })
+    });
+
+    $("#despatch").on("input", "tr input[name*='BalItemPieces']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+        let despatchPieces = parseInt($(this).val());
+        let Pieces = parseInt($(this).closest("tr").find("input[name*='Pieces']").val());
+
+        if (despatchPieces > Pieces) {
+            $(this).val(Pieces);
+        }
+    });
+
+     $("#despatch").on("input", "tr input[name*='BalItemCarats']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+        let despatchCarats = parseInt($(this).val());
+        let Carats = parseInt($(this).closest("tr").find("input[name*='ItemCarats']").val());
+
+        if (despatchCarats > Carats) {
+            $(this).val(Carats);
+        }
+    });
+
+    $("#despatch").on("input", "tr input[name*='BalItemLines']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+        let despatchLine = parseInt($(this).val());
+        let line = parseInt($(this).closest("tr").find("input[name*='ItemLines']").val());
+
+        if (despatchLine > line) {
+            $(this).val(line);
+        }
+    });
+
+    $("#despatch").on("input", "tr input[name*='BillingQuantity']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+        debugger;
+        let bQty = parseInt($(this).val());
+        let processcode = $(this).closest("tr").find("input[name*='ProcessCode']").val();
+        let $rate = $(this).closest("tr").find("input[name*='Rate']");
+         $.ajax({
+            url: "@Url.Action("GetRateByBillingQty", "JobWorkDespatchs")",
+            type: "GET",
+            data: { billingQty: bQty, ProcessCode: processcode },
+            dataType: 'json',
+            success: function (result) {
+
+                if (result.message === "Success") {
+                    $rate.val(result.Rate)
+                }
+            }
+        });
+
+    });
 
 
     Array.prototype.removeByValue = function (val) {

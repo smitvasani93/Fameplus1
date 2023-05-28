@@ -31,6 +31,7 @@
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     <button id="btnSearch" class="btn btn-secondary btn-sm">Search</button>
+                                    <button id="btnReset" class="btn btn-secondary btn-sm">Reset</button>
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     @*<button id="btnPrint" class="btn btn-secondary btn-sm">Print</button>*@
@@ -78,6 +79,20 @@
             postData.filters = '{"groupOp":"AND","rules":[{"field":"AccountName","op":"cn","data":"' + $("#AccountName").val() + '"},{"field":"ReferenceDate","op":"eq","data":"' + $("#ReferenceDateSearch").val() + '"}]}';
             $("#jqgridtbl").jqGrid('setGridParam', { postData: postData, search: true }).trigger("reloadGrid");
         });
+
+        $('#btnReset').on('click', function () {
+
+            $("#AccountName").val("");
+            $("#ReferenceDateSearch").val("");
+
+            $("#jqgridtbl").jqGrid('setGridParam', {
+                postData: {
+                    filters: ''
+                },
+                search: false
+            }).trigger("reloadGrid");
+        });
+        
 
         $(function () {
 

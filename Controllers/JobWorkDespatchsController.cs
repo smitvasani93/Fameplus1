@@ -72,6 +72,7 @@ namespace Transactiondetails.Controllers
 
                 jobDespatchViewModel.JobDespatchDetails = jobDespatch.JobDespatchDetails.Select(x => new JobDespatchDetailViewModel
                 {
+                    ReferenceDate = x.ReferenceDate.Value,
                     WeightLoss = x.WeightLoss,
                     JRSerialNumber = x.JRSerialNumber,
                     JRItemSerialNumber = x.JRItemSerialNumber,
@@ -240,6 +241,8 @@ namespace Transactiondetails.Controllers
                     //}
                 }
                 /*
+               
+                */
                 switch (sidx)
                 {
                     case "AccountCode":
@@ -293,7 +296,6 @@ namespace Transactiondetails.Controllers
                         }
                         break;
                 }
-                */
                 int totalRecords = data.Count();
                 var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
 

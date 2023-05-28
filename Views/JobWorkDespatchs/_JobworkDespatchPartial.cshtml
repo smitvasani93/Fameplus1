@@ -348,6 +348,10 @@
         $('#dialog').dialog('close');
     }
 
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.getDate().toString().padStart(2, '0') + '/' + d.getMonth() + 1 + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes().toString().padStart(2, '0');
+    }
     jQuery(document).ready(function () {
 
         jQuery("#JobworkReceiptPop").validate({
@@ -386,8 +390,6 @@
     $(document).on("click", ".btn-close-dialog", function (e) {
         $('#dialog').dialog('close');
     })
-
-
 
 
     $("#despatch").on("input","tr input[name*='BalItemPieces']", function (e) {
