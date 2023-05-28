@@ -120,7 +120,7 @@ namespace Transactiondetails.Controllers
 
                 jobDespatchViewModel.Mode = Mode.Update;
 
-                return PartialView("_JobworkDespatchPartial", jobDespatchViewModel);
+                return PartialView("_JobworkDespatchUpdatePartial", jobDespatchViewModel);
             }
             catch (Exception ex)
             {
@@ -442,8 +442,8 @@ namespace Transactiondetails.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult GetRateByBillingQty(int BillingQty)
+        [HttpGet]
+        public ActionResult GetRateByBillingQty(int BillingQty, short ProcessCode)
         {
             var jobDespatchDataLayer = new JobDespatchDataLayer();
             var dbutility = new DBUtility();
@@ -453,7 +453,7 @@ namespace Transactiondetails.Controllers
 
                 var rate = BillingQty;
 
-                return  Json(new { Rate=rate, message = "Success" }, JsonRequestBehavior.AllowGet);
+                return Json(new { Rate = rate, message = "Success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

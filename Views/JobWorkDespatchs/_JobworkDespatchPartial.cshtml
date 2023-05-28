@@ -75,7 +75,7 @@
                             </td>
                             <td>
                                 @Model.JobDespatchDetails[i].ProcessName
-                                @Html.HiddenFor(model => Model.JobDespatchDetails[i].ProcessCode)
+                                
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobDespatchDetails[i].PacketNumber, new { @required = true, @readonly = true, @class = "form-control numberonly" })
@@ -123,6 +123,7 @@
                                 @Html.HiddenFor(model => Model.JobDespatchDetails[i].SerialNumber)
                                 @Html.HiddenFor(model => Model.JobDespatchDetails[i].JRSerialNumber)
                                 @Html.HiddenFor(model => Model.JobDespatchDetails[i].JRItemSerialNumber)
+                                @Html.HiddenFor(model => Model.JobDespatchDetails[i].ProcessCode)
                             </td>
                         </tr>
                     }
@@ -433,12 +434,14 @@
         if ($(this).val() === "") {
             return;
         }
+        debugger;
         let bQty = parseInt($(this).val());
+        let processcode = $(this).closest("tr").find("input[name*='ProcessCode']").val();
         let $rate = $(this).closest("tr").find("input[name*='Rate']");
          $.ajax({
             url: "@Url.Action("GetRateByBillingQty", "JobWorkDespatchs")",
-            type: "POST",
-             data: { billingQty: bQty },
+            type: "GET",
+            data: { billingQty: bQty, ProcessCode: processcode },
             dataType: 'json',
             success: function (result) {
                 
