@@ -33,12 +33,12 @@ namespace Transactiondetails.DBModels
         public Int16 SerialNumber { get; set; }
         [XmlElement("RangeFrom")]
 
-        public double RangeFrom { get; set; }
+        public decimal RangeFrom { get; set; }
 
         [XmlElement("RangeTo")]
 
-        public double RangeTo { get; set; }
+        public decimal RangeTo { get; set; }
         [XmlElement("BillingRate")]
-        public double BillingRate { get; set; }
+        public decimal BillingRate { get; set; }
     }
 }
