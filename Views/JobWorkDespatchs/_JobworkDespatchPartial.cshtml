@@ -165,7 +165,7 @@
             datatype: 'local',
             colModel: [
                 /*{ label: 'Tag', name: "Tag", width: 50, align: "center", sortable: false, formatter: "checkbox", formatoptions: { disabled: false }, edittype: "checkbox", editoptions: { value: "True:False" }, formatoptions: { disabled: false }, multiselect: true },*/
-                { label: "Ref Date", name: "ReferenceDate", width: (pageWidth * (15 / 100)), align: "center", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "Y-m-d" } },
+                { label: "Ref Date", name: "ReferenceDate", width: (pageWidth * (15 / 100)), align: "center", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "m/d/Y" } },
                 { label: "Customer", width: (pageWidth * (20 / 100)), align: "center", name: "CustomrName" },
                 { label: "Process ", width: (pageWidth * (24 / 100)), align: "center",  name: "ProcessName"},
                 { label: "Packet No", width: (pageWidth * (10 / 100)), align: "center", name: "PacketNumber"},
@@ -227,7 +227,7 @@
 
                 if (i === 0) {
 
-                    $tr.find("td:nth-child(1)").html(gridData[i].ReferenceDate);
+                    $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
                     $tr.find("td:nth-child(2)").html(gridData[i].ProcessName);
                     $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
                     $tr.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
