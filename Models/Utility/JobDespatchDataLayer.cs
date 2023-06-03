@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Transactiondetails.DBModels;
@@ -71,6 +72,15 @@ namespace Transactiondetails.Models.Utility
             {
                 //Call Stored Procedure to dump the xml to database
                 return db.Database.SqlQuery<DatabaseResponse>("exec spJobDespatchUpdate @xmlString", pxmlString).FirstOrDefault();
+            }
+        }
+
+        public DatabaseResponse DeleteJobDespatch(string companyCode, string fYear, int serialNo)
+        {
+             using (CompanyDBContext db = new CompanyDBContext(companyCode))
+            {
+                //Call Stored Procedure to dump the xml to database
+                return db.Database.SqlQuery<DatabaseResponse>("exec SpDeleteJobDespatch @SerialNumber", serialNo).FirstOrDefault();
             }
         }
     }

@@ -460,12 +460,20 @@ namespace Transactiondetails.Controllers
 
                 if(processdetails!= null)
                 {
+
+                    var billingRate = (from process in processdetails
+                                 where process.RangeFrom <= BillingQty && process.RangeTo >= BillingQty
+                                 select process.BillingRate
+                                 ).FirstOrDefault();
+
                     //var data = processdetails.Where(x => BillingQty <= x.RangeFrom && BillingQty >= x.RangeTo).FirstOrDefault();
-                    var data = processdetails.Where(x => x.RangeFrom >= BillingQty).OrderBy(y=> y.RangeFrom).FirstOrDefault();
-                    if (data != null)
-                    {
-                        rate = data.BillingRate;
-                    }
+                    //var data = processdetails.Where(x => x.RangeFrom >= BillingQty).OrderBy(y=> y.RangeFrom).FirstOrDefault();
+                    //if (data != null)
+                    //{
+                    //    rate = data.BillingRate;
+                    //}
+
+                    rate = billingRate;
                 }
 
                 return Json(new { Rate = rate, message = "Success" }, JsonRequestBehavior.AllowGet);
@@ -473,6 +481,39 @@ namespace Transactiondetails.Controllers
             catch (Exception ex)
             {
                 var message = new { message = "Exception occured", error = "True" };
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult deleteDespatch(string serialNo)
+        {
+            var jobDespatchDataLayer = new JobDespatchDataLayer();
+            var message = new { message = "Failed", error = "True" };
+            try
+            {
+                var userData = (UserData)Session["UserData"];
+                var databaseResponse = jobDespatchDataLayer.DeleteJobDespatch(userData.Company, userData.FYear, Convert.ToInt32(serialNo));
+
+                if (databaseResponse != null)
+                {
+                    if (databaseResponse.ErrorCode == "00")
+                    {
+                        message = new { message = "Success", error = "false" };
+                        return Json(message, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        message = new { message = "Failed", error = "True" };
+                        return Json(message, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                message = new { message = "Exception occured", error = "True" };
                 return Json(message, JsonRequestBehavior.AllowGet);
             }
         }
