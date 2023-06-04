@@ -4033,20 +4033,19 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\RecipientNotExist.cshtml" />
     <Content Include="Views\Error\UserNotExist.cshtml" />
-    <Content Include="Views\JobWorkReceipts\JobworkReceiptOld.cshtml" />
     <Content Include="Scripts\jquery-3.6.4.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.4.min.map" />
     <Content Include="Views\Shared\_AjaxGridPager.cshtml" />
     <Content Include="Views\JobWorkReceipts\_JobworkReceiptPartial.cshtml" />
     <Content Include="Views\JobWorkReceipts\JobworkReceipt.cshtml" />
     <Content Include="Views\JobBillings\JobworkBilling.cshtml" />
-    <Content Include="Views\JobBillings\JobworkReceiptDtTable.cshtml" />
     <Content Include="Views\JobBillings\_JobBillingPartial.cshtml" />
     <Content Include="Views\JobWorkDespatchs\JobworkDespatch.cshtml" />
     <Content Include="Views\JobWorkDespatchs\_JobworkDespatchPartial.cshtml" />
     <Content Include="Views\JobWorkDespatchs\_JobworkDespatchUpdatePartial.cshtml" />
     <Content Include="Scripts\moment.min.js.map" />
     <Content Include="Scripts\moment-with-locales.min.js.map" />
+    <Content Include="Views\JobBillings\_JobBillingUpdatePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

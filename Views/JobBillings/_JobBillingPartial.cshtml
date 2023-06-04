@@ -1,8 +1,9 @@
-﻿@model  Transactiondetails.ViewModels.JobReciptVM
+﻿@model  Transactiondetails.ViewModels.JobDespatchViewModel
 @using Newtonsoft.Json;
 
 @{
     var jsonMode = JsonConvert.SerializeObject(Model.Mode);
+    var jsonModel = JsonConvert.SerializeObject(Model);
     var htmlAttributes = new Dictionary<string, object>();
     htmlAttributes.Add("class", "form-control");
     htmlAttributes.Add("readonly", true);
@@ -12,20 +13,20 @@
     //}
 }
 
-@using (Ajax.BeginForm("SaveJobworkReceipt", "JobWorkReceipts", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobworkReceiptPop" }))
+@using (Ajax.BeginForm("SaveJobworkDespatch", "JobWorkDespatchs", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobworkReceiptPop" }))
 {
     @Html.HiddenFor(model => model.Mode)
     <div class="row g-3">
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-sm-2">
-                    <label for="inputEmail3" class="col-form-label">Receipt Date</label>
+                    <label for="inputEmail3" class="col-form-label">Despatch Date</label>
                 </div>
                 <div class="col-sm-5">
-                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { @id = "ReferenceDate1", @class = "form-control" })
+                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { @id = "ReferenceDate11", @class = "form-control", @readonly = true })
                 </div>
                 <div class="col-sm-2 mr-minus">
-                    <label for="inputEmail3" class="col-form-label">Receipt No</label>
+                    <label for="inputEmail3" class="col-form-label">Despatch No</label>
                 </div>
                 <div class="col-sm-3">
                     @Html.TextBoxFor(x => x.SerialNumber, htmlAttributes)
@@ -37,71 +38,111 @@
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Customer Name</label>
                 <div class="col-sm-5">
                     @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @class = "form-select" })
+                    @Html.HiddenFor(model => model.AccountCode, new { @id = "AccountCodedummy" })
                 </div>
             </div>
         </div>
         <div class="col-lg-12">
-            <div id="newone" class="row pt-1">
-                <table id="receipt" class="table table-bordered">
+            <div id="newone" class="row pt-1 newone-css" style="overflow-x:auto;">
+                <table id="despatch" class="table table-bordered">
                     <thead>
                         <tr>
+                            <th style="width:250px;">Ref. Date</th>
                             <th style="width:400px;">Process</th>
-                            <th>Packet No</th>
-                            <th>Pieces</th>
-                            <th>Carats</th>
-                            <th>Lines</th>
-                            <th>Remarks</th>
-                            <th></th>
+                            <th style="width:200px;">Packet No</th>
+                            <th style="width:200px;">Pieces</th>
+                            <th style="width:200px;">Carats</th>
+                            <th style="width:200px;">Lines</th>
+                            <th style="width:200px;">Pieces Despatch</th>
+                            <th style="width:200px;">Carats Despatch</th>
+                            <th style="width:200px;">Lines Despatch</th>
+                            <th style="width:200px;">Weight Loss</th>
+                            <th style="width:200px;">Status</th>
+                            <th style="width:200px;">Billing Unit</th>
+                            <th style="width:200px;">Billing Qty</th>
+                            <th style="width:200px;">No Charge Qty</th>
+                            <th style="width:200px;">Rate</th>
+                            <th style="width:200px;">Remarks</th>
                         </tr>
                     </thead>
-                    @for (var i = 0; i < Model.JobReceiptDetails.Count(); i++)
+                    @for (var i = 0; i < Model.JobDespatchDetails.Count(); i++)
                     {
-                        <tr>
+
+                        <tr class="receipt-@Model.JobDespatchDetails[i].ProcessCode">
                             <td>
-                                @Html.DropDownListFor(model => Model.JobReceiptDetails[i].ProcessCode, new SelectList(Model.Processes, "ProcessCode", "ProcessName", Model.JobReceiptDetails[i].ProcessCode), "Please select", new { @class = "form-select", @required = true })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].PacketNumber, new { @required = true, @class = "form-control numberonly" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemPieces, new { @required = true, @class = "form-control allow_decimal" })
+                                @Model.JobDespatchDetails[i].ReferenceDate
+
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemCarats, new { @required = true, @class = "form-control allow_decimal" })
+                                @Model.JobDespatchDetails[i].ProcessName
+                                
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].ItemLines, new { @required = true, @class = "form-control allow_decimal" })
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].PacketNumber, new { @required = true, @readonly = true, @class = "form-control numberonly" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobReceiptDetails[i].Remarks, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].ItemPieces, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
                             </td>
-                            <td class="plsRow">
-                                @if (Model.JobReceiptDetails.Count() - 1 == i)
-                                {
-                                    <a class="addRow" href="javascript:void(0);">
-                                        <i class="fa fa-plus"></i>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a class="deleteRow" href="javascript:void(0);">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                }
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].ItemCarats, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
                             </td>
-                            <td style="display:none">
-                                @Html.HiddenFor(model => Model.JobReceiptDetails[i].ItemSerialNumber)
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].ItemLines, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].BalItemPieces, new { @required = true, @class = "form-control allow_decimal BalItemPieces" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].BalItemCarats, new { @required = true, @class = "form-control allow_decimal BalItemCarats" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].BalItemLines, new { @required = true, @class = "form-control allow_decimal BalItemLines" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].WeightLoss, new { @class = "form-control numberonly" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => Model.JobDespatchDetails[i].Status, (new[] { new SelectListItem { Text = "Yes", Value = "yes" }, new SelectListItem { Text = "No", Value = "no" } }), new { @class = "form-select" })
+
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].BillingUnit, new { @readonly = true, @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].BillingQuantity, new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].NoChargeQuantity, new { @class = "form-control numberonly" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].Rate, new { @readonly = true, @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobDespatchDetails[i].Remarks, new { @class = "form-control" })
+                                @Html.HiddenFor(model => Model.JobDespatchDetails[i].ItemSerialNumber)
+                                @Html.HiddenFor(model => Model.JobDespatchDetails[i].SerialNumber)
+                                @Html.HiddenFor(model => Model.JobDespatchDetails[i].JRSerialNumber)
+                                @Html.HiddenFor(model => Model.JobDespatchDetails[i].JRItemSerialNumber)
+                                @Html.HiddenFor(model => Model.JobDespatchDetails[i].ProcessCode)
                             </td>
                         </tr>
                     }
                 </table>
+
             </div>
+            <div class="jqueryTbl-container" style="overflow-x:auto;">
+                <table id="jqueryTbl"></table>
+                <div class="ui-dialog-buttonset offset-lg-11 pt-lg-3 pb-lg-1 ps-5">
+                    <button type="button" class="btn btn-default select-pending-receipt">Select</button>
+                </div>
+            </div>
+
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12 button-container newone-css">
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
                 <div class="ui-dialog-buttonset ps-sm-5">
                     <button type="submit" class="btn btn-secondary">Submit</button>
-                    <button type="button" class="btn btn-default btn-close-dialog">Close</button>
+                    <button type="button" class="btn btn-default btn-close-dialog ">Close</button>
                 </div>
             </div>
         </div>
@@ -109,7 +150,6 @@
     <div id="result">
 
     </div>
-
 }
 
 <script type="text/javascript">
@@ -118,207 +158,200 @@
 
     $(function () {
 
-        $("#ReferenceDate1").on("focusin", function (e) {
-            return false; // or e.stopPropagation();
-        }).datepicker({
-            /*showOn: "button",*/
-            autoOpen:false,
-            showButtonPanel: false,
-            dateFormat: 'dd-mm-yyyy',
-            onSelect: function () {
+        var data =@(Html.Raw(jsonModel));
+        var pageWidth = $("#jqueryTbl").parent().width() - 100;
+        $("#jqueryTbl").jqGrid({
+            data: [],
+            datatype: 'local',
+            colModel: [
+                /*{ label: 'Tag', name: "Tag", width: 50, align: "center", sortable: false, formatter: "checkbox", formatoptions: { disabled: false }, edittype: "checkbox", editoptions: { value: "True:False" }, formatoptions: { disabled: false }, multiselect: true },*/
+                { label: "Ref Date", name: "ReferenceDate", width: (pageWidth * (15 / 100)), align: "center", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "m/d/Y" } },
+                { label: "Customer", width: (pageWidth * (20 / 100)), align: "center", name: "CustomrName" },
+                { label: "Process ", width: (pageWidth * (24 / 100)), align: "center",  name: "ProcessName"},
+                { label: "Packet No", width: (pageWidth * (10 / 100)), align: "center", name: "PacketNumber"},
+                { label: "Pieces", width: (pageWidth * (6 / 100)), align: "center", name: "ItemPieces"},
+                { label: "Pending Pieces", width: (pageWidth * (10 / 100)), align: "center", name: "BalItemPieces"},
+                { label: "Carats", width: (pageWidth * (5 / 100)), align: "center", name: "ItemCarats"},
+                { label: "Pending Carats", width: (pageWidth * (10 / 100)), align: "center", name: "BalItemCarats" },
+                { label: "Lines", width: (pageWidth * (5 / 100)), align: "center", name: "ItemLines" },
+                { name: "ItemSerialNumber", hidden: 'true' },
+                { name: "SerialNumber", hidden: 'true' },
+                { name: "ProcessCode", hidden: 'true' },
+                { name: "BillingType", hidden: 'true' }
+            ],
+            cmTemplate: { sortable: false },
+            loadonce: true,
+            height: '100%',
+            width: '100%',
+            multiselect: true,
+            multiselectWidth: 30,
+            shrinkToFit: true,
+            onSelectRow: function (rowid, status, e) {
 
+            },
+            gridComplete: function () {
+
+            }
+        });
+
+
+        $(".select-pending-receipt").on("click", function (e) {
+
+            $("#ddlCustomer").val();
+            $("#AccountCodedummy").val($("#ddlCustomer").val());
+            $("#ddlCustomer").prop("disabled", "disabled");
+            getSelectedRows();
+        });
+
+        function getSelectedRows() {
+
+            let $grid = $("#jqueryTbl");
+            let rowKey = $grid.getGridParam("selrow");
+            let gridData = [];
+
+            if (!rowKey) {
+                alert("No rows are selected");
+                return;
+            }
+
+            let selectedRows = $("#jqueryTbl").jqGrid("getGridParam", "selarrrow");
+
+            // loop through the IDs to retrieve the data for each selected row
+            for (var i = 0; i < selectedRows.length; i++) {
+                var rowData = $("#jqueryTbl").jqGrid("getRowData", selectedRows[i]);
+                gridData.push(rowData);
+            }
+
+            let $tr = $("#newone").find("Table").find("tr:last");
+            for (let i = 0; i < gridData.length; i++) {
+
+                if (i === 0) {
+
+                    $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
+                    $tr.find("td:nth-child(2)").html(gridData[i].ProcessName);
+                    $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
+                    $tr.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
+                    $tr.find("input[name*='ItemLines']").val(gridData[i].ItemLines);
+                    $tr.find("input[name*='ItemCarats']").val(gridData[i].ItemCarats);
+                    $tr.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
+                    $tr.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
+                    $tr.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
+                    $tr.find("input[name*='ProcessCode']").val(gridData[i].ProcessCode);
+                    $tr.find("input[name*='BillingUnit']").val(gridData[i].BillingType);
+                    /*$tr.find("input[name*='SerialNumber']").val(gridData[i].SerialNumber);*/
+                    //$tr.find("input[name*='ItemSerialNumber']").val(gridData[i].ItemSerialNumber);
+                    $tr.find("input[type=hidden][name*='JRSerialNumber']").val(gridData[i].SerialNumber);
+                    $tr.find("input[type=hidden][name*='JRItemSerialNumber']").val(gridData[i].ItemSerialNumber);
+                    $tr.find("input[type=hidden][name*='SerialNumber']").val(gridData[i].SerialNumber);
+                    $tr.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
+                    /*$tr.find("select[name*='Status']").val();*/
+
+                    continue;
+                }
+
+               let $trClone = $tr.clone();
+
+                $trClone.find("td:nth-child(1)").html(gridData[i].ReferenceDate);
+                $trClone.find("td:nth-child(2)").html(gridData[i].ProcessName);
+
+                $trClone.find("input[type=text]").each(function (idx, inputElm) {
+
+                    let $inputText = $(this);
+                    let newId = $inputText.attr("id").replace(/\d+/, i);
+                    let newName = $inputText.attr("name").replace(/\d+/, i);
+                    $inputText.attr("id", newId);
+                    $inputText.attr("name", newName);
+
+                });
+
+                $trClone.find("input[type=hidden]").each(function (idx, inputElm) {
+
+                    let $inputHidden = inputElm;
+                    let newId = $inputHidden.id.replace(/\d+/, i);
+                    let newName = $inputHidden.name.replace(/\d+/, i);
+                    $inputHidden.id= newId;
+                    $inputHidden.name = newName;
+                });
+
+                $trClone.find("select").each(function (idx, inputElm) {
+
+                    let $inputSelect = inputElm;
+                    let newId = $inputSelect.id.replace(/\d+/, i);
+                    let newName = $inputSelect.name.replace(/\d+/, i);
+                    $inputSelect.id = newId;
+                    $inputSelect.name = newName;
+                });
+
+                $trClone.find("input[type=hidden][name*='JRSerialNumber']").val(gridData[i].SerialNumber);
+                $trClone.find("input[type=hidden][name*='JRItemSerialNumber']").val(gridData[i].ItemSerialNumber);
+                $trClone.find("input[type=hidden][name*='SerialNumber']").val(gridData[i].SerialNumber);
+                $trClone.find("input[type=hidden][name*='ItemSerialNumber']").val(i+1);
+                $trClone.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
+                $trClone.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
+                $trClone.find("input[name*='ItemLines']").val(gridData[i].ItemLines);
+                $trClone.find("input[name*='ItemCarats']").val(gridData[i].ItemCarats);
+                $trClone.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
+                $trClone.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
+                $trClone.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
+                $trClone.find("input[name*='ProcessCode']").val(gridData[i].ProcessCode);
+                $trClone.find("input[name*='WeightLoss']").val(gridData[i].WeightLoss);
+                $trClone.find("input[name*='Status']").val(gridData[i].Status);
+                $trClone.find("input[name*='BillingUnit']").val(gridData[i].BillingType);
+                $trClone.find("input[name*='NoChargeQuantity']").val(gridData[i].NoChargeQuantity);
+                $trClone.find("input[name*='Rate']").val(gridData[i].Rate);
+                $trClone.find("input[name*='Remarks']").val(gridData[i].Remarks);
+
+                $("#despatch").append($trClone);
+            }
+
+            $(".jqueryTbl-container").remove();
+            $("#newone").removeClass("newone-css");
+            $(".button-container").removeClass("newone-css");
+
+           addRequiredRules();
+
+        }
+    });
+
+    $("#ddlCustomer").on("change", function (e) {
+
+        let accountcode = this.value;
+        $.ajax({
+            url: "@Url.Action("GetPendingJobworkReceipt", "JobWorkDespatchs")",
+            type: "POST",
+            data: { accountCode: accountcode },
+            dataType: 'json',
+            success: function (data) {
+
+                var $gParams = $('#jqueryTbl').jqGrid("getGridParam");
+                $gParams.data = data;
+                $('#jqueryTbl').trigger("reloadGrid", [{ page: 1 }]);
             }
         });
     });
 
-    $(function () {
+    function addRequiredRules() {
 
-        $("#receipt ").on('click', '.addRow', function (evt) {
-            evt.stopPropagation();
-            let noclone = false;
-
-            $("#receipt tbody tr").each(function (i, row) {
-                let $actualrow = $(row);
-                $actualrow.find("td").each(function (column, td) {
-
-                    let select = $(td).find("select");
-                    let text = $(td).find("input[type=text]").not('[name*=Remark]');
-
-                    if (select.length != 0) {
-
-                        $(select).rules("add", { required: true, messages: { required: "" } });
-
-                        if ($(select).val() == 0 || $(select).val() == "") {
-                            $(select).addClass("error");
-                            noclone = true;
-                        } else {
-                            $(select).removeClass("error");
-                        }
-                    }
-                    if (text.length != 0) {
-
-                        $(text).rules("add", { required: true, messages: { required: "" } });
-
-                        if ($(text).val() == "") {
-                            $(text).addClass("error");
-                            noclone = true;
-                        } else {
-                            $(text).removeClass("error");
-                        }
-                    }
-                });
-            });
-
-            if (!noclone) {
-
-                let rowCount = $("#receipt > tbody >tr").length
-                let tr = $("#newone").find("Table").find("tr:last").clone();
-
-                $("#receipt tbody tr").each(function (i, row) {
-                    let $actualrow = $(row);
-                    $actualrow.find("td").each(function (column, td) {
-
-                        if ($(td).find("a.addRow").length !== 0) {
-                            $(td).find("a.addRow").remove();
-                        }
-
-                        if ($(td).hasClass("plsRow")) {
-                            if ($(td).find("a.deleteRow").length === 0)
-                            {
-                              $(td).append($("<a class=\"deleteRow\" href=\"javascript: void (0); \"><i class=\"fa fa-trash\" ></i></a>"));
-                            }
-                        }
-                    });
-                });
-
-                tr.find("input[name*='PacketNumber']").val("1");
-                tr.find("input[name*='ItemPieces']").val("1");
-                tr.find("input[name*='ItemLines']").val("0");
-                tr.find("input[name*='ItemCarats']").val("0");
-                tr.find("select[name*='ProcessCode']").val("");
-                $("#receipt").append(tr);
-
-                resetElementIndex();
-            }
-
-            //$("#receipt tbody tr").each(function (i, row) {
-            //    let $actualrow = $(row);
-            //    i++;
-            //    $actualrow.find("td").each(function (column, td) {
-
-            //        let select = $(td).find("select");
-            //        let text = $(td).find("input[type=text]").not('[name*=Remark]');
-            //        let hidden = $(td).find("input[type=hidden]");
-
-            //        if (hidden.length != 0) {
-            //            $(hidden).val(i);
-            //        }
-            //        if (select.length != 0) {
-            //            $(select).rules("add", { required: true, messages: { required: "" } });
-            //        }
-            //        if (text.length != 0) {
-            //            $(text).rules("add", { required: true, messages: { required: "" } });
-            //        }
-            //    });
-            //});
-
-        });
-
-        $("#receipt").on('click', '.deleteRow', function () {
-            if (1 != $('#receipt >tbody >tr').length) {
-                $(this).parent().parent().remove();
-            }
-
-            resetElementIndex();
-        });
-    });
-
-    function resetElementIndex() {
-        let index = 0;
-
-        $("#receipt tbody tr").each(function (i, row) {
+        $("#despatch tbody tr").each(function (i, row) {
             let $actualrow = $(row);
             $actualrow.find("td").each(function (column, td) {
-
-                let $selectName = $(this).find("input,select").attr("name");
-                let $name = $(this).find("input,text").attr("name");
-                let $hidenname = $(this).find("input,hidden").attr("name");
-                let $ctrl = undefined;
-
-                if ($hidenname !== undefined && $hidenname.indexOf(".ItemSerialNumber") != -1) {
-
-                    $(this).find("input,hidden").attr("id", "JobReceiptDetails_" + index + "__ItemSerialNumber");
-                    $(this).find("input,hidden").attr("name", "JobReceiptDetails[" + index + "].ItemSerialNumber");
-                    $ctrl = $(this).find("input,hidden").attr("name","JobReceiptDetails[" + index + "].ItemSerialNumber");
-                    $($ctrl).val(index);
+                let text = $(td).find("input[type=text]").not('[name*=Remark]');
+                if (text.length != 0) {
+                    $(text).rules("add", { required: true, messages: { required: "" } });
                 }
-                if ($selectName !== undefined && $selectName.indexOf(".ProcessCode") != -1) {
-                    $(this).find("input,select").attr("id", "JobReceiptDetails_" + index + "__ProcessCode");
-                    $(this).find("input,select").attr("name", "JobReceiptDetails[" + index + "].ProcessCode");
-                    $ctrl = $(this).find("input,select").attr("name", "JobReceiptDetails[" + index + "].ProcessCode");
-                    
-                    
-                }
-                if ($name !== undefined && $name.indexOf(".PacketNumber") != -1) {
-                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__PacketNumber");
-                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].PacketNumber");
-                    $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].PacketNumber");
-                }
-                if ($name !== undefined && $name.indexOf(".ItemPieces") != -1) {
-                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemPieces");
-                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemPieces");
-                    $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemPieces");
-                }
-                if ($name !== undefined && $name.indexOf(".ItemCarats") != -1) {
-                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemCarats");
-                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemCarats");
-                    $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemCarats");
-                }
-                if ($name !== undefined && $name.indexOf(".ItemLines") != -1) {
-                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__ItemLines");
-                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].ItemLines");
-                    $ctrl = $(this).find("input,text").attr("name","JobReceiptDetails[" + index + "].ItemLines");
-                }
-
-                if ($name !== undefined && $name.indexOf(".Remark") != -1) {
-                    $(this).find("input,text").attr("id", "JobReceiptDetails_" + index + "__Remark");
-                    $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].Remark");
-                    $ctrl = $(this).find("input,text").attr("name", "JobReceiptDetails[" + index + "].Remark");
-                }
-
-                if ($ctrl !== undefined &&
-                    !$($ctrl).is(":hidden") &&
-                    !$($ctrl).is("[name*=Remark]")) {
-                    $($ctrl).rules("add", { required: true, messages: { required: "" } });
-                }
-
             });
-            index++;
         });
-
     }
 
     function AjaxFormSuccess(e) {
 
         $('#dialog').dialog('close');
-        location.reload();
     }
 
-    $(document).ready(function () {
-        $(".addRow").keydown(function (event) {
-            if (event.which == 13) {
-                event.preventDefault();
-                $('.addRow').click();
-            }
-        });
-        $(".deleteRow").keydown(function (event) {
-            if (event.which == 13) {
-                event.preventDefault();
-                $('.deleteRow').click();
-            }
-        });
-    });
-
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.getDate().toString().padStart(2, '0') + '/' + d.getMonth() + 1 + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes().toString().padStart(2, '0');
+    }
     jQuery(document).ready(function () {
 
         jQuery("#JobworkReceiptPop").validate({
@@ -326,18 +359,17 @@
                 ReferenceDate: 'required',
                 AccountCode: 'required',
                 SerialNumber: 'required',
-            }, messages: {
+            },
+            messages: {
                 ReferenceDate: 'Select Reference Date',
                 AccountCode: 'Select Customer',
                 SerialNumber: 'Select Serial Number',
-            }
+            },
+            errorPlacement: $.noop
         });
 
-        if (mode === 2) {
-            $("#SerialNumber").rules("remove", "required");
-        }
 
-        $("#receipt tbody tr").each(function (i, row) {
+        $("#despatch tbody tr").each(function (i, row) {
 
             let $actualrow = $(row);
             $actualrow.find("td").each(function (column, td) {
@@ -358,6 +390,128 @@
     $(document).on("click", ".btn-close-dialog", function (e) {
         $('#dialog').dialog('close');
     })
+
+
+    $("#despatch").on("input","tr input[name*='BalItemPieces']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+        let despatchPieces=parseInt($(this).val());
+        let Pieces = parseInt($(this).closest("tr").find("input[name*='Pieces']").val());
+
+        if (despatchPieces > Pieces) {
+            $(this).val(Pieces);
+        }
+    });
+
+    $("#despatch").on("input", "tr input[name*='BalItemCarats']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+        let despatchCarats = parseInt($(this).val());
+        let Carats = parseInt($(this).closest("tr").find("input[name*='ItemCarats']").val());
+
+        if (despatchCarats > Carats) {
+            $(this).val(Carats);
+        }
+    });
+
+    $("#despatch").on("input", "tr input[name*='BalItemLines']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+        let despatchLine = parseInt($(this).val());
+        let line = parseInt($(this).closest("tr").find("input[name*='ItemLines']").val());
+
+        if (despatchLine > line) {
+            $(this).val(line);
+        }
+    });
+
+    $("#despatch").on("input", "tr input[name*='BillingQuantity']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+        debugger;
+        let bQty = parseInt($(this).val());
+        let processcode = $(this).closest("tr").find("input[name*='ProcessCode']").val();
+        let $rate = $(this).closest("tr").find("input[name*='Rate']");
+         $.ajax({
+            url: "@Url.Action("GetRateByBillingQty", "JobWorkDespatchs")",
+            type: "GET",
+            data: { billingQty: bQty, ProcessCode: processcode },
+            dataType: 'json',
+            success: function (result) {
+                
+                if (result.message === "Success") {
+                    $rate.val(result.Rate)
+                }
+            }
+        });
+
+    });
+
+
+    Array.prototype.removeByValue = function (val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] === val) {
+                this.splice(i, 1);
+                i--;
+            }
+        }
+        return this;
+    }
+
 </script>
 <style>
+     #JobworkReceiptPop .form-control:read-only {
+         background-color: #e9ecef !important;
+     }
+
+     #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-htable th {
+         height: 40px !important;
+         /* padding: 0 2px 0 2px; */
+     }
+
+     #JobworkReceiptPop .ui-jqgrid tr.jqgrow td {
+         padding: 4px !important;
+     }
+
+     #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-view {
+         font-size: 13px !important;
+     }
+
+     #JobworkReceiptPop .ui-widget input {
+         margin-top: 5px !important;
+     }
+
+     #JobworkReceiptPop .ui-widget-content {
+         border: 1px solid #efefef !important;
+     }
+
+     .newone-css {
+         display: none;
+     }
+
+     #despatch th {
+         font-size: 13px;
+     }
+
+     #despatch tr {
+         font-size: 12px;
+     }
+
+         #despatch tr td:not(:first-child):not(:nth-child(2)) {
+             /*padding-left:10px !important;
+    padding-right:10px !important;*/
+         }
+
+         #despatch tr td:nth-child(3n) {
+             padding-left: 10px !important;
+             padding-right: 10px !important;
+         }
 </style>

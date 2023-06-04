@@ -44,9 +44,11 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="jqgridtbl">
-                    </table>
-                    <div id="gqgridpager"></div>
+                    <div style="overflow-x:auto;">
+                        <table id="jqgridtbl">
+                        </table>
+                        <div id="gqgridpager"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,6 +65,13 @@
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script>
+        /*
+        $(window).on("resize", function () {
+            let $grid = $("#jqgridtbl"), newWidth = $grid.closest("ui-jqgrid").parent().width();
+            $grid.jqGrid("setGridWidth", newWidth, true);
+        });
+        */
+
         var id = 0;
         $(document).on('click', '#btnAddNew', function () {
             id = 0;
@@ -165,6 +174,8 @@
                 height: '100%',
                 pager: jQuery('#gqgridpager'),
                 viewrecords: true,
+                responsive: true,
+                autoResize: true,
                 emptyrecords: 'No records are available to display',
                 jsonReader: {
                     root: "rows",
