@@ -96,7 +96,7 @@ namespace Transactiondetails.Controllers
 
                 //}).ToList();
 
-                 
+
                 //var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
 
                 //jobDespatchViewModel.Accounts = accounts.Select(sel => new AccountMasterVM
@@ -119,7 +119,7 @@ namespace Transactiondetails.Controllers
         {
             ViewBag.Menu = "Master";
             ViewBag.SubMenu = "JobworkBilling";
-            return View(Enumerable.Empty<JobDespatchViewModel>());
+            return View(Enumerable.Empty<JobBillingViewModel>());
         }
 
         public ActionResult JobworkReceiptDtTable()
@@ -392,7 +392,7 @@ namespace Transactiondetails.Controllers
                 var recieptNo = jobDespatchMasters.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
 
-                var jobDespatchVM = new JobDespatchViewModel();
+                var jobDespatchVM = new JobBillingViewModel();
 
                 jobDespatchVM.SerialNumber = recieptNo;
                 jobDespatchVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
@@ -409,9 +409,9 @@ namespace Transactiondetails.Controllers
                     AccountName = sel.AccountName
                 });
 
-                jobDespatchVM.JobDespatchDetails = new List<JobDespatchDetailViewModel>
+                jobDespatchVM.JobBillingDetails = new List<JobBillingDetailViewModel>
                 {
-                    new JobDespatchDetailViewModel{
+                    new JobBillingDetailViewModel{
                          ItemSerialNumber=1,
                          ItemLines=0,
                          PacketNumber=1,
@@ -421,7 +421,7 @@ namespace Transactiondetails.Controllers
                 };
 
                 jobDespatchVM.Mode = Mode.Add;
-                return PartialView("_JobworkDespatchPartial", jobDespatchVM);
+                return PartialView("_JobBillingPartial", jobDespatchVM);
             }
             catch (Exception ex)
             {

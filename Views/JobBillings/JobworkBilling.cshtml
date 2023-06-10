@@ -6,7 +6,7 @@
 }
 
 @using Transactiondetails.ViewModels
-@model IEnumerable<JobDespatchViewModel>
+@model IEnumerable<JobBillingViewModel>
 
 <section class="section dashboard mt-2">
     <div class="row">
@@ -69,7 +69,7 @@
         $(document).on('click', '#btnAddNew', function () {
             id = 0;
             $('#dialog')
-                .dialog({ title: 'Add Jobwork Despatch' })
+                .dialog({ title: 'Add Job Billing' })
                 .dialog('open');
         });
 
