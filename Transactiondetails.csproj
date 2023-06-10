@@ -3977,9 +3977,12 @@
     <Compile Include="DBModels\JobDespatchDetail.cs" />
     <Compile Include="DBModels\JobBillingMaster.cs" />
     <Compile Include="DBModels\JobDespatchMaster.cs" />
+    <Compile Include="DBModels\JobBilingData.cs" />
     <Compile Include="DBModels\JobRecieptData.cs" />
+    <Compile Include="DBModels\JobBillingDetail.cs" />
     <Compile Include="DBModels\JobRecieptDetail.cs" />
     <Compile Include="DBModels\JobRecieptMaster.cs" />
+    <Compile Include="DBModels\PendingJobDespatchDetail.cs" />
     <Compile Include="DBModels\PendingJobRecieptDetail.cs" />
     <Compile Include="DBModels\ProcessMaster.cs" />
     <Compile Include="DBModels\System3.cs" />
@@ -4000,6 +4003,7 @@
     <Compile Include="Models\Utility\JobReceiptDataLayer.cs" />
     <Compile Include="Models\Utility\XmlUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\JobBillingDetailViewModel.cs" />
     <Compile Include="ViewModels\JobDespatchViewModel.cs" />
     <Compile Include="ViewModels\JobReciptViewModel.cs" />
     <Compile Include="ViewModels\CompanyViewModel.cs" />

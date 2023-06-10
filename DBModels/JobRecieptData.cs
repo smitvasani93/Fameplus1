@@ -2,20 +2,15 @@
 
 namespace Transactiondetails.DBModels
 {
-    public class JobRecieptData
+    public class JobBillingData
     {
-        public List<JobRecieptMaster> JobRecieptMasts { get; set; }
-        public List<JobRecieptDetail> JobRecieptDets { get; set; }
- 
- 
-        //public List<AccountMaster> Accounts { get; set; }
-        //public List<ProcessMaster> Processes { get; set; }
+        public List<JobBillingMaster> JobBillingMasts { get; set; }
+        public List<JobBillingDetail> JobBillingDets { get; set; }
 
-
-        public JobRecieptData()
+        public JobBillingData()
         {
-            JobRecieptMasts = new List<JobRecieptMaster>();
-            JobRecieptDets = new List<JobRecieptDetail>();
+            JobBillingMasts = new List<JobBillingMaster>();
+            JobBillingDets = new List<JobBillingDetail>();
             //  Accounts = new List<AccountMaster>();
             // Processes = new List<ProcessMaster>();
         }

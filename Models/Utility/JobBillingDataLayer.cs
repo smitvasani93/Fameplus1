@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Transactiondetails.DBModels;
@@ -7,9 +8,9 @@ namespace Transactiondetails.Models.Utility
 {
     public class JobBillingDataLayer
     {
-        public List<PendingJobRecieptDetail> GetPendingJobDespatch(string accountCode, string companyCode, string branchCode, string FYear)
+        public List<PendingJobDespatchDetail> GetPendingJobDespatch(string accountCode, string companyCode, string branchCode, string FYear)
         {
-            var pendingJobReciepts = new List<PendingJobRecieptDetail>();
+            var pendingJobDespatchDetail = new List<PendingJobDespatchDetail>();
              using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to get the JobReciepts
@@ -17,10 +18,10 @@ namespace Transactiondetails.Models.Utility
                 var pFYear = new SqlParameter("@FinancialYearCode", FYear);
                 var pBranch = new SqlParameter("@BranchCode", branchCode);
 
-                pendingJobReciepts = db.Database.SqlQuery<PendingJobRecieptDetail>("exec SpGetJobRecieptByAccount @AccountCode,@BranchCode,@FinancialYearCode", pAccountCode, pBranch, pFYear).ToList();
+                pendingJobDespatchDetail = db.Database.SqlQuery<PendingJobDespatchDetail>("exec SpGetJobDespatchByAccount @AccountCode,@BranchCode,@FinancialYearCode", pAccountCode, pBranch, pFYear).ToList();
             }
 
-            return pendingJobReciepts;
+            return pendingJobDespatchDetail;
         }
 
         public List<JobBillingMaster> GetJobBilling(string companyCode, string branchCode, string FYear)
@@ -38,17 +39,17 @@ namespace Transactiondetails.Models.Utility
             return jobBillingMasters;
         }
 
-        public JobRecieptData GetJobDesptachBySerialNo(string companyCode, string FYear, int serialNo)
+        public JobBillingData GetJobBillBySerialNo(string companyCode, string FYear, int serialNo)
         {
-            var JobRecieptData = new JobRecieptData();
+            var jobBillingData = new JobBillingData();
             using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to get the JobReciepts
                 var pSNumber = new SqlParameter("@SerialNumber", serialNo);
-                JobRecieptData.JobRecieptDets = db.Database.SqlQuery<JobRecieptDetail>("exec SpGetJobDesptachBySerialNumber @SerialNumber", pSNumber).ToList();
+                jobBillingData.JobBillingDets = db.Database.SqlQuery<JobBillingDetail>("exec SpGetJobBillingBySerialNumber @SerialNumber", pSNumber).ToList();
             }
 
-            return JobRecieptData;
+            return jobBillingData;
         }
 
 
@@ -72,5 +73,7 @@ namespace Transactiondetails.Models.Utility
                 return db.Database.SqlQuery<DatabaseResponse>("exec spJobDespatchUpdate @xmlString", pxmlString).FirstOrDefault();
             }
         }
+
+       
     }
 }

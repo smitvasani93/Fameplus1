@@ -24,104 +24,88 @@ namespace Transactiondetails.Controllers
             this.gridMvcHelper = new GridMvcHelper();
         }
 
-        public ActionResult GetPendingJobworkReceipt(string accountcode)
+        public ActionResult GetPendingJobDespatch(string accountcode)
         {
             //string accountcode = "A0000101";
             var userData = (UserData)Session["UserData"];
 
-            var jobDespatchDataLayer = new JobDespatchDataLayer();
+            var jobBillingDataLayer = new JobBillingDataLayer();
             var accountDataLayer = new AccountDataLayer();
             var account = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear).FirstOrDefault(x => x.AccountCode == accountcode);
 
-            var pendingJobReciepts = jobDespatchDataLayer.GetPendingJobReciept(accountcode, userData.Company, userData.Branch, userData.FYear)
-                                     .Select(x => new JobDespatchDetailViewModel
+            var pendingJobDespatches = jobBillingDataLayer.GetPendingJobDespatch(accountcode, userData.Company, userData.Branch, userData.FYear)
+                                     .Select(x => new JobBillingDetailViewModel
                                      {
                                          SerialNumber = x.SerialNumber,
                                          CustomrName = account.AccountName,
                                          ItemSerialNumber = x.ItemSerialNumber,
-                                         ReferenceDate = x.ReferenceDate,
+                                         JDItemSerialNumber = x.JDItemSerialNumber,
+                                         //ReferenceDate = x.ReferenceDate,
+                                         JDReferenceDate = x.JDReferenceDate,
+                                         JRReferenceDate = x.JRReferenceDate,
                                          ProcessName = x.ProcessName,
                                          ProcessCode = x.ProcessCode,
                                          PacketNumber = x.PacketNumber,
-                                         BalItemCarats = x.Bal_ItemCarats,
-                                         BalItemPieces = x.Bal_ItemPieces,
                                          BillingType = x.BillingType,
                                          ItemCarats = x.ItemCarats,
                                          ItemLines = x.ItemLines,
-                                         ItemPieces = x.ItemPieces
+                                         ItemPieces = x.ItemPieces,
+                                         JDItemCarats = x.JDItemCarats,
+                                         JDItemLines = x.JDItemLines,
+                                         JDItemPieces = x.JDItemPieces
                                      });
 
-            return Json(pendingJobReciepts, JsonRequestBehavior.AllowGet);
+            return Json(pendingJobDespatches, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetJobDesptachBySerialNo(int id)
+        public ActionResult GetJobBillingBySerialNo(int id)
         {
-            var jobDespatchDataLayer = new JobDespatchDataLayer();
+            var jobBillingDataLayer = new JobBillingDataLayer();
             var accountDataLayer = new AccountDataLayer();
 
             try
             {
                 var userData = (UserData)Session["UserData"];
 
-                var jobDespatch = jobDespatchDataLayer.GetJobDesptachBySerialNo(userData.Company, userData.FYear, id);
-                var jobDespatchViewModel = new JobDespatchViewModel();
+                var jobBill = jobBillingDataLayer.GetJobBillBySerialNo(userData.Company, userData.FYear, id);
+                var jobDespatchViewModel = new JobBillingDetailViewModel();
 
-                jobDespatchViewModel.AccountCode = jobDespatch.JobDespatchDetails.FirstOrDefault().AccountCode;
-                jobDespatchViewModel.ReferenceDate = jobDespatch.JobDespatchDetails.FirstOrDefault().ReferenceDate;
-                jobDespatchViewModel.SerialNumber = id;
+                //jobDespatchViewModel.AccountCode = jobBill.JobBillingDets.FirstOrDefault().AccountCode;
+                //jobDespatchViewModel.ReferenceDate = jobBill.JobBillingDets.FirstOrDefault().ReferenceDate;
+                //jobDespatchViewModel.SerialNumber = id;
 
-                jobDespatchViewModel.JobDespatchDetails = jobDespatch.JobDespatchDetails.Select(x => new JobDespatchDetailViewModel
-                {
-                    ReferenceDate = x.ReferenceDate.Value,
-                    WeightLoss = x.WeightLoss,
-                    JRSerialNumber = x.JRSerialNumber,
-                    JRItemSerialNumber = x.JRItemSerialNumber,
-                    ItemPieces = x.ItemPieces,
-                    ItemLines = x.ItemLines,
-                    ItemCarats = x.ItemCarats,
-                    NoChargeQuantity = x.NoChargeQuantity,
-                    BillingQuantity = x.BillingQuantity,
-                    Rate = x.BillingRate,
-                    ItemSerialNumber = x.ItemSerialNumber,
-                    Remarks = x.Remarks,
-                    Status = x.PacketStatus,
-                    ProcessCode = x.ProcessCode,
-                    ProcessName = x.ProcessName,
-                    BillingType = x.BillingType,
-                    BillingUnit = x.BillingType
-
-                }).ToList();
-
-
-                //jobReceiptVM.JobReceiptDetails = jobReciept.JobRecieptDets.Join(process,
-                //   jd => jd.ProcessCode,
-                //   prc => prc.ProcessCode,
-                //   (jobreciptdet, process1) => new JobReceiptDetailVM
-                //   {
-                //       ProcessName = process1.ProcessName,
-                //       ProcessCode = jobreciptdet.ProcessCode,
-                //       ItemCarats = jobreciptdet.ItemCarats,
-                //       ItemLines = jobreciptdet.ItemLines,
-                //       ItemPieces = jobreciptdet.ItemPieces,
-                //       PacketNumber = jobreciptdet.PacketNumber,
-                //       ItemSerialNumber = jobreciptdet.ItemSerialNumber,
-                //       Remarks = jobreciptdet.Remarks
-                //   }).ToList();
-
-                //jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
+                //jobDespatchViewModel.JobDespatchDetails = jobBill.JobBillingDets.Select(x => new JobDespatchDetailViewModel
                 //{
-                //    ProcessCode = sel.ProcessCode,
-                //    ProcessName = sel.ProcessName
+                //    ReferenceDate = x.ReferenceDate.Value,
+                //  //  WeightLoss = x.WeightLoss,
+                //    //JRSerialNumber = x.JRSerialNumber,
+                //    //JRItemSerialNumber = x.JRItemSerialNumber,
+                //    ItemPieces = x.ItemPieces,
+                //    ItemLines = x.ItemLines,
+                //    ItemCarats = x.ItemCarats,
+                //    //NoChargeQuantity = x.NoChargeQuantity,
+                //    //BillingQuantity = x.BillingQuantity,
+                //    //Rate = x.BillingRate,
+                //    ItemSerialNumber = x.ItemSerialNumber,
+                //    Remarks = x.Remarks,
+                //    //Status = x.PacketStatus,
+                //    //ProcessCode = x.ProcessCode,
+                //    //ProcessName = x.ProcessName,
+                //    //BillingType = x.BillingType,
+                //    //BillingUnit = x.BillingType
+
+                //}).ToList();
+
+                 
+                //var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+
+                //jobDespatchViewModel.Accounts = accounts.Select(sel => new AccountMasterVM
+                //{
+                //    AccountCode = sel.AccountCode,
+                //    AccountName = sel.AccountName
                 //});
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
 
-                jobDespatchViewModel.Accounts = accounts.Select(sel => new AccountMasterVM
-                {
-                    AccountCode = sel.AccountCode,
-                    AccountName = sel.AccountName
-                });
-
-                jobDespatchViewModel.Mode = Mode.Update;
+                //jobDespatchViewModel.Mode = Mode.Update;
 
                 return PartialView("_JobworkDespatchUpdatePartial", jobDespatchViewModel);
             }
