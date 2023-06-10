@@ -118,7 +118,7 @@ namespace Transactiondetails.Controllers
         public ActionResult JobworkBilling()
         {
             ViewBag.Menu = "Master";
-            ViewBag.SubMenu = "JobworkBilling";
+            ViewBag.SubMenu = "JobBilling";
             return View(Enumerable.Empty<JobBillingViewModel>());
         }
 
