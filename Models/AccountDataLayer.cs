@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using Transactiondetails.DBModels;
@@ -16,9 +17,31 @@ public class AccountDataLayer
         }
         using (CompanyDBContext db = new CompanyDBContext(companyCode))
         {
-            accountMasterList = db.Database.SqlQuery<AccountMaster>("exec spGetAccount").ToList();
+            var pFYear = new SqlParameter("@FinancialYearCode", FYear);
+
+            accountMasterList = db.Database.SqlQuery<AccountMaster>("exec spGetCustomerAccount @FinancialYearCode", pFYear).ToList();
 
             HttpContext.Current.Session["Accounts"] = accountMasterList;
+        }
+
+        return accountMasterList;
+    }
+
+    public List<AccountMaster> GetSalesAccounts(string companyCode, string branchCode, string FYear)
+    {
+        var accountMasterList = new List<AccountMaster>();
+        //if Data Exists in session
+        if (HttpContext.Current.Session["SalesAccounts"] != null)
+        {
+            return (List<AccountMaster>)HttpContext.Current.Session["SalesAccounts"];
+        }
+        using (CompanyDBContext db = new CompanyDBContext(companyCode))
+        {
+            var pFYear = new SqlParameter("@FinancialYearCode", FYear);
+
+            accountMasterList = db.Database.SqlQuery<AccountMaster>("exec spGetSalesAccount @FinancialYearCode", pFYear).ToList();
+
+            HttpContext.Current.Session["SalesAccounts"] = accountMasterList;
         }
 
         return accountMasterList;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Transactiondetails.DBModels;
@@ -63,6 +62,7 @@ namespace Transactiondetails.Models.Utility
                 return db.Database.SqlQuery<DatabaseResponse>("exec spJobDespatchAdd @xmlString", pxmlString).FirstOrDefault();
             }
         }
+
         public DatabaseResponse UpdateJobDespatch(JobDespatch jobDespatch, string companyCode, string fYear)
         {
             var xmlString = XmlUtility.Serialize(jobDespatch);
@@ -73,7 +73,5 @@ namespace Transactiondetails.Models.Utility
                 return db.Database.SqlQuery<DatabaseResponse>("exec spJobDespatchUpdate @xmlString", pxmlString).FirstOrDefault();
             }
         }
-
-       
     }
 }

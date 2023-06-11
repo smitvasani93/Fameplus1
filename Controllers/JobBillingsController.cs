@@ -32,6 +32,9 @@ namespace Transactiondetails.Controllers
             var jobBillingDataLayer = new JobBillingDataLayer();
             var accountDataLayer = new AccountDataLayer();
             var account = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear).FirstOrDefault(x => x.AccountCode == accountcode);
+            //Salesaccount
+            var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear).FirstOrDefault(x => x.AccountCode == accountcode);
+
 
             var pendingJobDespatches = jobBillingDataLayer.GetPendingJobDespatch(accountcode, userData.Company, userData.Branch, userData.FYear)
                                      .Select(x => new JobBillingDetailViewModel
