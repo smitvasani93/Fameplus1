@@ -24,7 +24,7 @@
                                     @Html.TextBox("AccountName", null, new { @class = "form-control" })
                                 </li>
                                 <li class="nav-item ps-lg-2">
-                                    <label for="inputEmail3" class="col-form-label">Despatch Date</label>
+                                    <label for="inputEmail3" class="col-form-label">Bill Date</label>
                                 </li>
                                 <li class="nav-item ps-lg-2">
                                     @Html.TextBox("ReferenceDate", null, new { @id = "ReferenceDateSearch", @autocuautocomplete="off", @class = "form-control" })
@@ -158,8 +158,8 @@
                     /*{ label: "", name: '', index: '', width: 15, align: "right", edittype: 'checkbox', formatter: "checkbox", editoptions: { value: "True:False" }, editable: true, formatoptions: { disabled: false } },*/
                     { label: "Account Code", name: "AccountCode", search: false , sortable: true, },
                     { label: "Account Name", name: "AccountName", sortable: true, searchoptions: { sopt: ['cn'] }},
-                    { label: "Despatch Number", name: "SerialNumber", sortable: true, search: false },
-                    { label: "Despatch Date", name: "ReferenceDate", sortable: true, formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "m/d/Y" }, searchoptions: { sopt: ['eq', 'ne'] } }
+                    { label: "Bill Number", name: "SerialNumber", sortable: true, search: false },
+                    { label: "Bill Date", name: "ReferenceDate", sortable: true, formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "m/d/Y" }, searchoptions: { sopt: ['eq', 'ne'] } }
                 ],
                 sortname: "ReferenceDate",
                 sortorder: "desc",

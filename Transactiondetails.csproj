@@ -3992,7 +3992,10 @@
     <Compile Include="Helpers\GridMvcHelper.cs" />
     <Compile Include="Helpers\IGridMvcHelper.cs" />
     <Compile Include="Models\AccountDataLayer.cs" />
+    <Compile Include="Models\DatabaseResponse.cs" />
     <Compile Include="Models\Filters.cs" />
+    <Compile Include="Models\JobBill.cs" />
+    <Compile Include="Models\JobDespatch.cs" />
     <Compile Include="Models\JobReceipt.cs" />
     <Compile Include="Models\LoginStatus.cs" />
     <Compile Include="Models\Utility\CompanyDBContext.cs" />

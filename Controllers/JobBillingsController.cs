@@ -269,52 +269,52 @@ namespace Transactiondetails.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet); ;
         }
 
-        public JsonResult SaveJobworkDespatch(JobDespatchViewModel model)
+        public JsonResult SaveJobBilling(JobBillingViewModel model)
         {
-            var dbutility = new JobDespatchDataLayer();
+            var dbutility = new JobBillingDataLayer();
             var message = new { message = "Failed", error = "True" };
             DatabaseResponse databaseResponse = null;
             try
             {
                 var userData = (UserData)Session["UserData"];
-                var jobDespatchMaster = new JobDespatchMaster();
+                var jobBillingMaster = new JobBillingMaster();
                 //put your Fields Here
-                jobDespatchMaster.SerialNumber = model.SerialNumber.Value;
-                jobDespatchMaster.AccountCode = model.AccountCode;
-                jobDespatchMaster.ReferenceDate = model.ReferenceDate.Value;
-                jobDespatchMaster.EntryDate = DateTime.Now;
-                jobDespatchMaster.ModiDate = DateTime.Now;
-                jobDespatchMaster.FinancialYearCode = userData.FYear;
-                jobDespatchMaster.BranchCode = userData.Branch;
-                jobDespatchMaster.UserCode = userData.UserId; //Get usercode from session
-                jobDespatchMaster.ModiUserCode = userData.UserId; //Get usercode from session
+                jobBillingMaster.SerialNumber = model.SerialNumber.Value;
+                jobBillingMaster.AccountCode = model.AccountCode;
+                jobBillingMaster.ReferenceDate = model.ReferenceDate.Value;
+                jobBillingMaster.EntryDate = DateTime.Now;
+                jobBillingMaster.ModiDate = DateTime.Now;
+                jobBillingMaster.FinancialYearCode = userData.FYear;
+                jobBillingMaster.BranchCode = userData.Branch;
+                jobBillingMaster.UserCode = userData.UserId; //Get usercode from session
+                jobBillingMaster.ModiUserCode = userData.UserId; //Get usercode from session
 
-                var jobDespatch = new JobDespatch();
-                jobDespatch.JobDespatchMaster = jobDespatchMaster;
-                jobDespatch.JobDespatchDetails = model.JobDespatchDetails.Select(sel => new JobDespatchDetail
+                var jobBill = new JobBill();
+                jobBill.JobBillingMaster = jobBillingMaster;
+                jobBill.JobBillingDetails = model.JobBillingDetails.Select(sel => new JobBillingDetail
                 {
                     SerialNumber = model.SerialNumber.Value,
                     ItemSerialNumber = sel.ItemSerialNumber,
-                    JRSerialNumber = sel.JRSerialNumber,
-                    JRItemSerialNumber = sel.JRItemSerialNumber,
-                    ItemCarats = sel.BalItemCarats,
-                    ItemLines = sel.BalItemLines,
-                    ItemPieces = sel.BalItemPieces,
-                    BillingQuantity = sel.BillingQuantity,
-                    BillingRate = sel.Rate,
-                    NoChargeQuantity = sel.NoChargeQuantity,
-                    WeightLoss = sel.WeightLoss,
-                    PacketStatus = sel.Status.ToLower() == "yes" ? "y" : "n",
+                    //JRSerialNumber = sel.JRSerialNumber,
+                    //JRItemSerialNumber = sel.JRItemSerialNumber,
+                    //ItemCarats = sel.BalItemCarats,
+                    //ItemLines = sel.BalItemLines,
+                    //ItemPieces = sel.BalItemPieces,
+                    //BillingQuantity = sel.BillingQuantity,
+                    //BillingRate = sel.Rate,
+                    //NoChargeQuantity = sel.NoChargeQuantity,
+                    //WeightLoss = sel.WeightLoss,
+                    //PacketStatus = sel.Status.ToLower() == "yes" ? "y" : "n",
                     Remarks = sel.Remarks,
                 }).ToList();
 
                 if (model.Mode == Mode.Add)
                 {
-                    databaseResponse = dbutility.SaveJobDespatch(jobDespatch, userData.Company, userData.FYear);
+                    databaseResponse = dbutility.SaveJobBill(jobBill, userData.Company, userData.FYear);
                 }
                 else if (model.Mode == Mode.Update)
                 {
-                    databaseResponse = dbutility.UpdateJobDespatch(jobDespatch, userData.Company, userData.FYear);
+                    databaseResponse = dbutility.UpdateJobBill(jobBill, userData.Company, userData.FYear);
                 }
 
                 if (databaseResponse != null)

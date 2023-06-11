@@ -51,26 +51,25 @@ namespace Transactiondetails.Models.Utility
             return jobBillingData;
         }
 
-
-        public DatabaseResponse SaveJobDespatch(JobDespatch jobDespatch, string companyCode, string fYear)
+        public DatabaseResponse SaveJobBill(JobBill jobBilling, string companyCode, string fYear)
         {
-            var xmlString = XmlUtility.Serialize(jobDespatch);
+            var xmlString = XmlUtility.Serialize(jobBilling);
             var pxmlString = new SqlParameter("@xmlString", xmlString);
             using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to dump the xml to database
-                return db.Database.SqlQuery<DatabaseResponse>("exec spJobDespatchAdd @xmlString", pxmlString).FirstOrDefault();
+                return db.Database.SqlQuery<DatabaseResponse>("exec spJobBillAdd @xmlString", pxmlString).FirstOrDefault();
             }
         }
 
-        public DatabaseResponse UpdateJobDespatch(JobDespatch jobDespatch, string companyCode, string fYear)
+        public DatabaseResponse UpdateJobBill(JobBill jobBilling, string companyCode, string fYear)
         {
-            var xmlString = XmlUtility.Serialize(jobDespatch);
+            var xmlString = XmlUtility.Serialize(jobBilling);
             var pxmlString = new SqlParameter("@xmlString", xmlString);
             using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to dump the xml to database
-                return db.Database.SqlQuery<DatabaseResponse>("exec spJobDespatchUpdate @xmlString", pxmlString).FirstOrDefault();
+                return db.Database.SqlQuery<DatabaseResponse>("exec spJobBillUpdate @xmlString", pxmlString).FirstOrDefault();
             }
         }
     }
