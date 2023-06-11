@@ -256,7 +256,6 @@
 
     var mode =@(Html.Raw(jsonMode));
 
-
     $(function () {
 
         $("#ReferenceDate1").on("focusin", function (e) {
@@ -282,7 +281,6 @@
 
             }
         });
-
     })
 
 
@@ -321,7 +319,6 @@
 
             }
         });
-
 
         $(".select-pending-receipt").on("click", function (e) {
 
@@ -455,7 +452,6 @@
             $(".button-container").removeClass("newone-css");
 
            addRequiredRules();
-
         }
     });
 
@@ -475,6 +471,15 @@
             }
         });
     });
+
+    $("#billing").on("change","select[name*=DiscountPerAmt]", function (e) {
+        
+        /*alert($(this).closest("tr").find("input[name*=Rate]").val());*/
+    
+    });
+
+
+
 
     function addRequiredRules() {
 
