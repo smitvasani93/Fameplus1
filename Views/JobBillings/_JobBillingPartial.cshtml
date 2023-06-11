@@ -13,7 +13,7 @@
     //}
 }
 
-@using (Ajax.BeginForm("SaveJobworkDespatch", "JobBillings", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobworkReceiptPop" }))
+@using (Ajax.BeginForm("SaveJobBilling", "JobBillings", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobworkReceiptPop" }))
 {
     @Html.HiddenFor(model => model.Mode)
     <div class="row g-3">
@@ -472,14 +472,10 @@
         });
     });
 
-    $("#billing").on("change","select[name*=DiscountPerAmt]", function (e) {
+    $("#billing").on("change","tr select[name*=DiscountPerAmt]", function (e) {
         
         /*alert($(this).closest("tr").find("input[name*=Rate]").val());*/
-    
     });
-
-
-
 
     function addRequiredRules() {
 
@@ -510,15 +506,16 @@
                 ReferenceDate: 'required',
                 AccountCode: 'required',
                 SerialNumber: 'required',
+                SalesAccountCode: 'required'
             },
             messages: {
                 ReferenceDate: 'Select Reference Date',
                 AccountCode: 'Select Customer',
                 SerialNumber: 'Select Serial Number',
+                SalesAccountCode: 'Select Sales Account'
             },
             errorPlacement: $.noop
         });
-
 
         $("#billing tbody tr").each(function (i, row) {
 
@@ -543,46 +540,46 @@
     })
 
 
-    $("#billing").on("input","tr input[name*='BalItemPieces']", function (e) {
+    //$("#billing").on("input","tr input[name*='BalItemPieces']", function (e) {
 
-        if ($(this).val() === "") {
-            return;
-        }
-        let despatchPieces=parseInt($(this).val());
-        let Pieces = parseInt($(this).closest("tr").find("input[name*='Pieces']").val());
+    //    if ($(this).val() === "") {
+    //        return;
+    //    }
+    //    let despatchPieces=parseInt($(this).val());
+    //    let Pieces = parseInt($(this).closest("tr").find("input[name*='Pieces']").val());
 
-        if (despatchPieces > Pieces) {
-            $(this).val(Pieces);
-        }
-    });
+    //    if (despatchPieces > Pieces) {
+    //        $(this).val(Pieces);
+    //    }
+    //});
 
-    $("#billing").on("input", "tr input[name*='BalItemCarats']", function (e) {
+    //$("#billing").on("input", "tr input[name*='BalItemCarats']", function (e) {
 
-        if ($(this).val() === "") {
-            return;
-        }
-        let despatchCarats = parseInt($(this).val());
-        let Carats = parseInt($(this).closest("tr").find("input[name*='ItemCarats']").val());
+    //    if ($(this).val() === "") {
+    //        return;
+    //    }
+    //    let despatchCarats = parseInt($(this).val());
+    //    let Carats = parseInt($(this).closest("tr").find("input[name*='ItemCarats']").val());
 
-        if (despatchCarats > Carats) {
-            $(this).val(Carats);
-        }
-    });
+    //    if (despatchCarats > Carats) {
+    //        $(this).val(Carats);
+    //    }
+    //});
 
-    $("#billing").on("input", "tr input[name*='BalItemLines']", function (e) {
+    //$("#billing").on("input", "tr input[name*='BalItemLines']", function (e) {
 
-        if ($(this).val() === "") {
-            return;
-        }
-        let despatchLine = parseInt($(this).val());
-        let line = parseInt($(this).closest("tr").find("input[name*='ItemLines']").val());
+    //    if ($(this).val() === "") {
+    //        return;
+    //    }
+    //    let despatchLine = parseInt($(this).val());
+    //    let line = parseInt($(this).closest("tr").find("input[name*='ItemLines']").val());
 
-        if (despatchLine > line) {
-            $(this).val(line);
-        }
-    });
+    //    if (despatchLine > line) {
+    //        $(this).val(line);
+    //    }
+    //});
 
-    $("#billing").on("input", "tr input[name*='BillingQuantity']", function (e) {
+    @*$("#billing").on("input", "tr input[name*='BillingQuantity']", function (e) {
 
         if ($(this).val() === "") {
             return;
@@ -604,7 +601,7 @@
             }
         });
 
-    });
+    });*@
 
 
     Array.prototype.removeByValue = function (val) {
