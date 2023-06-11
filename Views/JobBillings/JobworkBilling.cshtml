@@ -125,7 +125,7 @@
                     if (id === 0) {
                         $(this).load("@Url.Action("GetJobBilling")");
                     } else {
-                  $(this).load("@Url.Action("GetJobDesptachBySerialNo", "JobWorkDespatchs")", { id: id });
+                  $(this).load("@Url.Action("GetJobBillingBySerialNo", "JobBillings")", { id: id });
                     }
 
                 },

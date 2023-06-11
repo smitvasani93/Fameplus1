@@ -26,14 +26,11 @@ namespace Transactiondetails.Controllers
 
         public ActionResult GetPendingJobDespatch(string accountcode)
         {
-            //string accountcode = "A0000101";
             var userData = (UserData)Session["UserData"];
 
             var jobBillingDataLayer = new JobBillingDataLayer();
             var accountDataLayer = new AccountDataLayer();
             var account = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear).FirstOrDefault(x => x.AccountCode == accountcode);
-            
-
 
             var pendingJobDespatches = jobBillingDataLayer.GetPendingJobDespatch(accountcode, userData.Company, userData.Branch, userData.FYear)
                                      .Select(x => new JobBillingDetailViewModel
@@ -123,40 +120,6 @@ namespace Transactiondetails.Controllers
             ViewBag.SubMenu = "JobBilling";
             return View(Enumerable.Empty<JobBillingViewModel>());
         }
-
-        public ActionResult JobworkReceiptDtTable()
-        {
-            var jobReceiptDataLayer = new JobReceiptDataLayer();
-            var dbutility = new DBUtility();
-
-            var accountDataLayer = new AccountDataLayer();
-
-            try
-            {
-                var userData = (UserData)Session["UserData"];
-                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
-                var process = dbutility.GetProcesses();
-                var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
-                recieptNo++;
-                var data = jobReceiept.JobRecieptMasts.Select(sel => new JobReciptVM
-                {
-                    SerialNumber = sel.SerialNumber,
-                    AccountCode = sel.AccountCode,
-                    AccountName = sel.AccountName,
-                    ReferenceDate = sel.ReferenceDate
-                }).OrderByDescending(x => x.SerialNumber);
-
-                return View("~/Views/JobWorkReceipts/JobworkReceiptDtTable.cshtml", data);
-            }
-            catch (Exception ex)
-            {
-                string message = ex.Message;
-            }
-
-            return View();
-        }
-
 
         [HttpGet]
         public JsonResult JobBillinghDataTable(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString, string filters, string id)
@@ -434,47 +397,9 @@ namespace Transactiondetails.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult GetRateByBillingQty(int BillingQty, short ProcessCode)
-        {
-            var jobDespatchDataLayer = new JobDespatchDataLayer();
-            var dbutility = new DBUtility();
-            var accountDataLayer = new AccountDataLayer();
-            decimal rate = 0;
-
-            try
-            {
-                var processdetails = dbutility.GetProcessDetails().Where(x => x.ProcessCode == ProcessCode).ToList();
-
-                if (processdetails != null)
-                {
-
-                    var billingRate = (from process in processdetails
-                                       where process.RangeFrom <= BillingQty && process.RangeTo >= BillingQty
-                                       select process.BillingRate
-                                 ).FirstOrDefault();
-
-                    //var data = processdetails.Where(x => BillingQty <= x.RangeFrom && BillingQty >= x.RangeTo).FirstOrDefault();
-                    //var data = processdetails.Where(x => x.RangeFrom >= BillingQty).OrderBy(y=> y.RangeFrom).FirstOrDefault();
-                    //if (data != null)
-                    //{
-                    //    rate = data.BillingRate;
-                    //}
-
-                    rate = billingRate;
-                }
-
-                return Json(new { Rate = rate, message = "Success" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var message = new { message = "Exception occured", error = "True" };
-                return Json(message, JsonRequestBehavior.AllowGet);
-            }
-        }
-
+ 
         [HttpPost]
-        public ActionResult deleteDespatch(string serialNo)
+        public ActionResult DeleteBilling(string serialNo)
         {
             var jobDespatchDataLayer = new JobDespatchDataLayer();
             var message = new { message = "Failed", error = "True" };
