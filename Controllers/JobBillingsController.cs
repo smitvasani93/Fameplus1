@@ -32,8 +32,7 @@ namespace Transactiondetails.Controllers
             var jobBillingDataLayer = new JobBillingDataLayer();
             var accountDataLayer = new AccountDataLayer();
             var account = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear).FirstOrDefault(x => x.AccountCode == accountcode);
-            //Salesaccount
-            var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear).FirstOrDefault(x => x.AccountCode == accountcode);
+            
 
 
             var pendingJobDespatches = jobBillingDataLayer.GetPendingJobDespatch(accountcode, userData.Company, userData.Branch, userData.FYear)
@@ -160,9 +159,9 @@ namespace Transactiondetails.Controllers
 
 
         [HttpGet]
-        public JsonResult JobworkDespatchDataTable(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString, string filters, string id)
+        public JsonResult JobBillinghDataTable(string sidx, string sord, int page, int rows, bool _search, string searchField, string searchOper, string searchString, string filters, string id)
         {
-            var jobDespatchDataLayer = new JobDespatchDataLayer();
+            var jobBillingDataLayer = new JobBillingDataLayer();
             var dbutility = new DBUtility();
             var accountDataLayer = new AccountDataLayer();
 
@@ -173,12 +172,12 @@ namespace Transactiondetails.Controllers
                 int pageSize = rows;
 
                 var userData = (UserData)Session["UserData"];
-                var jobDespatchs = jobDespatchDataLayer.GetJobDespatch(userData.Company, userData.Branch, userData.FYear);
+                var jobBillings = jobBillingDataLayer.GetJobBilling(userData.Company, userData.Branch, userData.FYear);
                 var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Branch, userData.FYear);
                 var process = dbutility.GetProcesses();
-                var recieptNo = jobDespatchs.FirstOrDefault().MaxSerialNumber;
+                var recieptNo = jobBillings.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
-                var data = jobDespatchs.Select(sel => new JobReciptVM
+                var data = jobBillings.Select(sel => new JobReciptVM
                 {
                     SerialNumber = sel.SerialNumber,
                     AccountCode = sel.AccountCode,
@@ -378,41 +377,43 @@ namespace Transactiondetails.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetJobworkDespatch()
+        public ActionResult GetJobBilling()
         {
-            var jobDespatchDataLayer = new JobDespatchDataLayer();
+            //var jobDespatchDataLayer = new JobDespatchDataLayer();
+            var jobBilingDataLayer = new JobBillingDataLayer();
             var dbutility = new DBUtility();
             var accountDataLayer = new AccountDataLayer();
             try
             {
                 var userData = (UserData)Session["UserData"];
-
                 var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
 
-                //var process = dbutility.GetProcesses();
+                //Salesaccount
+                var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear);
 
-                var jobDespatchMasters = jobDespatchDataLayer.GetJobDespatch(userData.Company, userData.Company, userData.FYear);
-                var recieptNo = jobDespatchMasters.FirstOrDefault().MaxSerialNumber;
+                var jobBilling = jobBilingDataLayer.GetJobBilling(userData.Company, userData.Company, userData.FYear);
+                var recieptNo = jobBilling.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
 
-                var jobDespatchVM = new JobBillingViewModel();
+                var jobBillingVM = new JobBillingViewModel();
 
-                jobDespatchVM.SerialNumber = recieptNo;
-                jobDespatchVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
+                jobBillingVM.SerialNumber = recieptNo;
+                jobBillingVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
+                jobBillingVM.PostingDate = jobBillingVM.ReferenceDate;
 
-                //jobDespatchVM.Processes = process.Select(sel => new ProcessMasterVM
-                //{
-                //    ProcessCode = sel.ProcessCode,
-                //    ProcessName = sel.ProcessName
-                //});
-
-                jobDespatchVM.Accounts = accounts.Select(sel => new AccountMasterVM
+                jobBillingVM.Accounts = accounts.Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
                 });
 
-                jobDespatchVM.JobBillingDetails = new List<JobBillingDetailViewModel>
+                jobBillingVM.SalesAccounts = salesaccounts.Select(sel => new AccountMasterVM
+                {
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName
+                });
+
+                jobBillingVM.JobBillingDetails = new List<JobBillingDetailViewModel>
                 {
                     new JobBillingDetailViewModel{
                          ItemSerialNumber=1,
@@ -423,8 +424,8 @@ namespace Transactiondetails.Controllers
                     }
                 };
 
-                jobDespatchVM.Mode = Mode.Add;
-                return PartialView("_JobBillingPartial", jobDespatchVM);
+                jobBillingVM.Mode = Mode.Add;
+                return PartialView("_JobBillingPartial", jobBillingVM);
             }
             catch (Exception ex)
             {

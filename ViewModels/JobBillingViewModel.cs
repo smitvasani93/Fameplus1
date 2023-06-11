@@ -6,6 +6,7 @@ namespace Transactiondetails.ViewModels
     public class JobBillingViewModel
     {
         public string AccountCode { get; set; }
+        public string SalesAccountCode { get; set; }
         public string AccountName { get; set; }
         public DateTime? ReferenceDate { get; set; }
         public DateTime? PostingDate { get; set; }
@@ -23,6 +24,7 @@ namespace Transactiondetails.ViewModels
         public double FinalAmount { get; set; }
         public Mode Mode { get; set; }
         public IEnumerable<AccountMasterVM> Accounts { get; set; }
+        public IEnumerable<AccountMasterVM> SalesAccounts { get; set; }
         public IEnumerable<ProcessMasterVM> Processes { get; set; }
         public List<JobBillingDetailViewModel> JobBillingDetails { get; set; }
         public JobBillingViewModel()
