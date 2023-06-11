@@ -51,7 +51,9 @@ namespace Transactiondetails.Controllers
                                          ItemPieces = x.ItemPieces,
                                          JDItemCarats = x.JDItemCarats,
                                          JDItemLines = x.JDItemLines,
-                                         JDItemPieces = x.JDItemPieces
+                                         JDItemPieces = x.JDItemPieces,
+
+
                                      });
 
             return Json(pendingJobDespatches, JsonRequestBehavior.AllowGet);

@@ -40,5 +40,10 @@ namespace Transactiondetails.ViewModels
         public double Addless3 { get; set; }
         public double NetAmount { get; set; }
         public string Remarks { get; set; }
+        public double CGST { get; set; }
+        public double SGST { get; set; }
+        public double IGST { get; set; }
+        public double Taxes { get; set; }
+        public double PaymentCB { get; set; }
     }
 }
