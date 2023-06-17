@@ -13,7 +13,7 @@
     //}
 }
 
-@using (Ajax.BeginForm("SaveJobBilling", "JobBillings", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobworkReceiptPop" }))
+@using (Ajax.BeginForm("SaveJobBilling", "JobBillings", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobBillingPopUp" }))
 {
     @Html.HiddenFor(model => model.Mode)
     <div class="row g-3">
@@ -121,7 +121,7 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].ItemLines, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].JDBillingQuantity, new { @required = true, @readonly = true, @class = "form-control allow_decimal BalItemPieces" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].JDBillingQuantity, new { @required = true, @class = "form-control allow_decimal BalItemPieces" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].NoChargeQuantity, new { @required = true, @class = "form-control allow_decimal BalItemCarats" })
@@ -133,10 +133,10 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingRate, new { @class = "form-control numberonly" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].TotalAmount, new { @readonly = true, @class = "form-control numberonly" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].TotalAmount, new { @class = "form-control numberonly" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new {  @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new {  @class = "form-control form-control numberonly" })
                             </td>
                             <td>
                                 @Html.DropDownListFor(model => Model.JobBillingDetails[i].DiscountPerAmt, (new[] { new SelectListItem { Text = "Percentage", Value = "P" }, new SelectListItem { Text = "Amount", Value = "A" } }), new { @class = "form-select" })
@@ -145,7 +145,7 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountAmount, new { @class = "form-control numberonly" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].Taxes, new { @readonly = true, @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].Taxes, new { @class = "form-control" })
                             </td>
                             @*<td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].CGST, new { @readonly = true, @class = "form-control" })
@@ -157,10 +157,10 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].IGST, new { @readonly = true, @class = "form-control" })
                             </td>*@
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NetAmount, new { @readonly = true, @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NetAmount, new { @class = "form-control" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].PaymentCB, new { @readonly = true, @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].PaymentCB, new { @class = "form-control" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].Remarks, new { @class = "form-control" })
@@ -501,7 +501,7 @@
     }
     jQuery(document).ready(function () {
 
-        jQuery("#JobworkReceiptPop").validate({
+        jQuery("#JobBillingPopUp").validate({
            rules: {
                 ReferenceDate: 'required',
                 AccountCode: 'required',
@@ -616,28 +616,28 @@
 
 </script>
 <style>
-    #JobworkReceiptPop .form-control:read-only {
+    #JobBillingPopUp .form-control:read-only {
         background-color: #e9ecef !important;
     }
 
-    #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-htable th {
+    #JobBillingPopUp .ui-jqgrid .ui-jqgrid-htable th {
         height: 40px !important;
         /* padding: 0 2px 0 2px; */
     }
 
-    #JobworkReceiptPop .ui-jqgrid tr.jqgrow td {
+    #JobBillingPopUp .ui-jqgrid tr.jqgrow td {
         padding: 4px !important;
     }
 
-    #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-view {
+    #JobBillingPopUp .ui-jqgrid .ui-jqgrid-view {
         font-size: 13px !important;
     }
 
-    #JobworkReceiptPop .ui-widget input {
+    #JobBillingPopUp .ui-widget input {
         margin-top: 5px !important;
     }
 
-    #JobworkReceiptPop .ui-widget-content {
+    #JobBillingPopUp .ui-widget-content {
         border: 1px solid #efefef !important;
     }
 
@@ -653,16 +653,19 @@
         font-size: 12px;
     }
 
-        #billing tr td:not(:first-child):not(:nth-child(2)) {
-            /*padding-left:10px !important;
-       padding-right:10px !important;*/
-        }
+    #billing tr td:not(:first-child):not(:nth-child(2)) {
+        /*padding-left:10px !important;
+   padding-right:10px !important;*/
+    }
 
-        #billing tr td:nth-child(3n) {
-            padding-left: 10px !important;
-            padding-right: 10px !important;
-        }
+    #billing tr td:nth-child(3n) {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
 
+    .button-container {
+        margin-top:10px;
+    }
     .job-billing-detail {
         display: none;
     }
