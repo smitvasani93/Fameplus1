@@ -79,7 +79,6 @@
                                 @if (Model.JobReceiptDetails.Count() - 1 == i)
                                 {
                                     <div class="container">
-
                                         <div>
                                             <a class="addRow" href="javascript:void(0);">
                                                 <i class="fa fa-plus"></i>
@@ -111,7 +110,6 @@
                                             </a>
                                         </div>
                                     </div>
-
                                 }
                             </td>
                             <td style="display:none">
@@ -123,7 +121,6 @@
             </div>
         </div>
         <div class="col-lg-12 ui-dialog-buttonpane ui-helper-clearfix">
-
             <div class="ui-dialog-buttonset ps-sm-5">
                 <button type="submit" class="btn btn-secondary">Submit</button>
                 @if (Model.Mode == Transactiondetails.ViewModels.Mode.Update)
@@ -132,13 +129,11 @@
                 }
                 <button type="button" class="btn btn-default btn-close-dialog">Close</button>
             </div>
-
         </div>
     </div>
     <div id="result">
 
     </div>
-
 }
 
 <script type="text/javascript">
@@ -408,28 +403,9 @@
 
     });
 
-    @*$(document).on("change", "#ddlCustomer123", function (e) {
-
-        let ddlProcess = $("#JobReceiptDetails_0__ProcessCode");
-
-        $.ajax({
-            url: "@Url.Action("GetProcessByCustomerCode", "JobWorkReceipts")",
-            type: "POST",
-            data: { customerCode: this.value },
-            dataType: 'json',
-            success: function (data) {
-                debugger;
-                ddlProcess.html("");
-                ddlProcess.append($('<option></option>').val("").html("Please select"));
-                $.each(data, function (id, option) {
-                    ddlProcess.append($('<option></option>').val(option.ProcessCode).html(option.ProcessName));
-                });
-            }
-        });
-    });*@
-
 </script>
 <style>
+
     #JobworkReceiptPop .ui-dialog .ui-dialog-buttonpane {
         margin-top: -5px !important;
         padding-top: 1px !important;
@@ -442,8 +418,8 @@
         justify-content: center;
     }
 
-        #receipt .container a {
-            margin-left: .2em;
-            margin-right: .2em;
-        }
+    #receipt .container a {
+        margin-left: .2em;
+        margin-right: .2em;
+    }
 </style>

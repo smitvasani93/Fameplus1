@@ -43,31 +43,30 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <div id="newone" class="row pt-1 newone-css" style="overflow-x:auto;">
+            <div id="newone" class="row pt-1 newone-css" style="overflow-x: auto; white-space: nowrap;">
                 <table id="despatch" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th style="width:250px;">Ref. Date</th>
-                            <th style="width:400px;">Process</th>
-                            <th style="width:200px;">Packet No</th>
-                            <th style="width:200px;">Pieces</th>
-                            <th style="width:200px;">Carats</th>
-                            <th style="width:200px;">Lines</th>
-                            <th style="width:200px;">Pieces Despatch</th>
-                            <th style="width:200px;">Carats Despatch</th>
-                            <th style="width:200px;">Lines Despatch</th>
-                            <th style="width:200px;">Weight Loss</th>
-                            <th style="width:200px;">Status</th>
-                            <th style="width:200px;">Billing Unit</th>
-                            <th style="width:200px;">Billing Qty</th>
-                            <th style="width:200px;">No Charge Qty</th>
-                            <th style="width:200px;">Rate</th>
-                            <th style="width:200px;">Remarks</th>
+                            <th>Ref. Date</th>
+                            <th>Process</th>
+                            <th>Packet No</th>
+                            <th>Pieces</th>
+                            <th>Carats</th>
+                            <th>Lines</th>
+                            <th>Pieces Despatch</th>
+                            <th>Carats Despatch</th>
+                            <th>Lines Despatch</th>
+                            <th>Weight Loss</th>
+                            <th>Status</th>
+                            <th>Billing Unit</th>
+                            <th>Billing Qty</th>
+                            <th>No Charge Qty</th>
+                            <th>Rate</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
                     @for (var i = 0; i < Model.JobDespatchDetails.Count(); i++)
                     {
-
                         <tr class="receipt-@Model.JobDespatchDetails[i].ProcessCode">
                             <td>
                                 @Model.JobDespatchDetails[i].ReferenceDate
@@ -75,7 +74,7 @@
                             </td>
                             <td>
                                 @Model.JobDespatchDetails[i].ProcessName
-                                
+
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobDespatchDetails[i].PacketNumber, new { @required = true, @readonly = true, @class = "form-control numberonly" })
@@ -446,7 +445,7 @@
             data: { billingQty: bQty, ProcessCode: processcode },
             dataType: 'json',
             success: function (result) {
-                
+
                 if (result.message === "Success") {
                     $rate.val(result.Rate)
                 }
@@ -468,50 +467,66 @@
 
 </script>
 <style>
-     #JobworkReceiptPop .form-control:read-only {
-         background-color: #e9ecef !important;
-     }
+    #JobworkReceiptPop .form-control:read-only {
+        background-color: #e9ecef !important;
+    }
 
-     #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-htable th {
-         height: 40px !important;
-         /* padding: 0 2px 0 2px; */
-     }
+    #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-htable th {
+        height: 40px !important;
+        /* padding: 0 2px 0 2px; */
+    }
 
-     #JobworkReceiptPop .ui-jqgrid tr.jqgrow td {
-         padding: 4px !important;
-     }
+    #JobworkReceiptPop .ui-jqgrid tr.jqgrow td {
+        padding: 4px !important;
+    }
 
-     #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-view {
-         font-size: 13px !important;
-     }
+    #JobworkReceiptPop .ui-jqgrid .ui-jqgrid-view {
+        font-size: 13px !important;
+    }
 
-     #JobworkReceiptPop .ui-widget input {
-         margin-top: 5px !important;
-     }
+    #JobworkReceiptPop .ui-widget input {
+        margin-top: 5px !important;
+    }
 
-     #JobworkReceiptPop .ui-widget-content {
-         border: 1px solid #efefef !important;
-     }
+    #JobworkReceiptPop .ui-widget-content {
+        border: 1px solid #efefef !important;
+    }
 
-     .newone-css {
-         display: none;
-     }
+    .newone-css {
+        display: none;
+    }
 
-     #despatch th {
-         font-size: 13px;
-     }
+    #despatch th {
+        font-size: 13px;
+    }
 
-     #despatch tr {
-         font-size: 12px;
-     }
+    #despatch tr {
+        font-size: 12px;
+    }
 
-         #despatch tr td:not(:first-child):not(:nth-child(2)) {
-             /*padding-left:10px !important;
+        #despatch tr td:not(:first-child):not(:nth-child(2)) {
+            /*padding-left:10px !important;
     padding-right:10px !important;*/
-         }
+        }
 
-         #despatch tr td:nth-child(3n) {
-             padding-left: 10px !important;
-             padding-right: 10px !important;
-         }
+        #despatch tr td:nth-child(3n) {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+    .wrap {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    table {
+        min-width: 100%;
+        width: auto;
+    }
+
+    td {
+        /*border: 1px solid #000;*/
+        padding: 10px;
+        white-space: nowrap;
+    }
 </style>
