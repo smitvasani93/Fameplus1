@@ -56,6 +56,7 @@ namespace Transactiondetails.Controllers
 
                                      });
 
+
             return Json(pendingJobDespatches, JsonRequestBehavior.AllowGet);
         }
 
@@ -69,46 +70,47 @@ namespace Transactiondetails.Controllers
                 var userData = (UserData)Session["UserData"];
 
                 var jobBill = jobBillingDataLayer.GetJobBillBySerialNo(userData.Company, userData.FYear, id);
-                var jobDespatchViewModel = new JobBillingDetailViewModel();
+                var jobBillingViewModel = new JobBillingViewModel();
 
-                //jobDespatchViewModel.AccountCode = jobBill.JobBillingDets.FirstOrDefault().AccountCode;
-                //jobDespatchViewModel.ReferenceDate = jobBill.JobBillingDets.FirstOrDefault().ReferenceDate;
-                //jobDespatchViewModel.SerialNumber = id;
+                jobBillingViewModel.AccountCode = jobBill.JobBillingDets.FirstOrDefault().AccountCode;
+                jobBillingViewModel.ReferenceDate = jobBill.JobBillingDets.FirstOrDefault().ReferenceDate;
+                jobBillingViewModel.SerialNumber = id;
 
-                //jobDespatchViewModel.JobDespatchDetails = jobBill.JobBillingDets.Select(x => new JobDespatchDetailViewModel
-                //{
-                //    ReferenceDate = x.ReferenceDate.Value,
-                //  //  WeightLoss = x.WeightLoss,
-                //    //JRSerialNumber = x.JRSerialNumber,
-                //    //JRItemSerialNumber = x.JRItemSerialNumber,
-                //    ItemPieces = x.ItemPieces,
-                //    ItemLines = x.ItemLines,
-                //    ItemCarats = x.ItemCarats,
-                //    //NoChargeQuantity = x.NoChargeQuantity,
-                //    //BillingQuantity = x.BillingQuantity,
-                //    //Rate = x.BillingRate,
-                //    ItemSerialNumber = x.ItemSerialNumber,
-                //    Remarks = x.Remarks,
-                //    //Status = x.PacketStatus,
-                //    //ProcessCode = x.ProcessCode,
-                //    //ProcessName = x.ProcessName,
-                //    //BillingType = x.BillingType,
-                //    //BillingUnit = x.BillingType
+                jobBillingViewModel.JobBillingDetails = jobBill.JobBillingDets.Select(x => new JobBillingDetailViewModel
+                {
+                    ReferenceDate = x.ReferenceDate,
+                    ItemPieces = x.ItemPieces,
+                    ItemLines = x.ItemLines,
+                    ItemCarats = x.ItemCarats,
+                    ItemSerialNumber = x.ItemSerialNumber,
+                    Remarks = x.Remarks,
+                    // Addless1 =x.Addless1
 
-                //}).ToList();
+                }).ToList();
 
 
-                //var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
 
-                //jobDespatchViewModel.Accounts = accounts.Select(sel => new AccountMasterVM
-                //{
-                //    AccountCode = sel.AccountCode,
-                //    AccountName = sel.AccountName
-                //});
+                jobBillingViewModel.Accounts = accounts.Select(sel => new AccountMasterVM
+                {
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName
+                });
 
-                //jobDespatchViewModel.Mode = Mode.Update;
 
-                return PartialView("_JobworkDespatchUpdatePartial", jobDespatchViewModel);
+                var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear);
+
+                jobBillingViewModel.SalesAccounts = salesaccounts.Select(sel => new AccountMasterVM
+                {
+                    AccountCode = sel.AccountCode,
+                    AccountName = sel.AccountName
+                });
+
+
+                jobBillingViewModel.Mode = Mode.Update;
+
+
+                return PartialView("_JobBillingUpdatePartial", jobBillingViewModel);
             }
             catch (Exception ex)
             {
