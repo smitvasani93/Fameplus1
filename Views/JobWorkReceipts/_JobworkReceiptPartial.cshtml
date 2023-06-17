@@ -78,15 +78,40 @@
                             <td class="plsRow">
                                 @if (Model.JobReceiptDetails.Count() - 1 == i)
                                 {
-                                    <a class="addRow" href="javascript:void(0);">
-                                        <i class="fa fa-plus"></i>
-                                    </a>
+                                    <div class="container">
+
+                                        <div>
+                                            <a class="addRow" href="javascript:void(0);">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                        </div>
+                                        @if (Model.JobReceiptDetails.Count() == 1)
+                                        {
+                                            <div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                <a class="deleteRow" href="javascript:void(0);">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
                                 }
                                 else
                                 {
-                                    <a class="deleteRow" href="javascript:void(0);">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
+                                    <div class="container">
+                                        <div>
+                                        </div>
+                                        <div>
+                                            <a class="deleteRow" href="javascript:void(0);">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
                                 }
                             </td>
                             <td style="display:none">
@@ -137,7 +162,7 @@
 
     $(function () {
 
-        $("#receipt ").on('click', '.addRow', function (evt) {
+        $("#receipt").on('click', '.addRow', function (evt) {
             evt.stopPropagation();
             let noclone = false;
 
@@ -176,21 +201,17 @@
             if (!noclone) {
 
                 let rowCount = $("#receipt > tbody >tr").length
-                let tr = $("#newone").find("Table").find("tr:last").clone();
+                let tr = $("#newone").find("table").find("tr:last").clone();
 
                 $("#receipt tbody tr").each(function (i, row) {
                     let $actualrow = $(row);
-                    $actualrow.find("td").each(function (column, td) {
 
-                        if ($(td).find("a.addRow").length !== 0) {
-                            $(td).find("a.addRow").remove();
-                        }
+                    $actualrow.find("td.plsRow").each(function (column, td) {
 
-                        if ($(td).hasClass("plsRow")) {
-                            if ($(td).find("a.deleteRow").length === 0)
-                            {
-                              $(td).append($("<a class=\"deleteRow\" href=\"javascript: void (0); \"><i class=\"fa fa-trash\" ></i></a>"));
-                            }
+                        if ($(td).find("div.container").length !== 0) {
+                            $(td).find("div.container").remove();
+                            let $adddelete = $("<div class=\"container\"><div></div><div><a class=\"deleteRow\" href=\"javascript:void(0);\"><i class=\"fa fa-trash\" ></i></a></div></div>");
+                            $(td).append($adddelete);
                         }
                     });
                 });
@@ -200,37 +221,39 @@
                 tr.find("input[name*='ItemLines']").val("0");
                 tr.find("input[name*='ItemCarats']").val("0");
                 tr.find("select[name*='ProcessCode']").val("");
-                $("#receipt").append(tr);
+                tr.find("td.plsRow").each(function (column, td) {
 
+                    if ($(td).find("div.container").length !== 0) {
+                        $(td).find("div.container").remove();
+                        let $adddelete = $("<div class=\"container\"><div><a class=\"addRow\" href=\"javascript: void (0);\"><i class=\"fa fa-plus\" ></i></a></div><div><a class=\"deleteRow\" href=\"javascript:void(0);\"><i class=\"fa fa-trash\" ></i></a></div></div>");
+                        $(td).append($adddelete);
+                    }
+                });
+
+                $("#receipt").append(tr);
                 resetElementIndex();
             }
-
-            //$("#receipt tbody tr").each(function (i, row) {
-            //    let $actualrow = $(row);
-            //    i++;
-            //    $actualrow.find("td").each(function (column, td) {
-
-            //        let select = $(td).find("select");
-            //        let text = $(td).find("input[type=text]").not('[name*=Remark]');
-            //        let hidden = $(td).find("input[type=hidden]");
-
-            //        if (hidden.length != 0) {
-            //            $(hidden).val(i);
-            //        }
-            //        if (select.length != 0) {
-            //            $(select).rules("add", { required: true, messages: { required: "" } });
-            //        }
-            //        if (text.length != 0) {
-            //            $(text).rules("add", { required: true, messages: { required: "" } });
-            //        }
-            //    });
-            //});
-
         });
 
         $("#receipt").on('click', '.deleteRow', function () {
             if (1 != $('#receipt >tbody >tr').length) {
-                $(this).parent().parent().remove();
+
+                $(this).closest("tr").remove();
+
+                let rowCount = $("#receipt > tbody >tr").length;
+                let tr = $("#newone").find("table").find("tr:last")
+                tr.find("td.plsRow").each(function (column, td) {
+
+                    if ($(td).find("div.container").length !== 0) {
+                        $(td).find("div.container").remove();
+
+                        let $adddelete = $("<div class=\"container\"><div><a class=\"addRow\" href=\"javascript: void (0);\"><i class=\"fa fa-plus\" ></i></a></div><div><a class=\"deleteRow\" href=\"javascript:void(0);\"><i class=\"fa fa-trash\" ></i></a></div></div>");
+                        if (rowCount === 1) {
+                            $adddelete = $("<div class=\"container\"><div><a class=\"addRow\" href=\"javascript: void (0);\"><i class=\"fa fa-plus\" ></i></a></div><div></div></div>");
+                        }
+                        $(td).append($adddelete);
+                    }
+                });
             }
 
             resetElementIndex();
@@ -297,11 +320,9 @@
                     !$($ctrl).is("[name*=Remark]")) {
                     $($ctrl).rules("add", { required: true, messages: { required: "" } });
                 }
-
             });
             index++;
         });
-
     }
 
     function AjaxFormSuccess(e) {
@@ -368,7 +389,6 @@
     $("#btnDelete").click(function (e) {
 
         let serialNo = $(this).data("serial-no");
-
         if (confirm("Are you sure you want to delete Recipet No:" + serialNo + " ?") == false) {
             return false;
         }
@@ -414,4 +434,16 @@
         margin-top: -5px !important;
         padding-top: 1px !important;
     }
+
+    #receipt .container {
+        display: flex;
+        align-items: center;
+        padding: 0;
+        justify-content: center;
+    }
+
+        #receipt .container a {
+            margin-left: .2em;
+            margin-right: .2em;
+        }
 </style>
