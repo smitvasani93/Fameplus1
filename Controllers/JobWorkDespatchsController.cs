@@ -34,6 +34,7 @@ namespace Transactiondetails.Controllers
             var account = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear).FirstOrDefault(x => x.AccountCode == accountcode);
 
             var pendingJobReciepts = jobDespatchDataLayer.GetPendingJobReciept(accountcode, userData.Company, userData.Branch, userData.FYear)
+                                     .OrderBy(ord=>ord.ReferenceDate)
                                      .Select(x => new JobDespatchDetailViewModel
                                      {
                                          SerialNumber = x.SerialNumber,
@@ -115,7 +116,7 @@ namespace Transactiondetails.Controllers
                 //});
                 var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
 
-                jobDespatchViewModel.Accounts = accounts.Select(sel => new AccountMasterVM
+                jobDespatchViewModel.Accounts = accounts.OrderBy(ord=>ord.AccountName).Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
@@ -419,7 +420,7 @@ namespace Transactiondetails.Controllers
                 //    ProcessName = sel.ProcessName
                 //});
 
-                jobDespatchVM.Accounts = accounts.Select(sel => new AccountMasterVM
+                jobDespatchVM.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName

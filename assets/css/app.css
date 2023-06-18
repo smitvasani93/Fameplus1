@@ -154,7 +154,12 @@ table {
 }
 
 #billing .form-select {
-    min-width: 100px;
+    min-width: 122px;
+}
+
+#despatch .form-control,
+#despatch .form-select {
+    min-width: 75px !important;
 }
 
 #newone table {

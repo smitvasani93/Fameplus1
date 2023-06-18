@@ -52,8 +52,6 @@ namespace Transactiondetails.Controllers
                                          JDItemCarats = x.JDItemCarats,
                                          JDItemLines = x.JDItemLines,
                                          JDItemPieces = x.JDItemPieces,
-
-
                                      });
 
 
@@ -91,7 +89,7 @@ namespace Transactiondetails.Controllers
 
                 var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
 
-                jobBillingViewModel.Accounts = accounts.Select(sel => new AccountMasterVM
+                jobBillingViewModel.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
@@ -100,7 +98,7 @@ namespace Transactiondetails.Controllers
 
                 var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear);
 
-                jobBillingViewModel.SalesAccounts = salesaccounts.Select(sel => new AccountMasterVM
+                jobBillingViewModel.SalesAccounts = salesaccounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
@@ -368,13 +366,13 @@ namespace Transactiondetails.Controllers
                 jobBillingVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
                 jobBillingVM.PostingDate = jobBillingVM.ReferenceDate;
 
-                jobBillingVM.Accounts = accounts.Select(sel => new AccountMasterVM
+                jobBillingVM.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
                 });
 
-                jobBillingVM.SalesAccounts = salesaccounts.Select(sel => new AccountMasterVM
+                jobBillingVM.SalesAccounts = salesaccounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName

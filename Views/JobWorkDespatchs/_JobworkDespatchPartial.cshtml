@@ -127,12 +127,11 @@
                         </tr>
                     }
                 </table>
-
             </div>
             <div class="jqueryTbl-container" style="overflow-x:auto;">
                 <table id="jqueryTbl"></table>
-                <div class="ui-dialog-buttonset offset-lg-11 pt-lg-3 pb-lg-1 ps-5">
-                    <button type="button" class="btn btn-default select-pending-receipt">Select</button>
+                <div class="ui-dialog-buttonset pt-3">
+                    <button type="button" class="btn btn-default select-pending-receipt" style="float: right;">Select</button>
                 </div>
             </div>
 
@@ -158,15 +157,15 @@
     $(function () {
 
         var data =@(Html.Raw(jsonModel));
-        var pageWidth = $("#jqueryTbl").parent().width() - 100;
+        var pageWidth = $("#jqueryTbl").parent().width()-100;
         $("#jqueryTbl").jqGrid({
             data: [],
             datatype: 'local',
             colModel: [
                 /*{ label: 'Tag', name: "Tag", width: 50, align: "center", sortable: false, formatter: "checkbox", formatoptions: { disabled: false }, edittype: "checkbox", editoptions: { value: "True:False" }, formatoptions: { disabled: false }, multiselect: true },*/
-                { label: "Ref Date", name: "ReferenceDate", width: (pageWidth * (15 / 100)), align: "center", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "m/d/Y" } },
-                { label: "Customer", width: (pageWidth * (20 / 100)), align: "center", name: "CustomrName" },
-                { label: "Process ", width: (pageWidth * (24 / 100)), align: "center",  name: "ProcessName"},
+                { label: "Ref Date", name: "ReferenceDate", width: (pageWidth * (15 / 100)), align: "center", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "d/m/Y" } },
+                { label: "Customer", width: (pageWidth * (24 / 100)), align: "center", name: "CustomrName" },
+                { label: "Process ", width: (pageWidth * (20 / 100)), align: "center",  name: "ProcessName"},
                 { label: "Packet No", width: (pageWidth * (10 / 100)), align: "center", name: "PacketNumber"},
                 { label: "Pieces", width: (pageWidth * (6 / 100)), align: "center", name: "ItemPieces"},
                 { label: "Pending Pieces", width: (pageWidth * (10 / 100)), align: "center", name: "BalItemPieces"},
@@ -225,7 +224,6 @@
             for (let i = 0; i < gridData.length; i++) {
 
                 if (i === 0) {
-
                     $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
                     $tr.find("td:nth-child(2)").html(gridData[i].ProcessName);
                     $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
@@ -244,7 +242,6 @@
                     $tr.find("input[type=hidden][name*='SerialNumber']").val(gridData[i].SerialNumber);
                     $tr.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
                     /*$tr.find("select[name*='Status']").val();*/
-
                     continue;
                 }
 
@@ -299,16 +296,13 @@
                 $trClone.find("input[name*='NoChargeQuantity']").val(gridData[i].NoChargeQuantity);
                 $trClone.find("input[name*='Rate']").val(gridData[i].Rate);
                 $trClone.find("input[name*='Remarks']").val(gridData[i].Remarks);
-
                 $("#despatch").append($trClone);
             }
 
             $(".jqueryTbl-container").remove();
             $("#newone").removeClass("newone-css");
             $(".button-container").removeClass("newone-css");
-
            addRequiredRules();
-
         }
     });
 
@@ -367,7 +361,6 @@
             errorPlacement: $.noop
         });
 
-
         $("#despatch tbody tr").each(function (i, row) {
 
             let $actualrow = $(row);
@@ -389,7 +382,6 @@
     $(document).on("click", ".btn-close-dialog", function (e) {
         $('#dialog').dialog('close');
     })
-
 
     $("#despatch").on("input","tr input[name*='BalItemPieces']", function (e) {
 
@@ -454,7 +446,6 @@
 
     });
 
-
     Array.prototype.removeByValue = function (val) {
         for (var i = 0; i < this.length; i++) {
             if (this[i] === val) {
@@ -464,7 +455,6 @@
         }
         return this;
     }
-
 </script>
 <style>
     #JobworkReceiptPop .form-control:read-only {
@@ -529,4 +519,5 @@
         padding: 10px;
         white-space: nowrap;
     }
+   
 </style>
