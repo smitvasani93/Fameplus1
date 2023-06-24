@@ -14,5 +14,7 @@ namespace Transactiondetails.DBModels
         public string Remarks { get; set; }
         public DateTime ReferenceDate { get; set; }
         public int SerialNumber { get; set; }
+        public double NoChargeQuantity { get; set; }
+
     }
 }

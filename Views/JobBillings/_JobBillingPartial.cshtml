@@ -283,7 +283,7 @@
         });
     })
 
-    
+
     $(function () {
 
         var data =@(Html.Raw(jsonModel));
@@ -473,7 +473,7 @@
     });
 
     $("#billing").on("change","tr select[name*=DiscountPerAmt]", function (e) {
-        
+
         /*alert($(this).closest("tr").find("input[name*=Rate]").val());*/
     });
 
@@ -539,6 +539,31 @@
         $('#dialog').dialog('close');
     })
 
+
+    $("#billing").on("input", "tr input[name*='BillingQuantity']", function (e) {
+
+        alert('HI');
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let bQty = parseInt($(this).val());
+        let processcode = $(this).closest("tr").find("input[name*='ProcessCode']").val();
+        let $rate = $(this).closest("tr").find("input[name*='Rate']");
+        $.ajax({
+            url: "@Url.Action("GetRateByBillingQty", "JobWorkDespatchs")",
+            type: "GET",
+            data: { billingQty: bQty, ProcessCode: processcode },
+            dataType: 'json',
+            success: function (result) {
+
+                if (result.message === "Success") {
+                    $rate.val(result.Rate)
+                }
+            }
+        });
+    });
+    
 
     //$("#billing").on("input","tr input[name*='BalItemPieces']", function (e) {
 

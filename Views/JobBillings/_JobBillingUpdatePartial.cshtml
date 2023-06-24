@@ -335,7 +335,9 @@
                     $tr.find("input[name*='PaymentCB']").val(gridData[i].PaymentCB);
                     $tr.find("input[name*='Remarks']").val(gridData[i].Remarks);
                     $tr.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
+                    $tr.find("input[type=hidden][name*='ProcessCode']").valgridData[i].ProcessCode);
 
+                    
                     continue;
                 }
 
@@ -376,6 +378,8 @@
                 $trClone.find("input[type=hidden][name*='JDItemSerialNumber']").val(gridData[i].ItemSerialNumber);
                 $trClone.find("input[type=hidden][name*='SerialNumber']").val(gridData[i].SerialNumber);
                 $trClone.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
+               // $tr.find("input[type=hidden][name*='ProcessCode']").val(i + 1);
+                $trClone.find("input[type=hidden][name*='ProcessCode']").val(gridData[i].ProcessCode);
 
                 $trClone.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
                 $trClone.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);

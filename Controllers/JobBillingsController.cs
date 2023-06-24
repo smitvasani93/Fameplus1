@@ -82,6 +82,9 @@ namespace Transactiondetails.Controllers
                     ItemCarats = x.ItemCarats,
                     ItemSerialNumber = x.ItemSerialNumber,
                     Remarks = x.Remarks,
+                    ProcessCode = x.ProcessCode,
+                    NoChargeQuantity = x.NoChargeQuantity
+
                     // Addless1 =x.Addless1
 
                 }).ToList();
@@ -399,7 +402,41 @@ namespace Transactiondetails.Controllers
             }
         }
 
- 
+        [HttpGet]
+        public ActionResult GetRateByBillingQty(int BillingQty, short ProcessCode)
+        {
+            var jobDespatchDataLayer = new JobDespatchDataLayer();
+            var dbutility = new DBUtility();
+            var accountDataLayer = new AccountDataLayer();
+            decimal rate = 0;
+
+            try
+            {
+                var processdetails = dbutility.GetProcessDetails().Where(x => x.ProcessCode == ProcessCode).ToList();
+
+                if (processdetails != null)
+                {
+
+                    var billingRate = (from process in processdetails
+                                       where process.RangeFrom <= BillingQty && process.RangeTo >= BillingQty
+                                       select process.BillingRate
+                                 ).FirstOrDefault();
+
+
+
+                    rate = billingRate;
+                }
+
+                return Json(new { Rate = rate, message = "Success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var message = new { message = "Exception occured", error = "True" };
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         [HttpPost]
         public ActionResult DeleteBilling(string serialNo)
         {
