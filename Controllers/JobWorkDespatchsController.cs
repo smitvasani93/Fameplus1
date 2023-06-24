@@ -114,7 +114,7 @@ namespace Transactiondetails.Controllers
                 //    ProcessCode = sel.ProcessCode,
                 //    ProcessName = sel.ProcessName
                 //});
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var accounts = accountDataLayer.GetDespatchAccounts(userData.Company, userData.Company, userData.FYear);
 
                 jobDespatchViewModel.Accounts = accounts.OrderBy(ord=>ord.AccountName).Select(sel => new AccountMasterVM
                 {
@@ -188,7 +188,7 @@ namespace Transactiondetails.Controllers
 
                 var userData = (UserData)Session["UserData"];
                 var jobDespatchs = jobDespatchDataLayer.GetJobDespatch(userData.Company, userData.Branch, userData.FYear);
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Branch, userData.FYear);
+                var accounts = accountDataLayer.GetDespatchAccounts(userData.Company, userData.Branch, userData.FYear);
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobDespatchs.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
@@ -401,7 +401,7 @@ namespace Transactiondetails.Controllers
             {
                 var userData = (UserData)Session["UserData"];
 
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var accounts = accountDataLayer.GetDespatchAccounts(userData.Company, userData.Company, userData.FYear);
 
                 //var process = dbutility.GetProcesses();
 

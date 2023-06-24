@@ -47,4 +47,29 @@ public class AccountDataLayer
         return accountMasterList;
     }
 
+    public List<AccountMaster> GetDespatchAccounts(string companyCode, string branchCode, string FYear)
+    {
+        var accountMasterList = new List<AccountMaster>();
+        using (CompanyDBContext db = new CompanyDBContext(companyCode))
+        {
+            var pFYear = new SqlParameter("@FinancialYearCode", FYear);
+
+            accountMasterList = db.Database.SqlQuery<AccountMaster>("exec spGetDespatchAccount @FinancialYearCode", pFYear).ToList();
+        }
+
+        return accountMasterList;
+    }
+
+    public List<AccountMaster> GetBillAccounts(string companyCode, string branchCode, string FYear)
+    {
+        var accountMasterList = new List<AccountMaster>();
+        using (CompanyDBContext db = new CompanyDBContext(companyCode))
+        {
+            var pFYear = new SqlParameter("@FinancialYearCode", FYear);
+
+            accountMasterList = db.Database.SqlQuery<AccountMaster>("exec spGetBillAccount @FinancialYearCode", pFYear).ToList();
+        }
+
+        return accountMasterList;
+    }
 }

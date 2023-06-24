@@ -87,7 +87,7 @@ namespace Transactiondetails.Controllers
                 }).ToList();
 
 
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var accounts = accountDataLayer.GetBillAccounts(userData.Company, userData.Company, userData.FYear);
 
                 jobBillingViewModel.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {
@@ -138,7 +138,7 @@ namespace Transactiondetails.Controllers
 
                 var userData = (UserData)Session["UserData"];
                 var jobBillings = jobBillingDataLayer.GetJobBilling(userData.Company, userData.Branch, userData.FYear);
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Branch, userData.FYear);
+                var accounts = accountDataLayer.GetBillAccounts(userData.Company, userData.Branch, userData.FYear);
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobBillings.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
@@ -351,7 +351,7 @@ namespace Transactiondetails.Controllers
             try
             {
                 var userData = (UserData)Session["UserData"];
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var accounts = accountDataLayer.GetBillAccounts(userData.Company, userData.Company, userData.FYear);
 
                 //Salesaccount
                 var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear);
