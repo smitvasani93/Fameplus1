@@ -34,7 +34,7 @@ namespace Transactiondetails.Controllers
             var account = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear).FirstOrDefault(x => x.AccountCode == accountcode);
 
             var pendingJobReciepts = jobDespatchDataLayer.GetPendingJobReciept(accountcode, userData.Company, userData.Branch, userData.FYear)
-                                     .OrderBy(ord=>ord.ReferenceDate)
+                                     .OrderBy(ord => ord.ReferenceDate)
                                      .Select(x => new JobDespatchDetailViewModel
                                      {
                                          SerialNumber = x.SerialNumber,
@@ -49,7 +49,11 @@ namespace Transactiondetails.Controllers
                                          BillingType = x.BillingType,
                                          ItemCarats = x.ItemCarats,
                                          ItemLines = x.ItemLines,
-                                         ItemPieces = x.ItemPieces
+                                         ItemPieces = x.ItemPieces,
+                                         NoChargeQuantity = x.NoChargeQuantity,
+                                         WeightLoss = x.WeightLoss,
+                                         BillingQuantity = x.BillingQuantity,
+                                         Rate = x.Rate
                                      });
 
             return Json(pendingJobReciepts, JsonRequestBehavior.AllowGet);
@@ -88,7 +92,7 @@ namespace Transactiondetails.Controllers
                     Status = x.PacketStatus,
                     ProcessCode = x.ProcessCode,
                     ProcessName = x.ProcessName,
-                    BillingType =x.BillingType,
+                    BillingType = x.BillingType,
                     BillingUnit = x.BillingType
 
                 }).ToList();
@@ -116,7 +120,7 @@ namespace Transactiondetails.Controllers
                 //});
                 var accounts = accountDataLayer.GetDespatchAccounts(userData.Company, userData.Company, userData.FYear);
 
-                jobDespatchViewModel.Accounts = accounts.OrderBy(ord=>ord.AccountName).Select(sel => new AccountMasterVM
+                jobDespatchViewModel.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
@@ -459,12 +463,12 @@ namespace Transactiondetails.Controllers
             {
                 var processdetails = dbutility.GetProcessDetails().Where(x => x.ProcessCode == ProcessCode).ToList();
 
-                if(processdetails!= null)
+                if (processdetails != null)
                 {
 
                     var billingRate = (from process in processdetails
-                                 where process.RangeFrom <= BillingQty && process.RangeTo >= BillingQty
-                                 select process.BillingRate
+                                       where process.RangeFrom <= BillingQty && process.RangeTo >= BillingQty
+                                       select process.BillingRate
                                  ).FirstOrDefault();
 
                     //var data = processdetails.Where(x => BillingQty <= x.RangeFrom && BillingQty >= x.RangeTo).FirstOrDefault();
