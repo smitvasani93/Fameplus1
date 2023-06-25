@@ -352,6 +352,7 @@
 
                 if (i === 0) {
 
+                    debugger;
                   //  $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
                     $tr.find("td:nth-child(1)").html(gridData[i].JDSerialNumber);
                     $tr.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('MM/DD/YYYY'));
@@ -378,6 +379,7 @@
                     $tr.find("input[name*='PaymentCB']").val(gridData[i].PaymentCB);
                     $tr.find("input[name*='Remarks']").val(gridData[i].Remarks);
                     $tr.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
+                    $tr.find("input[type=hidden][name*='ProcessCode']").val(gridData[i].ProcessCode);
 
                     continue;
                 }
@@ -419,6 +421,7 @@
                 $trClone.find("input[type=hidden][name*='JDItemSerialNumber']").val(gridData[i].ItemSerialNumber);
                 $trClone.find("input[type=hidden][name*='SerialNumber']").val(gridData[i].SerialNumber);
                 $trClone.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
+                $trClone.find("input[type=hidden][name*='ProcessCode']").val(gridData[i].ProcessCode);
 
                 $trClone.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
                 $trClone.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
