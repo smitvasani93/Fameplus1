@@ -172,10 +172,16 @@
                 { label: "Carats", width: (pageWidth * (5 / 100)), align: "center", name: "ItemCarats"},
                 { label: "Pending Carats", width: (pageWidth * (10 / 100)), align: "center", name: "BalItemCarats" },
                 { label: "Lines", width: (pageWidth * (5 / 100)), align: "center", name: "ItemLines" },
+                { name: "WeightLoss", hidden: 'true' },
                 { name: "ItemSerialNumber", hidden: 'true' },
                 { name: "SerialNumber", hidden: 'true' },
                 { name: "ProcessCode", hidden: 'true' },
-                { name: "BillingType", hidden: 'true' }
+                { name: "BillingType", hidden: 'true' },
+                { name: "NoChargeQuantity", hidden: 'true' },
+                { name: "BillingQuantity", hidden: 'true' },
+                { name: "Rate", hidden: 'true' },
+                { name: "Status", hidden: 'true' },
+                { name: "BalItemLines", hidden: 'true' }
             ],
             cmTemplate: { sortable: false },
             loadonce: true,
@@ -224,22 +230,24 @@
             for (let i = 0; i < gridData.length; i++) {
 
                 if (i === 0) {
-                    $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
+                    $tr.find("td:nth-child(1)").html(gridData[i].ReferenceDate);
                     $tr.find("td:nth-child(2)").html(gridData[i].ProcessName);
                     $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
                     $tr.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
                     $tr.find("input[name*='ItemLines']").val(gridData[i].ItemLines);
                     $tr.find("input[name*='ItemCarats']").val(gridData[i].ItemCarats);
 
-                    //$tr.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
-                    //$tr.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
-                    //$tr.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
-                    $tr.find("input[name*='BalItemPieces']").val(gridData[i].ItemPieces);
-                    $tr.find("input[name*='BalItemCarats']").val(gridData[i].ItemLines);
-                    $tr.find("input[name*='BalItemLines']").val(gridData[i].ItemCarats);
+                    $tr.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
+                    $tr.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
+                    $tr.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
 
                     $tr.find("input[name*='ProcessCode']").val(gridData[i].ProcessCode);
                     $tr.find("input[name*='BillingUnit']").val(gridData[i].BillingType);
+                    $tr.find("input[name*='NoChargeQuantity']").val(gridData[i].NoChargeQuantity);
+                    $tr.find("input[name*='BillingQuantity']").val(gridData[i].BillingQuantity);
+                    $tr.find("input[name*='Rate']").val(gridData[i].Rate);
+                    $tr.find("input[name*='Status']").val(gridData[i].Status);
+                    $tr.find("input[name*='WeightLoss']").val(gridData[i].WeightLoss);
                     /*$tr.find("input[name*='SerialNumber']").val(gridData[i].SerialNumber);*/
                     //$tr.find("input[name*='ItemSerialNumber']").val(gridData[i].ItemSerialNumber);
                     $tr.find("input[type=hidden][name*='JRSerialNumber']").val(gridData[i].SerialNumber);
@@ -293,20 +301,23 @@
                 $trClone.find("input[name*='ItemLines']").val(gridData[i].ItemLines);
                 $trClone.find("input[name*='ItemCarats']").val(gridData[i].ItemCarats);
 
-                $trClone.find("input[name*='BalItemPieces']").val(gridData[i].ItemPieces);
-                $trClone.find("input[name*='BalItemCarats']").val(gridData[i].ItemLines);
-                $trClone.find("input[name*='BalItemLines']").val(gridData[i].ItemCarats);
-                //$trClone.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
-                //$trClone.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
-                //$trClone.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
+                //$trClone.find("input[name*='BalItemPieces']").val(gridData[i].ItemPieces);
+                //$trClone.find("input[name*='BalItemCarats']").val(gridData[i].ItemLines);
+                //$trClone.find("input[name*='BalItemLines']").val(gridData[i].ItemCarats);
+
+                $trClone.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
+                $trClone.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
+                $trClone.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
 
                 $trClone.find("input[name*='ProcessCode']").val(gridData[i].ProcessCode);
-                $trClone.find("input[name*='WeightLoss']").val(gridData[i].WeightLoss);
-                $trClone.find("input[name*='Status']").val(gridData[i].Status);
+
+                $tr.find("input[name*='NoChargeQuantity']").val(gridData[i].NoChargeQuantity);
+                $tr.find("input[name*='BillingQuantity']").val(gridData[i].BillingQuantity);
+                $tr.find("input[name*='Rate']").val(gridData[i].Rate);
+                $tr.find("input[name*='Status']").val(gridData[i].Status);
+                $tr.find("input[name*='WeightLoss']").val(gridData[i].WeightLoss);
                 $trClone.find("input[name*='BillingUnit']").val(gridData[i].BillingType);
-                $trClone.find("input[name*='NoChargeQuantity']").val(gridData[i].NoChargeQuantity);
-                $trClone.find("input[name*='Rate']").val(gridData[i].Rate);
-                $trClone.find("input[name*='Remarks']").val(gridData[i].Remarks);
+                $trClone.find("input[name*='Remarks']").val('');
                 $("#despatch").append($trClone);
             }
 

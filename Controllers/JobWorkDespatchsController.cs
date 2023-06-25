@@ -46,6 +46,7 @@ namespace Transactiondetails.Controllers
                                          PacketNumber = x.PacketNumber,
                                          BalItemCarats = x.Bal_ItemCarats,
                                          BalItemPieces = x.Bal_ItemPieces,
+                                         BalItemLines = x.Bal_ItemLines,
                                          BillingType = x.BillingType,
                                          ItemCarats = x.ItemCarats,
                                          ItemLines = x.ItemLines,
@@ -75,49 +76,29 @@ namespace Transactiondetails.Controllers
                 jobDespatchViewModel.ReferenceDate = jobDespatch.JobDespatchDetails.FirstOrDefault().ReferenceDate;
                 jobDespatchViewModel.SerialNumber = id;
 
-                jobDespatchViewModel.JobDespatchDetails = jobDespatch.JobDespatchDetails.Select(x => new JobDespatchDetailViewModel
-                {
-                    ReferenceDate = x.ReferenceDate.Value,
-                    WeightLoss = x.WeightLoss,
-                    JRSerialNumber = x.JRSerialNumber,
-                    JRItemSerialNumber = x.JRItemSerialNumber,
-                    ItemPieces = x.ItemPieces,
-                    ItemLines = x.ItemLines,
-                    ItemCarats = x.ItemCarats,
-                    NoChargeQuantity = x.NoChargeQuantity,
-                    BillingQuantity = x.BillingQuantity,
-                    Rate = x.BillingRate,
-                    ItemSerialNumber = x.ItemSerialNumber,
-                    Remarks = x.Remarks,
-                    Status = x.PacketStatus,
-                    ProcessCode = x.ProcessCode,
-                    ProcessName = x.ProcessName,
-                    BillingType = x.BillingType,
-                    BillingUnit = x.BillingType
+                jobDespatchViewModel.JobDespatchDetails = jobDespatch.JobDespatchDetails
+                    .OrderBy(ord => ord.ReferenceDate).Select(x => new JobDespatchDetailViewModel
+                    {
+                        ReferenceDate = x.ReferenceDate.Value,
+                        WeightLoss = x.WeightLoss,
+                        JRSerialNumber = x.JRSerialNumber,
+                        JRItemSerialNumber = x.JRItemSerialNumber,
+                        ItemPieces = x.ItemPieces,
+                        ItemLines = x.ItemLines,
+                        ItemCarats = x.ItemCarats,
+                        NoChargeQuantity = x.NoChargeQuantity,
+                        BillingQuantity = x.BillingQuantity,
+                        Rate = x.BillingRate,
+                        ItemSerialNumber = x.ItemSerialNumber,
+                        Remarks = x.Remarks,
+                        Status = x.PacketStatus,
+                        ProcessCode = x.ProcessCode,
+                        ProcessName = x.ProcessName,
+                        BillingType = x.BillingType,
+                        BillingUnit = x.BillingType
 
-                }).ToList();
+                    }).ToList();
 
-
-                //jobReceiptVM.JobReceiptDetails = jobReciept.JobRecieptDets.Join(process,
-                //   jd => jd.ProcessCode,
-                //   prc => prc.ProcessCode,
-                //   (jobreciptdet, process1) => new JobReceiptDetailVM
-                //   {
-                //       ProcessName = process1.ProcessName,
-                //       ProcessCode = jobreciptdet.ProcessCode,
-                //       ItemCarats = jobreciptdet.ItemCarats,
-                //       ItemLines = jobreciptdet.ItemLines,
-                //       ItemPieces = jobreciptdet.ItemPieces,
-                //       PacketNumber = jobreciptdet.PacketNumber,
-                //       ItemSerialNumber = jobreciptdet.ItemSerialNumber,
-                //       Remarks = jobreciptdet.Remarks
-                //   }).ToList();
-
-                //jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
-                //{
-                //    ProcessCode = sel.ProcessCode,
-                //    ProcessName = sel.ProcessName
-                //});
                 var accounts = accountDataLayer.GetDespatchAccounts(userData.Company, userData.Company, userData.FYear);
 
                 jobDespatchViewModel.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM

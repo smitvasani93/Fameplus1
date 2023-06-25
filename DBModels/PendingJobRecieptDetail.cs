@@ -13,6 +13,7 @@ public class PendingJobRecieptDetail
     public double ItemLines { get; set; }
     public double Bal_ItemPieces { get; set; }
     public double Bal_ItemCarats { get; set; }
+    public double Bal_ItemLines { get; set; }
     public double NoChargeQuantity { get; set; }
     public double WeightLoss { get; set; }
     public double BillingQuantity { get; set; }
