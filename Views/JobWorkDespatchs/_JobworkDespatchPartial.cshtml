@@ -230,9 +230,14 @@
                     $tr.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
                     $tr.find("input[name*='ItemLines']").val(gridData[i].ItemLines);
                     $tr.find("input[name*='ItemCarats']").val(gridData[i].ItemCarats);
-                    $tr.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
-                    $tr.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
-                    $tr.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
+
+                    //$tr.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
+                    //$tr.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
+                    //$tr.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
+                    $tr.find("input[name*='BalItemPieces']").val(gridData[i].ItemPieces);
+                    $tr.find("input[name*='BalItemCarats']").val(gridData[i].ItemLines);
+                    $tr.find("input[name*='BalItemLines']").val(gridData[i].ItemCarats);
+
                     $tr.find("input[name*='ProcessCode']").val(gridData[i].ProcessCode);
                     $tr.find("input[name*='BillingUnit']").val(gridData[i].BillingType);
                     /*$tr.find("input[name*='SerialNumber']").val(gridData[i].SerialNumber);*/
@@ -283,12 +288,18 @@
                 $trClone.find("input[type=hidden][name*='SerialNumber']").val(gridData[i].SerialNumber);
                 $trClone.find("input[type=hidden][name*='ItemSerialNumber']").val(i+1);
                 $trClone.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
+
                 $trClone.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
                 $trClone.find("input[name*='ItemLines']").val(gridData[i].ItemLines);
                 $trClone.find("input[name*='ItemCarats']").val(gridData[i].ItemCarats);
-                $trClone.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
-                $trClone.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
-                $trClone.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
+
+                $trClone.find("input[name*='BalItemPieces']").val(gridData[i].ItemPieces);
+                $trClone.find("input[name*='BalItemCarats']").val(gridData[i].ItemLines);
+                $trClone.find("input[name*='BalItemLines']").val(gridData[i].ItemCarats);
+                //$trClone.find("input[name*='BalItemPieces']").val(gridData[i].BalItemPieces);
+                //$trClone.find("input[name*='BalItemCarats']").val(gridData[i].BalItemCarats);
+                //$trClone.find("input[name*='BalItemLines']").val(gridData[i].BalItemLines);
+
                 $trClone.find("input[name*='ProcessCode']").val(gridData[i].ProcessCode);
                 $trClone.find("input[name*='WeightLoss']").val(gridData[i].WeightLoss);
                 $trClone.find("input[name*='Status']").val(gridData[i].Status);
