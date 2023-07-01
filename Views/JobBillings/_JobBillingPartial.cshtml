@@ -83,12 +83,12 @@
                             <th>Discount Rate</th>
                             <th>Discount(P/A)</th>
                             <th>Discount Amount</th>
+                            <th>Payment(C/B)</th>
                             <th>Taxes</th>
                             @*<th>CGST</th>
-                            <th>SGST</th>
-                            <th>IGST</th>*@
+        <th>SGST</th>
+        <th>IGST</th>*@
                             <th>Net Amount</th>
-                            <th>Payment(C/B)</th>
                             <th>Remarks</th>
                             @*<th style="width:200px;">Remarks</th>*@
                         </tr>
@@ -136,7 +136,7 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].TotalAmount, new { @class = "form-control numberonly" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new {  @class = "form-control form-control numberonly" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new { @class = "form-control form-control numberonly" })
                             </td>
                             <td>
                                 @Html.DropDownListFor(model => Model.JobBillingDetails[i].DiscountPerAmt, (new[] { new SelectListItem { Text = "Percentage", Value = "P" }, new SelectListItem { Text = "Amount", Value = "A" } }), new { @class = "form-select" })
@@ -145,23 +145,24 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountAmount, new { @class = "form-control numberonly" })
                             </td>
                             <td>
+                                @Html.DropDownListFor(model => Model.JobBillingDetails[i].PaymentCB, (new[] { new SelectListItem { Text = "Bank", Value = "B" }, new SelectListItem { Text = "Cash", Value = "C" } }), new { @class = "form-select" })
+                            </td>
+                            <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].Taxes, new { @class = "form-control" })
                             </td>
                             @*<td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].CGST, new { @readonly = true, @class = "form-control" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].SGST, new { @readonly = true, @class = "form-control" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].IGST, new { @readonly = true, @class = "form-control" })
-                            </td>*@
+            @Html.TextBoxFor(model => Model.JobBillingDetails[i].CGST, new { @readonly = true, @class = "form-control" })
+        </td>
+        <td>
+            @Html.TextBoxFor(model => Model.JobBillingDetails[i].SGST, new { @readonly = true, @class = "form-control" })
+        </td>
+        <td>
+            @Html.TextBoxFor(model => Model.JobBillingDetails[i].IGST, new { @readonly = true, @class = "form-control" })
+        </td>*@
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].NetAmount, new { @class = "form-control" })
                             </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].PaymentCB, new { @class = "form-control" })
-                            </td>
+
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].Remarks, new { @class = "form-control" })
                                 @Html.HiddenFor(model => Model.JobBillingDetails[i].ItemSerialNumber)
@@ -183,53 +184,66 @@
         </div>
         <div class="col-lg-12 job-billing-detail">
             <div class="row">
+               
                 <div class="col-lg-4">
-                    <div class="row">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label">Remarks</label>
-                        <div class="col-sm-10">
-                            @Html.TextAreaFor(x => x.Remarks, new { @row = "2", @class = "form-control" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">Cash</label>
-                        <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.Cash, new { @class = "form-control" })
-                        </div>
-                    </div>
+
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-3 col-form-label">Bill Amount</label>
                         <div class="col-sm-9">
                             @Html.TextBoxFor(x => x.BillAmmount, new { @class = "form-control" })
                         </div>
                     </div>
+
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Cash Amount</label>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(x => x.CashAmount, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
+
                 </div>
                 <div class="col-lg-4">
+
                     <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">SGST</label>
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Tax Amount</label>
                         <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.SGST, new { @class = "form-control" })
+                            @Html.TextBoxFor(x => x.TotalTax, new { @class = "form-control" })
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">CGST</label>
-                        <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.CGST, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">IGST</label>
-                        <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.IGST, new { @class = "form-control" })
-                        </div>
-                    </div>
+                    
+                    @*<div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-3 col-form-label">SGST</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(x => x.SGST, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-3 col-form-label">CGST</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(x => x.CGST, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-3 col-form-label">IGST</label>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(x => x.IGST, new { @class = "form-control" })
+            </div>
+        </div>*@
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-3 col-form-label">Net Amount</label>
                         <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.NewAmount, new { @class = "form-control" })
+                            @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control" })
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">RoundOff Amount</label>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-3 col-form-label">Final Amount</label>
                         <div class="col-sm-9">
@@ -294,7 +308,7 @@
             colModel: [
                 /*{ label: 'Tag', name: "Tag", width: 50, align: "center", sortable: false, formatter: "checkbox", formatoptions: { disabled: false }, edittype: "checkbox", editoptions: { value: "True:False" }, formatoptions: { disabled: false }, multiselect: true },*/
                 { label: "Customer", width: (pageWidth * (20 / 100)), align: "center", name: "CustomrName" },
-                { label: "Ref. Date", name: "ReferenceDate", width: (pageWidth * (15 / 100)), align: "center", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "m/d/Y" } },
+                { label: "Ref. Date", name: "JDReferenceDate", width: (pageWidth * (15 / 100)), align: "center", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "d/m/Y" } },
                 { label: "Process ", width: (pageWidth * (24 / 100)), align: "center",  name: "ProcessName"},
                 { label: "Packet No", width: (pageWidth * (12 / 100)), align: "center", name: "PacketNumber"},
                 { label: "Pieces", width: (pageWidth * (12 / 100)), align: "center", name: "ItemPieces"},
@@ -355,7 +369,7 @@
                     debugger;
                   //  $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
                     $tr.find("td:nth-child(1)").html(gridData[i].JDSerialNumber);
-                    $tr.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('MM/DD/YYYY'));
+                    $tr.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('DD/MM/YYYY'));
                     $tr.find("td:nth-child(3)").html(gridData[i].ProcessName);
                     $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
                     $tr.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
@@ -387,7 +401,7 @@
                let $trClone = $tr.clone();
 
                 $trClone.find("td:nth-child(1)").html(gridData[i].JDSerialNumber);
-                $trClone.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('MM/DD/YYYY'));
+                $trClone.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('DD/MM/YYYY'));
                 $trClone.find("td:nth-child(3)").html(gridData[i].ProcessName);
 
                 $trClone.find("input[type=text]").each(function (idx, inputElm) {

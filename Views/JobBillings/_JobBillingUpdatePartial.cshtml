@@ -7,7 +7,7 @@
     var htmlAttributes = new Dictionary<string, object>();
     htmlAttributes.Add("class", "form-control");
     htmlAttributes.Add("readonly", true);
-    
+
 }
 
 @using (Ajax.BeginForm("SaveJobBilling", "JobBillings", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobBillingPopUp" }))
@@ -20,7 +20,7 @@
                     <label for="inputEmail3" class="col-form-label">Customer</label>
                 </div>
                 <div class="col-sm-5">
-                    @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @class = "form-select" ,@disabled=true })
+                    @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @class = "form-select", @disabled = true })
                     @Html.HiddenFor(model => model.AccountCode, new { @id = "AccountCodedummy" })
                 </div>
                 <div class="col-sm-2 mr-minus">
@@ -82,8 +82,8 @@
                             <th>Discount Amount</th>
                             <th>Taxes</th>
                             @*<th>CGST</th>
-                            <th>SGST</th>
-                            <th>IGST</th>*@
+                                <th>SGST</th>
+                                <th>IGST</th>*@
                             <th>Net Amount</th>
                             <th>Payment(C/B)</th>
                             <th>Remarks</th>
@@ -133,7 +133,7 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].TotalAmount, new { @class = "form-control numberonly" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new {  @class = "form-control form-control numberonly" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new { @class = "form-control form-control numberonly" })
                             </td>
                             <td>
                                 @Html.DropDownListFor(model => Model.JobBillingDetails[i].DiscountPerAmt, (new[] { new SelectListItem { Text = "Percentage", Value = "P" }, new SelectListItem { Text = "Amount", Value = "A" } }), new { @class = "form-select" })
@@ -145,14 +145,14 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].Taxes, new { @class = "form-control" })
                             </td>
                             @*<td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].CGST, new { @readonly = true, @class = "form-control" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].SGST, new { @readonly = true, @class = "form-control" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].IGST, new { @readonly = true, @class = "form-control" })
-                            </td>*@
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].CGST, new { @readonly = true, @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].SGST, new { @readonly = true, @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].IGST, new { @readonly = true, @class = "form-control" })
+                                </td>*@
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].NetAmount, new { @class = "form-control" })
                             </td>
@@ -311,7 +311,7 @@
 
                   //  $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
                     $tr.find("td:nth-child(1)").html(gridData[i].JDSerialNumber);
-                    $tr.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('MM/DD/YYYY'));
+                    $tr.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('DD/MM/YYYY'));
                     $tr.find("td:nth-child(3)").html(gridData[i].ProcessName);
                     $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
                     $tr.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
@@ -337,14 +337,14 @@
                     $tr.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
                     $tr.find("input[type=hidden][name*='ProcessCode']").valgridData[i].ProcessCode);
 
-                    
+
                     continue;
                 }
 
                let $trClone = $tr.clone();
 
                 $trClone.find("td:nth-child(1)").html(gridData[i].JDSerialNumber);
-                $trClone.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('MM/DD/YYYY'));
+    $trClone.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('DD/MM/YYYY'));
                 $trClone.find("td:nth-child(3)").html(gridData[i].ProcessName);
 
                 $trClone.find("input[type=text]").each(function (idx, inputElm) {
@@ -417,7 +417,7 @@
     });
 
     $("#billing").on("change","tr select[name*=DiscountPerAmt]", function (e) {
-        
+
         /*alert($(this).closest("tr").find("input[name*=Rate]").val());*/
     });
 
@@ -494,73 +494,74 @@
 
 </script>
 <style>
-    #JobBillingPopUp .form-control:read-only {
-        background-color: #e9ecef !important;
-    }
+     #JobBillingPopUp .form-control:read-only {
+         background-color: #e9ecef !important;
+     }
 
-    #JobBillingPopUp .ui-jqgrid .ui-jqgrid-htable th {
-        height: 40px !important;
-        /* padding: 0 2px 0 2px; */
-    }
+     #JobBillingPopUp .ui-jqgrid .ui-jqgrid-htable th {
+         height: 40px !important;
+         /* padding: 0 2px 0 2px; */
+     }
 
-    #JobBillingPopUp .ui-jqgrid tr.jqgrow td {
-        padding: 4px !important;
-    }
+     #JobBillingPopUp .ui-jqgrid tr.jqgrow td {
+         padding: 4px !important;
+     }
 
-    #JobBillingPopUp .ui-jqgrid .ui-jqgrid-view {
-        font-size: 13px !important;
-    }
+     #JobBillingPopUp .ui-jqgrid .ui-jqgrid-view {
+         font-size: 13px !important;
+     }
 
-    #JobBillingPopUp .ui-widget input {
-        margin-top: 5px !important;
-    }
+     #JobBillingPopUp .ui-widget input {
+         margin-top: 5px !important;
+     }
 
-    #JobBillingPopUp .ui-widget-content {
-        border: 1px solid #efefef !important;
-    }
+     #JobBillingPopUp .ui-widget-content {
+         border: 1px solid #efefef !important;
+     }
 
-    .newone-css {
-        display: none;
-    }
+     .newone-css {
+         display: none;
+     }
 
-    #billing th {
-        font-size: 13px;
-    }
+     #billing th {
+         font-size: 13px;
+     }
 
-    #billing tr {
-        font-size: 12px;
-    }
+     #billing tr {
+         font-size: 12px;
+     }
 
-    #billing tr td:not(:first-child):not(:nth-child(2)) {
-        /*padding-left:10px !important;
-   padding-right:10px !important;*/
-    }
+         #billing tr td:not(:first-child):not(:nth-child(2)) {
+             /*padding-left:10px !important;
+    padding-right:10px !important;*/
+         }
 
-    #billing tr td:nth-child(3n) {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-    }
+         #billing tr td:nth-child(3n) {
+             padding-left: 10px !important;
+             padding-right: 10px !important;
+         }
 
-    .button-container {
-        margin-top:10px;
-    }
-    .job-billing-detail {
-        display: none;
-    }
+     .button-container {
+         margin-top: 10px;
+     }
 
-    .wrap {
-        width: 100%;
-        overflow-x: scroll;
-    }
+     .job-billing-detail {
+         display: none;
+     }
 
-    table {
-        min-width: 100%;
-        width: auto;
-    }
+     .wrap {
+         width: 100%;
+         overflow-x: scroll;
+     }
 
-    td {
-        /*border: 1px solid #000;*/
-        padding: 10px;
-        white-space: nowrap;
-    }
+     table {
+         min-width: 100%;
+         width: auto;
+     }
+
+     td {
+         /*border: 1px solid #000;*/
+         padding: 10px;
+         white-space: nowrap;
+     }
 </style>

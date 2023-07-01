@@ -178,7 +178,7 @@
                 { name: "ProcessCode", hidden: 'true' },
                 { name: "BillingType", hidden: 'true' },
                 { name: "NoChargeQuantity", hidden: 'true' },
-                { name: "BillingQuantity", hidden: 'true' },
+                { name: "BillingQuantity", hidden:"true" },  
                 { name: "Rate", hidden: 'true' },
                 { name: "Status", hidden: 'true' },
                 { name: "BalItemLines", hidden: 'true' }
@@ -217,7 +217,7 @@
                 alert("No rows are selected");
                 return;
             }
-
+            debugger;
             let selectedRows = $("#jqueryTbl").jqGrid("getGridParam", "selarrrow");
 
             // loop through the IDs to retrieve the data for each selected row
@@ -229,6 +229,7 @@
             let $tr = $("#newone").find("Table").find("tr:last");
             for (let i = 0; i < gridData.length; i++) {
 
+                debugger;
                 if (i === 0) {
                     $tr.find("td:nth-child(1)").html(gridData[i].ReferenceDate);
                     $tr.find("td:nth-child(2)").html(gridData[i].ProcessName);
@@ -311,11 +312,11 @@
 
                 $trClone.find("input[name*='ProcessCode']").val(gridData[i].ProcessCode);
 
-                $tr.find("input[name*='NoChargeQuantity']").val(gridData[i].NoChargeQuantity);
-                $tr.find("input[name*='BillingQuantity']").val(gridData[i].BillingQuantity);
-                $tr.find("input[name*='Rate']").val(gridData[i].Rate);
-                $tr.find("input[name*='Status']").val(gridData[i].Status);
-                $tr.find("input[name*='WeightLoss']").val(gridData[i].WeightLoss);
+                $trClone.find("input[name*='NoChargeQuantity']").val(gridData[i].NoChargeQuantity);
+                $trClone.find("input[name*='BillingQuantity']").val(gridData[i].BillingQuantity);
+                $trClone.find("input[name*='Rate']").val(gridData[i].Rate);
+                $trClone.find("input[name*='Status']").val(gridData[i].Status);
+                $trClone.find("input[name*='WeightLoss']").val(gridData[i].WeightLoss);
                 $trClone.find("input[name*='BillingUnit']").val(gridData[i].BillingType);
                 $trClone.find("input[name*='Remarks']").val('');
                 $("#despatch").append($trClone);
@@ -449,7 +450,7 @@
         if ($(this).val() === "") {
             return;
         }
-        debugger;
+      //  debugger;
         let bQty = parseInt($(this).val());
         let processcode = $(this).closest("tr").find("input[name*='ProcessCode']").val();
         let $rate = $(this).closest("tr").find("input[name*='Rate']");

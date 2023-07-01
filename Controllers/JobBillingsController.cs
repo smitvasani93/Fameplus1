@@ -39,7 +39,7 @@ namespace Transactiondetails.Controllers
                                          CustomrName = account.AccountName,
                                          ItemSerialNumber = x.ItemSerialNumber,
                                          JDItemSerialNumber = x.JDItemSerialNumber,
-                                         //ReferenceDate = x.ReferenceDate,
+                                        //ReferenceDate = x.JDReferenceDate,
                                          JDReferenceDate = x.JDReferenceDate,
                                          JRReferenceDate = x.JRReferenceDate,
                                          ProcessName = x.ProcessName,

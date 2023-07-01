@@ -271,7 +271,7 @@
                     $(this).find("input,hidden").attr("id", "JobReceiptDetails_" + index + "__ItemSerialNumber");
                     $(this).find("input,hidden").attr("name", "JobReceiptDetails[" + index + "].ItemSerialNumber");
                     $ctrl = $(this).find("input,hidden").attr("name","JobReceiptDetails[" + index + "].ItemSerialNumber");
-                    $($ctrl).val(index);
+                    $($ctrl).val(index+1);
                 }
 
                 if ($selectName !== undefined && $selectName.indexOf(".ProcessCode") != -1) {
