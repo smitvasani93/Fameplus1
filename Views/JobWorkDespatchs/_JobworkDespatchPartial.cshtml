@@ -217,7 +217,7 @@
                 alert("No rows are selected");
                 return;
             }
-            debugger;
+            
             let selectedRows = $("#jqueryTbl").jqGrid("getGridParam", "selarrrow");
 
             // loop through the IDs to retrieve the data for each selected row
@@ -229,7 +229,6 @@
             let $tr = $("#newone").find("Table").find("tr:last");
             for (let i = 0; i < gridData.length; i++) {
 
-                debugger;
                 if (i === 0) {
                     $tr.find("td:nth-child(1)").html(gridData[i].ReferenceDate);
                     $tr.find("td:nth-child(2)").html(gridData[i].ProcessName);
@@ -360,7 +359,7 @@
     }
 
     function AjaxFormSuccess(e) {
-
+        debugger;
         $('#dialog').dialog('close');
     }
 

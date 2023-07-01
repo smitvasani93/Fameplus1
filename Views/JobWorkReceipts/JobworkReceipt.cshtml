@@ -44,6 +44,10 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="alert alert-success alert-dismissible fade show  fw-bold hide-element" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                       
+                    </div>
                     <div style="overflow-x:auto;">
                         <table id="jqgridtbl">
                         </table>
@@ -78,6 +82,8 @@
             $('#dialog')
                 .dialog({ title: 'Add Jobwork Receipt' })
                 .dialog('open');
+
+           
         });
 
 
@@ -129,7 +135,7 @@
                 position: { my: "top", at: "top", of: "header"},
                 //position: ['center', 20],
                 open: function (event, ui) {
-
+                    $("div[role='alert']").addClass("hide-element");
                     if (id === 0) {
                         $(this).load("@Url.Action("GetJobworkRecipt")");
                     } else {
@@ -137,8 +143,9 @@
                     }
                 },
                 close: function (event, ui) {
+                    debugger;
                     $('#ReferenceDate1').datepicker('destroy');
-                    $("#jqgridtbl").trigger("reloadGrid");
+                    
                 }
             });
         });
@@ -228,5 +235,11 @@
     .table-container {
         width: 100%;
         overflow: auto;
+    }
+    .hide-element {
+        display:none !important;
+    }
+    .show-element {
+        display: block !important;
     }
 </style>
