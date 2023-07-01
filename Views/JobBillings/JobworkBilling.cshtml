@@ -156,10 +156,11 @@
                 datatype: 'json',
                 colModel: [
                     /*{ label: "", name: '', index: '', width: 15, align: "right", edittype: 'checkbox', formatter: "checkbox", editoptions: { value: "True:False" }, editable: true, formatoptions: { disabled: false } },*/
-                    { label: "Account Code", name: "AccountCode", search: false , sortable: true, },
+                    { label: "Account Code", name: "AccountCode", search: false, sortable: true, },
                     { label: "Account Name", name: "AccountName", sortable: true, searchoptions: { sopt: ['cn'] }},
-                    { label: "Bill Number", name: "SerialNumber", sortable: true, search: false },
-                    { label: "Bill Date", name: "ReferenceDate", sortable: true, formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "d/m/Y" }, searchoptions: { sopt: ['eq', 'ne'] } }
+                    { label: "Bill Number", name: "ReferenceNumber", sortable: true, search: false },
+                    { label: "Bill Date", name: "ReferenceDate", sortable: true, formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "d/m/Y" }, searchoptions: { sopt: ['eq', 'ne'] } },
+                    { name: "SerialNumber", hidden: 'true' }
                 ],
                 sortname: "ReferenceDate",
                 sortorder: "desc",

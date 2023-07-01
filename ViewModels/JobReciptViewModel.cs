@@ -9,7 +9,9 @@ namespace Transactiondetails.ViewModels
         public string AccountName { get; set; }
         public DateTime? ReferenceDate { get; set; }
         public int? SerialNumber { get; set; }
-        public  Mode Mode { get; set; }
+        public string ReferenceNumber { get; set; }
+
+        public Mode Mode { get; set; }
         public IEnumerable<ProcessMasterVM> Processes { get; set; }
         public IEnumerable<AccountMasterVM> Accounts { get; set; }
         public List<JobReceiptDetailVM> JobReceiptDetails { get; set; }

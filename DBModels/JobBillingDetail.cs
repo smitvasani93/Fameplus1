@@ -15,6 +15,7 @@ namespace Transactiondetails.DBModels
         public DateTime ReferenceDate { get; set; }
         public int SerialNumber { get; set; }
         public double NoChargeQuantity { get; set; }
-
+        public string SaleAccountCode { get; set; }
+        public DateTime PostingDate { get; set; }
     }
 }

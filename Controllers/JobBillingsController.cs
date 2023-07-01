@@ -82,7 +82,8 @@ namespace Transactiondetails.Controllers
                 jobBillingViewModel.AccountCode = jobBill.JobBillingDets.FirstOrDefault().AccountCode;
                 jobBillingViewModel.ReferenceDate = jobBill.JobBillingDets.FirstOrDefault().ReferenceDate;
                 jobBillingViewModel.SerialNumber = id;
-
+                jobBillingViewModel.SalesAccountCode = jobBill.JobBillingDets.FirstOrDefault().SaleAccountCode;
+                jobBillingViewModel.PostingDate = jobBill.JobBillingDets.FirstOrDefault().PostingDate;
                 jobBillingViewModel.JobBillingDetails = jobBill.JobBillingDets.Select(x => new JobBillingDetailViewModel
                 {
                     ReferenceDate = x.ReferenceDate,
@@ -159,7 +160,8 @@ namespace Transactiondetails.Controllers
                     SerialNumber = sel.SerialNumber,
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName,
-                    ReferenceDate = sel.ReferenceDate
+                    ReferenceDate = sel.ReferenceDate,
+                    ReferenceNumber = sel.ReferenceNumber
                 }).OrderByDescending(x => x.SerialNumber).ToList();
 
                 if (_search)
@@ -377,6 +379,7 @@ namespace Transactiondetails.Controllers
                 jobBillingVM.SerialNumber = recieptNo;
                 jobBillingVM.ReferenceDate = DateTime.Parse(DateTime.Now.ToString("dd-MM-yyyy"));
                 jobBillingVM.PostingDate = jobBillingVM.ReferenceDate;
+                jobBillingVM.ReferenceNumber = jobBillingVM.ReferenceNumber;
 
                 jobBillingVM.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {

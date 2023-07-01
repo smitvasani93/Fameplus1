@@ -8,6 +8,7 @@ namespace Transactiondetails.ViewModels
         public string AccountCode { get; set; }
         public string SalesAccountCode { get; set; }
         public string AccountName { get; set; }
+        public string ReferenceNumber { get; set; }
         public DateTime? ReferenceDate { get; set; }
         public DateTime? PostingDate { get; set; }
         public int? SerialNumber { get; set; }

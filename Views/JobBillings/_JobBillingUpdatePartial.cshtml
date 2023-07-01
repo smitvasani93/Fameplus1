@@ -24,7 +24,7 @@
                     @Html.HiddenFor(model => model.AccountCode, new { @id = "AccountCodedummy" })
                 </div>
                 <div class="col-sm-2 mr-minus">
-                    <label for="inputEmail3" class="col-form-label">Date</label>
+                    <label for="inputEmail3" class="col-form-label">Bill Date</label>
                 </div>
                 <div class="col-sm-3">
                     @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { @id = "ReferenceDate1", @class = "form-control" })
@@ -53,7 +53,7 @@
                     @Html.TextBoxFor(x => x.CreditDays, new { @class = "form-control" })
                 </div>
                 <div class="col-sm-2 mr-minus">
-                    <label for="inputEmail3" class="col-form-label">Ref. No</label>
+                    <label for="inputEmail3" class="col-form-label">Bill No</label>
                 </div>
                 <div class="col-sm-3">
                     @Html.TextBoxFor(x => x.SerialNumber, new { @class = "form-control" })
@@ -186,7 +186,7 @@
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-3 col-form-label">Cash</label>
                         <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.Cash, new { @class = "form-control" })
+                            @Html.TextBoxFor(x => x.CashAmount, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -218,7 +218,7 @@
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-3 col-form-label">Net Amount</label>
                         <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.NewAmount, new { @class = "form-control" })
+                            @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="row mb-3">
