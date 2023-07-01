@@ -27,7 +27,7 @@
                     @Html.HiddenFor(model => model.AccountCode, new { @id = "AccountCodedummy" })
                 </div>
                 <div class="col-sm-2 mr-minus">
-                    <label for="inputEmail3" class="col-form-label">Date</label>
+                    <label for="inputEmail3" class="col-form-label">Bill Date</label>
                 </div>
                 <div class="col-sm-3">
                     @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { @id = "ReferenceDate1", @class = "form-control" })
@@ -56,7 +56,7 @@
                     @Html.TextBoxFor(x => x.CreditDays, new { @class = "form-control" })
                 </div>
                 <div class="col-sm-2 mr-minus">
-                    <label for="inputEmail3" class="col-form-label">Ref. No</label>
+                    <label for="inputEmail3" class="col-form-label">Bill No</label>
                 </div>
                 <div class="col-sm-3">
                     @Html.TextBoxFor(x => x.SerialNumber, new { @class = "form-control" })
@@ -86,8 +86,8 @@
                             <th>Payment(C/B)</th>
                             <th>Taxes</th>
                             @*<th>CGST</th>
-        <th>SGST</th>
-        <th>IGST</th>*@
+                                <th>SGST</th>
+                                <th>IGST</th>*@
                             <th>Net Amount</th>
                             <th>Remarks</th>
                             @*<th style="width:200px;">Remarks</th>*@
@@ -124,16 +124,16 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].JDBillingQuantity, new { @required = true, @class = "form-control allow_decimal BalItemPieces" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NoChargeQuantity, new { @required = true, @class = "form-control allow_decimal BalItemCarats" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NoChargeQuantity, new { @required = true, @readonly = true, @class = "form-control allow_decimal BalItemCarats" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingUnit, new { @required = true, @class = "form-control allow_decimal BalItemLines" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingUnit, new { @required = true, @readonly = true, @class = "form-control allow_decimal BalItemLines" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingRate, new { @class = "form-control numberonly" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingRate, new { @class = "form-control numberonly", @readonly = true })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].TotalAmount, new { @class = "form-control numberonly" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].TotalAmount, new { @class = "form-control numberonly", @readonly = true })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new { @class = "form-control form-control numberonly" })
@@ -142,25 +142,25 @@
                                 @Html.DropDownListFor(model => Model.JobBillingDetails[i].DiscountPerAmt, (new[] { new SelectListItem { Text = "Percentage", Value = "P" }, new SelectListItem { Text = "Amount", Value = "A" } }), new { @class = "form-select" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountAmount, new { @class = "form-control numberonly" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountAmount, new { @class = "form-control numberonly", @readonly = true })
                             </td>
                             <td>
                                 @Html.DropDownListFor(model => Model.JobBillingDetails[i].PaymentCB, (new[] { new SelectListItem { Text = "Bank", Value = "B" }, new SelectListItem { Text = "Cash", Value = "C" } }), new { @class = "form-select" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].Taxes, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].Taxes, new { @class = "form-control", @readonly = true })
                             </td>
                             @*<td>
-            @Html.TextBoxFor(model => Model.JobBillingDetails[i].CGST, new { @readonly = true, @class = "form-control" })
-        </td>
-        <td>
-            @Html.TextBoxFor(model => Model.JobBillingDetails[i].SGST, new { @readonly = true, @class = "form-control" })
-        </td>
-        <td>
-            @Html.TextBoxFor(model => Model.JobBillingDetails[i].IGST, new { @readonly = true, @class = "form-control" })
-        </td>*@
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].CGST, new { @readonly = true, @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].SGST, new { @readonly = true, @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].IGST, new { @readonly = true, @class = "form-control" })
+                                </td>*@
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NetAmount, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NetAmount, new { @class = "form-control", @readonly = true })
                             </td>
 
                             <td>
@@ -184,7 +184,7 @@
         </div>
         <div class="col-lg-12 job-billing-detail">
             <div class="row">
-               
+
                 <div class="col-lg-4">
 
                     <div class="row mb-3">
@@ -212,25 +212,25 @@
                             @Html.TextBoxFor(x => x.TotalTax, new { @class = "form-control" })
                         </div>
                     </div>
-                    
+
                     @*<div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-3 col-form-label">SGST</label>
-            <div class="col-sm-9">
-                @Html.TextBoxFor(x => x.SGST, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-3 col-form-label">CGST</label>
-            <div class="col-sm-9">
-                @Html.TextBoxFor(x => x.CGST, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="inputEmail3" class="col-sm-3 col-form-label">IGST</label>
-            <div class="col-sm-9">
-                @Html.TextBoxFor(x => x.IGST, new { @class = "form-control" })
-            </div>
-        </div>*@
+                            <label for="inputEmail3" class="col-sm-3 col-form-label">SGST</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(x => x.SGST, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputEmail3" class="col-sm-3 col-form-label">CGST</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(x => x.CGST, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputEmail3" class="col-sm-3 col-form-label">IGST</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(x => x.IGST, new { @class = "form-control" })
+                            </div>
+                        </div>*@
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-3 col-form-label">Net Amount</label>
                         <div class="col-sm-9">
@@ -243,7 +243,7 @@
                             @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control" })
                         </div>
                     </div>
-                    
+
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-3 col-form-label">Final Amount</label>
                         <div class="col-sm-9">
@@ -317,7 +317,16 @@
                 { name: "ItemSerialNumber", hidden: 'true' },
                 { name: "SerialNumber", hidden: 'true' },
                 { name: "ProcessCode", hidden: 'true' },
-                { name: "BillingType", hidden: 'true' }
+                { name: "BillingUnit", hidden: 'true' },
+                { name: "BillingRate", hidden: 'true' },
+                { name: "BillingRate", hidden: 'true' },
+                { name: "JDBillingQuantity", hidden: 'true' },
+                { name: "TotalAmount", hidden: 'true' },
+                { name: "NoChargeQuantity", hidden: 'true' },
+                { name: "DiscountAmount", hidden: 'true' },
+                { name: "DiscountRate", hidden: 'true' },
+                { name: "Taxes", hidden: 'true' },
+                { name: "NetAmount", hidden: 'true' }
             ],
             cmTemplate: { sortable: false },
             loadonce: true,
@@ -368,7 +377,7 @@
 
                     debugger;
                   //  $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
-                    $tr.find("td:nth-child(1)").html(gridData[i].JDSerialNumber);
+                    $tr.find("td:nth-child(1)").html(gridData[i].SerialNumber);
                     $tr.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('DD/MM/YYYY'));
                     $tr.find("td:nth-child(3)").html(gridData[i].ProcessName);
                     $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
@@ -400,7 +409,7 @@
 
                let $trClone = $tr.clone();
 
-                $trClone.find("td:nth-child(1)").html(gridData[i].JDSerialNumber);
+                $trClone.find("td:nth-child(1)").html(gridData[i].SerialNumber);
                 $trClone.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('DD/MM/YYYY'));
                 $trClone.find("td:nth-child(3)").html(gridData[i].ProcessName);
 
@@ -559,92 +568,127 @@
 
     $("#billing").on("input", "tr input[name*='BillingQuantity']", function (e) {
 
-        alert('HI');
         if ($(this).val() === "") {
             return;
         }
 
+        let rate = $(this).closest("tr").find("input[name*='Rate']").val();
         let bQty = parseInt($(this).val());
-        let processcode = $(this).closest("tr").find("input[name*='ProcessCode']").val();
-        let $rate = $(this).closest("tr").find("input[name*='Rate']");
-        $.ajax({
-            url: "@Url.Action("GetRateByBillingQty", "JobWorkDespatchs")",
-            type: "GET",
-            data: { billingQty: bQty, ProcessCode: processcode },
-            dataType: 'json',
-            success: function (result) {
+        let totalAmount = bQty * rate;
+        $(this).closest("tr").find("input[name*='TotalAmount']").val(totalAmount);
+        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        //let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+        let discountRate = $(this).closest("tr").find("input[name*='DiscountRate']").val();
+        let discountPerAmt = $(this).closest("tr").find("select[name*='DiscountPerAmt']").val();
+        let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
 
-                if (result.message === "Success") {
-                    $rate.val(result.Rate)
-                }
-            }
-        });
+        if (discountRate != "") {
+            discountAmount = discountPerAmt == "A" ? discountRate : (discountRate / totalAmount * 100);
+        }
+
+        tax = 0;
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='TotalAmount']").val(totalAmount);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+
     });
-    
 
-    //$("#billing").on("input","tr input[name*='BalItemPieces']", function (e) {
-
-    //    if ($(this).val() === "") {
-    //        return;
-    //    }
-    //    let despatchPieces=parseInt($(this).val());
-    //    let Pieces = parseInt($(this).closest("tr").find("input[name*='Pieces']").val());
-
-    //    if (despatchPieces > Pieces) {
-    //        $(this).val(Pieces);
-    //    }
-    //});
-
-    //$("#billing").on("input", "tr input[name*='BalItemCarats']", function (e) {
-
-    //    if ($(this).val() === "") {
-    //        return;
-    //    }
-    //    let despatchCarats = parseInt($(this).val());
-    //    let Carats = parseInt($(this).closest("tr").find("input[name*='ItemCarats']").val());
-
-    //    if (despatchCarats > Carats) {
-    //        $(this).val(Carats);
-    //    }
-    //});
-
-    //$("#billing").on("input", "tr input[name*='BalItemLines']", function (e) {
-
-    //    if ($(this).val() === "") {
-    //        return;
-    //    }
-    //    let despatchLine = parseInt($(this).val());
-    //    let line = parseInt($(this).closest("tr").find("input[name*='ItemLines']").val());
-
-    //    if (despatchLine > line) {
-    //        $(this).val(line);
-    //    }
-    //});
-
-    @*$("#billing").on("input", "tr input[name*='BillingQuantity']", function (e) {
+    $("#billing").on("input", "tr input[name*='DiscountRate']", function (e) {
 
         if ($(this).val() === "") {
             return;
         }
-        debugger;
-        let bQty = parseInt($(this).val());
-        let processcode = $(this).closest("tr").find("input[name*='ProcessCode']").val();
-        let $rate = $(this).closest("tr").find("input[name*='Rate']");
-         $.ajax({
-            url: "@Url.Action("GetRateByBillingQty", "JobWorkDespatchs")",
-            type: "GET",
-            data: { billingQty: bQty, ProcessCode: processcode },
-            dataType: 'json',
-            success: function (result) {
+         
+        let discountRate = parseFloat($(this).val());
+        let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
+        let discountPerAmt = $(this).closest("tr").find("select[name*='DiscountPerAmt']").val();
 
-                if (result.message === "Success") {
-                    $rate.val(result.Rate)
-                }
-            }
-        });
+        let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+        let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
 
-    });*@
 
+        if (discountRate != 0) {
+            discountAmount = discountPerAmt == "A" ? discountRate : (discountRate * totalAmount / 100);
+        }
+        else {
+            discountAmount = 0;
+        }
+
+        tax = 0;
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+
+        $(this).closest("tr").find("input[name*='DiscountAmount']").val(discountAmount);
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+    });
+
+    $("#billing").on("change", "tr select[name*='DiscountPerAmt']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let discountPerAmt = $(this).val();
+        let discountRate = $(this).closest("tr").find("input[name*='DiscountRate']").val();
+        let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+        let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
+        let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
+
+        if (discountRate != 0) {
+            discountAmount = discountPerAmt == "A" ? discountRate : (discountRate * totalAmount / 100);
+        }
+        else {
+            discountAmount = 0;
+        }
+
+        tax = 0;
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+
+        $(this).closest("tr").find("input[name*='DiscountAmount']").val(discountAmount);
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+
+    });
+
+    $("#billing").on("change", "tr select[name*='PaymentCB']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let paymentCB = $(this).val();
+        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
+        let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+
+        tax = 0;
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+    });
+     
+
+     
 
     Array.prototype.removeByValue = function (val) {
         for (var i = 0; i < this.length; i++) {
@@ -695,19 +739,20 @@
         font-size: 12px;
     }
 
-    #billing tr td:not(:first-child):not(:nth-child(2)) {
-        /*padding-left:10px !important;
-   padding-right:10px !important;*/
-    }
+        #billing tr td:not(:first-child):not(:nth-child(2)) {
+            /*padding-left:10px !important;
+    padding-right:10px !important;*/
+        }
 
-    #billing tr td:nth-child(3n) {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-    }
+        #billing tr td:nth-child(3n) {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
 
     .button-container {
-        margin-top:10px;
+        margin-top: 10px;
     }
+
     .job-billing-detail {
         display: none;
     }

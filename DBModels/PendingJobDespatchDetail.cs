@@ -7,7 +7,6 @@ namespace Transactiondetails.DBModels
         public int SerialNumber { get; set; }
         public DateTime JDReferenceDate { get; set; }
         public DateTime JRReferenceDate { get; set; }
-
         public Int16 ProcessCode { get; set; }
         public string ProcessName { get; set; }
         public string BillingType { get; set; }
@@ -22,7 +21,10 @@ namespace Transactiondetails.DBModels
         public double JDItemLines { get; set; }
         public double JDBillingQuantity { get; set; }
         public double BillingQuantity { get; set; }
-
-
+        public double BillingRate { get; set; }
+        public double TotalAmount { get; set; }
+        public double NetAmount { get; set; }
+        public double Taxes { get; set; }
+        public double NoChargeQuantity { get; set; }
     }
 }

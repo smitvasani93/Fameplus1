@@ -39,7 +39,7 @@ namespace Transactiondetails.Controllers
                                          CustomrName = account.AccountName,
                                          ItemSerialNumber = x.ItemSerialNumber,
                                          JDItemSerialNumber = x.JDItemSerialNumber,
-                                        //ReferenceDate = x.JDReferenceDate,
+                                         //ReferenceDate = x.JDReferenceDate,
                                          JDReferenceDate = x.JDReferenceDate,
                                          JRReferenceDate = x.JRReferenceDate,
                                          ProcessName = x.ProcessName,
@@ -52,6 +52,15 @@ namespace Transactiondetails.Controllers
                                          JDItemCarats = x.JDItemCarats,
                                          JDItemLines = x.JDItemLines,
                                          JDItemPieces = x.JDItemPieces,
+                                         BillingRate = x.BillingRate,
+                                         JDBillingQuantity = x.JDBillingQuantity,
+                                         BillingUnit = x.BillingType,
+                                         TotalAmount = x.TotalAmount,
+                                         NoChargeQuantity = x.NoChargeQuantity,
+                                         DiscountAmount = 0,
+                                         DiscountRate = 0,
+                                         Taxes = x.Taxes,
+                                         NetAmount = x.NetAmount
                                      });
 
 

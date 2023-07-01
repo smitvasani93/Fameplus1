@@ -45,5 +45,6 @@ namespace Transactiondetails.ViewModels
         public double IGST { get; set; }
         public double Taxes { get; set; }
         public double PaymentCB { get; set; }
+ 
     }
 }
