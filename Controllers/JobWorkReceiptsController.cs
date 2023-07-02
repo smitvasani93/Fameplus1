@@ -341,7 +341,8 @@ namespace Transactiondetails.Controllers
                 jobReceiptVM.Processes = process.Select(sel => new ProcessMasterVM
                 {
                     ProcessCode = sel.ProcessCode,
-                    ProcessName = sel.ProcessName
+                    ProcessName = sel.ProcessName,
+                    BillingType = sel.BillingType
                 });
 
                 jobReceiptVM.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM

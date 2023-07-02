@@ -342,14 +342,16 @@
     }
 
     $("#receipt").on("change", "tr select[name*=\"ProcessCode\"]", function (e) {
-        debugger;
+        
         if ($(this).val() === "") {
             return;
         }
         let processCode = parseInt($(this).val());
 
-        var list = processlist.filter(fl => fl.ProcessCode === processCode);
+        let list = processlist.filter(fl => fl.ProcessCode === processCode);
 
+        $(this).closest("tr").find("input[name*=\"ItemCarats\"]").rules("remove", "min");
+        $(this).closest("tr").find("input[name*=\"ItemLines\"]").rules("remove", "min");
         if (list[0].BillingType === "C") {
             $(this).closest("tr").find("input[name*=\"ItemCarats\"]").rules("add", { min: 1, messages: { min: "" } });
         }
@@ -400,6 +402,30 @@
 
         if (mode === 2) {
             $("#SerialNumber").rules("remove", "required");
+
+            $("#receipt tbody tr").each(function (i, row) {
+
+                let $actualrow = $(row);
+                $actualrow.find("td").each(function (column, td) {
+
+                    let $select = $(td).find("select[name*=ProcessCode]");
+
+                    if ($select.length != 0) {
+                        let pcode = parseInt($($select).val());
+                        let list = processlist.filter(fl => fl.ProcessCode === pcode);
+                        $($actualrow).find("input[name*=\"ItemCarats\"]").rules("removed", "min");
+                        $($actualrow).find("input[name*=\"ItemLines\"]").rules("removed", "min");
+                        if (list[0].BillingType === "C") {
+                            $($actualrow).find("input[name*=\"ItemCarats\"]").rules("add", { min: 1, messages: { min: "" } });
+                        }
+                        if (list[0].BillingType === "P") {
+
+                            $($actualrow).find("input[name*=\"ItemLines\"]").rules("add", { min: 1, messages: { min: "" } });
+                        }
+                    }
+                    
+                });
+            });
         }
 
         $("#receipt tbody tr").each(function (i, row) {

@@ -53,7 +53,7 @@
             <div class="row">
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Credit Days</label>
                 <div class="col-sm-5">
-                    @Html.TextBoxFor(x => x.CreditDays, new { @class = "form-control",style="width:auto;" })
+                    @Html.TextBoxFor(x => x.CreditDays, new { @class = "form-control", style = "width:auto;" })
                 </div>
                 <div class="col-sm-2 mr-minus">
                     <label for="inputEmail3" class="col-form-label">Bill No</label>
@@ -175,67 +175,69 @@
                     }
                 </table>
             </div>
-            <div class="jqueryTbl-container" >
+            <div class="jqueryTbl-container">
                 <table id="jqueryTbl" style="width:100% ;overflow-x:auto;"></table>
                 <div class="ui-dialog-buttonset offset-lg-11 pt-lg-3 pb-lg-1 ps-5">
                     <button type="button" class="btn btn-default select-pending-receipt">Select</button>
                 </div>
             </div>
         </div>
-        <div class="col-lg-12 job-billing-detail">
+        <div class="col-lg-6 job-billing-detail">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row mb-3">
+                            <label for="inputEmail3" class="col-sm-5 col-form-label">Bill Amount</label>
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(x => x.BillAmmount, new { @class = "form-control" ,@readonly=true})
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputEmail3" class="col-sm-5 col-form-label">Tax Amount</label>
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(x => x.TotalTax, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row mb-3">
+                            <label for="inputEmail3" class="col-sm-5 col-form-label">Cash Amount</label>
+                            <div class="col-sm-7">
+                                @Html.TextBoxFor(x => x.CashAmount, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-lg-9 mt-0 mb-3 job-billing-detail">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">Bill Amount</label>
-                        <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.BillAmount, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">Tax Amount</label>
-                        <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.TotalTax, new { @class = "form-control" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-3 col-form-label">Cash Amount</label>
-                        <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.CashAmount, new { @class = "form-control" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-lg-4">
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-4 col-form-label">Net Amount</label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control" })
+                    <div class="row ">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Net Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control", @readonly = true })
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                                      
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-4 col-form-label">RoundOff Amount</label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control" })
-                        </div>
-                    </div>
-                </div> 
-                
-                <div class="col-lg-4">
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-4 col-form-label">Final Amount</label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(x => x.FinalAmount, new { @class = "form-control" })
-                        </div>
-                    </div>
-                </div>
-            </div>
 
+                <div class="col-lg-4">
+                    <div class="row ">
+                        <label for="inputEmail3" class="col-sm-6 col-form-label">RoundOff Amount</label>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="row ">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Final Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.FinalAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
         <div class="col-lg-12 button-container newone-css">
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
@@ -601,7 +603,7 @@
         if ($(this).val() === "") {
             return;
         }
-         
+
         let discountRate = parseFloat($(this).val());
         let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
         let discountPerAmt = $(this).closest("tr").find("select[name*='DiscountPerAmt']").val();
@@ -683,9 +685,9 @@
         $(this).closest("tr").find("input[name*='Taxes']").val(tax);
         $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
     });
-     
 
-     
+
+
 
     Array.prototype.removeByValue = function (val) {
         for (var i = 0; i < this.length; i++) {
@@ -738,7 +740,7 @@
 
         #billing tr td:not(:first-child):not(:nth-child(2)) {
             /*padding-left:10px !important;
-    padding-right:10px !important;*/
+        padding-right:10px !important;*/
         }
 
         #billing tr td:nth-child(3n) {
