@@ -26,6 +26,7 @@ namespace Transactiondetails.ViewModels
     {
         public Int16 ProcessCode { get; set; }
         public string ProcessName { get; set; }
+        public string BillingType { get; set; }
     }
 
     public class AccountMasterVM

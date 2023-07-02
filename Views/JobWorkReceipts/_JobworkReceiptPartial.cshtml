@@ -3,6 +3,7 @@
 
 @{
     var jsonMode = JsonConvert.SerializeObject(Model.Mode);
+    var jsonProcessList = JsonConvert.SerializeObject(Model.Processes);
     var htmlAttributes = new Dictionary<string, object>();
     htmlAttributes.Add("class", "form-control");
     htmlAttributes.Add("readonly", true);
@@ -139,6 +140,7 @@
 <script type="text/javascript">
 
     var mode =@(Html.Raw(jsonMode));
+    var processlist=@(Html.Raw(jsonProcessList));
 
     $(function () {
 
@@ -321,7 +323,7 @@
     }
 
     function AjaxFormSuccess(e) {
-        
+
         if (e.error === 'false') {
             $('#dialog').dialog('close');
             $("div[role='alert']").removeClass("hide-element");
@@ -338,6 +340,25 @@
 
         }
     }
+
+    $("#receipt").on("change", "tr select[name*=\"ProcessCode\"]", function (e) {
+        debugger;
+        if ($(this).val() === "") {
+            return;
+        }
+        let processCode = parseInt($(this).val());
+
+        var list = processlist.filter(fl => fl.ProcessCode === processCode);
+
+        if (list[0].BillingType === "C") {
+            $(this).closest("tr").find("input[name*=\"ItemCarats\"]").rules("add", { min: 1, messages: { min: "" } });
+        }
+        if (list[0].BillingType === "P") {
+            
+            $(this).closest("tr").find("input[name*=\"ItemLines\"]").rules("add", { min: 1, messages: { min: "" } });
+        }
+
+    });
 
     $(document).ready(function () {
         $(".addRow").keydown(function (event) {
@@ -365,7 +386,16 @@
                 ReferenceDate: 'Select Reference Date',
                 AccountCode: 'Select Customer',
                 SerialNumber: 'Select Serial Number',
+            },
+            errorPlacement: function (error, element) {
+
+                let name = element.attr("name");
+                if (name === "ReferenceDate" || name === "AccountCode" || name === "SerialNumber") {
+                    error.insertAfter(element);
+                }
+                return;
             }
+            /*errorPlacement: $.noop*/
         });
 
         if (mode === 2) {
@@ -431,8 +461,8 @@
         justify-content: center;
     }
 
-    #receipt .container a {
-        margin-left: .2em;
-        margin-right: .2em;
-    }
+        #receipt .container a {
+            margin-left: .2em;
+            margin-right: .2em;
+        }
 </style>
