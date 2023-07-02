@@ -317,31 +317,37 @@ namespace Transactiondetails.Controllers
                 jobBillingMaster.SerialNumber = model.SerialNumber.Value;
                 jobBillingMaster.AccountCode = model.AccountCode;
                 jobBillingMaster.ReferenceDate = model.ReferenceDate.Value;
+                jobBillingMaster.PostingDate = model.PostingDate.Value;
                 jobBillingMaster.EntryDate = DateTime.Now;
                 jobBillingMaster.ModiDate = DateTime.Now;
                 jobBillingMaster.FinancialYearCode = userData.FYear;
                 jobBillingMaster.BranchCode = userData.Branch;
                 jobBillingMaster.UserCode = userData.UserId; //Get usercode from session
                 jobBillingMaster.ModiUserCode = userData.UserId; //Get usercode from session
-
                 var jobBill = new JobBill();
                 jobBill.JobBillingMaster = jobBillingMaster;
                 jobBill.JobBillingDetails = model.JobBillingDetails.Select(sel => new JobBillingDetail
                 {
                     SerialNumber = model.SerialNumber.Value,
                     ItemSerialNumber = sel.ItemSerialNumber,
-                    //JRSerialNumber = sel.JRSerialNumber,
-                    //JRItemSerialNumber = sel.JRItemSerialNumber,
-                    //ItemCarats = sel.BalItemCarats,
-                    //ItemLines = sel.BalItemLines,
-                    //ItemPieces = sel.BalItemPieces,
-                    //BillingQuantity = sel.BillingQuantity,
-                    //BillingRate = sel.Rate,
-                    //NoChargeQuantity = sel.NoChargeQuantity,
-                    //WeightLoss = sel.WeightLoss,
-                    //PacketStatus = sel.Status.ToLower() == "yes" ? "y" : "n",
+                    JDSerialNumber = sel.JDSerialNumber,
+                    JDItemSerialNumber = sel.JDItemSerialNumber,
+                    BillingType =sel.BillingType,
+                    BankCashFlag = sel.PaymentCB,
+                    BillingQuantity = sel.BillingQuantity,
+                    BillingAmount   = sel.BillingAmount,
+                    BillingRate = sel.BillingRate,
+                    NoChargeQuantity = sel.NoChargeQuantity,
+                    DiscountPerAmt = sel.DiscountPerAmt,
+                    DiscountAmount = sel.DiscountAmount,
+                    DiscountRate = sel.DiscountRate,
+                    Addless1 = sel.Taxes,
+                    TotalAmount = sel.TotalAmount,
+                    NetAmount = sel.NetAmount,
                     Remarks = sel.Remarks,
                 }).ToList();
+
+                jobBill.JobBillingMaster.ReferenceType = jobBill.JobBillingDetails.Any(x => x.BankCashFlag.ToLower() == "b") ? "B" : "C";
 
                 if (model.Mode == Mode.Add)
                 {

@@ -15,6 +15,8 @@ namespace Transactiondetails.DBModels
         public double Addless1 { get; set; }
         public string AccountCode { get; set; }
         public string Remarks { get; set; }
+        public string BillingType { get; set; }
+
         public string BankCashFlag { get; set; }
         public DateTime ReferenceDate { get; set; }
         public string SaleAccountCode { get; set; }
