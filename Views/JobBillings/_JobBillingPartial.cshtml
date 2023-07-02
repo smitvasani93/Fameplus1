@@ -183,30 +183,30 @@
             </div>
         </div>
         <div class="col-lg-6 job-billing-detail">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="row mb-3">
-                            <label for="inputEmail3" class="col-sm-5 col-form-label">Bill Amount</label>
-                            <div class="col-sm-7">
-                                @Html.TextBoxFor(x => x.BillAmmount, new { @class = "form-control" ,@readonly=true})
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="inputEmail3" class="col-sm-5 col-form-label">Tax Amount</label>
-                            <div class="col-sm-7">
-                                @Html.TextBoxFor(x => x.TotalTax, new { @class = "form-control", @readonly = true })
-                            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Bill Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.BillAmount, new { @class = "form-control", @readonly = true })
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="row mb-3">
-                            <label for="inputEmail3" class="col-sm-5 col-form-label">Cash Amount</label>
-                            <div class="col-sm-7">
-                                @Html.TextBoxFor(x => x.CashAmount, new { @class = "form-control", @readonly = true })
-                            </div>
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Tax Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.TotalTax, new { @class = "form-control", @readonly = true })
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Cash Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.CashAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-lg-9 mt-0 mb-3 job-billing-detail">
             <div class="row">
@@ -255,7 +255,7 @@
 <script type="text/javascript">
 
     var mode =@(Html.Raw(jsonMode));
-
+    let billAmt = 0, cashAmt = 0, taxAmt = 0, netAmt = 0, finalAmt = 0;
     $(function () {
 
         $("#ReferenceDate1").on("focusin", function (e) {
@@ -364,7 +364,7 @@
                     debugger;
                   //  $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
                     $tr.find("td:nth-child(1)").html(gridData[i].SerialNumber);
-                    $tr.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('DD/MM/YYYY'));
+                    $tr.find("td:nth-child(2)").html(gridData[i].JDReferenceDate);
                     $tr.find("td:nth-child(3)").html(gridData[i].ProcessName);
                     $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
                     $tr.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
@@ -389,14 +389,15 @@
                     $tr.find("input[name*='Remarks']").val(gridData[i].Remarks);
                     $tr.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
                     $tr.find("input[type=hidden][name*='ProcessCode']").val(gridData[i].ProcessCode);
-
+                    billAmt = gridData[i].NetAmount;
                     continue;
                 }
 
+                billAmt = parseFloat( billAmt) + parseFloat( gridData[i].NetAmount);
                let $trClone = $tr.clone();
 
                 $trClone.find("td:nth-child(1)").html(gridData[i].SerialNumber);
-                $trClone.find("td:nth-child(2)").html(moment(gridData[i].JDReferenceDate).format('DD/MM/YYYY'));
+                $trClone.find("td:nth-child(2)").html(gridData[i].JDReferenceDate);
                 $trClone.find("td:nth-child(3)").html(gridData[i].ProcessName);
 
                 $trClone.find("input[type=text]").each(function (idx, inputElm) {
@@ -463,7 +464,9 @@
             $(".job-billing-detail").removeClass("job-billing-detail");
             $(".button-container").removeClass("newone-css");
 
-           addRequiredRules();
+            addRequiredRules();
+
+            $("#BillAmount").val(billAmt);
         }
     });
 
