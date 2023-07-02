@@ -29,7 +29,7 @@ namespace Transactiondetails.ViewModels
         public double BillingQuantity { get; set; }
         public double NoChargeQuantity { get; set; }
         public double BillingRate { get; set; }
-        public string BankCashFlag { get; set; }
+        public string PaymentCB { get; set; }
         public string DiscountPerAmt { get; set; }
         public double TotalAmount { get; set; }
         public double DiscountRate { get; set; }
@@ -44,7 +44,5 @@ namespace Transactiondetails.ViewModels
         public double SGST { get; set; }
         public double IGST { get; set; }
         public double Taxes { get; set; }
-        public double PaymentCB { get; set; }
- 
     }
 }

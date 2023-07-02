@@ -45,6 +45,8 @@ namespace Transactiondetails.Models.Utility
             {
                 //Call Stored Procedure to get the JobReciepts
                 var pSNumber = new SqlParameter("@SerialNumber", serialNo);
+                jobBillingData.JobBillingMast = db.Database.SqlQuery<JobBillingMaster>("exec SpGetJobBillingMasterBySerialNumber @SerialNumber", pSNumber).FirstOrDefault();
+
                 jobBillingData.JobBillingDets = db.Database.SqlQuery<JobBillingDetail>("exec SpGetJobBillingBySerialNumber @SerialNumber", pSNumber).ToList();
             }
 

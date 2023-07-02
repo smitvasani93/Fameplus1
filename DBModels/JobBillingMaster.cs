@@ -22,17 +22,17 @@ namespace Transactiondetails.DBModels
         public string SaleAccountCode { get; set; }
         public Int16 CreditDays { get; set; }
         public DateTime PostingDate { get; set; }
-        public decimal PostingAmount { get; set; }
-        public decimal PostingAmount2 { get; set; }
+        public double PostingAmount { get; set; }
+        public double PostingAmount2 { get; set; }
         public string ReferenceType { get; set; }
-        public decimal Addless1 { get; set; }
+        public double Addless1 { get; set; }
 
-        public decimal Addless2 { get; set; }
-        public decimal Addless3 { get; set; }
-        public decimal PostingAmount3 { get; set; }
-        public decimal RoundedAmount { get; set; }
+        public double Addless2 { get; set; }
+        public double Addless3 { get; set; }
+        public double PostingAmount3 { get; set; }
+        public double RoundedAmount { get; set; }
 
-        public decimal FinalAmount { get; set; }
+        public double FinalAmount { get; set; }
          
     }
 }

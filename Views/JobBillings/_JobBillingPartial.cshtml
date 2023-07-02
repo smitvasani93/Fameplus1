@@ -124,7 +124,7 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].JDBillingQuantity, new { @required = true, @class = "form-control allow_decimal BalItemPieces" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NoChargeQuantity, new { @required = true, @readonly = true, @class = "form-control allow_decimal BalItemCarats" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NoChargeQuantity, new { @required = true, @class = "form-control allow_decimal BalItemCarats" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingUnit, new { @required = true, @readonly = true, @class = "form-control allow_decimal BalItemLines" })
@@ -139,13 +139,13 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new { @class = "form-control form-control numberonly" })
                             </td>
                             <td>
-                                @Html.DropDownListFor(model => Model.JobBillingDetails[i].DiscountPerAmt, (new[] { new SelectListItem { Text = "Percentage", Value = "P" }, new SelectListItem { Text = "Amount", Value = "A" } }), new { @class = "form-select" })
+                                @Html.DropDownListFor(model => Model.JobBillingDetails[i].DiscountPerAmt, (new[] { new SelectListItem { Text = "P", Value = "P" }, new SelectListItem { Text = "A", Value = "A" } }), new { @class = "form-select" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountAmount, new { @class = "form-control numberonly", @readonly = true })
                             </td>
                             <td>
-                                @Html.DropDownListFor(model => Model.JobBillingDetails[i].PaymentCB, (new[] { new SelectListItem { Text = "Bank", Value = "B" }, new SelectListItem { Text = "Cash", Value = "C" } }), new { @class = "form-select" })
+                                @Html.DropDownListFor(model => Model.JobBillingDetails[i].PaymentCB, (new[] { new SelectListItem { Text = "B", Value = "B" }, new SelectListItem { Text = "C", Value = "C" } }), new { @class = "form-select" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].Taxes, new { @class = "form-control", @readonly = true })
@@ -188,7 +188,7 @@
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-3 col-form-label">Bill Amount</label>
                         <div class="col-sm-9">
-                            @Html.TextBoxFor(x => x.BillAmmount, new { @class = "form-control" })
+                            @Html.TextBoxFor(x => x.BillAmount, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="row mb-3">

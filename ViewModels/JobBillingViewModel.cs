@@ -13,17 +13,17 @@ namespace Transactiondetails.ViewModels
         public DateTime? PostingDate { get; set; }
         public int? SerialNumber { get; set; }
         public int CreditDays { get; set; }
-        public int RefNo { get; set; }
-
         public string Remarks { get; set; }
-        public double BillAmmount { get; set; }
+        public double BillAmount { get; set; }
         public double CashAmount { get; set; }
-        public double SGST { get; set; }
-        public double CGST { get; set; }
-        public double IGST { get; set; }
         public double NetAmount { get; set; }
-        public double FinalAmount { get; set; }
         public double TotalTax { get; set; }
+        public double PostingAmount { get; set; }
+        public double PostingAmount2 { get; set; }
+        public double PostingAmount3 { get; set; }
+        public double RoundedAmount { get; set; }
+        public double FinalAmount { get; set; }
+        public double Addless1 { get; set; }
         public Mode Mode { get; set; }
         public IEnumerable<AccountMasterVM> Accounts { get; set; }
         public IEnumerable<AccountMasterVM> SalesAccounts { get; set; }

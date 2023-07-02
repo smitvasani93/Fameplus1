@@ -79,11 +79,22 @@ namespace Transactiondetails.Controllers
                 var jobBill = jobBillingDataLayer.GetJobBillBySerialNo(userData.Company, userData.FYear, id);
                 var jobBillingViewModel = new JobBillingViewModel();
 
-                jobBillingViewModel.AccountCode = jobBill.JobBillingDets.FirstOrDefault().AccountCode;
-                jobBillingViewModel.ReferenceDate = jobBill.JobBillingDets.FirstOrDefault().ReferenceDate;
+                jobBillingViewModel.AccountCode = jobBill.JobBillingMast.AccountCode;
+                jobBillingViewModel.ReferenceDate = jobBill.JobBillingMast.ReferenceDate;
                 jobBillingViewModel.SerialNumber = id;
-                jobBillingViewModel.SalesAccountCode = jobBill.JobBillingDets.FirstOrDefault().SaleAccountCode;
-                jobBillingViewModel.PostingDate = jobBill.JobBillingDets.FirstOrDefault().PostingDate;
+                jobBillingViewModel.SalesAccountCode = jobBill.JobBillingMast.SaleAccountCode;
+                jobBillingViewModel.PostingDate = jobBill.JobBillingMast.PostingDate;
+                jobBillingViewModel.ReferenceNumber = id.ToString();
+                //jobBillingViewModel.CashAmount = jobBill.JobBillingMast.CreditDays;
+                //jobBillingViewModel.CreditDays = jobBill.JobBillingMast.CreditDays;
+                jobBillingViewModel.FinalAmount = jobBill.JobBillingMast.FinalAmount;
+                jobBillingViewModel.PostingAmount = jobBill.JobBillingMast.PostingAmount;
+                jobBillingViewModel.PostingAmount2 = jobBill.JobBillingMast.PostingAmount2;
+                jobBillingViewModel.PostingAmount3 = jobBill.JobBillingMast.PostingAmount3;
+                jobBillingViewModel.RoundedAmount = jobBill.JobBillingMast.RoundedAmount;
+                jobBillingViewModel.FinalAmount = jobBill.JobBillingMast.FinalAmount;
+
+                //jobBillingViewModel.NetAmount = 0;
                 jobBillingViewModel.JobBillingDetails = jobBill.JobBillingDets.Select(x => new JobBillingDetailViewModel
                 {
                     ReferenceDate = x.ReferenceDate,
@@ -93,12 +104,21 @@ namespace Transactiondetails.Controllers
                     ItemSerialNumber = x.ItemSerialNumber,
                     Remarks = x.Remarks,
                     ProcessCode = x.ProcessCode,
-                    NoChargeQuantity = x.NoChargeQuantity
-
-                    // Addless1 =x.Addless1
-
+                    JDSerialNumber = x.JDSerialNumber,
+                    JDItemSerialNumber = x.JDItemSerialNumber,
+                    PaymentCB = x.BankCashFlag,
+                    PacketNumber = x.PacketNumber,
+                    Taxes = x.Addless1,
+                    BillingQuantity = x.BillingQuantity,
+                    NoChargeQuantity = x.NoChargeQuantity,
+                    TotalAmount = x.TotalAmount,
+                    NetAmount = x.NetAmount,
+                    BillingRate = x.BillingRate,
+                    BillingAmount = x.BillingAmount,
+                    DiscountPerAmt = x.DiscountPerAmt,
+                    DiscountRate = x.DiscountRate,
+                    DiscountAmount =x.DiscountAmount,
                 }).ToList();
-
 
                 var accounts = accountDataLayer.GetBillAccounts(userData.Company, userData.Company, userData.FYear);
 
@@ -107,7 +127,6 @@ namespace Transactiondetails.Controllers
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
                 });
-
 
                 var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear);
 
