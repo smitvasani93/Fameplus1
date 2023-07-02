@@ -44,6 +44,9 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="alert alert-success alert-dismissible fade show  fw-bold hide-element" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                    </div>
                     <div class="table-container">
                         <table id="jqgridtbl">
                         </table>
@@ -74,14 +77,14 @@
         });
 
         $('#btnSearch').on('click', function () {
-
+            resetMessage();
             var postData = $("#jqgridtbl").jqGrid('getGridParam', 'postData');
             postData.filters = '{"groupOp":"AND","rules":[{"field":"AccountName","op":"cn","data":"' + $("#AccountName").val() + '"},{"field":"ReferenceDate","op":"eq","data":"' + $("#ReferenceDateSearch").val() + '"}]}';
             $("#jqgridtbl").jqGrid('setGridParam', { postData: postData, search: true }).trigger("reloadGrid");
         });
 
         $('#btnReset').on('click', function () {
-
+            resetMessage();
             $("#AccountName").val("");
             $("#ReferenceDateSearch").val("");
 
@@ -105,6 +108,9 @@
                 dateFormat: 'dd-mm-yy',
                 onSelect: function () {
 
+                },
+                beforeShow: function () {
+                    resetMessage();
                 }
             });
         });
@@ -121,7 +127,7 @@
                 position: { my: "top", at: "top", of: "header"},
                 //position: ['center', 20],
                 open: function (event, ui) {
-
+                    resetMessage();
                     if (id === 0) {
                         $(this).load("@Url.Action("GetJobworkDespatch")");
                     } else {
@@ -195,7 +201,12 @@
                 {} /* view parameters*/
             )
         });
+        function resetMessage() {
 
+            if (!$("div[role='alert']").hasClass("hide-element")) {
+                $("div[role='alert']").addClass("hide-element");
+            }
+        }
     </script>
 }
 
@@ -231,4 +242,8 @@
    .ui-jqgrid .ui-jqgrid-htable th {
        white-space: nowrap;
    }
+
+    .hide-element {
+        display: none !important;
+    }
 </style>

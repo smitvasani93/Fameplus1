@@ -234,7 +234,7 @@
         if ($(this).val() === "") {
             return;
         }
-        debugger;
+        
         let bQty = parseInt($(this).val());
         let processcode = $(this).closest("tr").find("input[name*='ProcessCode']").val();
         let $rate = $(this).closest("tr").find("input[name*='Rate']");
@@ -253,6 +253,24 @@
 
     });
 
+    function AjaxFormSuccess(e) {
+        
+        if (e.error === 'false') {
+            $('#dialog').dialog('close');
+            $("div[role='alert']").removeClass("hide-element");
+            $("div[role='alert']").contents().filter(function () {
+                return this.nodeType === 3;
+            }).remove();
+            let msg = "Saved successfully";
+            if (mode !== 1) {
+                msg = "Updated successfully";
+            }
+            $("div[role=\"alert\"]").append(msg);
+            $("#jqgridtbl").trigger("reloadGrid");
+        } else {
+
+        }
+    }
 
     Array.prototype.removeByValue = function (val) {
         for (var i = 0; i < this.length; i++) {

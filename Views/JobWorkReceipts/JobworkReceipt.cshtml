@@ -46,7 +46,6 @@
                 <div class="card-body">
                     <div class="alert alert-success alert-dismissible fade show  fw-bold hide-element" role="alert">
                         <i class="bi bi-check-circle me-1"></i>
-                       
                     </div>
                     <div style="overflow-x:auto;">
                         <table id="jqgridtbl">
@@ -83,19 +82,19 @@
                 .dialog({ title: 'Add Jobwork Receipt' })
                 .dialog('open');
 
-           
+            
         });
 
 
         $('#btnSearch').on('click', function () {
-
+            resetMessage();
             var postData = $("#jqgridtbl").jqGrid('getGridParam', 'postData');
             postData.filters = '{"groupOp":"AND","rules":[{"field":"AccountName","op":"cn","data":"' + $("#AccountName").val() + '"},{"field":"ReferenceDate","op":"eq","data":"' + $("#ReferenceDateSearch").val() + '"}]}';
             $("#jqgridtbl").jqGrid('setGridParam', { postData: postData, search: true }).trigger("reloadGrid");
         });
 
         $('#btnReset').on('click', function () {
-
+            resetMessage();
             $("#AccountName").val("");
             $("#ReferenceDateSearch").val("");
 
@@ -117,8 +116,11 @@
                 showButtonPanel: false,
                 dateFormat: 'dd-mm-yy',
                 onSelect: function () {
-
-                }
+                    
+                },
+                beforeShow: function () {
+                    resetMessage();
+                 }
             });
         });
 
@@ -135,7 +137,7 @@
                 position: { my: "top", at: "top", of: "header"},
                 //position: ['center', 20],
                 open: function (event, ui) {
-                    $("div[role='alert']").addClass("hide-element");
+                    resetMessage();
                     if (id === 0) {
                         $(this).load("@Url.Action("GetJobworkRecipt")");
                     } else {
@@ -143,13 +145,18 @@
                     }
                 },
                 close: function (event, ui) {
-                    debugger;
-                    $('#ReferenceDate1').datepicker('destroy');
                     
+                    $('#ReferenceDate1').datepicker('destroy');
                 }
             });
         });
 
+        function resetMessage() {
+            
+            if (!$("div[role='alert']").hasClass("hide-element")) {
+                $("div[role='alert']").addClass("hide-element");
+            }
+        }
     </script>
 }
 

@@ -359,8 +359,22 @@
     }
 
     function AjaxFormSuccess(e) {
-        debugger;
-        $('#dialog').dialog('close');
+
+        if (e.error === 'false') {
+            $('#dialog').dialog('close');
+            $("div[role='alert']").removeClass("hide-element");
+            $("div[role='alert']").contents().filter(function () {
+                return this.nodeType === 3;
+            }).remove();
+            let msg = "Saved successfully";
+            if (mode !== 1) {
+                msg = "Updated successfully";
+            }
+            $("div[role=\"alert\"]").append(msg);
+            $("#jqgridtbl").trigger("reloadGrid");
+        } else {
+
+        }
     }
 
     function formatDate(dateStr) {
@@ -477,6 +491,7 @@
         }
         return this;
     }
+   
 </script>
 <style>
     #JobworkReceiptPop .form-control:read-only {
