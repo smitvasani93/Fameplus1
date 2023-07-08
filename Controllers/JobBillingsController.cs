@@ -85,17 +85,16 @@ namespace Transactiondetails.Controllers
                 jobBillingViewModel.SerialNumber = id;
                 jobBillingViewModel.SalesAccountCode = jobBill.JobBillingMast.SaleAccountCode;
                 jobBillingViewModel.PostingDate = jobBill.JobBillingMast.PostingDate;
-                jobBillingViewModel.ReferenceNumber = id.ToString();
-                //jobBillingViewModel.CashAmount = jobBill.JobBillingMast.CreditDays;
-                //jobBillingViewModel.CreditDays = jobBill.JobBillingMast.CreditDays;
+                jobBillingViewModel.ReferenceNumber = jobBill.JobBillingMast.ReferenceNumber;
+                jobBillingViewModel.CashAmount = jobBill.JobBillingMast.PostingAmount2;
+                jobBillingViewModel.CreditDays = jobBill.JobBillingMast.CreditDays;
                 jobBillingViewModel.FinalAmount = jobBill.JobBillingMast.FinalAmount;
-                jobBillingViewModel.PostingAmount = jobBill.JobBillingMast.PostingAmount;
+                jobBillingViewModel.BillAmount = jobBill.JobBillingMast.PostingAmount;
                 jobBillingViewModel.PostingAmount2 = jobBill.JobBillingMast.PostingAmount2;
-                jobBillingViewModel.PostingAmount3 = jobBill.JobBillingMast.PostingAmount3;
+                jobBillingViewModel.NetAmount = jobBill.JobBillingMast.PostingAmount3;
                 jobBillingViewModel.RoundedAmount = jobBill.JobBillingMast.RoundedAmount;
                 jobBillingViewModel.FinalAmount = jobBill.JobBillingMast.FinalAmount;
-
-                //jobBillingViewModel.NetAmount = 0;
+                 
                 jobBillingViewModel.JobBillingDetails = jobBill.JobBillingDets.Select(x => new JobBillingDetailViewModel
                 {
                     ReferenceDate = x.ReferenceDate,
@@ -325,6 +324,12 @@ namespace Transactiondetails.Controllers
                 jobBillingMaster.BranchCode = userData.Branch;
                 jobBillingMaster.UserCode = userData.UserId; //Get usercode from session
                 jobBillingMaster.ModiUserCode = userData.UserId; //Get usercode from session
+                jobBillingMaster.PostingAmount = model.BillAmount;
+                jobBillingMaster.PostingAmount2 = model.CashAmount;
+                jobBillingMaster.Addless1 = model.TotalTax;
+                jobBillingMaster.PostingAmount3 = model.NetAmount;
+                jobBillingMaster.RoundedAmount = model.RoundedAmount;
+                jobBillingMaster.FinalAmount = model.FinalAmount;
                 var jobBill = new JobBill();
                 jobBill.JobBillingMaster = jobBillingMaster;
                 jobBill.JobBillingDetails = model.JobBillingDetails.Select(sel => new JobBillingDetail

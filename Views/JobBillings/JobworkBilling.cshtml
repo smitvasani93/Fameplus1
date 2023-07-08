@@ -115,12 +115,11 @@
         });
 
          $(function () {
-
-            $('#dialog').dialog({
+             $('#dialog').dialog({
                 autoOpen: false,
                 width: '100%',
                 resizable: false,
-                title: 'Despatch Receipt',
+                title: 'Job Bill',
                 modal: true,
                 draggable: false,
                 position: { my: "top", at: "top", of: "header"},
@@ -169,7 +168,7 @@
                         name: "actions",
                         label: "Actions",
                         formatter: function (cellValue, options, rowObject) {
-                            return '<button type="button" class="custom-button" data-id="' + rowObject.id + '">Custom</button>';
+                            return '<button type="button" class="custom-button" data-id="' + rowObject.id + '">Print</button>';
                         }
                     },
                     { name: "SerialNumber", hidden: 'true' }

@@ -41,15 +41,19 @@ namespace Transactiondetails.Models.Utility
         public JobBillingData GetJobBillBySerialNo(string companyCode, string FYear, int serialNo)
         {
             var jobBillingData = new JobBillingData();
+            var jobMaster =  new JobBillingMaster();
+            var jobBillingDets = new List<JobBillingDetail>();
             using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
                 //Call Stored Procedure to get the JobReciepts
                 var pSNumber = new SqlParameter("@SerialNumber", serialNo);
-                jobBillingData.JobBillingMast = db.Database.SqlQuery<JobBillingMaster>("exec SpGetJobBillingMasterBySerialNumber @SerialNumber", pSNumber).FirstOrDefault();
+                jobMaster = db.Database.SqlQuery<JobBillingMaster>("exec SpGetJobBillingMasterBySerialNumber @SerialNumber", pSNumber).FirstOrDefault();
 
-                jobBillingData.JobBillingDets = db.Database.SqlQuery<JobBillingDetail>("exec SpGetJobBillingBySerialNumber @SerialNumber", pSNumber).ToList();
+                var pSNumber2 = new SqlParameter("@SerialNumber", serialNo);
+                jobBillingDets = db.Database.SqlQuery<JobBillingDetail>("exec SpGetJobBillingBySerialNumber @SerialNumber", pSNumber2).ToList();
             }
-
+            jobBillingData.JobBillingMast = jobMaster;
+            jobBillingData.JobBillingDets = jobBillingDets;
             return jobBillingData;
         }
 
