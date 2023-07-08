@@ -60,7 +60,8 @@ namespace Transactiondetails.Controllers
                                          DiscountAmount = 0,
                                          DiscountRate = 0,
                                          Taxes = x.Taxes,
-                                         NetAmount = x.NetAmount
+                                         NetAmount = x.NetAmount,
+                                         PaymentCB ="B"
                                      });
 
 
