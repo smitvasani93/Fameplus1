@@ -165,6 +165,13 @@
                     { label: "Account Name", name: "AccountName", sortable: true, searchoptions: { sopt: ['cn'] }},
                     { label: "Bill Number", name: "ReferenceNumber", sortable: true, search: false },
                     { label: "Bill Date", name: "ReferenceDate", sortable: true, formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "d/m/Y" }, searchoptions: { sopt: ['eq', 'ne'] } },
+                    {
+                        name: "actions",
+                        label: "Actions",
+                        formatter: function (cellValue, options, rowObject) {
+                            return '<button type="button" class="custom-button" data-id="' + rowObject.id + '">Custom</button>';
+                        }
+                    },
                     { name: "SerialNumber", hidden: 'true' }
                 ],
                 sortname: "ReferenceDate",
@@ -192,7 +199,7 @@
                     $('#dialog')
                         .dialog({ title: 'Update Job Bill' })
                         .dialog('open');
-                }
+                },
             }).navGrid('#gqgridpager', { view: false, del: false, add: false, edit: false },
                 {}, // default settings for edit
                 {}, // default settings for add
