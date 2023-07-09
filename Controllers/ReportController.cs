@@ -15,6 +15,9 @@ namespace Transactiondetails.Controllers
               
             try
             {
+                ViewBag.Menu = "Master";
+                ViewBag.SubMenu = "JobBilling";
+
                 int serialNumber = id;
                 var userData = (UserData)Session["UserData"];
 

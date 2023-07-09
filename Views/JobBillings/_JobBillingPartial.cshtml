@@ -207,7 +207,7 @@
                     </div>
                 </div>
                 @*<div class="col-lg-4">
-                </div>*@
+                    </div>*@
             </div>
         </div>
         <div class="col-lg-9 mt-0 mb-3 job-billing-detail">
@@ -404,11 +404,11 @@
 
                     netAmt = parseFloat(gridData[i].NetAmount);
 
-                    
+
 
                     continue;
                 }
-              
+
                 if (gridData[i].PaymentCB === "B") {
                     billAmt = billAmt + parseFloat(gridData[i].TotalAmount) - parseFloat(gridData[i].DiscountAmount);
                 }
@@ -678,7 +678,7 @@
             return;
         }
 
-        
+
 
 
         let discountPerAmt = $(this).val();
@@ -748,9 +748,9 @@
 
             taxAmt = taxAmt + parseFloat($(tr).find("input[name*='Taxes']").val());
             netAmt = netAmt + parseFloat($(tr).find("input[name*='NetAmount']").val());
-             
+
         })
-       
+
         $("#BillAmount").val(billAmt);
         $("#CashAmount").val(cashAmt);
         $("#TotalTax").val(taxAmt);

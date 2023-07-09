@@ -121,6 +121,7 @@ namespace Transactiondetails.Controllers
                 }).ToList();
 
                 var accounts = accountDataLayer.GetBillAccounts(userData.Company, userData.Company, userData.FYear);
+                var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear);
 
                 jobBillingViewModel.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {
@@ -128,18 +129,13 @@ namespace Transactiondetails.Controllers
                     AccountName = sel.AccountName
                 });
 
-                var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear);
-
                 jobBillingViewModel.SalesAccounts = salesaccounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {
                     AccountCode = sel.AccountCode,
                     AccountName = sel.AccountName
                 });
 
-
                 jobBillingViewModel.Mode = Mode.Update;
-
-
                 return PartialView("_JobBillingUpdatePartial", jobBillingViewModel);
             }
             catch (Exception ex)
