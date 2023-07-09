@@ -10,12 +10,12 @@ namespace Transactiondetails.Controllers
     [Authorize]
     public class ReportController : Controller
     {
-        public ActionResult JobWorkBillingReport(FormCollection formCollection, string Search)
+        public ActionResult JobWorkBillingReport(int id)
         {
-            var Status = formCollection["Status"];
-             
+              
             try
             {
+                int serialNumber = id;
                 var userData = (UserData)Session["UserData"];
 
                 var reportDataLayer = new ReportDataLayer();

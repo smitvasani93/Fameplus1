@@ -168,7 +168,7 @@
                         name: "actions",
                         label: "Actions",
                         formatter: function (cellValue, options, rowObject) {
-                            return '<button type="button" class="custom-button" data-id="' + rowObject.id + '">Print</button>';
+                            return '<button id="btnPrint" type="button" class="custom-button" onclick="PrintDialog(' + rowObject.SerialNumber + ');"  data-id="' + rowObject.SerialNumber + '">Print</button>';
                         }
                     },
                     { name: "SerialNumber", hidden: 'true' }
@@ -213,6 +213,28 @@
             if (!$("div[role='alert']").hasClass("hide-element")) {
                 $("div[role='alert']").addClass("hide-element");
             }
+        }
+
+        function PrintDialog(id) {
+
+             $('#dialog').dialog({
+                autoOpen: true,
+                width: '100%',
+                resizable: false,
+                title: 'Report',
+                modal: true,
+                draggable: false,
+                position: { my: "top", at: "top", of: "header"},
+                //position: ['center', 20],
+                open: function (event, ui) {
+                    //resetMessage();
+                    $("#dialog").load("@Url.Action("JobWorkBillingReport", "Report")", { id: id });
+                },
+                close: function (event, ui) {
+                    $("#dialog").hide();
+
+                }
+            });
         }
 
     </script>

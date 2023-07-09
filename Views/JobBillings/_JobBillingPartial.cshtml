@@ -366,8 +366,9 @@
                 if (i === 0) {
 
                    // debugger;
-                  //  $tr.find("td:nth-child(1)").html(moment(gridData[i].ReferenceDate).format('MM/DD/YYYY'));
                     $tr.find("td:nth-child(1)").html(gridData[i].SerialNumber);
+                    $tr.find("input[type=hidden][name*='JDSerialNumber']").val(gridData[i].SerialNumber);
+                    $tr.find("input[type=hidden][name*='JDItemSerialNumber']").val(gridData[i].ItemSerialNumber);
                     $tr.find("td:nth-child(2)").html(gridData[i].JDReferenceDate);
                     $tr.find("td:nth-child(3)").html(gridData[i].ProcessName);
                     $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
@@ -379,8 +380,6 @@
                     $tr.find("input[name*='BillingUnit']").val(gridData[i].BillingUnit);
                     $tr.find("input[name*='BillingRate']").val(gridData[i].BillingRate);
                     $tr.find("input[name*='TotalAmount']").val(gridData[i].TotalAmount);
-                    /*$tr.find("input[name*='SerialNumber']").val(gridData[i].SerialNumber);*/
-                    //$tr.find("input[name*='ItemSerialNumber']").val(gridData[i].ItemSerialNumber);
                     $tr.find("input[name*='DiscountRate']").val(gridData[i].DiscountRate);
                     $tr.find("input[name*='DiscountPerAmt']").val(gridData[i].DiscountPerAmt);
                     $tr.find("input[name*='DiscountAmount']").val(gridData[i].DiscountAmount);
