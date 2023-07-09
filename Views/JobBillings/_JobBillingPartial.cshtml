@@ -384,9 +384,6 @@
                     $tr.find("input[name*='DiscountPerAmt']").val(gridData[i].DiscountPerAmt);
                     $tr.find("input[name*='DiscountAmount']").val(gridData[i].DiscountAmount);
                     $tr.find("input[name*='Taxes']").val(gridData[i].Taxes);
-                    //$tr.find("input[name*='CGST']").val(gridData[i].CGST);
-                    //$tr.find("input[name*='SGST']").val(gridData[i].SGST);
-                    //$tr.find("input[name*='IGST']").val(gridData[i].IGST);
                     $tr.find("input[name*='NetAmount']").val(gridData[i].NetAmount);
                     $tr.find("input[name*='PaymentCB']").val(gridData[i].PaymentCB);
                     $tr.find("input[name*='Remarks']").val(gridData[i].Remarks);
@@ -401,10 +398,7 @@
                     }
 
                     taxAmt = parseFloat(gridData[i].Taxes);
-
                     netAmt = parseFloat(gridData[i].NetAmount);
-
-
 
                     continue;
                 }
@@ -418,9 +412,6 @@
 
                 taxAmt = taxAmt + parseFloat(gridData[i].Taxes);
                 netAmt = netAmt +  parseFloat(gridData[i].NetAmount);
-
-
-
                 //billAmt = parseFloat( billAmt) + parseFloat( gridData[i].NetAmount);
                let $trClone = $tr.clone();
 
@@ -470,41 +461,34 @@
                 $trClone.find("input[name*='BillingUnit']").val(gridData[i].BillingUnit);
                 $trClone.find("input[name*='BillingRate']").val(gridData[i].BillingRate);
                 $trClone.find("input[name*='TotalAmount']").val(gridData[i].TotalAmount);
-                /*$tr.find("input[name*='SerialNumber']").val(gridData[i].SerialNumber);*/
-                //$tr.find("input[name*='ItemSerialNumber']").val(gridData[i].ItemSerialNumber);
                 $trClone.find("input[name*='DiscountRate']").val(gridData[i].DiscountRate);
                 $trClone.find("input[name*='DiscountPerAmt']").val(gridData[i].DiscountPerAmt);
                 $trClone.find("input[name*='DiscountAmount']").val(gridData[i].DiscountAmount);
                 $trClone.find("input[name*='Taxes']").val(gridData[i].Taxes);
-                //$trClone.find("input[name*='CGST']").val(gridData[i].CGST);
-                //$trClone.find("input[name*='SGST']").val(gridData[i].SGST);
-                //$trClone.find("input[name*='IGST']").val(gridData[i].IGST);
                 $trClone.find("input[name*='NetAmount']").val(gridData[i].NetAmount);
                 $trClone.find("input[name*='PaymentCB']").val(gridData[i].PaymentCB);
                 $trClone.find("input[name*='Remarks']").val(gridData[i].Remarks);
-                /*$trClone.find("input[name*='Remarks']").val(gridData[i].Remarks);*/
 
                 $("#billing").append($trClone);
             }
 
-            $(".jqueryTbl-container").remove();
-            $("#newone").removeClass("newone-css");
-            $(".job-billing-detail").removeClass("job-billing-detail");
-            $(".button-container").removeClass("newone-css");
-
-            addRequiredRules();
+            let roundOff = Math.abs(Math.round(netAmt) - netAmt);
 
             $("#BillAmount").val(billAmt);
             $("#CashAmount").val(cashAmt);
             $("#TotalTax").val(taxAmt);
             $("#NetAmount").val(netAmt);
-            let roundOff = Math.abs(Math.round(netAmt) - netAmt);
             $("#RoundedAmount").val(roundOff);
             $("#FinalAmount").val(netAmt + roundOff);
+
+            addRequiredRules();
+
+            $(".jqueryTbl-container").remove();
+            $("#newone").removeClass("newone-css");
+            $(".job-billing-detail").removeClass("job-billing-detail");
+            $(".button-container").removeClass("newone-css");
         }
     });
-
-
 
     $("#ddlCustomer").on("change", function (e) {
 
@@ -610,25 +594,25 @@
             return;
         }
 
-        let rate = $(this).closest("tr").find("input[name*='Rate']").val();
         let bQty = parseInt($(this).val());
-        let totalAmount = bQty * rate;
-        $(this).closest("tr").find("input[name*='TotalAmount']").val(totalAmount);
-        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
-        //let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let rate = $(this).closest("tr").find("input[name*='Rate']").val();
+        //let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
         let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
         let discountRate = $(this).closest("tr").find("input[name*='DiscountRate']").val();
         let discountPerAmt = $(this).closest("tr").find("select[name*='DiscountPerAmt']").val();
         let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
+        let totalAmount = bQty * rate;
 
         if (discountRate != "") {
             discountAmount = discountPerAmt == "A" ? discountRate : (discountRate / totalAmount * 100);
         }
 
-        tax = 0;
+        let tax = 0;
+
         if (paymentCB == "B") {
             tax = ((totalAmount - discountAmount) * 1 / 100);
         }
+
         netAmount = totalAmount - discountAmount + tax;
 
         $(this).closest("tr").find("input[name*='Taxes']").val(tax);
@@ -646,12 +630,10 @@
         let discountRate = parseFloat($(this).val());
         let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
         let discountPerAmt = $(this).closest("tr").find("select[name*='DiscountPerAmt']").val();
-
         let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
-        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        //let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
         let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
         let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
-
 
         if (discountRate != 0) {
             discountAmount = discountPerAmt == "A" ? discountRate : (discountRate * totalAmount / 100);
@@ -660,7 +642,8 @@
             discountAmount = 0;
         }
 
-        tax = 0;
+        let tax = 0;
+
         if (paymentCB == "B") {
             tax = ((totalAmount - discountAmount) * 1 / 100);
         }
@@ -678,13 +661,10 @@
             return;
         }
 
-
-
-
         let discountPerAmt = $(this).val();
         let discountRate = $(this).closest("tr").find("input[name*='DiscountRate']").val();
         let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
-        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        //let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
         let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
         let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
         let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
@@ -696,7 +676,8 @@
             discountAmount = 0;
         }
 
-        tax = 0;
+        let tax = 0;
+
         if (paymentCB == "B") {
             tax = ((totalAmount - discountAmount) * 1 / 100);
         }
@@ -715,12 +696,12 @@
         }
 
         let paymentCB = $(this).val();
-        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        //let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
         let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
         let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
         let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
 
-        tax = 0;
+        let tax = 0;
         if (paymentCB == "B") {
             tax = ((totalAmount - discountAmount) * 1 / 100);
         }
@@ -748,18 +729,17 @@
 
             taxAmt = taxAmt + parseFloat($(tr).find("input[name*='Taxes']").val());
             netAmt = netAmt + parseFloat($(tr).find("input[name*='NetAmount']").val());
-
         })
+
+        let roundOff = Math.abs(Math.round(netAmt) - netAmt);
 
         $("#BillAmount").val(billAmt);
         $("#CashAmount").val(cashAmt);
         $("#TotalTax").val(taxAmt);
         $("#NetAmount").val(netAmt);
-        let roundOff = Math.abs(Math.round(netAmt) - netAmt);
         $("#RoundedAmount").val(roundOff);
         $("#FinalAmount").val(netAmt + roundOff);
     }
-
 
     Array.prototype.removeByValue = function (val) {
         for (var i = 0; i < this.length; i++) {
@@ -770,7 +750,6 @@
         }
         return this;
     }
-
 </script>
 <style>
     #JobBillingPopUp .form-control:read-only {
