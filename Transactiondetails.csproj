@@ -4220,6 +4220,7 @@
     <TypeScriptCompile Include="Scripts\ej2\ej2.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Rdlc\JobBillingMasPrint.rdlc" />
     <EmbeddedResource Include="Rdlc\JobWorkBillingGSTReport.rdlc" />
   </ItemGroup>
   <PropertyGroup>

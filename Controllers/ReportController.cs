@@ -22,14 +22,14 @@ namespace Transactiondetails.Controllers
                 var userData = (UserData)Session["UserData"];
 
                 var reportDataLayer = new ReportDataLayer();
-                var dtBill = reportDataLayer.GetJobWorkBillingReport(userData.Company, userData.Company, userData.FYear);
+                var dtBill = reportDataLayer.GetJobBillingMasPrint(serialNumber,userData.Company, userData.Company, userData.FYear);
 
                 ReportViewer reportViewer = new ReportViewer();
                 reportViewer.ProcessingMode = ProcessingMode.Local;
                 reportViewer.Width = System.Web.UI.WebControls.Unit.Percentage(100);
                 reportViewer.Height = System.Web.UI.WebControls.Unit.Pixel(600);
                 reportViewer.ZoomPercent = 100;
-                string reportpath= Request.MapPath(Request.ApplicationPath) + @"\Rdlc\JobWorkBillingGSTReport.rdlc";
+                string reportpath= Request.MapPath(Request.ApplicationPath) + @"\Rdlc\JobBillingMasPrint.rdlc";
                 
                 //var Status = formCollection["Status"];
                 reportViewer.LocalReport.ReportPath = reportpath;//  Request.MapPath(Request.ApplicationPath) + @"\Report\JobWorkBillingGSTReport.rdlc";
