@@ -8,6 +8,8 @@ namespace Transactiondetails.DBModels
         public int JDSerialNumber { get; set; }
         public Int16 JDItemSerialNumber { get; set; }
         public Int16 ProcessCode { get; set; }
+        public string ProcessName { get; set; }
+
         public Int16 PacketNumber { get; set; }
         public double ItemPieces { get; set; }
         public double ItemCarats { get; set; }

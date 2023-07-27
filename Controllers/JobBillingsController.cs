@@ -326,6 +326,8 @@ namespace Transactiondetails.Controllers
                 jobBillingMaster.PostingAmount3 = model.NetAmount;
                 jobBillingMaster.RoundedAmount = model.RoundedAmount;
                 jobBillingMaster.FinalAmount = model.FinalAmount;
+                jobBillingMaster.SaleAccountCode = model.SalesAccountCode;
+                jobBillingMaster.CreditDays = (short) model.CreditDays;
                 var jobBill = new JobBill();
                 jobBill.JobBillingMaster = jobBillingMaster;
                 jobBill.JobBillingDetails = model.JobBillingDetails.Select(sel => new JobBillingDetail
