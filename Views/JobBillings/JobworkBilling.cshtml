@@ -57,7 +57,7 @@
         </div>
     </div>
 </section>
-<div id="dialog" title="edit view" style="overflow: hidden;"></div>
+
 <script type="text/javascript">
 
 </script>
@@ -76,9 +76,10 @@
 
         $(document).on('click', '#btnAddNew', function () {
             id = 0;
-            $('#dialog')
-                .dialog({ title: 'Add Job Billing' })
-                .dialog('open');
+            createDialogbox(id);
+            //$('#dialog')
+            //    .dialog({ title: 'Add Job Billing' })
+            //    .dialog('open');
         });
 
         $('#btnSearch').on('click', function () {
@@ -119,7 +120,45 @@
             });
         });
 
-         $(function () {
+        function createDialogbox(id) {
+
+            if ($("#dialog").length!==0) {
+                $("#dialog").remove();
+            }
+
+            $("<div id=\"dialog\" title=\"edit view\" style=\"overflow: hidden;\"></div>")
+                .appendTo('body')
+                .dialog({
+                dialogClass: "no-close",
+                show: { effect: "blind", duration: 100 },
+              /*  autoOpen: false,*/
+                width: '100%',
+                resizable: false,
+                title: id == 0 ? 'Despatch Receipt' : 'Update Jobwork Despatch',
+                modal: true,
+                draggable: false,
+                cache: false,
+                position: { my: "top", at: "top", of: "header" },
+                //position: ['center', 20],
+                open: function (event, ui) {
+                    resetMessage();
+                    if (id == 0) {
+                         $(this).load("@Url.Action("GetJobBilling")");
+                    } else {
+                        $(this).load("@Url.Action("GetJobBillingBySerialNo", "JobBillings")", { id: id });
+                    }
+                },
+                close: function (event, ui) {
+                    $('#ReferenceDate1').datepicker('destroy');
+                    $("#dialog").dialog('destroy');
+                    $(this).remove();
+                    $("#jqgridtbl").trigger("reloadGrid");
+                }
+            });
+        }
+
+
+         @*$(function () {
              $('#dialog').dialog({
                 autoOpen: false,
                 width: '100%',
@@ -143,7 +182,7 @@
                     $("#jqgridtbl").trigger("reloadGrid");
                 }
             });
-        });
+        });*@
 
     </script>
 }
@@ -202,9 +241,10 @@
                     var rowData = jQuery(this).getRowData(rowId);
                     var srNumber = rowData['SerialNumber'];
                     id = srNumber;
-                    $('#dialog')
-                        .dialog({ title: 'Update Job Bill' })
-                        .dialog('open');
+                    createDialogbox(id);
+                    //$('#dialog')
+                    //    .dialog({ title: 'Update Job Bill' })
+                    //    .dialog('open');
                 },
             }).navGrid('#gqgridpager', { view: false, del: false, add: false, edit: false },
                 {}, // default settings for edit

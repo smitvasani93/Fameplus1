@@ -152,7 +152,16 @@
         $("#ReferenceDate1").on("focusin", function (e) {
             return false; // e.stopPropagation();
         }).datepicker({
-            dateFormat: 'dd-mm-yy'
+          
+            autoOpen: false,
+            showButtonPanel: false,
+            dateFormat: 'dd-mm-yy',
+            onSelect: function () {
+
+            },
+            beforeShow: function () {
+                resetMessage();
+            }
         });
     });
 
@@ -446,11 +455,13 @@
     });
 
     $(document).on("click", ".btn-close-dialog,ui-dialog-titlebar-close", function (e) {
-
+        debugger
         let instance = $('#dialog').dialog('instance');
         if (instance !== undefined) {
-            $("#dialog").empty().dialog("destroy");
+            $("#dialog").dialog("destroy").empty();
         }
+
+       
         /*$('#dialog').dialog('close');*/
         /*$('#dialog').dialog('destroy');*/
     })
