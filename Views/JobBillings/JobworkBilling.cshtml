@@ -129,31 +129,31 @@
             $("<div id=\"dialog\" title=\"edit view\" style=\"overflow: hidden;\"></div>")
                 .appendTo('body')
                 .dialog({
-                dialogClass: "no-close",
-                show: { effect: "blind", duration: 100 },
-              /*  autoOpen: false,*/
-                width: '100%',
-                resizable: false,
-                title: id == 0 ? 'Despatch Receipt' : 'Update Jobwork Despatch',
-                modal: true,
-                draggable: false,
-                cache: false,
-                position: { my: "top", at: "top", of: "header" },
-                //position: ['center', 20],
-                open: function (event, ui) {
-                    resetMessage();
-                    if (id == 0) {
-                         $(this).load("@Url.Action("GetJobBilling")");
-                    } else {
-                        $(this).load("@Url.Action("GetJobBillingBySerialNo", "JobBillings")", { id: id });
-                    }
-                },
-                close: function (event, ui) {
-                    $('#ReferenceDate1').datepicker('destroy');
-                    $("#dialog").dialog('destroy');
-                    $(this).remove();
-                    $("#jqgridtbl").trigger("reloadGrid");
-                }
+                            dialogClass: "no-close",
+                            show: { effect: "blind", duration: 100 },
+                          /*  autoOpen: false,*/
+                            width: '100%',
+                            resizable: false,
+                            title: id == 0 ? 'Despatch Receipt' : 'Update Jobwork Despatch',
+                            modal: true,
+                            draggable: false,
+                            cache: false,
+                            position: { my: "top", at: "top", of: "header" },
+                            //position: ['center', 20],
+                            open: function (event, ui) {
+                                resetMessage();
+                                if (id == 0) {
+                                     $(this).load("@Url.Action("GetJobBilling")");
+                                } else {
+                                    $(this).load("@Url.Action("GetJobBillingBySerialNo", "JobBillings")", { id: id });
+                                }
+                            },
+                            close: function (event, ui) {
+                                $('#ReferenceDate1').datepicker('destroy');
+                                $("#dialog").dialog('destroy');
+                                $(this).remove();
+                                $("#jqgridtbl").trigger("reloadGrid");
+                            }
             });
         }
 
@@ -190,10 +190,10 @@
 @section jQgridScripts{
 
     @*<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
-    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
-    <script src="~/Scripts/jquery.jqGrid.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>*@
+        <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+        <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+        <script src="~/Scripts/jquery.jqGrid.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>*@
 
     <script type="text/javascript">
 

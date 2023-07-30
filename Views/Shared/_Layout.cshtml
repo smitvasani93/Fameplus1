@@ -324,9 +324,14 @@
             if (xhr.status == 401)
                 window.location = '@Url.Action("Login","Account")';
             else if (xhr.status == 403)
-                alert("You have no enough permissions to request this resource.");
+                swal.fire("You have no enough permissions to request this resource.");
         });
 
     </script>
 </body>
 </html>
+<style type="text/css">
+    .swal2-container {
+        z-index: 11000 !important;
+    }
+</style>

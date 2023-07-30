@@ -129,31 +129,31 @@
             $("<div id=\"dialog\" title=\"edit view\" style=\"overflow: hidden;\"></div>")
                 .appendTo('body')
                 .dialog({
-                dialogClass: "no-close",
-                show: { effect: "blind", duration: 100 },
-                autoOpen: true,
-                width: '100%',
-                resizable: false,
-                title: id == 0 ? 'Despatch Receipt' : 'Update Jobwork Despatch',
-                modal: true,
-                draggable: false,
-                cache: false,
-                position: { my: "top", at: "top", of: "header" },
-                //position: ['center', 20],
-                open: function (event, ui) {
-                    resetMessage();
-                    if (id == 0) {
-                      $(this).load("@Url.Action("GetJobworkDespatch")");
-                    } else {
-                        $(this).load("@Url.Action("GetJobDesptachBySerialNo", "JobWorkDespatchs")", { id: id });
-                    }
-                },
-                close: function (event, ui) {
-                    $('#ReferenceDate1').datepicker('destroy');
-                    $(this).dialog('destroy');
-                    $(this).remove();
-                    $("#jqgridtbl").trigger("reloadGrid");
-                }
+                            dialogClass: "no-close",
+                            show: { effect: "blind", duration: 100 },
+                            autoOpen: true,
+                            width: '100%',
+                            resizable: false,
+                            title: id == 0 ? 'Despatch Receipt' : 'Update Jobwork Despatch',
+                            modal: true,
+                            draggable: false,
+                            cache: false,
+                            position: { my: "top", at: "top", of: "header" },
+                            //position: ['center', 20],
+                            open: function (event, ui) {
+                                resetMessage();
+                                if (id == 0) {
+                                  $(this).load("@Url.Action("GetJobworkDespatch")");
+                                } else {
+                                    $(this).load("@Url.Action("GetJobDesptachBySerialNo", "JobWorkDespatchs")", { id: id });
+                                }
+                            },
+                            close: function (event, ui) {
+                                $('#ReferenceDate1').datepicker('destroy');
+                                $(this).dialog('destroy');
+                                $(this).remove();
+                                $("#jqgridtbl").trigger("reloadGrid");
+                            }
             });
         }
       
