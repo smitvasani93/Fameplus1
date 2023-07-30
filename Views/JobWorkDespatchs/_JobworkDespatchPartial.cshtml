@@ -154,6 +154,10 @@
 
     var mode =@(Html.Raw(jsonMode));
 
+    $.ajaxSetup({
+        cache: false
+    });
+
     $(function () {
 
         var data =@(Html.Raw(jsonModel));

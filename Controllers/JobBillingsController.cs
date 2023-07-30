@@ -68,6 +68,7 @@ namespace Transactiondetails.Controllers
             return Json(pendingJobDespatches, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 0)]
         public ActionResult GetJobBillingBySerialNo(int id)
         {
             var jobBillingDataLayer = new JobBillingDataLayer();
@@ -385,6 +386,7 @@ namespace Transactiondetails.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 0)]
         public ActionResult GetJobBilling()
         {
             //var jobDespatchDataLayer = new JobDespatchDataLayer();

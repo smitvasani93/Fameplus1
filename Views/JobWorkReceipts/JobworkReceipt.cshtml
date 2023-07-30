@@ -58,6 +58,7 @@
     </div>
 </section>
 <div id="dialog" title="edit view" style="overflow: hidden;"></div>
+<div id="dialog1" title="edit view" style="overflow: hidden;"></div>
 <script type="text/javascript">
 
 </script>
@@ -74,15 +75,13 @@
             $grid.jqGrid("setGridWidth", newWidth, true);
         });
         */
-
-        var id = 0;
+        $.ajaxSetup({
+            cache: false
+        });
+        /*var id = 0;*/
         $(document).on('click', '#btnAddNew', function () {
-            id = 0;
-            $('#dialog')
-                .dialog({ title: 'Add Jobwork Receipt' })
-                .dialog('open');
-
-            
+           let id = 0;
+             createDialogbox(id)
         });
 
 
@@ -116,7 +115,7 @@
                 showButtonPanel: false,
                 dateFormat: 'dd-mm-yy',
                 onSelect: function () {
-                    
+
                 },
                 beforeShow: function () {
                     resetMessage();
@@ -124,52 +123,71 @@
             });
         });
 
+        function resetMessage() {
 
-         $(function () {
+            if (!$("div[role='alert']").hasClass("hide-element")) {
+                $("div[role='alert']").addClass("hide-element");
+            }
+        }
 
-            $('#dialog').dialog({
-                autoOpen: false,
+        function createDialogbox(id) {
+
+             $('#dialog').dialog({
+                dialogClass: "no-close",
+                show: { effect: "blind", duration: 100 },
+                autoOpen: true,
                 width: '100%',
                 resizable: false,
                 title: 'Add Jobwork Receipt',
                 modal: true,
                 draggable: false,
+                cache:false,
                 position: { my: "top", at: "top", of: "header"},
                 //position: ['center', 20],
-                open: function (event, ui) {
-                    resetMessage();
-                    if (id === 0) {
-                        $(this).load("@Url.Action("GetJobworkRecipt")");
-                    } else {
-                        $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
-                    }
-                },
+                 open: function (event, ui) {
+                     resetMessage();
+                     if (id == 0) {
+                         $(this).load("@Url.Action("GetJobworkRecipt")");
+                     } else {
+                          $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
+                     }
+
+                     //$(ui).find('#ReferenceDate1').datepicker().click(function () {
+                     //    $(this).datepicker('show');
+                     //});
+                 },
                 close: function (event, ui) {
-                    
                     $('#ReferenceDate1').datepicker('destroy');
                 }
-            });
-        });
+             });
 
-        function resetMessage() {
-            
-            if (!$("div[role='alert']").hasClass("hide-element")) {
-                $("div[role='alert']").addClass("hide-element");
-            }
+
+            @*$('#dialog').dialog({
+                        autoOpen: true,
+                        show: { effect: "blind", duration: 100 },
+                        width: '100%',
+                        resizable: false,
+                        title: 'Edit Jobwork Receipt',
+                        modal: true,
+                        draggable: false,
+                        position: { my: "top", at: "top", of: "header"},
+                        //position: ['center', 20],
+                         open: function (event, ui) {
+                             resetMessage();
+                             $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
+                         },
+                        close: function (event, ui) {
+
+                    $('#ReferenceDate1').datepicker('destroy');
+                }
+            });*@
+
         }
     </script>
 }
 
 @section jQgridScripts{
-
-    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
-    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
-    <script src="~/Scripts/jquery.jqGrid.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-
     <script type="text/javascript">
-
         $(function () {
             $jqgrid = $("#jqgridtbl").jqGrid({
                 url: "@Url.Action("JobworkReceiptDataTable", "JobWorkReceipts")",
@@ -204,10 +222,9 @@
                 ondblClickRow: function (rowId) {
                     var rowData = jQuery(this).getRowData(rowId);
                     var srNumber = rowData['SerialNumber'];
-                    id = srNumber;
-                    $('#dialog')
-                        .dialog({ title: 'Edit Jobwork Receipt' })
-                        .dialog('open');
+                    let id = srNumber;
+                    createDialogbox(id);
+
                 }
             }).navGrid('#gqgridpager', { view: false, del: false, add: false, edit: false },
                 {}, // default settings for edit
@@ -217,13 +234,8 @@
                 {} /* view parameters*/
             )
         });
-
     </script>
 }
-<script type="text/javascript">
-
-
-</script>
 
 <style type="text/css">
 
@@ -243,10 +255,20 @@
         width: 100%;
         overflow: auto;
     }
+
     .hide-element {
-        display:none !important;
+        display: none !important;
     }
+
     .show-element {
         display: block !important;
+    }
+
+    .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+        float: none !important;
+    }
+
+    .pull-left {
+        float: left !important;
     }
 </style>

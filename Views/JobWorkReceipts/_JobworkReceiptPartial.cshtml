@@ -23,7 +23,9 @@
                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                 </div>
                 <div class="col-sm-5">
-                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { @id = "ReferenceDate1", @class = "form-control" })
+                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { tabindx = -1, @id = "ReferenceDate1", @class = "form-control" })
+
+
                 </div>
                 <div class="col-sm-2 mr-minus">
                     <label for="inputEmail3" class="col-form-label">Receipt No</label>
@@ -140,20 +142,17 @@
 <script type="text/javascript">
 
     var mode =@(Html.Raw(jsonMode));
-    var processlist=@(Html.Raw(jsonProcessList));
+    var processlist =@(Html.Raw(jsonProcessList));
+
+    $.ajaxSetup({
+        cache: false
+    });
 
     $(function () {
-
         $("#ReferenceDate1").on("focusin", function (e) {
-            return false; // or e.stopPropagation();
+            return false; // e.stopPropagation();
         }).datepicker({
-            /*showOn: "button",*/
-            autoOpen:false,
-            showButtonPanel: false,
-            dateFormat: 'dd-mm-yy',
-            onSelect: function () {
-
-            }
+            dateFormat: 'dd-mm-yy'
         });
     });
 
@@ -342,7 +341,7 @@
     }
 
     $("#receipt").on("change", "tr select[name*=\"ProcessCode\"]", function (e) {
-        
+
         if ($(this).val() === "") {
             return;
         }
@@ -356,7 +355,7 @@
             $(this).closest("tr").find("input[name*=\"ItemCarats\"]").rules("add", { min: 1, messages: { min: "" } });
         }
         if (list[0].BillingType === "P") {
-            
+
             $(this).closest("tr").find("input[name*=\"ItemLines\"]").rules("add", { min: 1, messages: { min: "" } });
         }
 
@@ -423,7 +422,7 @@
                             $($actualrow).find("input[name*=\"ItemLines\"]").rules("add", { min: 1, messages: { min: "" } });
                         }
                     }
-                    
+
                 });
             });
         }
@@ -446,8 +445,14 @@
         });
     });
 
-    $(document).on("click", ".btn-close-dialog", function (e) {
-        $('#dialog').dialog('close');
+    $(document).on("click", ".btn-close-dialog,ui-dialog-titlebar-close", function (e) {
+
+        let instance = $('#dialog').dialog('instance');
+        if (instance !== undefined) {
+            $("#dialog").empty().dialog("destroy");
+        }
+        /*$('#dialog').dialog('close');*/
+        /*$('#dialog').dialog('destroy');*/
     })
 
     $("#btnDelete").click(function (e) {
@@ -473,6 +478,7 @@
     });
 
 </script>
+
 <style>
 
     #JobworkReceiptPop .ui-dialog .ui-dialog-buttonpane {

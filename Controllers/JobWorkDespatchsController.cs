@@ -60,6 +60,7 @@ namespace Transactiondetails.Controllers
             return Json(pendingJobReciepts, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 0)]
         public ActionResult GetJobDesptachBySerialNo(int id)
         {
             var jobDespatchDataLayer = new JobDespatchDataLayer();
@@ -128,6 +129,7 @@ namespace Transactiondetails.Controllers
             return View(Enumerable.Empty<JobDespatchViewModel>());
         }
 
+        [OutputCache(Duration = 0)]
         public ActionResult JobworkReceiptDtTable()
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
@@ -381,6 +383,7 @@ namespace Transactiondetails.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
         }
 
+        [OutputCache(Duration = 0)]
         public ActionResult GetJobworkDespatch()
         {
             var jobDespatchDataLayer = new JobDespatchDataLayer();

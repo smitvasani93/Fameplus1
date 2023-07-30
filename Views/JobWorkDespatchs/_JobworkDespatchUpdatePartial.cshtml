@@ -147,6 +147,10 @@
 
     var mode =@(Html.Raw(jsonMode));
 
+    $.ajaxSetup({
+        cache: false
+    });
+
     jQuery(document).ready(function () {
 
         jQuery("#JobworkReceiptPop").validate({

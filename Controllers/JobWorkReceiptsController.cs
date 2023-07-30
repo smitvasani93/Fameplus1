@@ -14,16 +14,13 @@ using Transactiondetails.ViewModels;
 
 namespace Transactiondetails.Controllers
 {
-
-    public class JobReciptJq
-    {
-
-        public string AccountCode { get; set; }
-        public string AccountName { get; set; }
-        public DateTime? ReferenceDate { get; set; }
-        public int? SerialNumber { get; set; }
-
-    }
+    //public class JobReciptJq
+    //{
+    //    public string AccountCode { get; set; }
+    //    public string AccountName { get; set; }
+    //    public DateTime? ReferenceDate { get; set; }
+    //    public int? SerialNumber { get; set; }
+    //}
 
     [SessionExpireFilter]
     [Authorize]
@@ -254,6 +251,7 @@ namespace Transactiondetails.Controllers
             return View();
         }
 
+        [OutputCache(Duration = 0)]
         public ActionResult GetJobworkRecipt()
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();
@@ -308,6 +306,7 @@ namespace Transactiondetails.Controllers
             }
         }
 
+        [OutputCache(Duration = 0)]
         public ActionResult GetJobworkReciptBySerialNo(int id)
         {
             var jobReceiptDataLayer = new JobReceiptDataLayer();

@@ -251,6 +251,10 @@
     var mode =@(Html.Raw(jsonMode));
     let billAmt = 0, cashAmt = 0, taxAmt = 0, netAmt = 0, finalAmt = 0;
 
+    $.ajaxSetup({
+        cache: false
+    });
+
     function AjaxFormSuccess(e) {
         if (e.error === 'false') {
             $('#dialog').dialog('close');
