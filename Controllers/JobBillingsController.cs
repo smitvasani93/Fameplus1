@@ -61,7 +61,7 @@ namespace Transactiondetails.Controllers
                                          DiscountRate = 0,
                                          Taxes = x.Taxes,
                                          NetAmount = x.NetAmount,
-                                         PaymentCB ="B"
+                                         PaymentCB = "B"
                                      });
 
 
@@ -95,7 +95,7 @@ namespace Transactiondetails.Controllers
                 jobBillingViewModel.NetAmount = jobBill.JobBillingMast.PostingAmount3;
                 jobBillingViewModel.RoundedAmount = jobBill.JobBillingMast.RoundedAmount;
                 jobBillingViewModel.FinalAmount = jobBill.JobBillingMast.FinalAmount;
-                 
+
                 jobBillingViewModel.JobBillingDetails = jobBill.JobBillingDets.Select(x => new JobBillingDetailViewModel
                 {
                     ReferenceDate = x.ReferenceDate,
@@ -106,19 +106,22 @@ namespace Transactiondetails.Controllers
                     Remarks = x.Remarks,
                     ProcessCode = x.ProcessCode,
                     JDSerialNumber = x.JDSerialNumber,
+                    JDReferenceDate = x.JDReferenceDate,
                     JDItemSerialNumber = x.JDItemSerialNumber,
                     PaymentCB = x.BankCashFlag,
                     PacketNumber = x.PacketNumber,
                     Taxes = x.Addless1,
-                    BillingQuantity = x.BillingQuantity,
                     NoChargeQuantity = x.NoChargeQuantity,
                     TotalAmount = x.TotalAmount,
                     NetAmount = x.NetAmount,
                     BillingRate = x.BillingRate,
                     BillingAmount = x.BillingAmount,
+                    JDBillingQuantity = x.BillingQuantity,
                     DiscountPerAmt = x.DiscountPerAmt,
                     DiscountRate = x.DiscountRate,
-                    DiscountAmount =x.DiscountAmount,
+                    DiscountAmount = x.DiscountAmount,
+                    BillingType =x.BillingType,
+                    BillingUnit = x.BillingType
                 }).ToList();
 
                 var accounts = accountDataLayer.GetBillAccounts(userData.Company, userData.Company, userData.FYear);
@@ -328,7 +331,7 @@ namespace Transactiondetails.Controllers
                 jobBillingMaster.RoundedAmount = model.RoundedAmount;
                 jobBillingMaster.FinalAmount = model.FinalAmount;
                 jobBillingMaster.SaleAccountCode = model.SalesAccountCode;
-                jobBillingMaster.CreditDays = (short) model.CreditDays;
+                jobBillingMaster.CreditDays = (short)model.CreditDays;
                 var jobBill = new JobBill();
                 jobBill.JobBillingMaster = jobBillingMaster;
                 jobBill.JobBillingDetails = model.JobBillingDetails.Select(sel => new JobBillingDetail
@@ -337,10 +340,10 @@ namespace Transactiondetails.Controllers
                     ItemSerialNumber = sel.ItemSerialNumber,
                     JDSerialNumber = sel.JDSerialNumber,
                     JDItemSerialNumber = sel.JDItemSerialNumber,
-                    BillingType =sel.BillingType,
+                    BillingType = sel.BillingUnit,
                     BankCashFlag = sel.PaymentCB,
-                    BillingQuantity = sel.BillingQuantity,
-                    BillingAmount   = sel.BillingAmount,
+                    BillingQuantity = sel.JDBillingQuantity,
+                    BillingAmount = sel.BillingAmount,
                     BillingRate = sel.BillingRate,
                     NoChargeQuantity = sel.NoChargeQuantity,
                     DiscountPerAmt = sel.DiscountPerAmt,

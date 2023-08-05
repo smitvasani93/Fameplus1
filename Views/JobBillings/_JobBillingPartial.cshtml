@@ -127,7 +127,7 @@
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].NoChargeQuantity, new { @required = true, @class = "form-control allow_decimal BalItemCarats" })
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingUnit, new { @required = true, @readonly = true, @class = "form-control allow_decimal BalItemLines" })
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingUnit, new { @required = true, @readonly = true, @class = "form-control" })
                             </td>
                             <td>
                                 @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingRate, new { @class = "form-control numberonly", @readonly = true })

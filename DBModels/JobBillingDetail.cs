@@ -6,6 +6,8 @@ namespace Transactiondetails.DBModels
         public int SerialNumber { get; set; }
         public Int16 ItemSerialNumber { get; set; }
         public int JDSerialNumber { get; set; }
+        public DateTime JDReferenceDate { get; set; }
+
         public Int16 JDItemSerialNumber { get; set; }
         public Int16 ProcessCode { get; set; }
         public string ProcessName { get; set; }
