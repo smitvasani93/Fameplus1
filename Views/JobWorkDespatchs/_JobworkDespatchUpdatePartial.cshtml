@@ -133,6 +133,7 @@
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
                 <div class="ui-dialog-buttonset ps-sm-5">
                     <button type="submit" class="btn btn-secondary">Submit</button>
+                    <button type="button" id="btnDelete" class="btn btn-danger" data-serial-no="@Model.SerialNumber">Delete</button>
                     <button type="button" class="btn btn-default btn-close-dialog ">Close</button>
                 </div>
             </div>
@@ -233,7 +234,7 @@
         if ($(this).val() === "") {
             return;
         }
-        
+
         let bQty = parseInt($(this).val());
         let processcode = $(this).closest("tr").find("input[name*='ProcessCode']").val();
         let $rate = $(this).closest("tr").find("input[name*='Rate']");
@@ -253,7 +254,7 @@
     });
 
     function AjaxFormSuccess(e) {
-        
+
         if (e.error === 'false') {
             $('#dialog').dialog('close');
             $("div[role='alert']").removeClass("hide-element");
@@ -284,6 +285,45 @@
 
         }
     }
+
+    $("#btnDelete").click(function (e) {
+
+        let serialNo = $(this).data("serial-no");
+
+        Swal.fire({
+            title: "<h4>Are you sure you want to delete <br> Despatch No: " + serialNo + " ?</h4>",
+            showDenyButton: true,
+            //showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                deleteJobDespatch(serialNo)
+            } else if (result.isDenied) {
+                // Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+
+    });
+
+    function deleteJobDespatch(serialNo)
+    {
+         $.ajax({
+            url: "@Url.Action("DeleteJobDespatch", "JobWorkDespatchs")",
+            type: "POST",
+              data: { serialno: serialNo },
+            dataType: 'json',
+              success: function (data) {
+                  if (data.message ==="Success") {
+                      $('#dialog').dialog('close');
+                      $('#jqgridtbl').trigger('reloadGrid');
+                  }
+            }
+        });
+    }
+
+
 
     Array.prototype.removeByValue = function (val) {
         for (var i = 0; i < this.length; i++) {
