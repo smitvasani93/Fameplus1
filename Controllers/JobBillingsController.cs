@@ -448,50 +448,15 @@ namespace Transactiondetails.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult GetRateByBillingQty(int BillingQty, short ProcessCode)
-        {
-            var jobDespatchDataLayer = new JobDespatchDataLayer();
-            var dbutility = new DBUtility();
-            var accountDataLayer = new AccountDataLayer();
-            decimal rate = 0;
-
-            try
-            {
-                var processdetails = dbutility.GetProcessDetails().Where(x => x.ProcessCode == ProcessCode).ToList();
-
-                if (processdetails != null)
-                {
-
-                    var billingRate = (from process in processdetails
-                                       where process.RangeFrom <= BillingQty && process.RangeTo >= BillingQty
-                                       select process.BillingRate
-                                 ).FirstOrDefault();
-
-
-
-                    rate = billingRate;
-                }
-
-                return Json(new { Rate = rate, message = "Success" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var message = new { message = "Exception occured", error = "True" };
-                return Json(message, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
         [HttpPost]
         public ActionResult DeleteBilling(string serialNo)
         {
-            var jobDespatchDataLayer = new JobDespatchDataLayer();
+            var jobBillingDataLayer = new JobBillingDataLayer();
             var message = new { message = "Failed", error = "True" };
             try
             {
                 var userData = (UserData)Session["UserData"];
-                var databaseResponse = jobDespatchDataLayer.DeleteJobDespatch(userData.Company, userData.FYear, Convert.ToInt32(serialNo));
+                var databaseResponse = jobBillingDataLayer.DeleteJobBilling(userData.Company, userData.FYear, Convert.ToInt32(serialNo));
 
                 if (databaseResponse != null)
                 {
