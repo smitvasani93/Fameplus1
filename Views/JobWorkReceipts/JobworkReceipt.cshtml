@@ -138,30 +138,30 @@
             $("<div id=\"dialog\" title=\"edit view\" style=\"overflow: hidden;\"></div>")
                 .appendTo('body')
                 .dialog({
-                dialogClass: "no-close",
-                show: { effect: "blind", duration: 100 },
-                autoOpen: true,
-                width: '100%',
-                resizable: false,
-                 title: id == 0 ? 'Add Jobwork Receipt' :'Edit Jobwork Receipt',
-                modal: true,
-                draggable: false,
-                cache:false,
-                position: { my: "top", at: "top", of: "header"},
-                //position: ['center', 20],
-                 open: function (event, ui) {
-                     resetMessage();
-                     if (id == 0) {
-                         $(this).load("@Url.Action("GetJobworkRecipt")");
-                     } else {
-                          $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
-                     }
-                 },
-                close: function (event, ui) {
-                    $('#ReferenceDate1').datepicker('destroy');
-                    $(this).dialog('destroy');
-                    $(this).remove();
-                }
+                            dialogClass: "no-close",
+                            show: { effect: "blind", duration: 100 },
+                            autoOpen: true,
+                            width: '100%',
+                            resizable: false,
+                             title: id == 0 ? 'Add Jobwork Receipt' :'Edit Jobwork Receipt',
+                            modal: true,
+                            draggable: false,
+                            cache:false,
+                            position: { my: "top", at: "top", of: "header"},
+                            //position: ['center', 20],
+                             open: function (event, ui) {
+                                 resetMessage();
+                                 if (id == 0) {
+                                     $(this).load("@Url.Action("GetJobworkRecipt")");
+                                 } else {
+                                      $(this).load("@Url.Action("GetJobworkReciptBySerialNo")", { id: id });
+                                 }
+                             },
+                            close: function (event, ui) {
+                                $('#ReferenceDate1').datepicker('destroy');
+                                $(this).dialog('destroy');
+                                $(this).remove();
+                            }
              });
 
 

@@ -150,11 +150,14 @@
 
     $(function () {
         $("#ReferenceDate1").on("focusin", function (e) {
-            return false; // e.stopPropagation();
+            return e.stopPropagation();
         }).datepicker({
-          
-            autoOpen: false,
+            showOn: "button",
+            buttonImage: "https://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+            buttonImageOnly: true,
+            autoOpen: true,
             showButtonPanel: false,
+            constrainInput: true,
             dateFormat: 'dd-mm-yy',
             onSelect: function () {
 
@@ -344,8 +347,20 @@
             }
             $("div[role=\"alert\"]").append(msg);
             $("#jqgridtbl").trigger("reloadGrid");
+            Swal.fire({
+                /*position: 'top-end',*/
+                icon: 'success',
+                title: msg,
+                showConfirmButton: false,
+                timer: 1500
+            })
         } else {
-
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                //footer: '<a href="">Why do I have this issue?</a>'
+            })
         }
     }
 
@@ -455,13 +470,12 @@
     });
 
     $(document).on("click", ".btn-close-dialog,ui-dialog-titlebar-close", function (e) {
-        debugger
+
         let instance = $('#dialog').dialog('instance');
         if (instance !== undefined) {
             $("#dialog").dialog("destroy").empty();
         }
 
-       
         /*$('#dialog').dialog('close');*/
         /*$('#dialog').dialog('destroy');*/
     })
@@ -469,11 +483,27 @@
     $("#btnDelete").click(function (e) {
 
         let serialNo = $(this).data("serial-no");
-        if (confirm("Are you sure you want to delete Recipet No:" + serialNo + " ?") == false) {
-            return false;
-        }
 
-          $.ajax({
+        Swal.fire({
+            title: "Are you sure you want to delete Recipet No:" + serialNo + " ?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                deleteReceipt(serialNo)
+            } else if (result.isDenied) {
+               // Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+
+    });
+
+    function deleteReceipt(serialNo) {
+
+         $.ajax({
             url: "@Url.Action("deleteReceipt", "jobworkreceipts")",
             type: "POST",
               data: { serialno: serialNo },
@@ -486,8 +516,7 @@
             }
         });
 
-    });
-
+    }
 </script>
 
 <style>
