@@ -262,3 +262,7 @@ ui-icon-triangle-1-n {
 .ui-jqgrid .ui-jqgrid-bdiv {
     overflow: inherit !important;
 }
+
+.swal2-styled.swal2-confirm {
+    background-color: #0a58cae0 !important;
+}

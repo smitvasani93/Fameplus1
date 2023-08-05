@@ -350,17 +350,17 @@
             Swal.fire({
                 /*position: 'top-end',*/
                 icon: 'success',
-                title: msg,
+                title: "<h2 style='color:#0f5132;'>" + msg +"</h2>",
                 showConfirmButton: false,
                 timer: 1500
-            })
+            });
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Something went wrong!',
                 //footer: '<a href="">Why do I have this issue?</a>'
-            })
+            });
         }
     }
 
@@ -485,11 +485,11 @@
         let serialNo = $(this).data("serial-no");
 
         Swal.fire({
-            title: "Are you sure you want to delete Recipet No:" + serialNo + " ?",
+            title: "<h4>Are you sure you want to delete <br> Recipet No: " + serialNo + " ?</h4>",
             showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Save',
-            denyButtonText: `Don't save`,
+            //showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {

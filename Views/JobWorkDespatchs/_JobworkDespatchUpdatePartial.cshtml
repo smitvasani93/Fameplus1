@@ -266,7 +266,21 @@
             }
             $("div[role=\"alert\"]").append(msg);
             $("#jqgridtbl").trigger("reloadGrid");
+
+            Swal.fire({
+                /*position: 'top-end',*/
+                icon: 'success',
+                title: "<h2 style='color:#0f5132;'>" + msg + "</h2>",
+                showConfirmButton: false,
+                timer: 1500
+            });
         } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                //footer: '<a href="">Why do I have this issue?</a>'
+            });
 
         }
     }
