@@ -27,18 +27,16 @@
     <link href="@Url.Content("~/assets/vendor/remixicon/remixicon.css")" rel="stylesheet">
     <link href="@Url.Content("~/assets/vendor/simple-datatables/style.css")" rel="stylesheet">
 
-    @*<link href="~/assets/css/Responsive-jqGrid.css" rel="stylesheet" />*@
     @*Template Main CSS File*@
     <link href="@Url.Content("~/assets/css/style.css")" rel="stylesheet">
-    <link href="@Url.Content("~/assets/css/app.css?v=1.1.0")" rel="stylesheet" />
-
-    <link href="~/Content/jquery-ui-themes-1.13.2/jquery-ui.css" rel="stylesheet" />
-    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
-    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/css/app.css?v=1.1.1")" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/Date/jquery.datetimepicker.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery-ui-themes-1.13.2/jquery-ui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/jquery.jqGrid/ui.jqgrid.css")" rel="stylesheet" />
     <!--Test datatable -->
     @*<script src="@Url.Content("~/Scripts/jquery-3.6.4.min.js")"></script>*@
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jq/jquery")
+  
 </head>
 
 <body>
@@ -60,69 +58,69 @@
         {
             var userdata = (UserData)Session["UserData"];
 
-        <nav class="header-nav ms-auto">
-            <ul class="d-flex align-items-center">
+            <nav class="header-nav ms-auto">
+                <ul class="d-flex align-items-center">
 
-                <li class="nav-item dropdown pe-3">
+                    <li class="nav-item dropdown pe-3">
 
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="~/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">@userdata.UserName</span>
-                    </a><!-- End Profile Iamge Icon -->
+                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                            <img src="~/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                            <span class="d-none d-md-block dropdown-toggle ps-2">@userdata.UserName</span>
+                        </a><!-- End Profile Iamge Icon -->
 
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>@userdata.UserName</h6>
-                            <span>@userdata.CompanyName</span>
-                            <span><br>@userdata.BranchName</span>
-                            <span><br>@userdata.FYearName</span>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        @*
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                    <i class="bi bi-gear"></i>
-                                    <span>Account Settings</span>
-                                </a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                            <li class="dropdown-header">
+                                <h6>@userdata.UserName</h6>
+                                <span>@userdata.CompanyName</span>
+                                <span><br>@userdata.BranchName</span>
+                                <span><br>@userdata.FYearName</span>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
 
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                                    <i class="bi bi-question-circle"></i>
-                                    <span>Need Help?</span>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="bi bi-person"></i>
+                                    <span>My Profile</span>
                                 </a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
-                            </li>*@
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="@Url.Action("Logout","Account")">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
-                            </a>
-                        </li>
+                            </li>
 
-                    </ul><!-- End Profile Dropdown Items -->
-                </li><!-- End Profile Nav -->
+                            @*
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                                        <i class="bi bi-gear"></i>
+                                        <span>Account Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
 
-            </ul>
-        </nav>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                                        <i class="bi bi-question-circle"></i>
+                                        <span>Need Help?</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>*@
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="@Url.Action("Logout","Account")">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </li>
+
+                        </ul><!-- End Profile Dropdown Items -->
+                    </li><!-- End Profile Nav -->
+
+                </ul>
+            </nav>
         }
         <!-- End Icons Navigation -->
     </header>
@@ -261,9 +259,10 @@
         <!-- End Page Title -->
         @RenderBody()
     </main>
-    @*<script src="~/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-        <script src="~/assets/js/bootstrap.bundle.min.js"></script>*@
-    @*<script src="@Url.Content("~/Scripts/dist/jquery.validate.js")"></script>*@
+   
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jq/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     <script src="@Url.Content("~/assets/vendor/apexcharts/apexcharts.min.js")"></script>
     <script src="@Url.Content("~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
     <script src="@Url.Content("~/assets/vendor/chart.js/chart.umd.js")"></script>
@@ -276,14 +275,11 @@
     <!-- Template Main JS File -->
     <script src="@Url.Content("~/assets/js/main1.js")"></script>
     <script src="@Url.Content("~/Scripts/sweetalert2/sweetalert2.all.min.js")"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/bootstrap-datepicker.js"></script>
-
-    @Scripts.Render("~/bundles/jq/jqueryval")
-    @*@Scripts.Render("~/bundles/bootstrap")*@
+    <script src="@Url.Content("~/Scripts/Date/jquery.datetimepicker.js")"></script>
     @RenderSection("scripts", required: false)
-    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
-    <script src="~/Scripts/jquery.jqGrid.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="@Url.Content("~/Scripts/i18n/grid.locale-en.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.jqGrid.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
     @RenderSection("jQgridScripts", required: false)
     <script type="text/javascript">
 

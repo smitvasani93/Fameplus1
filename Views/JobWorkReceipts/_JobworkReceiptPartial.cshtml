@@ -22,10 +22,8 @@
                 <div class="col-sm-2">
                     <label for="inputEmail3" class="col-form-label">Receipt Date</label>
                 </div>
-                <div class="col-sm-5">
-                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { tabindx = -1, @id = "ReferenceDate1", @class = "form-control" })
-
-
+                <div class="col-sm-5 datepicker-item">
+                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { tabindx = -1, @id = "ReferenceDate1", @class = "form-control-datepicker" })
                 </div>
                 <div class="col-sm-2 mr-minus">
                     <label for="inputEmail3" class="col-form-label">Receipt No</label>
@@ -153,7 +151,7 @@
             return e.stopPropagation();
         }).datepicker({
             showOn: "button",
-            buttonImage: "https://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+            buttonImage: "https://media.geeksforgeeks.org/wp-content/uploads/20210314172651/cal.png",
             buttonImageOnly: true,
             autoOpen: true,
             showButtonPanel: false,

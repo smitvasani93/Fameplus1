@@ -2828,6 +2828,8 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.js" />
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\swf\flashExport.swf" />
+    <Content Include="Scripts\Date\jquery.datetimepicker.css" />
+    <Content Include="Scripts\Date\jquery.datetimepicker.js" />
     <Content Include="Scripts\dist\additional-methods.js" />
     <Content Include="Scripts\dist\additional-methods.min.js" />
     <Content Include="Scripts\dist\jquery.validate.js" />
