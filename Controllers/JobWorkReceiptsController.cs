@@ -82,7 +82,7 @@ namespace Transactiondetails.Controllers
                 int pageSize = rows;
 
                 var userData = (UserData)Session["UserData"];
-                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
+                var jobReceiept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Branch, userData.FYear);
                 var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobReceiept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;

@@ -27,6 +27,8 @@ namespace Transactiondetails.Controllers
             {
                 if (userName.ToUpper().Trim() == "STAR" && password.ToUpper().Trim() == "TARA")
                 {
+                    FormsAuthentication.SetAuthCookie(userName, rememberme);
+
                     Session["UserData"] = new UserData { UserName = userName, UserId = 999 };
                     status.Success = true;
                     status.TargetURL = FormsAuthentication.

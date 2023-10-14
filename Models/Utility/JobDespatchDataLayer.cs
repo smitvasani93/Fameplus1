@@ -79,8 +79,9 @@ namespace Transactiondetails.Models.Utility
         {
              using (CompanyDBContext db = new CompanyDBContext(companyCode))
             {
+                var pSerialNumber = new SqlParameter("@SerialNumber", serialNo);
                 //Call Stored Procedure to dump the xml to database
-                return db.Database.SqlQuery<DatabaseResponse>("exec SpDeleteJobDespatch @SerialNumber", serialNo).FirstOrDefault();
+                return db.Database.SqlQuery<DatabaseResponse>("exec SpDeleteJobDespatch @SerialNumber", pSerialNumber).FirstOrDefault();
             }
         }
     }

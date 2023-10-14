@@ -479,7 +479,7 @@ namespace Transactiondetails.Controllers
         }
 
         [HttpPost]
-        public ActionResult deleteDespatch(string serialNo)
+        public ActionResult DeleteJobDespatch(string serialNo)
         {
             var jobDespatchDataLayer = new JobDespatchDataLayer();
             var message = new { message = "Failed", error = "True" };
