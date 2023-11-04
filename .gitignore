@@ -1,6 +1,6 @@
-**/.vs
-**/bin
-**/obj
-**/packages/**
-*.pdb
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
 
+/packages
+/.vs/Transactiondetails
