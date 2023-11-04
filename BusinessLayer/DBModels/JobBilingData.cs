@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Transactiondetails.DBModels
+namespace BusinessLayer.DBModels
 {
     public class JobRecieptData
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Transactiondetails.DBModels
+namespace BusinessLayer.DBModels
 {
     public class ProcessMaster
     {

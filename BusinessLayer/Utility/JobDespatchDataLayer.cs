@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using Transactiondetails.DBModels;
+using BusinessLayer.DBModels;
 
-namespace Transactiondetails.Models.Utility
+namespace BusinessLayer.Models.Utility
 {
     public class JobDespatchDataLayer
     {

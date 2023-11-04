@@ -2,9 +2,10 @@
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using Transactiondetails.DBModels;
+using BusinessLayer.DBModels;
+using Transactiondetails.Models.Utility;
 
-namespace Transactiondetails.Models.Utility
+namespace BusinessLayer.Models.Utility
 {
     public class DBUtility
     {

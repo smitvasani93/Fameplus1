@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 
-namespace Transactiondetails.Models
+namespace BusinessLayer.Models
 {
     public class Filters
     {

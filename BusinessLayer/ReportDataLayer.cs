@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using Transactiondetails.Models.Utility;
+using BusinessLayer.Models.Utility;
 public class ReportDataLayer
 {
     public DataTable GetJobBillingMasPrint(int serailNumber, string companyCode, string branchCode, string FYear)

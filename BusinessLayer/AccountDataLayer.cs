@@ -2,8 +2,8 @@
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using Transactiondetails.DBModels;
-using Transactiondetails.Models.Utility;
+using BusinessLayer.DBModels;
+using BusinessLayer.Models.Utility;
 
 public class AccountDataLayer
 {

@@ -1,4 +1,4 @@
-﻿namespace Transactiondetails.Models
+﻿namespace BusinessLayer.Models
 {
     public class DatabaseResponse
     {

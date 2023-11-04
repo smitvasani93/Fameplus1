@@ -53,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountDataLayer.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="DatabaseResponse.cs" />
     <Compile Include="DBModels\AccountMaster.cs" />
     <Compile Include="DBModels\Branch.cs" />

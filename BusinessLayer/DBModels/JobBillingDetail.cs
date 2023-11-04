@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Transactiondetails.DBModels
+namespace BusinessLayer.DBModels
 {
     public class JobBillingDetail
     {

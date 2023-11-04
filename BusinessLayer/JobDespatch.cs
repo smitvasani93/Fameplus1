@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Transactiondetails.DBModels;
+using BusinessLayer.DBModels;
 
 public class JobDespatch
 {

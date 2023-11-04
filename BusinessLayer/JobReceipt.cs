@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Transactiondetails.DBModels;
+using BusinessLayer.DBModels;
 
-namespace Transactiondetails.Models
+namespace BusinessLayer.Models
 {
     public class JobReceipt
     {

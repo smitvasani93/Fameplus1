@@ -2,9 +2,9 @@
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using Transactiondetails.DBModels;
+using BusinessLayer.DBModels;
 
-namespace Transactiondetails.Models.Utility
+namespace BusinessLayer.Models.Utility
 {
     public class JobReceiptDataLayer
     {

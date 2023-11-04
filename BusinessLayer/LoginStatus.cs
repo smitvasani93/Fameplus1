@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Transactiondetails.Models
+namespace BusinessLayer.Models
 {
     public class LoginStatus
     {

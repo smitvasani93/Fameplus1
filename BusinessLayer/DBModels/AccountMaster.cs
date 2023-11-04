@@ -1,4 +1,4 @@
-﻿namespace Transactiondetails.DBModels
+﻿namespace BusinessLayer.DBModels
 {
     public class AccountMaster
     {

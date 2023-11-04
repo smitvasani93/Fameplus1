@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 
-namespace Transactiondetails.Models.Utility
+namespace BusinessLayer.Models.Utility
 {
     public class CompanyDBContext : DbContext
     {
