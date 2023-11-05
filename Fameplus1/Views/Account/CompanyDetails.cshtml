@@ -1,0 +1,193 @@
+﻿@model Transactiondetails.ViewModels.CompanyViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="screen">
+    <div class="screen__content">
+        @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+
+        <label for="fname">Company Name</label>
+
+        @Html.DropDownListFor(model => model.Company, Model.Companys.Select(option => new SelectListItem
+        {
+           Text = (option == null ? "None" : option.CompanyName),
+           Value = option.CompanyCode.ToString(),
+           //Selected = (Model != null) && (option.CompanyCode == Model.CompanyCode)
+        }), "Select Company", new { @class = "form-control mb-3", @onchange = "FillFYBranch()" })
+
+        <label for="FYear">Financial Year</label>
+
+        @Html.DropDownListFor(m => m.FYear, new SelectList(Enumerable.Empty<SelectListItem>(), "FinancialYearCode", "YearDescription"), "Select Fin. Year", new { @class = "form-control mb-3" })
+
+        <label for="Branch">Branch</label>
+
+        @Html.DropDownListFor(m => m.Branch,
+            new SelectList(Enumerable.Empty<SelectListItem>(), "BranchCode", "BranchShortName"),
+            "Select Branch",
+            new { @class = "form-control mb-3" })
+
+        @Html.HiddenFor(x => x.CompanyName)
+        @Html.HiddenFor(x => x.FYearName)
+        @Html.HiddenFor(x => x.BranchName)
+
+        <button type="submit" id="submit" class="btn btn-primary" style="margin-top:10px!important;"> Submit </button>
+
+            }
+    </div>
+</div>
+
+<link href="@Url.Content("~/assets/css/sweetalert2.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery-3.6.4.min.js")"></script>
+<script src="@Url.Content("~/Scripts/sweetalert2/sweetalert2.all.min.js")"></script>
+<script type="text/javascript">
+
+
+    function FillFYBranch() {
+        var companyCode = $('#Company').val();
+
+        $.ajax({
+            url: '/Account/GetFYear',
+            type: "GET",
+            dataType: "JSON",
+            data: { CompanyCode: companyCode },
+            success: function (fyears) {
+                //$("#FYear").html(""); // clear before appending new list
+                $.each(fyears, function (i, fyear) {
+                    $("#FYear").append(
+                        $('<option></option>').val(fyear.FinancialYearCode).html(fyear.YearDescription));
+                });
+            }
+        });
+
+        $.ajax({
+            url: '/Account/GetBranch',
+            type: "GET",
+            dataType: "JSON",
+            data: { CompanyCode: companyCode },
+            success: function (branches) {
+                //$("#Branch").html(""); // clear before appending new list
+                $.each(branches, function (i, branch) {
+                    $("#Branch").append(
+                        $('<option></option>').val(branch.BranchCode).html(branch.BranchShortName));
+                });
+            }
+        });
+    }
+
+    $("#submit").click(function () {
+        /*Swal.fire('Any fool can use a computer')*/
+        
+        if ($("#Company").val() == "") {
+
+            /*alert("Please select Company");*/
+            Swal.fire({
+                icon: 'error',
+                /*title: 'Oops...',*/
+                text: 'Please select Company',
+            });
+
+            $("#Company").focus();
+            return false;
+        }
+
+
+        if ($("#FYear").val() == "") {
+
+            //alert("Please select Fin. Year");
+            Swal.fire({
+                icon: 'error',
+                /*title: 'Oops...',*/
+                text: 'Please select Fin. Year',
+            });
+            $("#FYear").focus();
+            return false;
+        }
+
+        if ($("#Branch").val() == "") {
+
+            /*alert("Please select Branch");*/
+            Swal.fire({
+                icon: 'error',
+                /*title: 'Oops...',*/
+                text: 'Please select Branch',
+            });
+            $("#Branch").focus();
+            return false;
+        }
+
+        $("#CompanyName").val($("#Company option:selected").text());
+        $("#BranchName").val($("#Branch option:selected").text());
+        $("#FYearName").val($("#FYear option:selected").text());
+
+        //return false;
+    });
+</script>
+
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+<!-- Vendor CSS Files -->
+<link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Template Main CSS File -->
+<link href="~/assets/css/style.css" rel="stylesheet">
+<style type="text/css">
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Raleway, sans-serif;
+    }
+
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    .screen {
+        position: relative;
+        width: 400px;
+        box-shadow: 0px 0px 24px #5C5696;
+    }
+
+    .screen__content {
+        z-index: 1;
+        position: relative;
+    }
+
+    div {
+        border-radius: 5px;
+        /*background-color: #f2f2f2;*/
+        padding: 20px;
+    }
+</style>

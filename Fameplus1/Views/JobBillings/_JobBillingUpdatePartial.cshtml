@@ -1,0 +1,602 @@
+﻿@model  Transactiondetails.ViewModels.JobBillingViewModel
+@using Newtonsoft.Json;
+
+@{
+    var jsonMode = JsonConvert.SerializeObject(Model.Mode);
+    var jsonModel = JsonConvert.SerializeObject(Model);
+    var htmlAttributes = new Dictionary<string, object>();
+    htmlAttributes.Add("class", "form-control");
+    htmlAttributes.Add("readonly", true);
+    //if (Model.Mode == Transactiondetails.ViewModels.Mode.Update)
+    //{
+    //    htmlAttributes.Add("readonly", true);
+    //}
+}
+
+@using (Ajax.BeginForm("SaveJobBilling", "JobBillings", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobBillingPopUp" }))
+{
+    @Html.HiddenFor(model => model.Mode)
+    <div class="row g-3">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label for="inputEmail3" class="col-form-label">Customer</label>
+                </div>
+                <div class="col-sm-5">
+                    @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @disabled = true, @class = "form-select" })
+                    @Html.HiddenFor(model => model.AccountCode, new { @id = "AccountCodedummy" })
+                </div>
+                <div class="col-sm-2 mr-minus">
+                    <label for="inputEmail3" class="col-form-label">Bill Date</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { @id = "ReferenceDate1", @readonly = true, @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Sale Account</label>
+                <div class="col-sm-5">
+                    @Html.DropDownList("SalesAccountCode", new SelectList(Model.SalesAccounts, "AccountCode", "AccountName", Model.SalesAccountCode), "Please select", new { @id = "ddlSalesAccount", @disabled = true, @class = "form-select" })
+                    @Html.HiddenFor(model => model.SalesAccountCode, new { @id = "SalesAccountCodedummy" })
+                </div>
+                <div class="col-sm-2 mr-minus">
+                    <label for="inputEmail3" class="col-form-label">Posting Date</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(x => x.PostingDate, "{0:dd/MM/yyyy}", new { @id = "PostingDate", @class = "form-control", @readonly = true })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Credit Days</label>
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(x => x.CreditDays, new { @class = "form-control", style = "width:auto;", @readonly = true, })
+                </div>
+                <div class="col-sm-2 mr-minus">
+                    <label for="inputEmail3" class="col-form-label">Bill No</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(x => x.SerialNumber, new { @class = "form-control", @readonly = true, })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div id="newone" class="row wrap pt-1 " style="overflow-x: auto; white-space: nowrap;">
+                <table id="billing" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Despatch No</th>
+                            <th>Despatch Date</th>
+                            <th>Process</th>
+                            <th>Packet No</th>
+                            <th>Pieces</th>
+                            <th>Carats</th>
+                            <th>Lines</th>
+                            <th>Billing Qty.</th>
+                            <th>No Charge Qty.</th>
+                            <th>Billing Unit</th>
+                            <th>Rate</th>
+                            <th>Total Amount</th>
+                            <th>Discount Rate</th>
+                            <th>Discount(P/A)</th>
+                            <th>Discount Amount</th>
+                            <th>Payment(C/B)</th>
+                            <th>Taxes</th>
+                            @*<th>CGST</th>
+                                <th>SGST</th>
+                                <th>IGST</th>*@
+                            <th>Net Amount</th>
+                            <th>Remarks</th>
+                            @*<th style="width:200px;">Remarks</th>*@
+                        </tr>
+                    </thead>
+                    @for (var i = 0; i < Model.JobBillingDetails.Count(); i++)
+                    {
+                        <tr class="receipt">
+                            <td>
+                                @Model.JobBillingDetails[i].JDSerialNumber
+
+                            </td>
+                            <td>
+                                @Model.JobBillingDetails[i].JDReferenceDate.ToString("dd/MM/yyyy")
+
+                            </td>
+                            <td>
+                                @Model.JobBillingDetails[i].ProcessName
+
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].PacketNumber, new { @required = true, @readonly = true, @class = "form-control numberonly" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].ItemPieces, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].ItemCarats, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].ItemLines, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].JDBillingQuantity, new { @required = true, @class = "form-control allow_decimal BalItemPieces" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NoChargeQuantity, new { @required = true, @class = "form-control allow_decimal BalItemCarats" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingUnit, new { @required = true, @readonly = true, @class = "form-control allow_decimal BalItemLines" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingRate, new { @class = "form-control numberonly", @readonly = true })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].TotalAmount, new { @class = "form-control numberonly", @readonly = true })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new { @class = "form-control form-control numberonly" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => Model.JobBillingDetails[i].DiscountPerAmt, (new[] { new SelectListItem { Text = "P", Value = "P" }, new SelectListItem { Text = "A", Value = "A" } }), new { @class = "form-select" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountAmount, new { @class = "form-control numberonly", @readonly = true })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => Model.JobBillingDetails[i].PaymentCB, (new[] { new SelectListItem { Text = "B", Value = "B" }, new SelectListItem { Text = "C", Value = "C" } }), new { @class = "form-select" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].Taxes, new { @class = "form-control", @readonly = true })
+                            </td>
+                            @*<td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].CGST, new { @readonly = true, @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].SGST, new { @readonly = true, @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].IGST, new { @readonly = true, @class = "form-control" })
+                                </td>*@
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NetAmount, new { @class = "form-control", @readonly = true })
+                            </td>
+
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].Remarks, new { @class = "form-control" })
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].ItemSerialNumber)
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].SerialNumber)
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].JDSerialNumber)
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].JDItemSerialNumber)
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].ProcessCode)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Bill Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.BillAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Tax Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.TotalTax, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-6 col-form-label">Cash Amount</label>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(x => x.CashAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-lg-4">
+                    </div>*@
+            </div>
+        </div>
+        <div class="col-lg-9 mt-0 mb-3">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row ">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Net Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="row ">
+                        <label for="inputEmail3" class="col-sm-6 col-form-label">RoundOff Amount</label>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(x => x.RoundedAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="row ">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Final Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.FinalAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-12 button-container">
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <div class="ui-dialog-buttonset ps-sm-5">
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+                    <button type="button" id="btnDelete" class="btn btn-danger" data-serial-no="@Model.SerialNumber">Delete</button>
+                    <button type="button" class="btn btn-default btn-close-dialog ">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    var mode =@(Html.Raw(jsonMode));
+    let billAmt = 0, cashAmt = 0, taxAmt = 0, netAmt = 0, finalAmt = 0;
+
+    $.ajaxSetup({
+        cache: false
+    });
+
+    function AjaxFormSuccess(e) {
+        if (e.error === 'false') {
+            $('#dialog').dialog('close');
+            $("div[role='alert']").removeClass("hide-element");
+            $("div[role='alert']").contents().filter(function () {
+                return this.nodeType === 3;
+            }).remove();
+            let msg = "Saved successfully";
+            if (mode !== 1) {
+                msg = "Updated successfully";
+            }
+            $("div[role=\"alert\"]").append(msg);
+            $("#jqgridtbl").trigger("reloadGrid");
+
+            Swal.fire({
+                /*position: 'top-end',*/
+                icon: 'success',
+                title: "<h2 style='color:#0f5132;'>" + msg + "</h2>",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                //footer: '<a href="">Why do I have this issue?</a>'
+            });
+        }
+    }
+
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.getDate().toString().padStart(2, '0') + '/' + d.getMonth() + 1 + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes().toString().padStart(2, '0');
+    }
+    jQuery(document).ready(function () {
+
+        jQuery("#JobBillingPopUp").validate({
+           rules: {
+                ReferenceDate: 'required',
+                AccountCode: 'required',
+                SerialNumber: 'required',
+                SalesAccountCode: 'required'
+            },
+            messages: {
+                ReferenceDate: 'Select Reference Date',
+                AccountCode: 'Select Customer',
+                SerialNumber: 'Select Serial Number',
+                SalesAccountCode: 'Select Sales Account'
+            },
+            errorPlacement: $.noop
+        });
+
+        $("#billing tbody tr").each(function (i, row) {
+
+            let $actualrow = $(row);
+            $actualrow.find("td").each(function (column, td) {
+
+                let select = $(td).find("select");
+                let text = $(td).find("input[type=text]").not('[name*=Remark]');
+
+                if (select.length != 0) {
+                    $(select).rules("add", { required: true, messages: { required: "" } });
+                }
+                if (text.length != 0) {
+                    $(text).rules("add", { required: true, messages: { required: "" } });
+                }
+            });
+        });
+    });
+
+    $(document).on("click", ".btn-close-dialog", function (e) {
+        $('#dialog').dialog('close');
+    })
+
+    $("#billing").on("input", "tr input[name*='BillingQuantity']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let rate = $(this).closest("tr").find("input[name*='Rate']").val();
+        let bQty = parseInt($(this).val());
+        let totalAmount = bQty * rate;
+        $(this).closest("tr").find("input[name*='TotalAmount']").val(totalAmount);
+        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        //let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+        let discountRate = $(this).closest("tr").find("input[name*='DiscountRate']").val();
+        let discountPerAmt = $(this).closest("tr").find("select[name*='DiscountPerAmt']").val();
+        let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
+
+        if (discountRate != "") {
+            discountAmount = discountPerAmt == "A" ? discountRate : (discountRate / totalAmount * 100);
+        }
+
+        tax = 0;
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='TotalAmount']").val(totalAmount);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+        CalculateSummary();
+    });
+
+    $("#billing").on("input", "tr input[name*='DiscountRate']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let discountRate = parseFloat($(this).val());
+        let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
+        let discountPerAmt = $(this).closest("tr").find("select[name*='DiscountPerAmt']").val();
+
+        let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+        let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
+
+        if (discountRate != 0) {
+            discountAmount = discountPerAmt == "A" ? discountRate : (discountRate * totalAmount / 100);
+        }
+        else {
+            discountAmount = 0;
+        }
+
+        tax = 0;
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+
+        $(this).closest("tr").find("input[name*='DiscountAmount']").val(discountAmount);
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+        CalculateSummary();
+    });
+
+    $("#billing").on("change", "tr select[name*='DiscountPerAmt']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let discountPerAmt = $(this).val();
+        let discountRate = $(this).closest("tr").find("input[name*='DiscountRate']").val();
+        let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+        let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
+        let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
+
+        if (discountRate != 0) {
+            discountAmount = discountPerAmt == "A" ? discountRate : (discountRate * totalAmount / 100);
+        }
+        else {
+            discountAmount = 0;
+        }
+
+        tax = 0;
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+
+        $(this).closest("tr").find("input[name*='DiscountAmount']").val(discountAmount);
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+        CalculateSummary();
+    });
+
+
+    $("#billing").on("change", "tr select[name*='PaymentCB']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let paymentCB = $(this).val();
+        let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
+        let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+
+        tax = 0;
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+
+        CalculateSummary();
+    });
+
+    function CalculateSummary() {
+
+        billAmt = 0;
+        taxAmt = 0;
+        netAmt = 0;
+        cashAmt = 0;
+        $("#billing  tbody tr").each(function (index, tr) {
+
+            if ($(tr).find("select[name*='PaymentCB']").val() === "B") {
+                billAmt = billAmt + parseFloat($(tr).find("input[name*='TotalAmount']").val()) - parseFloat($(tr).find("input[name*='DiscountAmount']").val());
+            }
+            else if ($(tr).find("select[name*='PaymentCB']").val() === "C") {
+                cashAmt = cashAmt + parseFloat($(tr).find("input[name*='TotalAmount']").val()) - parseFloat($(tr).find("input[name*='DiscountAmount']").val());
+            }
+
+            taxAmt = taxAmt + parseFloat($(tr).find("input[name*='Taxes']").val());
+            netAmt = netAmt + parseFloat($(tr).find("input[name*='NetAmount']").val());
+        })
+
+        $("#BillAmount").val(billAmt);
+        $("#CashAmount").val(cashAmt);
+        $("#TotalTax").val(taxAmt);
+        $("#NetAmount").val(netAmt);
+        let roundOff = Math.abs(Math.round(netAmt) - netAmt);
+        $("#RoundedAmount").val(roundOff);
+        $("#FinalAmount").val(netAmt + roundOff);
+    }
+
+
+    $("#btnDelete").click(function (e) {
+
+        let serialNo = $(this).data("serial-no");
+
+        Swal.fire({
+            title: "<h4>Are you sure you want to delete <br> Bill No: " + serialNo + " ?</h4>",
+            showDenyButton: true,
+            //showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                deleteJobBilling(serialNo)
+            } else if (result.isDenied) {
+                // Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+
+    });
+
+    function deleteJobBilling(serialNo)
+    {
+         $.ajax({
+            url: "@Url.Action("DeleteBilling", "JobBillings")",
+            type: "POST",
+              data: { serialno: serialNo },
+            dataType: 'json',
+              success: function (data) {
+                  if (data.message ==="Success") {
+                      $('#dialog').dialog('close');
+                      $('#jqgridtbl').trigger('reloadGrid');
+                  }
+            }
+        });
+    }
+
+    Array.prototype.removeByValue = function (val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] === val) {
+                this.splice(i, 1);
+                i--;
+            }
+        }
+        return this;
+    }
+
+</script>
+<style>
+    #JobBillingPopUp .form-control:read-only {
+        background-color: #e9ecef !important;
+    }
+
+    #JobBillingPopUp .ui-jqgrid .ui-jqgrid-htable th {
+        height: 40px !important;
+        /* padding: 0 2px 0 2px; */
+    }
+
+    #JobBillingPopUp .ui-jqgrid tr.jqgrow td {
+        padding: 4px !important;
+    }
+
+    #JobBillingPopUp .ui-jqgrid .ui-jqgrid-view {
+        font-size: 13px !important;
+    }
+
+    #JobBillingPopUp .ui-widget input {
+        margin-top: 5px !important;
+    }
+
+    #JobBillingPopUp .ui-widget-content {
+        border: 1px solid #efefef !important;
+    }
+
+    #billing th {
+        font-size: 13px;
+    }
+
+    #billing tr {
+        font-size: 12px;
+    }
+
+        #billing tr td:not(:first-child):not(:nth-child(2)) {
+            /*padding-left:10px !important;
+     padding-right:10px !important;*/
+        }
+
+        #billing tr td:nth-child(3n) {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+    .button-container {
+        margin-top: 10px;
+    }
+
+    .job-billing-detail {
+        /*display: none;*/
+    }
+
+    .wrap {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    table {
+        min-width: 100%;
+        width: auto;
+    }
+
+    td {
+        /*border: 1px solid #000;*/
+        padding: 10px;
+        white-space: nowrap;
+    }
+</style>

@@ -2,7 +2,12 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/packages
-/.vs/
-/BusinessLayer/bin/
-/BusinessLayer/obj/
+
+**/.vs
+**/bin
+**/obj
+**/packages/**
+*.pdb
+/packages/
+/BusinessLayer/obj/**
+/BusinessLayer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache

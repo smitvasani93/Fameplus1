@@ -1,0 +1,844 @@
+﻿@model  Transactiondetails.ViewModels.JobBillingViewModel
+@using Newtonsoft.Json;
+
+@{
+    var jsonMode = JsonConvert.SerializeObject(Model.Mode);
+    var jsonModel = JsonConvert.SerializeObject(Model);
+    var htmlAttributes = new Dictionary<string, object>();
+    htmlAttributes.Add("class", "form-control");
+    htmlAttributes.Add("readonly", true);
+    //if (Model.Mode == Transactiondetails.ViewModels.Mode.Update)
+    //{
+    //    htmlAttributes.Add("readonly", true);
+    //}
+}
+
+@using (Ajax.BeginForm("SaveJobBilling", "JobBillings", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "result", OnSuccess = "AjaxFormSuccess" }, new { id = "JobBillingPopUp" }))
+{
+    @Html.HiddenFor(model => model.Mode)
+    <div class="row g-3">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label for="inputEmail3" class="col-form-label">Customer</label>
+                </div>
+                <div class="col-sm-5">
+                    @Html.DropDownList("AccountCode", new SelectList(Model.Accounts, "AccountCode", "AccountName", Model.AccountCode), "Please select", new { @id = "ddlCustomer", @class = "form-select" })
+                    @Html.HiddenFor(model => model.AccountCode, new { @id = "AccountCodedummy" })
+                </div>
+                <div class="col-sm-2 mr-minus">
+                    <label for="inputEmail3" class="col-form-label">Bill Date</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(x => x.ReferenceDate, "{0:dd/MM/yyyy}", new { @id = "ReferenceDate1", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Sale Account</label>
+                <div class="col-sm-5">
+                    @Html.DropDownList("SalesAccountCode", new SelectList(Model.SalesAccounts, "AccountCode", "AccountName", Model.SalesAccountCode), "Please select", new { @id = "ddlSalesAccount", @class = "form-select" })
+                    @Html.HiddenFor(model => model.SalesAccountCode, new { @id = "SalesAccountCodedummy" })
+                </div>
+                <div class="col-sm-2 mr-minus">
+                    <label for="inputEmail3" class="col-form-label">Posting Date</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(x => x.PostingDate, "{0:dd/MM/yyyy}", new { @id = "PostingDate", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Credit Days</label>
+                <div class="col-sm-5">
+                    @Html.TextBoxFor(x => x.CreditDays, new { @class = "form-control", style = "width:auto;" })
+                </div>
+                <div class="col-sm-2 mr-minus">
+                    <label for="inputEmail3" class="col-form-label">Bill No</label>
+                </div>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(x => x.SerialNumber, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div id="newone" class="row wrap pt-1 newone-css" style="overflow-x: auto; white-space: nowrap;">
+                <table id="billing" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Despatch No</th>
+                            <th>Despatch Date</th>
+                            <th>Process</th>
+                            <th>Packet No</th>
+                            <th>Pieces</th>
+                            <th>Carats</th>
+                            <th>Lines</th>
+                            <th>Billing Qty.</th>
+                            <th>No Charge Qty.</th>
+                            <th>Billing Unit</th>
+                            <th>Rate</th>
+                            <th>Total Amount</th>
+                            <th>Discount Rate</th>
+                            <th>Discount(P/A)</th>
+                            <th>Discount Amount</th>
+                            <th>Payment(C/B)</th>
+                            <th>Taxes</th>
+                            @*<th>CGST</th>
+                                <th>SGST</th>
+                                <th>IGST</th>*@
+                            <th>Net Amount</th>
+                            <th>Remarks</th>
+                            @*<th style="width:200px;">Remarks</th>*@
+                        </tr>
+                    </thead>
+                    @for (var i = 0; i < Model.JobBillingDetails.Count(); i++)
+                    {
+                        <tr class="receipt">
+                            <td>
+                                @Model.JobBillingDetails[i].JDSerialNumber
+
+                            </td>
+                            <td>
+                                @Model.JobBillingDetails[i].JDReferenceDate
+
+                            </td>
+                            <td>
+                                @Model.JobBillingDetails[i].ProcessName
+
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].PacketNumber, new { @required = true, @readonly = true, @class = "form-control numberonly" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].ItemPieces, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].ItemCarats, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].ItemLines, new { @required = true, @readonly = true, @class = "form-control allow_decimal" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].JDBillingQuantity, new { @required = true, @class = "form-control allow_decimal BalItemPieces" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NoChargeQuantity, new { @required = true, @class = "form-control allow_decimal BalItemCarats" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingUnit, new { @required = true, @readonly = true, @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].BillingRate, new { @class = "form-control numberonly", @readonly = true })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].TotalAmount, new { @class = "form-control numberonly", @readonly = true })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountRate, new { @class = "form-control form-control numberonly" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => Model.JobBillingDetails[i].DiscountPerAmt, (new[] { new SelectListItem { Text = "P", Value = "P" }, new SelectListItem { Text = "A", Value = "A" } }), new { @class = "form-select" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].DiscountAmount, new { @class = "form-control numberonly", @readonly = true })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => Model.JobBillingDetails[i].PaymentCB, (new[] { new SelectListItem { Text = "B", Value = "B" }, new SelectListItem { Text = "C", Value = "C" } }), new { @class = "form-select" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].Taxes, new { @class = "form-control", @readonly = true })
+                            </td>
+                            @*<td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].CGST, new { @readonly = true, @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].SGST, new { @readonly = true, @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => Model.JobBillingDetails[i].IGST, new { @readonly = true, @class = "form-control" })
+                                </td>*@
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].NetAmount, new { @class = "form-control", @readonly = true })
+                            </td>
+
+                            <td>
+                                @Html.TextBoxFor(model => Model.JobBillingDetails[i].Remarks, new { @class = "form-control" })
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].ItemSerialNumber)
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].SerialNumber)
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].JDSerialNumber)
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].JDItemSerialNumber)
+                                @Html.HiddenFor(model => Model.JobBillingDetails[i].ProcessCode)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="jqueryTbl-container">
+                <table id="jqueryTbl" style="width:100% ;overflow-x:auto;"></table>
+                <div class="ui-dialog-buttonset offset-lg-11 pt-lg-3 pb-lg-1 ps-5">
+                    <button type="button" class="btn btn-default select-pending-receipt">Select</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 job-billing-detail">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Bill Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.BillAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Tax Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.TotalTax, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-6 col-form-label">Cash Amount</label>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(x => x.CashAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-lg-4">
+                    </div>*@
+            </div>
+        </div>
+        <div class="col-lg-9 mt-0 mb-3 job-billing-detail">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row ">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Net Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.NetAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="row ">
+                        <label for="inputEmail3" class="col-sm-6 col-form-label">RoundOff Amount</label>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(x => x.RoundedAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="row ">
+                        <label for="inputEmail3" class="col-sm-5 col-form-label">Final Amount</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(x => x.FinalAmount, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-12 button-container newone-css">
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <div class="ui-dialog-buttonset ps-sm-5">
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+                    <button type="button" class="btn btn-default btn-close-dialog ">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="result">
+    </div>
+}
+
+<script type="text/javascript">
+
+    var mode =@(Html.Raw(jsonMode));
+    let billAmt = 0, cashAmt = 0, taxAmt = 0, netAmt = 0, finalAmt = 0;
+
+    $.ajaxSetup({
+        cache: false
+    });
+
+    $(function () {
+
+        $("#ReferenceDate1").on("focusin", function (e) {
+            return false; // or e.stopPropagation();
+        }).datepicker({
+            /*showOn: "button",*/
+            autoOpen: false,
+            showButtonPanel: false,
+            dateFormat: 'dd-mm-yy',
+            onSelect: function () {
+
+            }
+        });
+
+        $("#PostingDate").on("focusin", function (e) {
+            return false; // or e.stopPropagation();
+        }).datepicker({
+            /*showOn: "button",*/
+            autoOpen: false,
+            showButtonPanel: false,
+            dateFormat: 'dd-mm-yy',
+            onSelect: function () {
+
+            }
+        });
+    })
+
+
+    $(function () {
+
+        var data =@(Html.Raw(jsonModel));
+        var pageWidth = $("#jqueryTbl").parent().width() - 100;
+        $("#jqueryTbl").jqGrid({
+            data: [],
+            datatype: 'local',
+            colModel: [
+                /*{ label: 'Tag', name: "Tag", width: 50, align: "center", sortable: false, formatter: "checkbox", formatoptions: { disabled: false }, edittype: "checkbox", editoptions: { value: "True:False" }, formatoptions: { disabled: false }, multiselect: true },*/
+                { label: "Customer", width: (pageWidth * (20 / 100)), align: "center", name: "CustomrName" },
+                { label: "Ref. Date", name: "JDReferenceDate", width: (pageWidth * (15 / 100)), align: "center", formatter: "date", formatoptions: { srcformat: "m/d/Y h:i:s A", newformat: "d/m/Y" } },
+                { label: "Process ", width: (pageWidth * (24 / 100)), align: "center",  name: "ProcessName"},
+                { label: "Packet No", width: (pageWidth * (12 / 100)), align: "center", name: "PacketNumber"},
+                { label: "Pieces", width: (pageWidth * (12 / 100)), align: "center", name: "ItemPieces"},
+                { label: "Carats", width: (pageWidth * (12 / 100)), align: "center", name: "ItemCarats"},
+                { label: "Lines", width: (pageWidth * (12/ 100)), align: "center", name: "ItemLines" },
+                { name: "ItemSerialNumber", hidden: 'true' },
+                { name: "SerialNumber", hidden: 'true' },
+                { name: "ProcessCode", hidden: 'true' },
+                { name: "BillingUnit", hidden: 'true' },
+                { name: "BillingRate", hidden: 'true' },
+                { name: "BillingRate", hidden: 'true' },
+                { name: "JDBillingQuantity", hidden: 'true' },
+                { name: "TotalAmount", hidden: 'true' },
+                { name: "NoChargeQuantity", hidden: 'true' },
+                { name: "DiscountAmount", hidden: 'true' },
+                { name: "DiscountRate", hidden: 'true' },
+                { name: "Taxes", hidden: 'true' },
+                { name: "NetAmount", hidden: 'true' },
+                { name: "PaymentCB", hidden: 'true' }
+
+            ],
+            cmTemplate: { sortable: false },
+            loadonce: true,
+            height: '100%',
+            width: '100%',
+            multiselect: true,
+            multiselectWidth: 30,
+            shrinkToFit: true,
+            onSelectRow: function (rowid, status, e) {
+
+            },
+            gridComplete: function () {
+
+            }
+        });
+
+        $(".select-pending-receipt").on("click", function (e) {
+
+            $("#ddlCustomer").val();
+            $("#AccountCodedummy").val($("#ddlCustomer").val());
+            $("#ddlCustomer").prop("disabled", "disabled");
+            getSelectedRows();
+        });
+
+        function getSelectedRows() {
+
+            let $grid = $("#jqueryTbl");
+            let rowKey = $grid.getGridParam("selrow");
+            let gridData = [];
+
+            if (!rowKey) {
+                swal.fire("No rows are selected");
+                return;
+            }
+
+            let selectedRows = $("#jqueryTbl").jqGrid("getGridParam", "selarrrow");
+
+            // loop through the IDs to retrieve the data for each selected row
+            for (var i = 0; i < selectedRows.length; i++) {
+                var rowData = $("#jqueryTbl").jqGrid("getRowData", selectedRows[i]);
+                gridData.push(rowData);
+            }
+
+            let $tr = $("#newone").find("Table").find("tr:last");
+            for (let i = 0; i < gridData.length; i++) {
+
+                if (i === 0) {
+
+                   // debugger;
+                    $tr.find("td:nth-child(1)").html(gridData[i].SerialNumber);
+                    $tr.find("input[type=hidden][name*='JDSerialNumber']").val(gridData[i].SerialNumber);
+                    $tr.find("input[type=hidden][name*='JDItemSerialNumber']").val(gridData[i].ItemSerialNumber);
+                    $tr.find("td:nth-child(2)").html(gridData[i].JDReferenceDate);
+                    $tr.find("td:nth-child(3)").html(gridData[i].ProcessName);
+                    $tr.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
+                    $tr.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
+                    $tr.find("input[name*='ItemLines']").val(gridData[i].ItemLines);
+                    $tr.find("input[name*='ItemCarats']").val(gridData[i].ItemCarats);
+                    $tr.find("input[name*='JDBillingQuantity']").val(gridData[i].JDBillingQuantity);
+                    $tr.find("input[name*='NoChargeQuantity']").val(gridData[i].NoChargeQuantity);
+                    $tr.find("input[name*='BillingUnit']").val(gridData[i].BillingUnit);
+                    $tr.find("input[name*='BillingRate']").val(gridData[i].BillingRate);
+                    $tr.find("input[name*='TotalAmount']").val(gridData[i].TotalAmount);
+                    $tr.find("input[name*='DiscountRate']").val(gridData[i].DiscountRate);
+                    $tr.find("input[name*='DiscountPerAmt']").val(gridData[i].DiscountPerAmt);
+                    $tr.find("input[name*='DiscountAmount']").val(gridData[i].DiscountAmount);
+                    $tr.find("input[name*='Taxes']").val(gridData[i].Taxes);
+                    $tr.find("input[name*='NetAmount']").val(gridData[i].NetAmount);
+                    $tr.find("input[name*='PaymentCB']").val(gridData[i].PaymentCB);
+                    $tr.find("input[name*='Remarks']").val(gridData[i].Remarks);
+                    $tr.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
+                    $tr.find("input[type=hidden][name*='ProcessCode']").val(gridData[i].ProcessCode);
+
+                    if (gridData[i].PaymentCB === "B") {
+                        billAmt = parseFloat(gridData[i].TotalAmount) - parseFloat(gridData[i].DiscountAmount);
+                    }
+                    else if (gridData[i].PaymentCB === "C")  {
+                        cashAmt = parseFloat(gridData[i].TotalAmount) - parseFloat(gridData[i].DiscountAmount);
+                    }
+
+                    taxAmt = parseFloat(gridData[i].Taxes);
+                    netAmt = parseFloat(gridData[i].NetAmount);
+
+                    continue;
+                }
+
+                if (gridData[i].PaymentCB === "B") {
+                    billAmt = billAmt + parseFloat(gridData[i].TotalAmount) - parseFloat(gridData[i].DiscountAmount);
+                }
+                else if (gridData[i].PaymentCB === "C") {
+                    cashAmt = cashAmt + parseFloat(gridData[i].TotalAmount) - parseFloat(gridData[i].DiscountAmount);
+                }
+
+                taxAmt = taxAmt + parseFloat(gridData[i].Taxes);
+                netAmt = netAmt +  parseFloat(gridData[i].NetAmount);
+                //billAmt = parseFloat( billAmt) + parseFloat( gridData[i].NetAmount);
+               let $trClone = $tr.clone();
+
+                $trClone.find("td:nth-child(1)").html(gridData[i].SerialNumber);
+                $trClone.find("td:nth-child(2)").html(gridData[i].JDReferenceDate);
+                $trClone.find("td:nth-child(3)").html(gridData[i].ProcessName);
+
+                $trClone.find("input[type=text]").each(function (idx, inputElm) {
+
+                    let $inputText = $(this);
+                    let newId = $inputText.attr("id").replace(/\d+/, i);
+                    let newName = $inputText.attr("name").replace(/\d+/, i);
+                    $inputText.attr("id", newId);
+                    $inputText.attr("name", newName);
+                });
+
+                $trClone.find("input[type=hidden]").each(function (idx, inputElm) {
+
+                    let $inputHidden = inputElm;
+                    let newId = $inputHidden.id.replace(/\d+/, i);
+                    let newName = $inputHidden.name.replace(/\d+/, i);
+                    $inputHidden.id= newId;
+                    $inputHidden.name = newName;
+                });
+
+                $trClone.find("select").each(function (idx, inputElm) {
+
+                    let $inputSelect = inputElm;
+                    let newId = $inputSelect.id.replace(/\d+/, i);
+                    let newName = $inputSelect.name.replace(/\d+/, i);
+                    $inputSelect.id = newId;
+                    $inputSelect.name = newName;
+                });
+
+                $trClone.find("input[type=hidden][name*='JDSerialNumber']").val(gridData[i].SerialNumber);
+                $trClone.find("input[type=hidden][name*='JDItemSerialNumber']").val(gridData[i].ItemSerialNumber);
+                $trClone.find("input[type=hidden][name*='SerialNumber']").val(gridData[i].SerialNumber);
+                $trClone.find("input[type=hidden][name*='ItemSerialNumber']").val(i + 1);
+                $trClone.find("input[type=hidden][name*='ProcessCode']").val(gridData[i].ProcessCode);
+
+                $trClone.find("input[name*='PacketNumber']").val(gridData[i].PacketNumber);
+                $trClone.find("input[name*='ItemPieces']").val(gridData[i].ItemPieces);
+                $trClone.find("input[name*='ItemLines']").val(gridData[i].ItemLines);
+                $trClone.find("input[name*='ItemCarats']").val(gridData[i].ItemCarats);
+                $trClone.find("input[name*='JDBillingQuantity']").val(gridData[i].JDBillingQuantity);
+                $trClone.find("input[name*='NoChargeQuantity']").val(gridData[i].NoChargeQuantity);
+                $trClone.find("input[name*='BillingUnit']").val(gridData[i].BillingUnit);
+                $trClone.find("input[name*='BillingRate']").val(gridData[i].BillingRate);
+                $trClone.find("input[name*='TotalAmount']").val(gridData[i].TotalAmount);
+                $trClone.find("input[name*='DiscountRate']").val(gridData[i].DiscountRate);
+                $trClone.find("input[name*='DiscountPerAmt']").val(gridData[i].DiscountPerAmt);
+                $trClone.find("input[name*='DiscountAmount']").val(gridData[i].DiscountAmount);
+                $trClone.find("input[name*='Taxes']").val(gridData[i].Taxes);
+                $trClone.find("input[name*='NetAmount']").val(gridData[i].NetAmount);
+                $trClone.find("input[name*='PaymentCB']").val(gridData[i].PaymentCB);
+                $trClone.find("input[name*='Remarks']").val(gridData[i].Remarks);
+
+                $("#billing").append($trClone);
+            }
+
+            let roundOff = Math.abs(Math.round(netAmt) - netAmt);
+
+            $("#BillAmount").val(billAmt);
+            $("#CashAmount").val(cashAmt);
+            $("#TotalTax").val(taxAmt);
+            $("#NetAmount").val(netAmt);
+            $("#RoundedAmount").val(roundOff);
+            $("#FinalAmount").val(netAmt + roundOff);
+
+            addRequiredRules();
+
+            $(".jqueryTbl-container").remove();
+            $("#newone").removeClass("newone-css");
+            $(".job-billing-detail").removeClass("job-billing-detail");
+            $(".button-container").removeClass("newone-css");
+        }
+    });
+
+    $("#ddlCustomer").on("change", function (e) {
+
+        let accountcode = this.value;
+        $.ajax({
+            url: "@Url.Action("GetPendingJobDespatch", "JobBillings")",
+            type: "POST",
+            data: { accountCode: accountcode },
+            dataType: 'json',
+            success: function (data) {
+
+                var $gParams = $('#jqueryTbl').jqGrid("getGridParam");
+                $gParams.data = data;
+                $('#jqueryTbl').trigger("reloadGrid", [{ page: 1 }]);
+            }
+        });
+    });
+
+    $("#billing").on("change","tr select[name*=DiscountPerAmt]", function (e) {
+
+        /*alert($(this).closest("tr").find("input[name*=Rate]").val());*/
+    });
+
+    function addRequiredRules() {
+
+        $("#billing tbody tr").each(function (i, row) {
+            let $actualrow = $(row);
+            $actualrow.find("td").each(function (column, td) {
+                let text = $(td).find("input[type=text]").not('[name*=Remark]');
+                if (text.length != 0) {
+                    $(text).rules("add", { required: true, messages: { required: "" } });
+                }
+            });
+        });
+    }
+
+    function AjaxFormSuccess(e) {
+        if (e.error === 'false') {
+            $('#dialog').dialog('close');
+            $("div[role='alert']").removeClass("hide-element");
+            $("div[role='alert']").contents().filter(function () {
+                return this.nodeType === 3;
+            }).remove();
+            let msg = "Saved successfully";
+            if (mode !== 1) {
+                msg = "Updated successfully";
+            }
+            $("div[role=\"alert\"]").append(msg);
+            $("#jqgridtbl").trigger("reloadGrid");
+
+            Swal.fire({
+                /*position: 'top-end',*/
+                icon: 'success',
+                title: "<h2 style='color:#0f5132;'>" + msg + "</h2>",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                //footer: '<a href="">Why do I have this issue?</a>'
+            });
+
+        }
+    }
+
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.getDate().toString().padStart(2, '0') + '/' + d.getMonth() + 1 + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes().toString().padStart(2, '0');
+    }
+    jQuery(document).ready(function () {
+
+        jQuery("#JobBillingPopUp").validate({
+           rules: {
+                ReferenceDate: 'required',
+                AccountCode: 'required',
+                SerialNumber: 'required',
+                SalesAccountCode: 'required'
+            },
+            messages: {
+                ReferenceDate: 'Select Reference Date',
+                AccountCode: 'Select Customer',
+                SerialNumber: 'Select Serial Number',
+                SalesAccountCode: 'Select Sales Account'
+            },
+            errorPlacement: $.noop
+        });
+
+        $("#billing tbody tr").each(function (i, row) {
+
+            let $actualrow = $(row);
+            $actualrow.find("td").each(function (column, td) {
+
+                let select = $(td).find("select");
+                let text = $(td).find("input[type=text]").not('[name*=Remark]');
+
+                if (select.length != 0) {
+                    $(select).rules("add", { required: true, messages: { required: "" } });
+                }
+                if (text.length != 0) {
+                    $(text).rules("add", { required: true, messages: { required: "" } });
+                }
+            });
+        });
+    });
+
+    $(document).on("click", ".btn-close-dialog", function (e) {
+        $('#dialog').dialog('close');
+    })
+
+
+    $("#billing").on("input", "tr input[name*='BillingQuantity']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let bQty = parseInt($(this).val());
+        let rate = $(this).closest("tr").find("input[name*='Rate']").val();
+        //let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+        let discountRate = $(this).closest("tr").find("input[name*='DiscountRate']").val();
+        let discountPerAmt = $(this).closest("tr").find("select[name*='DiscountPerAmt']").val();
+        let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
+        let totalAmount = bQty * rate;
+
+        if (discountRate != "") {
+            discountAmount = discountPerAmt == "A" ? discountRate : (discountRate / totalAmount * 100);
+        }
+
+        let tax = 0;
+
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+
+        netAmount = totalAmount - discountAmount + tax;
+
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='TotalAmount']").val(totalAmount);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+        CalculateSummary();
+    });
+
+    $("#billing").on("input", "tr input[name*='DiscountRate']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let discountRate = parseFloat($(this).val());
+        let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
+        let discountPerAmt = $(this).closest("tr").find("select[name*='DiscountPerAmt']").val();
+        let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        //let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+        let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
+
+        if (discountRate != 0) {
+            discountAmount = discountPerAmt == "A" ? discountRate : (discountRate * totalAmount / 100);
+        }
+        else {
+            discountAmount = 0;
+        }
+
+        let tax = 0;
+
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+
+        $(this).closest("tr").find("input[name*='DiscountAmount']").val(discountAmount);
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+        CalculateSummary();
+    });
+
+    $("#billing").on("change", "tr select[name*='DiscountPerAmt']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let discountPerAmt = $(this).val();
+        let discountRate = $(this).closest("tr").find("input[name*='DiscountRate']").val();
+        let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        //let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+        let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
+        let paymentCB = $(this).closest("tr").find("select[name*='PaymentCB']").val();
+
+        if (discountRate != 0) {
+            discountAmount = discountPerAmt == "A" ? discountRate : (discountRate * totalAmount / 100);
+        }
+        else {
+            discountAmount = 0;
+        }
+
+        let tax = 0;
+
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+
+        $(this).closest("tr").find("input[name*='DiscountAmount']").val(discountAmount);
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+        CalculateSummary();
+    });
+
+    $("#billing").on("change", "tr select[name*='PaymentCB']", function (e) {
+
+        if ($(this).val() === "") {
+            return;
+        }
+
+        let paymentCB = $(this).val();
+        //let tax = $(this).closest("tr").find("input[name*='Taxes']").val();
+        let discountAmount = $(this).closest("tr").find("input[name*='DiscountAmount']").val();
+        let totalAmount = $(this).closest("tr").find("input[name*='TotalAmount']").val();
+        let netAmount = $(this).closest("tr").find("input[name*='NetAmount']").val();
+
+        let tax = 0;
+        if (paymentCB == "B") {
+            tax = ((totalAmount - discountAmount) * 1 / 100);
+        }
+        netAmount = totalAmount - discountAmount + tax;
+        $(this).closest("tr").find("input[name*='Taxes']").val(tax);
+        $(this).closest("tr").find("input[name*='NetAmount']").val(netAmount);
+
+        CalculateSummary();
+    });
+
+    function CalculateSummary() {
+
+        billAmt = 0;
+        taxAmt = 0;
+        netAmt = 0;
+        cashAmt = 0;
+        $("#billing  tbody tr").each(function (index, tr) {
+
+            if ($(tr).find("select[name*='PaymentCB']").val() === "B") {
+                billAmt = billAmt + parseFloat($(tr).find("input[name*='TotalAmount']").val()) - parseFloat($(tr).find("input[name*='DiscountAmount']").val());
+            }
+            else if ($(tr).find("select[name*='PaymentCB']").val() === "C") {
+                cashAmt = cashAmt + parseFloat($(tr).find("input[name*='TotalAmount']").val()) - parseFloat($(tr).find("input[name*='DiscountAmount']").val());
+            }
+
+            taxAmt = taxAmt + parseFloat($(tr).find("input[name*='Taxes']").val());
+            netAmt = netAmt + parseFloat($(tr).find("input[name*='NetAmount']").val());
+        })
+
+        let roundOff = Math.abs(Math.round(netAmt) - netAmt);
+
+        $("#BillAmount").val(billAmt);
+        $("#CashAmount").val(cashAmt);
+        $("#TotalTax").val(taxAmt);
+        $("#NetAmount").val(netAmt);
+        $("#RoundedAmount").val(roundOff);
+        $("#FinalAmount").val(netAmt + roundOff);
+    }
+
+    Array.prototype.removeByValue = function (val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] === val) {
+                this.splice(i, 1);
+                i--;
+            }
+        }
+        return this;
+    }
+</script>
+<style>
+    #JobBillingPopUp .form-control:read-only {
+        background-color: #e9ecef !important;
+    }
+
+    #JobBillingPopUp .ui-jqgrid .ui-jqgrid-htable th {
+        height: 40px !important;
+        /* padding: 0 2px 0 2px; */
+    }
+
+    #JobBillingPopUp .ui-jqgrid tr.jqgrow td {
+        padding: 4px !important;
+    }
+
+    #JobBillingPopUp .ui-jqgrid .ui-jqgrid-view {
+        font-size: 13px !important;
+    }
+
+    #JobBillingPopUp .ui-widget input {
+        margin-top: 5px !important;
+    }
+
+    #JobBillingPopUp .ui-widget-content {
+        border: 1px solid #efefef !important;
+    }
+
+    .newone-css {
+        display: none;
+    }
+
+    #billing th {
+        font-size: 13px;
+    }
+
+    #billing tr {
+        font-size: 12px;
+    }
+
+        #billing tr td:not(:first-child):not(:nth-child(2)) {
+            /*padding-left:10px !important;
+        padding-right:10px !important;*/
+        }
+
+        #billing tr td:nth-child(3n) {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+    .button-container {
+        margin-top: 10px;
+    }
+
+    .job-billing-detail {
+        display: none;
+    }
+
+    .wrap {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    table {
+        min-width: 100%;
+        width: auto;
+    }
+
+    td {
+        /*border: 1px solid #000;*/
+        padding: 10px;
+        white-space: nowrap;
+    }
+</style>
