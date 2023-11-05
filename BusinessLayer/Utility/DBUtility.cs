@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using BusinessLayer.DBModels;
-using Transactiondetails.Models.Utility;
+using BusinessLayer.Models.Utility;
 
 namespace BusinessLayer.Models.Utility
 {

@@ -3,4 +3,6 @@
 ################################################################################
 
 /packages
-/.vs/Transactiondetails
+/.vs/
+/BusinessLayer/bin/
+/BusinessLayer/obj/

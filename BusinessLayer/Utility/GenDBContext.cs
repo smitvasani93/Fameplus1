@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 
-namespace Transactiondetails.Models.Utility
+namespace BusinessLayer.Models.Utility
 {
     public class GenDBContext : DbContext
     {
