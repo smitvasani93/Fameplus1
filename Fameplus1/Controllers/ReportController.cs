@@ -22,7 +22,7 @@ namespace Transactiondetails.Controllers
                 var userData = (UserData)Session["UserData"];
 
                 var reportDataLayer = new ReportDataLayer();
-                var dtBill = reportDataLayer.GetJobBillingMasPrint(serialNumber,userData.Company, userData.Company, userData.FYear);
+                var dtBill = reportDataLayer.GetJobBillingMasPrint(serialNumber,userData.Company, userData.Branch, userData.FYear);
 
                 ReportViewer reportViewer = new ReportViewer();
                 reportViewer.ProcessingMode = ProcessingMode.Local;

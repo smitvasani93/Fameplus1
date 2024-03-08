@@ -125,8 +125,8 @@ namespace Transactiondetails.Controllers
                     BillingUnit = x.BillingType
                 }).ToList();
 
-                var accounts = accountDataLayer.GetBillAccounts(userData.Company, userData.Company, userData.FYear);
-                var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Company, userData.FYear);
+                var accounts = accountDataLayer.GetBillAccounts(userData.Company, userData.Branch, userData.FYear);
+                var salesaccounts = accountDataLayer.GetSalesAccounts(userData.Company, userData.Branch, userData.FYear);
 
                 jobBillingViewModel.Accounts = accounts.OrderBy(ord => ord.AccountName).Select(sel => new AccountMasterVM
                 {

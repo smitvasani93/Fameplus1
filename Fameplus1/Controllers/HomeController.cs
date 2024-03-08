@@ -42,8 +42,8 @@ namespace Transactiondetails.Controllers
             try
             {
                 var userData = (UserData)Session["UserData"];
-                var jobReciept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Company, userData.FYear);
-                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+                var jobReciept = jobReceiptDataLayer.GetJobReciept(userData.Company, userData.Branch, userData.FYear);
+                var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Branch, userData.FYear);
                 var process = dbutility.GetProcesses();
                 var recieptNo = jobReciept.JobRecieptMasts.FirstOrDefault().MaxSerialNumber;
                 recieptNo++;
@@ -73,7 +73,7 @@ namespace Transactiondetails.Controllers
 
             var jobReciept = jobReceiptDataLayer.GetJobRecieptBySerialNumber(userData.Company, userData.FYear, serialNo);
             var process = dbutility.GetProcesses();
-            var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Company, userData.FYear);
+            var accounts = accountDataLayer.GetAccounts(userData.Company, userData.Branch, userData.FYear);
 
             TempData["AccountCode"] = jobReciept.JobRecieptDets.FirstOrDefault().AccountCode;
             TempData["ReferenceDate"] = Convert.ToDateTime(jobReciept.JobRecieptDets.FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");  //Convert.ToDateTime(db.JobReceiptMas.Where(x => x.SerialNumber == serialNo).FirstOrDefault().ReferenceDate).ToString("yyyy-MM-dd");
